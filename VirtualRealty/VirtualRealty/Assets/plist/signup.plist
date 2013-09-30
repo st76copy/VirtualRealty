@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<array>
+	<dict>
+		<key>cells</key>
+		<array>
+			<dict>
+				<key>field</key>
+				<integer>0</integer>
+				<key>placeholder</key>
+				<string>email</string>
+				<key>label</key>
+				<string>username</string>
+				<key>class</key>
+				<string>TextInputCell</string>
+			</dict>
+			<dict>
+				<key>field</key>
+				<integer>1</integer>
+				<key>placeholder</key>
+				<string>password</string>
+				<key>label</key>
+				<string>password</string>
+				<key>class</key>
+				<string>TextInputCell</string>
+			</dict>
+		</array>
+		<key>section-title</key>
+		<string>Register For Virtual Realty</string>
+	</dict>
+	<dict>
+		<key>cells</key>
+		<array>
+			<dict>
+				<key>custom-action</key>
+				<string>facebookLogin</string>
+				<key>label</key>
+				<string>Facebook</string>
+				<key>class</key>
+				<string>FormCell</string>
+			</dict>
+		</array>
+		<key>section-title</key>
+		<string>Register With Facebook</string>
+	</dict>
+	<dict>
+		<key>cells</key>
+		<array>
+			<dict>
+				<key>label</key>
+				<string>Go To Login</string>
+				<key>custom-action</key>
+				<string>toggleForm</string>
+				<key>class</key>
+				<string>FormCell</string>
+			</dict>
+		</array>
+		<key>section-title</key>
+		<string>Or Login</string>
+	</dict>
+</array>
+</plist>

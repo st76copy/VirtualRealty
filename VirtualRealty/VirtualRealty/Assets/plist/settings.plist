@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<array>
+	<dict>
+		<key>filed</key>
+		<integer>0</integer>
+		<key>requires-user</key>
+		<true/>
+		<key>cell</key>
+		<string>UserCell</string>
+		<key>class</key>
+		<string>UserContentViewController</string>
+		<key>label</key>
+		<string>logged in as %@</string>
+	</dict>
+</array>
+</plist>
