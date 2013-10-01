@@ -78,13 +78,61 @@
     return self.errors;
 }
 
+-(void)clearErrorForField:(FormField)field
+{
+    NSNumber *remove;
+    for( NSNumber *num in self.errors)
+    {
+        if( [num intValue] == field )
+        {
+            remove = num;
+        }
+    }
+    [self.errors removeObject:remove];
+}
+
 -(NSString *)description
 {
-    return [NSString stringWithFormat:@"%@\n%@\n%02f\n%02f\n%i\n%i\n%d", self.addresss, self.neighborhood, [self.monthlyCost floatValue], [self.moveInCost floatValue],
-            [self.bedrooms intValue],
-            [self.bathrooms intValue],
-            [self.brokerfee boolValue]
+    return [NSString stringWithFormat:@"address : %@ \n"
+                                    "neightborhood : %@ \n"
+                                    "montly cost : %0.2f \n"
+                                    "move in cost : %0.2f \n"
+                                    "broker : %d \n"
+                                    "move in date : %@ \n"
+                                    "bedrooms  : %i \n"
+                                    "bathroom  : %i \n"
+                                    "contact : %@  \n"
+                                    "share : %d \n"
+                                    "dogs : %d \n"
+                                    "cats : %d \n"
+                                    "outdoor : %d \n"
+                                    "washer dryer : %d \n"
+                                    "gym : %d \n"
+                                    "doorman : %d \n"
+                                    "pool : %d \n"
+                                    "thumb : %@ \n"
+                                    "video : %@",
+            _addresss,
+            _neighborhood,
+            [_monthlyCost floatValue],
+            [_moveInCost floatValue],
+            [_brokerfee boolValue],
+            _moveInDate,
+            [_bedrooms intValue ],
+            [_bathrooms intValue],
+            _contact,
+            [_share boolValue],
+            [_dogs boolValue],
+            [_cats boolValue   ],
+            [_outdoorSpace boolValue],
+            [ _washerDryer boolValue],
+            [_gym boolValue],
+            [_doorman boolValue],
+            [_pool boolValue ],
+            _thumb,
+            _video
             ];
+    
 }
 
 @end

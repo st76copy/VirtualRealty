@@ -21,13 +21,13 @@
     self.textLabel.font = [UIFont systemFontOfSize:12];
     CGRect rect = self.textLabel.frame;
     rect.origin.x = 20;
-    self.textLabel.frame = rect;
 }
 
 -(void)render
 {
     self.textLabel.text = [self.cellinfo valueForKey:@"label"];
     self.detailTextLabel.text = [self.cellinfo valueForKey:@"current-value"];
+    [self.detailTextLabel sizeToFit];
 }
 
 

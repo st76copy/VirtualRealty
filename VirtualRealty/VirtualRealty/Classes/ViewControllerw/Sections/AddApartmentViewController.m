@@ -129,7 +129,6 @@
     NSMutableDictionary *info = [row.info mutableCopy];
     
     [info setValue:[self getValueForFormField:[[info valueForKey:@"field"] intValue]] forKey:@"current-value"];
-    [info setValue:[self getValueForFormField:[[info valueForKey:@"read-field"] intValue]] forKey:@"current-value"];
     
     
     FormCell *cell = (FormCell *)[tableView dequeueReusableCellWithIdentifier:[info valueForKey:@"class"]];
@@ -171,7 +170,6 @@
         [[PickerManager sharedManager]hidePicker];
         return;
     }
-    
 
     if( [cell.cellinfo valueForKey:@"field"] )
     {
@@ -189,13 +187,9 @@
             CheckCell *c = (CheckCell *)[self.table cellForRowAtIndexPath:indexPath];
             if( [c isKindOfClass:[CheckCell class]] )
             {
-                id value      = [c.cellinfo valueForKey:@"label"];
-                FormCell *fc  = (FormCell *)[self.table cellForRowAtIndexPath:self.currentIndexpath];
-                fc.formValue  = value;
-                fc.detailTextLabel.text = value;
-                [self cell:fc didChangeForField:kNeightborhood];
-                [self.table reloadSections:[NSIndexSet indexSetWithIndex:self.currentIndexpath.section] withRowAnimation:UITableViewRowAnimationAutomatic];
-                
+                [self.listing clearErrorForField:kNeightborhood];
+                self.listing.neighborhood = [c.cellinfo valueForKey:@"label"];
+                [self.table reloadRowsAtIndexPaths:@[self.currentIndexpath] withRowAnimation:UITableViewRowAnimationAutomatic];
             }
             [[KeyboardManager sharedManager] close];
             [self addRows];
@@ -209,10 +203,10 @@
         case kMoveInCost:
         case kBedrooms:
         case kBathrooms:
+        case kContact:
             [cell setFocus];
             break;
         default:
-            
         break;
     }
     [self.table deselectRowAtIndexPath:indexPath animated:YES];
@@ -249,6 +243,7 @@
     if( secion.state == kContracted )
     {
         [self.table deleteRowsAtIndexPaths:paths withRowAnimation:UITableViewRowAnimationBottom];
+        [self.table scrollToRowAtIndexPath:self.currentIndexpath atScrollPosition:UITableViewScrollPositionTop animated:YES];
     }
     else
     {
@@ -291,6 +286,9 @@
         case kBrokerFee:
             value = self.listing.brokerfee;
             break;
+        case kContact:
+            value = self.listing.contact;
+            break;
         case kShare:
             value = self.listing.share;
             break;
@@ -305,9 +303,6 @@
             break;
         case kGym:
             value = self.listing.gym;
-            break;
-        case kContact:
-            value = self.listing.contact;
             break;
         case kDogs:
             value = self.listing.dogs;
@@ -340,6 +335,7 @@
 {
     FormCell *formcell = (FormCell *)[self.table cellForRowAtIndexPath:self.currentIndexpath];
     
+    [self.listing clearErrorForField:field];
     switch( field )
     {
         case kAddress:
@@ -370,6 +366,7 @@
             _listing.moveInDate   = formcell.formValue;
             break;
         case kContact:
+            _listing.contact      = formcell.formValue;
             break;
         case kDogs:
             _listing.dogs         = [NSNumber numberWithFloat:[formcell.formValue floatValue]];
@@ -441,7 +438,6 @@
     {
         [[KeyboardManager sharedManager]close];
     }
-    
     
     [UIView animateWithDuration:0.4 animations:^
     {

@@ -13,6 +13,7 @@
 
 -(id)initWithDefaults;
 -(NSMutableArray *)isValid;
+-(void)clearErrorForField:(FormField)field;
 @property(nonatomic, strong, readonly)NSMutableArray *errors;
 
 @property(nonatomic,strong )CLLocation *geo;
