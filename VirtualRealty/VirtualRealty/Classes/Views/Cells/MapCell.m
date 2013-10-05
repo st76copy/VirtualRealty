@@ -103,7 +103,7 @@
     [self.addresssLabel setText:@"enter address"];
     [self.addresssLabel becomeFirstResponder];
     [self.addresssLabel addTarget:self  action:@selector(textFieldFinished:)  forControlEvents:UIControlEventEditingDidEndOnExit];
-   }
+}
 
 -(void)textFieldFinished:(id)sender
 {

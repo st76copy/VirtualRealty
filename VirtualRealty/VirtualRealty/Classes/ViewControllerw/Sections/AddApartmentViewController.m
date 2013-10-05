@@ -14,8 +14,12 @@
 #import "PickerManager.h"
 #import "CheckCell.h"
 #import "NSDate+Extended.h"
+#import "AppDelegate.h"
+#import "ReachabilityManager.h"
+#import <Parse/Parse.h>
+#import "ErrorFactory.h"
 
-@interface AddApartmentViewController ()
+@interface AddApartmentViewController ()<UIImagePickerControllerDelegate,UINavigationControllerDelegate>
 
 -(void)animateToCell;
 -(id)getValueForFormField:(FormField)field;
@@ -24,6 +28,7 @@
 -(void)pickerWillShow;
 -(void)pickerWillHide;
 -(void)handleSubmitListing:(id)sender;
+-(void)handleCaptureMedia;
 @end
 
 @implementation AddApartmentViewController
@@ -88,10 +93,6 @@
     {
         _listing = [[Listing alloc]initWithDefaults];
         [User sharedUser].currentListing = self.listing;
-    }
-    else
-    {
-        _listing = [[User sharedUser].currentListing copy];
     }
 }
 
@@ -171,7 +172,7 @@
         return;
     }
 
-    if( [cell.cellinfo valueForKey:@"field"] )
+    if( [cell.cellinfo valueForKey:@"field"] && self.currentField != [[cell.cellinfo valueForKey:@"field"] intValue])
     {
         _currentField      = [[cell.cellinfo valueForKey:@"field"]intValue];
         _currentIndexpath  = indexPath;
@@ -185,11 +186,15 @@
         case kNeightborhood:
         {
             CheckCell *c = (CheckCell *)[self.table cellForRowAtIndexPath:indexPath];
+            NSMutableDictionary *info = [[c cellinfo]mutableCopy];
             if( [c isKindOfClass:[CheckCell class]] )
             {
                 [self.listing clearErrorForField:kNeightborhood];
                 self.listing.neighborhood = [c.cellinfo valueForKey:@"label"];
+                [info setValue:[self getValueForFormField:[[info valueForKey:@"field"] intValue]] forKey:@"current-value"];
                 [self.table reloadRowsAtIndexPaths:@[self.currentIndexpath] withRowAnimation:UITableViewRowAnimationAutomatic];
+                [c setCellinfo:info];
+                [c render];
             }
             [[KeyboardManager sharedManager] close];
             [self addRows];
@@ -204,7 +209,12 @@
         case kBedrooms:
         case kBathrooms:
         case kContact:
+        case kUnit:
             [cell setFocus];
+            break;
+        case kVideo:
+        case kThumbnail:
+            [self handleCaptureMedia];
             break;
         default:
         break;
@@ -266,7 +276,10 @@
     switch( field )
     {
         case kAddress:
-            value = self.listing.addresss;
+            value = self.listing.address;
+            break;
+        case kUnit:
+            value = self.listing.unit;
             break;
         case kNeightborhood:
             value = self.listing.neighborhood;
@@ -339,7 +352,11 @@
     switch( field )
     {
         case kAddress:
-            self.listing.addresss = cell.formValue;
+            self.listing.address  = cell.formValue;
+            break;
+            
+        case kUnit:
+            self.listing.unit     = cell.formValue;
             break;
         case kNeightborhood:
             _listing.neighborhood = formcell.detailTextLabel.text;
@@ -467,16 +484,95 @@
 #pragma mark - ui
 -(void)handleSubmitListing:(id)sender
 {
+    __block AppDelegate *delegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
+    
+    if( [ReachabilityManager sharedManager].currentStatus == NotReachable )
+    {
+        [[ReachabilityManager sharedManager]showAlert];
+        return;
+    }
+    
+    
     if( [self.listing isValid].count == 0 )
     {
+        [delegate showLoader];
         
+        [PFCloud callFunctionInBackground:@"saveListing" withParameters:[self.listing toDictionary] block:^(id object, NSError *error)
+        {
+            switch ([object intValue]) {
+                case kSaveFailed:
+                    
+                    break;
+                case kSaveSuccess:
+                    [self.listing saveMedia:^(BOOL success) {
+                        [delegate hideLoader];
+                        [[ErrorFactory getAlertForType:kListingPendingError andDelegateOrNil:nil andOtherButtons:nil] show];
+                    }];
+                    break;
+                case kListingExist:
+                    [[ErrorFactory getAlertForType:kListingExistsError andDelegateOrNil:Nil andOtherButtons:nil]show];
+                    break;
+            }
+        }];
+
     }
     else
     {
+        
+        NSString *title = NSLocalizedString(@"Sorry",@"Generic : sorry");
+        NSString *message = NSLocalizedString( @"Some of the required fields are missing and are show in red, please complete the form to proceed", @"Genereic : error for failed listing submission");
+        UIAlertView *failed = [[UIAlertView alloc]initWithTitle:title message:message delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+        [failed show];
         [self.table reloadData];
     }
 }
 
 
+-(void)handleCaptureMedia
+{
+    UIImagePickerController *imagePicker = [[UIImagePickerController alloc]init];
+    imagePicker.sourceType = UIImagePickerControllerSourceTypeCamera;
+    imagePicker.delegate   = self;
 
+    switch (self.currentField)
+    {
+        case kThumbnail:
+
+            imagePicker.mediaTypes        = @[(NSString *) kUTTypeImage];
+            imagePicker.cameraCaptureMode = UIImagePickerControllerCameraCaptureModePhoto;
+            break;
+        case kVideo:
+            
+            imagePicker.mediaTypes        = @[(NSString *) kUTTypeMovie];
+            imagePicker.cameraCaptureMode = UIImagePickerControllerCameraCaptureModeVideo;
+            break;
+        default:
+            break;
+    }
+    imagePicker.showsCameraControls = YES;
+    [self presentViewController:imagePicker animated:YES completion:nil];
+}
+
+#pragma mark - image picker delegate
+-(void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info
+{
+    switch (self.currentField)
+    {
+        case kThumbnail:
+            self.listing.thumb = [info valueForKey:UIImagePickerControllerOriginalImage];
+            break;
+        case kVideo:
+            self.listing.video = [NSData dataWithContentsOfURL:[info valueForKey:UIImagePickerControllerMediaURL]];
+            break;
+        default:
+            break;
+    }
+    [self dismissViewControllerAnimated:YES completion:nil];
+    [self.table reloadData];
+}
+
+-(void)imagePickerControllerDidCancel:(UIImagePickerController *)picker
+{
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
 @end

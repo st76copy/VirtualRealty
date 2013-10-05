@@ -25,6 +25,18 @@
 				<key>state</key>
 				<integer>1</integer>
 				<key>field</key>
+				<integer>21</integer>
+				<key>label</key>
+				<string>Unit</string>
+				<key>class</key>
+				<string>TextInputCell</string>
+			</dict>
+			<dict>
+				<key>animatable</key>
+				<false/>
+				<key>state</key>
+				<integer>1</integer>
+				<key>field</key>
 				<integer>3</integer>
 				<key>label</key>
 				<string>Neighborhood</string>
@@ -32,7 +44,7 @@
 				<string>TextCell</string>
 			</dict>
 			<dict>
-				<key>read-field</key>
+				<key>field</key>
 				<integer>3</integer>
 				<key>state</key>
 				<integer>0</integer>
@@ -44,7 +56,7 @@
 				<string>CheckCell</string>
 			</dict>
 			<dict>
-				<key>read-field</key>
+				<key>field</key>
 				<integer>3</integer>
 				<key>animatable</key>
 				<true/>
@@ -56,7 +68,7 @@
 				<string>CheckCell</string>
 			</dict>
 			<dict>
-				<key>read-field</key>
+				<key>field</key>
 				<integer>3</integer>
 				<key>animatable</key>
 				<true/>
@@ -68,7 +80,7 @@
 				<string>CheckCell</string>
 			</dict>
 			<dict>
-				<key>read-field</key>
+				<key>field</key>
 				<integer>3</integer>
 				<key>animatable</key>
 				<true/>
@@ -80,7 +92,7 @@
 				<string>CheckCell</string>
 			</dict>
 			<dict>
-				<key>read-field</key>
+				<key>field</key>
 				<integer>3</integer>
 				<key>state</key>
 				<integer>0</integer>
@@ -92,7 +104,7 @@
 				<string>CheckCell</string>
 			</dict>
 			<dict>
-				<key>read-field</key>
+				<key>field</key>
 				<integer>3</integer>
 				<key>state</key>
 				<integer>0</integer>
@@ -321,7 +333,7 @@
 				<key>label</key>
 				<string>Video</string>
 				<key>class</key>
-				<string>CheckCell</string>
+				<string>MediaCell</string>
 			</dict>
 			<dict>
 				<key>field</key>
@@ -333,7 +345,7 @@
 				<key>label</key>
 				<string>Thumbnail</string>
 				<key>class</key>
-				<string>CheckCell</string>
+				<string>MediaCell</string>
 			</dict>
 		</array>
 		<key>section-title</key>

@@ -9,13 +9,16 @@
 #import <UIKit/UIKit.h>
 #import "NavViewController.h"
 #import "FeaturedViewController.h"
+#import "LoadingView.h"
 
 @interface AppDelegate : UIResponder <UIApplicationDelegate>
 
 @property (strong, nonatomic) UIWindow *window;
 @property(nonatomic, strong, readonly)NavViewController *nav;
 @property(nonatomic, strong, readonly)UINavigationController *section;
-
+@property(nonatomic, strong, readonly)LoadingView   *loadingView;
 -(void)showlogin;
+-(void)showLoader;
+-(void)hideLoader;
 
 @end

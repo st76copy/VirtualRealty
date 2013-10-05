@@ -57,6 +57,7 @@ typedef enum FormField
     kPassword = 1,
     
     kAddress = 2,
+    kUnit  = 21,
     kNeightborhood = 3,
     
     kMonthlyRent = 4,
@@ -80,7 +81,8 @@ typedef enum FormField
     kPool= 16,
     kVideo = 17,
     kThumbnail = 18,
-    kValid  = 999
+    
+
 }FormField;
 
 typedef enum SectionState
@@ -99,6 +101,20 @@ typedef enum PickerType
     kStandard,
     kDate
 }PickerType;
+
+typedef enum
+{
+    kPending,
+    kVacant,
+    kRented
+}ListingState;
+
+typedef enum
+{
+    kListingExist,
+    kSaveFailed,
+    kSaveSuccess
+}ServerError;
 
 #define kFACEBOOK_USER @"facebook-user"
 

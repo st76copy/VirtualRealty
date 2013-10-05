@@ -1,0 +1,14 @@
+{
+    "applications": {
+        "VirtualRealty": {
+            "applicationId": "yIp5Z8ERGHY8ELMVvfo4kGJuACTMUPNh5zxGhGuB", 
+            "masterKey": "zCcuZhyqyIQ8zrQd8Dhy01BsCNbk6eShZTD73Qev"
+        }, 
+        "_default": {
+            "link": "VirtualRealty"
+        }
+    }, 
+    "global": {
+        "parseVersion": "1.2.12"
+    }
+}

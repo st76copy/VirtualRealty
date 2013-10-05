@@ -14,6 +14,7 @@
 #import <Parse/Parse.h>
 #import "LocationManager.h"
 #import "FacebookManager.h"
+#import "LoadingView.h"
 @interface AppDelegate()
 -(void)handleReachabilityKnow;
 -(void)initViewControllers;
@@ -23,8 +24,9 @@
 
 @implementation AppDelegate
 
-@synthesize nav     = _nav;
-@synthesize section = _section;
+@synthesize nav         = _nav;
+@synthesize section     = _section;
+@synthesize loadingView = _loadingView;
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
@@ -33,11 +35,11 @@
     self.window.rootViewController = [[LoadingViewController alloc]initWithNibName:nil bundle:nil];
     self.window.backgroundColor    = [UIColor whiteColor];
     
+    _loadingView = [[LoadingView alloc]initWithFrame:self.window.frame];
     __block AppDelegate *blockself = self;
     
     [[ReachabilityManager sharedManager]startChecking:^
     {
-
         [blockself handleReachabilityKnow];
     }];
     
@@ -149,5 +151,15 @@
     return [FBAppCall handleOpenURL:url sourceApplication:sourceApplication withSession:[FacebookManager sharedManager].currentSession ];
 }
 
+-(void)showLoader
+{
+    [self.window.rootViewController.view addSubview:self.loadingView];
+    [self.loadingView show];
+}
+
+-(void)hideLoader
+{
+    [self.loadingView hide];
+}
 
 @end

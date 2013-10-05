@@ -9,6 +9,12 @@
 /* Begin PBXBuildFile section */
 		16E7AD9F17FA4FE6000C2D74 /* FacebookSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 16E7AD9D17FA4FE6000C2D74 /* FacebookSDK.framework */; };
 		16E7ADA017FA4FE6000C2D74 /* Parse.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 16E7AD9E17FA4FE6000C2D74 /* Parse.framework */; };
+		16E7ADA217FA6C65000C2D74 /* libobjc.A.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 16E7ADA117FA6C65000C2D74 /* libobjc.A.dylib */; };
+		16E7ADA717FCF86B000C2D74 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 16E7ADA317FCF86B000C2D74 /* AVFoundation.framework */; };
+		16E7ADA817FCF86B000C2D74 /* MediaAccessibility.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 16E7ADA417FCF86B000C2D74 /* MediaAccessibility.framework */; };
+		16E7ADA917FCF86B000C2D74 /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 16E7ADA517FCF86B000C2D74 /* MediaPlayer.framework */; };
+		16E7ADAA17FCF86B000C2D74 /* MediaToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 16E7ADA617FCF86B000C2D74 /* MediaToolbox.framework */; };
+		16E7ADAD1800ADFF000C2D74 /* MediaCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 16E7ADAC1800ADFF000C2D74 /* MediaCell.m */; };
 		8316BCA717EA6A1700150FDD /* NumberInputCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 8316BCA617EA6A1700150FDD /* NumberInputCell.m */; };
 		8316BCAA17EB8FAD00150FDD /* KeyboardManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 8316BCA917EB8FAD00150FDD /* KeyboardManager.m */; };
 		8316BCAD17EB961F00150FDD /* SwitchCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 8316BCAC17EB961F00150FDD /* SwitchCell.m */; };
@@ -109,6 +115,13 @@
 /* Begin PBXFileReference section */
 		16E7AD9D17FA4FE6000C2D74 /* FacebookSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FacebookSDK.framework; sourceTree = "<group>"; };
 		16E7AD9E17FA4FE6000C2D74 /* Parse.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Parse.framework; sourceTree = "<group>"; };
+		16E7ADA117FA6C65000C2D74 /* libobjc.A.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libobjc.A.dylib; path = usr/lib/libobjc.A.dylib; sourceTree = SDKROOT; };
+		16E7ADA317FCF86B000C2D74 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
+		16E7ADA417FCF86B000C2D74 /* MediaAccessibility.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaAccessibility.framework; path = System/Library/Frameworks/MediaAccessibility.framework; sourceTree = SDKROOT; };
+		16E7ADA517FCF86B000C2D74 /* MediaPlayer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaPlayer.framework; path = System/Library/Frameworks/MediaPlayer.framework; sourceTree = SDKROOT; };
+		16E7ADA617FCF86B000C2D74 /* MediaToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaToolbox.framework; path = System/Library/Frameworks/MediaToolbox.framework; sourceTree = SDKROOT; };
+		16E7ADAB1800ADFF000C2D74 /* MediaCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MediaCell.h; path = Cells/MediaCell.h; sourceTree = "<group>"; };
+		16E7ADAC1800ADFF000C2D74 /* MediaCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MediaCell.m; path = Cells/MediaCell.m; sourceTree = "<group>"; };
 		8316BCA517EA6A1700150FDD /* NumberInputCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NumberInputCell.h; path = Cells/NumberInputCell.h; sourceTree = "<group>"; };
 		8316BCA617EA6A1700150FDD /* NumberInputCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NumberInputCell.m; path = Cells/NumberInputCell.m; sourceTree = "<group>"; };
 		8316BCA817EB8FAD00150FDD /* KeyboardManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KeyboardManager.h; sourceTree = "<group>"; };
@@ -262,6 +275,11 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				16E7ADA717FCF86B000C2D74 /* AVFoundation.framework in Frameworks */,
+				16E7ADA817FCF86B000C2D74 /* MediaAccessibility.framework in Frameworks */,
+				16E7ADA917FCF86B000C2D74 /* MediaPlayer.framework in Frameworks */,
+				16E7ADAA17FCF86B000C2D74 /* MediaToolbox.framework in Frameworks */,
+				16E7ADA217FA6C65000C2D74 /* libobjc.A.dylib in Frameworks */,
 				838491EF17E4ECA900CBABFE /* AudioToolbox.framework in Frameworks */,
 				838491F017E4ECA900CBABFE /* QuartzCore.framework in Frameworks */,
 				838491F117E4ECA900CBABFE /* StoreKit.framework in Frameworks */,
@@ -318,6 +336,11 @@
 		8333DD3717E4B2A700645B3E /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				16E7ADA317FCF86B000C2D74 /* AVFoundation.framework */,
+				16E7ADA417FCF86B000C2D74 /* MediaAccessibility.framework */,
+				16E7ADA517FCF86B000C2D74 /* MediaPlayer.framework */,
+				16E7ADA617FCF86B000C2D74 /* MediaToolbox.framework */,
+				16E7ADA117FA6C65000C2D74 /* libobjc.A.dylib */,
 				838491EC17E4ECA900CBABFE /* AudioToolbox.framework */,
 				838491ED17E4ECA900CBABFE /* QuartzCore.framework */,
 				838491EE17E4ECA900CBABFE /* StoreKit.framework */,
@@ -609,6 +632,8 @@
 				8316BCAF17EB993200150FDD /* CheckCell.m */,
 				83AD462317F761430085025E /* DateCell.h */,
 				83AD462417F761430085025E /* DateCell.m */,
+				16E7ADAB1800ADFF000C2D74 /* MediaCell.h */,
+				16E7ADAC1800ADFF000C2D74 /* MediaCell.m */,
 			);
 			name = Cells;
 			sourceTree = "<group>";
@@ -746,6 +771,9 @@
 				LastUpgradeCheck = 0500;
 				ORGANIZATIONNAME = virtualrealty;
 				TargetAttributes = {
+					8333DD3417E4B2A700645B3E = {
+						DevelopmentTeam = 666E89FH9Z;
+					};
 					8333DD4F17E4B2A700645B3E = {
 						TestTargetID = 8333DD3417E4B2A700645B3E;
 					};
@@ -807,6 +835,7 @@
 				836DF2EF17E4B7B2002BD42E /* NSData+Additions.m in Sources */,
 				838491D017E4D65A00CBABFE /* AbstractCell.m in Sources */,
 				838491C017E4D47F00CBABFE /* UserContentViewController.m in Sources */,
+				16E7ADAD1800ADFF000C2D74 /* MediaCell.m in Sources */,
 				836DF2F017E4B7B2002BD42E /* NSDate+Extended.m in Sources */,
 				8316BCA717EA6A1700150FDD /* NumberInputCell.m in Sources */,
 				83ABFE7517E4B9DB007ECB53 /* AFURLSessionManager.m in Sources */,
@@ -974,6 +1003,8 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					/projects/apps/VirtualReality/VirtualRealty/VirtualRealty/Libs,
@@ -983,6 +1014,7 @@
 				GCC_PREFIX_HEADER = "VirtualRealty/VirtualRealty-Prefix.pch";
 				INFOPLIST_FILE = "VirtualRealty/VirtualRealty-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -992,6 +1024,8 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					/projects/apps/VirtualReality/VirtualRealty/VirtualRealty/Libs,
@@ -1001,6 +1035,7 @@
 				GCC_PREFIX_HEADER = "VirtualRealty/VirtualRealty-Prefix.pch";
 				INFOPLIST_FILE = "VirtualRealty/VirtualRealty-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;

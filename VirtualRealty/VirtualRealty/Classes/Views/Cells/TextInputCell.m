@@ -44,6 +44,7 @@
 
 -(void)render
 {
+    
     [self.backgroundView setBackgroundColor:[UIColor whiteColor]];
     self.textLabel.text         = [self.cellinfo valueForKey:@"label"];
     self.inputField.placeholder = [self.cellinfo valueForKey:@"placeholder"];
@@ -51,6 +52,10 @@
     if( [self.cellinfo valueForKey:@"current-value"] )
     {
         self.inputField.text = [self.cellinfo valueForKey:@"current-value"];
+    }
+    else
+    {
+        self.inputField.text = @"";
     }
 }
 

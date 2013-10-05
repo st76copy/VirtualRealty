@@ -32,13 +32,7 @@
             cancelTitle = NSLocalizedString(@"Ok", @"Genereic : Ok ");
             
             break;
-            
-        case kNoEarningsRecordsError:
-            title       = NSLocalizedString(@"Sorry", @"Error : Invalid password error title");
-            message     = NSLocalizedString(@"It appears you have no earings data", @"Error : No data error");
-            cancelTitle = NSLocalizedString(@"Ok", @"Genereic : Ok ");
-            
-            break;
+       break;
         
         // reachable error
         case kNotReachableOnLogIn :
@@ -59,6 +53,19 @@
             message     = NSLocalizedString(@"Your username is invalid", @"Error : Invalid username error body");
             cancelTitle = NSLocalizedString(@"Cancel", @"Genereic : Cancel ");
             break;
+            
+        case kListingExistsError:
+            title       = NSLocalizedString(@"Sorry", @"Error : Invalid username error title");
+            message     = NSLocalizedString(@"Your listing already exists", @"Error : Invalid listing error body");
+            cancelTitle = NSLocalizedString(@"Cancel", @"Genereic : Cancel ");
+            break;
+
+        case kListingPendingError:
+            title       = NSLocalizedString(@"Success", @"Error : Invalid username error title");
+            message     = NSLocalizedString(@"You listing has been sent to a content moderator for approval.", @"Error : Invalid listing error body");
+            cancelTitle = NSLocalizedString(@"OK", @"Genereic : Cancel ");
+            break;
+
 
 
     }

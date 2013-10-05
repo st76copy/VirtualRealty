@@ -21,8 +21,10 @@ typedef enum ErrorType
     kUserDataLoaderror,
     
     // data errors
-    kNoEarningsRecordsError,
+    kListingExistsError,
+    kListingPendingError,
     // form errors
+    
     
     kInvalidUsernameError,
     kInvalidPasswordError

@@ -25,7 +25,7 @@
   
     if( [self.cellinfo valueForKey:@"current-value"] )
     {
-        self.accessoryType = ( [[self.cellinfo valueForKey:@"current-value"]isEqualToString:self.textLabel.text] ) ? UITableViewCellAccessoryCheckmark : UITableViewCellAccessoryNone;
+        self.accessoryType = ( [[self.cellinfo valueForKey:@"current-value"]isEqualToString:self.textLabel.text]  ) ? UITableViewCellAccessoryCheckmark : UITableViewCellAccessoryNone;
     }
 }
 

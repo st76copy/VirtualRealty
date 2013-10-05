@@ -9,16 +9,22 @@
 #import <Foundation/Foundation.h>
 #import <CoreLocation/CoreLocation.h>
 
+typedef void (^SaveMediaBlock) (BOOL success);
+
 @interface Listing : NSObject
 
 -(id)initWithDefaults;
+-(NSDictionary * )toDictionary;
 -(NSMutableArray *)isValid;
 -(void)clearErrorForField:(FormField)field;
-@property(nonatomic, strong, readonly)NSMutableArray *errors;
+-(void)saveMedia:( SaveMediaBlock )block;
 
+@property(nonatomic, strong, readonly)NSMutableArray *errors;
+@property(nonatomic, copy)SaveMediaBlock saveCompleteBlock;
 @property(nonatomic,strong )CLLocation *geo;
 
-@property(nonatomic, strong)NSString *addresss;
+@property(nonatomic, strong)NSString *address;
+@property(nonatomic, strong)NSString *unit;
 @property(nonatomic, strong)NSString *neighborhood;
 
 @property(nonatomic, strong)NSNumber *monthlyCost;
@@ -39,9 +45,11 @@
 @property(nonatomic, strong)NSNumber *gym;
 @property(nonatomic, strong)NSNumber *doorman;
 @property(nonatomic, strong)NSNumber *pool;
+@property(nonatomic, strong)NSNumber *listingState;
 
-@property(nonatomic, strong)UIImage *thumb;
-@property(nonatomic, strong)id       video;
+@property(nonatomic, strong)UIImage  *thumb;
+@property(nonatomic, strong)NSData   *video;
+
 
 
 
