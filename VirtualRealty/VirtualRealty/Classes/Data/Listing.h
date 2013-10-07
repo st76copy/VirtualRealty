@@ -23,6 +23,7 @@ typedef void (^SaveMediaBlock) (BOOL success);
 @property(nonatomic, copy)SaveMediaBlock saveCompleteBlock;
 @property(nonatomic,strong )CLLocation *geo;
 
+@property(nonatomic, strong)NSString *submitterID;
 @property(nonatomic, strong)NSString *address;
 @property(nonatomic, strong)NSString *unit;
 @property(nonatomic, strong)NSString *neighborhood;

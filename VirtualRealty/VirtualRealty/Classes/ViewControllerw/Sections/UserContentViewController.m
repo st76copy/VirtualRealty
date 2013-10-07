@@ -7,6 +7,8 @@
 //
 
 #import "UserContentViewController.h"
+#import <Parse/Parse.h>
+#import "User.h"
 
 @interface UserContentViewController ()
 
@@ -27,6 +29,12 @@
 {
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor grayColor];
+    [PFCloud callFunctionInBackground:@"getListingsForUser" withParameters:@{@"userID":[User sharedUser].username} block:^(id object, NSError *error)
+    {
+        //NSDictionary *info =
+        NSLog(@"loaded :: %@ " , object );
+    }];
+    
 }
 
 

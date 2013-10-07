@@ -28,6 +28,7 @@
     if( self != nil)
     {
         _errors = [NSMutableArray array];
+        self.submitterID  = [User sharedUser].username;
         self.outdoorSpace = [NSNumber numberWithBool:NO];
         self.dogs         = [NSNumber numberWithBool:NO];
         self.cats         = [NSNumber numberWithBool:NO];
@@ -183,6 +184,7 @@
             }
         }
     }
+    
     return temp;
 }
 
@@ -217,13 +219,13 @@
                 }
                 else
                 {
-                    NSLog(@"Error: %@ %@", error, [error userInfo]);
+                    blocklisting.saveCompleteBlock( NO );
                 }
             }];
         }
         else
         {
-            
+            blocklisting.saveCompleteBlock( NO );
         }
     }];
 }
@@ -253,13 +255,13 @@
                 }
                 else
                 {
-                    NSLog(@"Error: %@ %@", error, [error userInfo]);
+                    blocklisting.saveCompleteBlock( NO );
                 }
             }];
         }
         else
         {
-            
+            blocklisting.saveCompleteBlock( NO );
         }
     }];
 

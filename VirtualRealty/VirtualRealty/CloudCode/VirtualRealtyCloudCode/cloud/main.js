@@ -1,11 +1,9 @@
-
-// Use Parse.Cloud.define to define as many cloud functions as you want.
-// For example:
 Parse.Cloud.define("saveListing", function(request, response)
 {
     var self    = this;
 	this.params = request.params;
 	
+	this.submitterID  = request.params.submitterID;
 	this.unit 		  = request.params.unit;
     this.address      = request.params.address;
     this.neighborhood = request.params.neighborhood;
@@ -73,6 +71,7 @@ Parse.Cloud.define("saveListing", function(request, response)
 		listing.set( "contact", this.contact );
 		listing.set( "listingState", this.listingState );
 		listing.set( "unit", this.unit );
+		listing.set( "submitterID", this.submitterID );
 		
         listing.save( null, {
   			success: function(gameScore) {
@@ -84,5 +83,34 @@ Parse.Cloud.define("saveListing", function(request, response)
 		});
      
     }
-
 });
+
+Parse.Cloud.define("getListingsForUser", function(request, response)
+{
+	this.userID = request.params.userID;
+
+	var Listing = Parse.Object.extend("Listing");
+	var query = new Parse.Query( Listing );
+	query.equalTo( "submitterID", this.userID );
+	
+	query.find({
+		success: function(results) 
+		{
+			response.success( results );		
+	    },
+		error: function(error) 
+		{
+   			alert("Error: " + error.code + " " + error.message);
+  		}
+	});
+	
+	
+	
+	function handleDataLoaded()
+	{
+		
+	}
+	
+});
+
+

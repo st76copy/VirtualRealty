@@ -501,16 +501,24 @@
         {
             switch ([object intValue]) {
                 case kSaveFailed:
-                    
+                
                     break;
                 case kSaveSuccess:
                     [self.listing saveMedia:^(BOOL success) {
-                        [delegate hideLoader];
-                        [[ErrorFactory getAlertForType:kListingPendingError andDelegateOrNil:nil andOtherButtons:nil] show];
+                        if( success )
+                        {
+                            [delegate hideLoader];
+                            [[ErrorFactory getAlertForType:kListingPendingError andDelegateOrNil:nil andOtherButtons:nil] show];
+                        }
+                        else
+                        {
+                            [delegate hideLoader];
+                        }
                     }];
                     break;
                 case kListingExist:
                     [[ErrorFactory getAlertForType:kListingExistsError andDelegateOrNil:Nil andOtherButtons:nil]show];
+                    [delegate hideLoader];
                     break;
             }
         }];
