@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		16D50952180388000028E5D4 /* ListingCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 16D50951180388000028E5D4 /* ListingCell.m */; };
 		16E7AD9F17FA4FE6000C2D74 /* FacebookSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 16E7AD9D17FA4FE6000C2D74 /* FacebookSDK.framework */; };
 		16E7ADA017FA4FE6000C2D74 /* Parse.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 16E7AD9E17FA4FE6000C2D74 /* Parse.framework */; };
 		16E7ADA217FA6C65000C2D74 /* libobjc.A.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 16E7ADA117FA6C65000C2D74 /* libobjc.A.dylib */; };
@@ -113,6 +114,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		16D50950180388000028E5D4 /* ListingCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ListingCell.h; path = Cells/ListingCell.h; sourceTree = "<group>"; };
+		16D50951180388000028E5D4 /* ListingCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ListingCell.m; path = Cells/ListingCell.m; sourceTree = "<group>"; };
 		16E7AD9D17FA4FE6000C2D74 /* FacebookSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FacebookSDK.framework; sourceTree = "<group>"; };
 		16E7AD9E17FA4FE6000C2D74 /* Parse.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Parse.framework; sourceTree = "<group>"; };
 		16E7ADA117FA6C65000C2D74 /* libobjc.A.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libobjc.A.dylib; path = usr/lib/libobjc.A.dylib; sourceTree = SDKROOT; };
@@ -634,6 +637,8 @@
 				83AD462417F761430085025E /* DateCell.m */,
 				16E7ADAB1800ADFF000C2D74 /* MediaCell.h */,
 				16E7ADAC1800ADFF000C2D74 /* MediaCell.m */,
+				16D50950180388000028E5D4 /* ListingCell.h */,
+				16D50951180388000028E5D4 /* ListingCell.m */,
 			);
 			name = Cells;
 			sourceTree = "<group>";
@@ -871,6 +876,7 @@
 				83ABFE6C17E4B9DB007ECB53 /* AFHTTPClient+Rocket.m in Sources */,
 				83B85A3D17E7CC58008E6DEB /* Row.m in Sources */,
 				836DF2FB17E4B7B2002BD42E /* ReachabilityManager.m in Sources */,
+				16D50952180388000028E5D4 /* ListingCell.m in Sources */,
 				83ABFE6B17E4B9DB007ECB53 /* AFEventSource.m in Sources */,
 				836DF2FC17E4B7B2002BD42E /* Utils.m in Sources */,
 				838491C617E4D49B00CBABFE /* SearchViewController.m in Sources */,
@@ -1001,10 +1007,10 @@
 		8333DD6217E4B2A700645B3E /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD)";
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_IDENTITY = "iPhone Developer: Gabriel Berlind (TBBLWGP39Y)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Gabriel Berlind (TBBLWGP39Y)";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Virtual Realty NYC, Inc., (666E89FH9Z)";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					/projects/apps/VirtualReality/VirtualRealty/VirtualRealty/Libs,
@@ -1013,8 +1019,9 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "VirtualRealty/VirtualRealty-Prefix.pch";
 				INFOPLIST_FILE = "VirtualRealty/VirtualRealty-Info.plist";
+				OTHER_LDFLAGS = "-all_load";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "426ED89B-85CB-4F67-A955-ABF685C39091";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -1022,10 +1029,10 @@
 		8333DD6317E4B2A700645B3E /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD)";
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_IDENTITY = "iPhone Developer: Gabriel Berlind (TBBLWGP39Y)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Gabriel Berlind (TBBLWGP39Y)";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Virtual Realty NYC, Inc., (666E89FH9Z)";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					/projects/apps/VirtualReality/VirtualRealty/VirtualRealty/Libs,
@@ -1035,7 +1042,7 @@
 				GCC_PREFIX_HEADER = "VirtualRealty/VirtualRealty-Prefix.pch";
 				INFOPLIST_FILE = "VirtualRealty/VirtualRealty-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "426ED89B-85CB-4F67-A955-ABF685C39091";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;

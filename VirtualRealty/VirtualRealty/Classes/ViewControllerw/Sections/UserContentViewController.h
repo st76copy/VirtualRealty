@@ -8,6 +8,9 @@
 
 #import "AbstractViewController.h"
 
-@interface UserContentViewController : AbstractViewController
+@interface UserContentViewController : AbstractViewController<UITableViewDataSource, UITableViewDelegate>
 
+
+@property(nonatomic, strong, readonly)NSMutableArray *tableData;
+@property(nonatomic, strong, readonly)UITableView    *table;
 @end

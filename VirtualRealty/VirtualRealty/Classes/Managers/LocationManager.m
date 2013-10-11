@@ -128,6 +128,11 @@
     });
 }
 
+-(void)getAddress:(NSString *)address block:(void (^) (CLLocationCoordinate2D loc) )block
+{
+    
+}
+
 -(void)stopGettingLocation
 {
     [_locationManager stopUpdatingLocation];

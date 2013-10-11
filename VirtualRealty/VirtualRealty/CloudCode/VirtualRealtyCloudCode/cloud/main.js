@@ -9,19 +9,19 @@ Parse.Cloud.define("saveListing", function(request, response)
     this.neighborhood = request.params.neighborhood;
 	this.monthlyCost  = request.params.monthlyCost;
 	this.moveInCost   = request.params.moveInCost;
-	this.brokerfee    = request.params.brokerfee;
+	this.brokerfee    = ( request.params.brokerfee == 0 ) ? false : true;
 	this.moveInDate   = request.params.moveInDate;
 	this.contact      = request.params.contact;
-	this.share        = request.params.share;
+	this.share        = ( request.params.share == 0) ? false : true;
 	this.bedrooms     = request.params.bedrooms;
 	this.bathrooms    = request.params.bathrooms;
-	this.dogs    	  = request.params.dogs;
-	this.cats    	  = request.params.cats;
-	this.outdoorSpace = request.params.outdoorSpace;
-	this.washerDryer  = request.params.washerDryer;
-	this.gym	      = request.params.gym;	
-	this.doorman      = request.params.doorman;
-	this.pool         = request.params.pool;
+	this.dogs    	  = ( request.params.dogs == 0 ) ? false : true;
+	this.cats    	  = ( request.params.cats == 0 ) ? false : true;
+	this.outdoorSpace = ( request.params.outdoorSpace == 0 ) ? false : true;
+	this.washerDryer  = ( request.params.washerDryer == 0 ) ? false : true;
+	this.gym	      = ( request.params.gym == 0 ) ? false : true;
+	this.doorman      = ( request.params.doorman == 0 ) ? false : true;
+	this.pool         = ( request.params.pool == 0 ) ? false : true;
 	this.listingState = request.params.listingState;
 
     var query = new Parse.Query("Listing");
@@ -31,15 +31,15 @@ Parse.Cloud.define("saveListing", function(request, response)
     query.find(
     {
         success: function(results){ checkExistComplete(results); },
-        error: function(error){ response.error(1); }
+        error: function(error){ response.error( { "code": 1, "data":error  }); }
     });
            
                    
     function checkExistComplete(obj)
     {
-        if( obj.length > 0 )
+        if( obj != null && obj.length > 0 )
         {
-            response.error( 0 );
+            response.error(  { "code": 0, "data":obj } );
         }
         else
         {
@@ -74,11 +74,11 @@ Parse.Cloud.define("saveListing", function(request, response)
 		listing.set( "submitterID", this.submitterID );
 		
         listing.save( null, {
-  			success: function(gameScore) {
-  		   		response.success( 2 );
+  			success: function(listing) {
+  		   		response.success( { "code":2, "data" : listing } );
 		  	},
-  			error: function(gameScore, error) {
-				response.error(1);
+  			error: function(listing, error) {
+				response.error(  { "code":1, "data":error } );
 			}
 		});
      
@@ -103,14 +103,28 @@ Parse.Cloud.define("getListingsForUser", function(request, response)
    			alert("Error: " + error.code + " " + error.message);
   		}
 	});
+});
+
+
+Parse.Cloud.define("getFeaturedListings", function(request, response)
+{
+
+	var Listing = Parse.Object.extend("Listing");
+	var query = new Parse.Query( Listing );
+	query.descending("createdAt");
 	
-	
-	
-	function handleDataLoaded()
-	{
-		
-	}
+	query.find({
+		success: function(results) 
+		{
+			response.success( results );		
+	    },
+		error: function(error) 
+		{
+   			alert("Error: " + error.code + " " + error.message);
+  		}
+	});
 	
 });
+
 
 

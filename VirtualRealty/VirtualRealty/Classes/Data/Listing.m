@@ -15,6 +15,7 @@
 @interface Listing()
 -(void)savePhoto;
 -(void)saveVideo;
+-(void)handleThumbLoaded:(NSArray *)results;
 
 @end
 
@@ -41,6 +42,38 @@
         self.listingState = [NSNumber numberWithInt:kPending];
     }
     return  self;
+}
+
+-(id)initWithFullData:(NSDictionary *)info
+{
+    self = [super init];
+    if( self != nil)
+    {
+        _errors = [NSMutableArray array];
+        self.submitterID  = [info valueForKey:@"submitterID"];
+        self.contact      = [info valueForKey:@"submitterID"];
+        self.address      = [info valueForKey:@"address"];
+        self.unit         = [info valueForKey:@"unit"];
+        self.neighborhood = [info valueForKey:@"neighborhood"];
+        self.monthlyCost  = [info valueForKey:@"monthlyCost"];
+        self.moveInCost   = [info valueForKey:@"moveInCost"];
+        self.bathrooms    = [info valueForKey:@"bathrooms"];
+        self.bedrooms     = [info valueForKey:@"bedrooms"];
+        self.brokerfee    = [info valueForKey:@"brokerfee"];
+        self.objectId     = [info valueForKey:@"objectId"];
+        
+        self.outdoorSpace = [info valueForKey:@"outdoorSpace"];
+        self.dogs         = [info valueForKey:@"dogs"];
+        self.cats         = [info valueForKey:@"cats"];
+        self.share        = [info valueForKey:@"share"];
+        self.washerDryer  = [info valueForKey:@"washerDryer"];
+        self.gym          = [info valueForKey:@"gym"];
+        self.doorman      = [info valueForKey:@"doorman"];
+        self.pool         = [info valueForKey:@"pool"];
+        self.listingState = [info valueForKey:@"listingState"];
+    }
+    return  self;
+
 }
 
 -(NSMutableArray *)isValid
@@ -206,11 +239,16 @@
         if( succeeded )
         {
             PFObject *userPhoto = [PFObject objectWithClassName:@"ListingImage"];
-            [userPhoto setObject:imageFile forKey:@"bitmap"];
-            [userPhoto setObject:name      forKey:@"name"];
+            [userPhoto setObject:imageFile                  forKey:@"bitmap"];
+            [userPhoto setObject:name                       forKey:@"name"];
+            [userPhoto setObject:blocklisting.objectId      forKey:@"listingID"];
+            
             [userPhoto setObject:[User sharedUser].username forKey:@"username"];
             
-            userPhoto.ACL = [PFACL ACLWithUser:[PFUser currentUser]];
+            PFUser *temp = [PFUser user];
+            temp.username = @"*";
+            temp.objectId = @"*";
+            userPhoto.ACL = [PFACL ACLWithUser:temp];
             
             [userPhoto saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
                 if (!error)
@@ -241,14 +279,18 @@
         
         if( succeeded )
         {
-            PFObject *userPhoto = [PFObject objectWithClassName:@"ListingVideo"];
-            [userPhoto setObject:videoFile forKey:@"videofile"];
-            [userPhoto setObject:name      forKey:@"name"];
-            [userPhoto setObject:[User sharedUser].username forKey:@"username"];
+            PFObject *userVideo = [PFObject objectWithClassName:@"ListingVideo"];
+            [userVideo setObject:videoFile forKey:@"videofile"];
+            [userVideo setObject:name      forKey:@"name"];
+            [userVideo setObject:[User sharedUser].username forKey:@"username"];
+            [userVideo setObject:blocklisting.objectId      forKey:@"listingID"];
+        
+            PFUser *temp = [PFUser user];
+            temp.username = @"*";
+            temp.objectId = @"*";
+            userVideo.ACL = [PFACL ACLWithUser:temp];
             
-            userPhoto.ACL = [PFACL ACLWithUser:[PFUser currentUser]];
-            
-            [userPhoto saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+            [userVideo saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
                 if (!error)
                 {
                     blocklisting.saveCompleteBlock(YES);
@@ -264,7 +306,41 @@
             blocklisting.saveCompleteBlock( NO );
         }
     }];
+}
 
+-(void)loadThumb:( LoadMediaBlock )block
+{
+    
+    __block Listing *blockList = self;
+    self.loadCompleteBlock = block;
+
+    PFQuery  *query            = [PFQuery queryWithClassName:@"ListingImage"];
+    [query whereKey:@"listingID" equalTo:self.objectId];
+
+    [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error)
+    {
+        if( error == nil && objects.count == 1 )
+        {
+            [blockList handleThumbLoaded:objects];
+        }
+        else
+        {
+            NSLog(@"%@ failed to load image %@ ", blockList, error );
+            blockList.loadCompleteBlock( NO );
+        }
+    }];
+}
+
+-(void)handleThumbLoaded:(NSArray *)results
+{
+    NSDictionary *info = [results objectAtIndex:0];
+    PFFile       *file = [info valueForKey:@"bitmap"];
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
+        self.thumb         = [UIImage imageWithData:[file getData]];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            self.loadCompleteBlock( YES );
+        });
+    });
 }
 
 

@@ -10,17 +10,26 @@
 #import <CoreLocation/CoreLocation.h>
 
 typedef void (^SaveMediaBlock) (BOOL success);
+typedef void (^LoadMediaBlock) (BOOL success);
 
 @interface Listing : NSObject
 
 -(id)initWithDefaults;
+-(id)initWithFullData:(NSDictionary *)info;
 -(NSDictionary * )toDictionary;
 -(NSMutableArray *)isValid;
+
+-(void)loadThumb:( LoadMediaBlock )block;
+
 -(void)clearErrorForField:(FormField)field;
 -(void)saveMedia:( SaveMediaBlock )block;
 
 @property(nonatomic, strong, readonly)NSMutableArray *errors;
+
+@property(nonatomic, strong)NSString *objectId;
 @property(nonatomic, copy)SaveMediaBlock saveCompleteBlock;
+@property(nonatomic, copy)LoadMediaBlock loadCompleteBlock;
+
 @property(nonatomic,strong )CLLocation *geo;
 
 @property(nonatomic, strong)NSString *submitterID;

@@ -20,7 +20,7 @@
 #import "ErrorFactory.h"
 
 @interface AddApartmentViewController ()<UIImagePickerControllerDelegate,UINavigationControllerDelegate>
-
+-(void)handleListingComplete;
 -(void)animateToCell;
 -(id)getValueForFormField:(FormField)field;
 -(void)addRows;
@@ -485,6 +485,7 @@
 -(void)handleSubmitListing:(id)sender
 {
     __block AppDelegate *delegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
+    __block AddApartmentViewController *blockself = self;
     
     if( [ReachabilityManager sharedManager].currentStatus == NotReachable )
     {
@@ -499,14 +500,16 @@
         
         [PFCloud callFunctionInBackground:@"saveListing" withParameters:[self.listing toDictionary] block:^(id object, NSError *error)
         {
-            switch ([object intValue]) {
+            switch ([[object valueForKey:@"code"] intValue]) {
                 case kSaveFailed:
-                
                     break;
                 case kSaveSuccess:
+                    
+                    self.listing.objectId = [[object valueForKey:@"data"] valueForKey:@"objectId"];
                     [self.listing saveMedia:^(BOOL success) {
                         if( success )
                         {
+                            [blockself handleListingComplete];
                             [delegate hideLoader];
                             [[ErrorFactory getAlertForType:kListingPendingError andDelegateOrNil:nil andOtherButtons:nil] show];
                         }
@@ -515,6 +518,7 @@
                             [delegate hideLoader];
                         }
                     }];
+                    
                     break;
                 case kListingExist:
                     [[ErrorFactory getAlertForType:kListingExistsError andDelegateOrNil:Nil andOtherButtons:nil]show];
@@ -559,6 +563,15 @@
     }
     imagePicker.showsCameraControls = YES;
     [self presentViewController:imagePicker animated:YES completion:nil];
+}
+
+-(void)handleListingComplete
+{
+    _listing = [[Listing alloc]initWithDefaults];
+    [User sharedUser].currentListing = _listing;
+    
+    [self.table reloadData];
+    [self.table scrollToRowAtIndexPath:[NSIndexPath indexPathForItem:0 inSection:0] atScrollPosition:UITableViewScrollPositionTop animated:YES];
 }
 
 #pragma mark - image picker delegate
