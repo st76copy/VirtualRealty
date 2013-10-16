@@ -27,6 +27,7 @@ typedef void (^LoadMediaBlock) (BOOL success);
 @property(nonatomic, strong, readonly)NSMutableArray *errors;
 
 @property(nonatomic, strong)NSString *objectId;
+@property(nonatomic, strong)NSString *submitterObjectId;
 @property(nonatomic, copy)SaveMediaBlock saveCompleteBlock;
 @property(nonatomic, copy)LoadMediaBlock loadCompleteBlock;
 

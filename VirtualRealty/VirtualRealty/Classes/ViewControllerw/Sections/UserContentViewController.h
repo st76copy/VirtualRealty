@@ -7,10 +7,12 @@
 //
 
 #import "AbstractViewController.h"
+#import "Listing.h"
 
-@interface UserContentViewController : AbstractViewController<UITableViewDataSource, UITableViewDelegate>
+@interface UserContentViewController : AbstractViewController<UITableViewDataSource, UITableViewDelegate, UIAlertViewDelegate>
 
 
 @property(nonatomic, strong, readonly)NSMutableArray *tableData;
 @property(nonatomic, strong, readonly)UITableView    *table;
+@property(nonatomic, strong, readonly)Listing        *listing;
 @end

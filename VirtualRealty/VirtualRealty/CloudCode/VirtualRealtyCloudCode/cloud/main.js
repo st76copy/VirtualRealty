@@ -3,7 +3,8 @@ Parse.Cloud.define("saveListing", function(request, response)
     var self    = this;
 	this.params = request.params;
 	
-	this.submitterID  = request.params.submitterID;
+	this.submitterID  		= request.params.submitterID;
+	this.submitterObjectId  = request.params.submitterObjectId;
 	this.unit 		  = request.params.unit;
     this.address      = request.params.address;
     this.neighborhood = request.params.neighborhood;
@@ -72,6 +73,7 @@ Parse.Cloud.define("saveListing", function(request, response)
 		listing.set( "listingState", this.listingState );
 		listing.set( "unit", this.unit );
 		listing.set( "submitterID", this.submitterID );
+		listing.set( "submitterObjectId", this.submitterObjectId );
 		
         listing.save( null, {
   			success: function(listing) {
@@ -91,7 +93,7 @@ Parse.Cloud.define("getListingsForUser", function(request, response)
 
 	var Listing = Parse.Object.extend("Listing");
 	var query = new Parse.Query( Listing );
-	query.equalTo( "submitterID", this.userID );
+	query.equalTo( "submitterObjectId", this.userID );
 	
 	query.find({
 		success: function(results) 
@@ -111,6 +113,7 @@ Parse.Cloud.define("getFeaturedListings", function(request, response)
 
 	var Listing = Parse.Object.extend("Listing");
 	var query = new Parse.Query( Listing );
+	query.equalTo( "listingState", 1 );
 	query.descending("createdAt");
 	
 	query.find({
@@ -128,3 +131,31 @@ Parse.Cloud.define("getFeaturedListings", function(request, response)
 
 
 
+
+Parse.Cloud.define("deleteListing", function(request, response)
+{
+	var Listing = Parse.Object.extend("Listing");
+	var query   = new Parse.Query(Listing);
+	
+	query.get( request.params.objectId , {
+		success: function( listing ){
+			listingLoaded( listing );
+		},
+		error: function(){
+			response.error("failed getting image");	
+		}
+	});
+	
+	function listingLoaded( listing ) 
+	{
+		listing.destroy({
+			success:function(){
+				response.success(1);	
+			},
+			error:function(){
+				response.error("failed deleting image");		
+			}	
+		});	
+	}
+	
+});

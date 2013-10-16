@@ -29,7 +29,9 @@
     if( self != nil)
     {
         _errors = [NSMutableArray array];
-        self.submitterID  = [User sharedUser].username;
+        self.submitterID       = [User sharedUser].username;
+        self.submitterObjectId = [User sharedUser].uid;
+        
         self.outdoorSpace = [NSNumber numberWithBool:NO];
         self.dogs         = [NSNumber numberWithBool:NO];
         self.cats         = [NSNumber numberWithBool:NO];
@@ -50,6 +52,7 @@
     if( self != nil)
     {
         _errors = [NSMutableArray array];
+        self.submitterObjectId = [info valueForKey:@"submitterObjectId"];
         self.submitterID  = [info valueForKey:@"submitterID"];
         self.contact      = [info valueForKey:@"submitterID"];
         self.address      = [info valueForKey:@"address"];
@@ -61,7 +64,7 @@
         self.bedrooms     = [info valueForKey:@"bedrooms"];
         self.brokerfee    = [info valueForKey:@"brokerfee"];
         self.objectId     = [info valueForKey:@"objectId"];
-        
+
         self.moveInDate   = [info valueForKey:@"moveInDate"];
         self.outdoorSpace = [info valueForKey:@"outdoorSpace"];
         self.dogs         = [info valueForKey:@"dogs"];

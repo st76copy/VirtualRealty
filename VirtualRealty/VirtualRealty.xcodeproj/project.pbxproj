@@ -15,6 +15,7 @@
 		16261BC1180A2D9100F44578 /* SearchFilters.m in Sources */ = {isa = PBXBuildFile; fileRef = 16261BC0180A2D9100F44578 /* SearchFilters.m */; };
 		16261BC4180A2DA200F44578 /* Filter.m in Sources */ = {isa = PBXBuildFile; fileRef = 16261BC3180A2DA200F44578 /* Filter.m */; };
 		16261BC7180A2E0200F44578 /* FilterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 16261BC6180A2E0200F44578 /* FilterViewController.m */; };
+		16261BCA180E2B4500F44578 /* SearchFilterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 16261BC9180E2B4500F44578 /* SearchFilterViewController.m */; };
 		16D50952180388000028E5D4 /* ListingCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 16D50951180388000028E5D4 /* ListingCell.m */; };
 		16E7AD9F17FA4FE6000C2D74 /* FacebookSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 16E7AD9D17FA4FE6000C2D74 /* FacebookSDK.framework */; };
 		16E7ADA017FA4FE6000C2D74 /* Parse.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 16E7AD9E17FA4FE6000C2D74 /* Parse.framework */; };
@@ -136,6 +137,8 @@
 		16261BC3180A2DA200F44578 /* Filter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Filter.m; path = Data/Filter.m; sourceTree = "<group>"; };
 		16261BC5180A2E0200F44578 /* FilterViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FilterViewController.h; sourceTree = "<group>"; };
 		16261BC6180A2E0200F44578 /* FilterViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FilterViewController.m; sourceTree = "<group>"; };
+		16261BC8180E2B4500F44578 /* SearchFilterViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchFilterViewController.h; sourceTree = "<group>"; };
+		16261BC9180E2B4500F44578 /* SearchFilterViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchFilterViewController.m; sourceTree = "<group>"; };
 		16D50950180388000028E5D4 /* ListingCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ListingCell.h; path = Cells/ListingCell.h; sourceTree = "<group>"; };
 		16D50951180388000028E5D4 /* ListingCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ListingCell.m; path = Cells/ListingCell.m; sourceTree = "<group>"; };
 		16E7AD9D17FA4FE6000C2D74 /* FacebookSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FacebookSDK.framework; sourceTree = "<group>"; };
@@ -589,6 +592,8 @@
 				16261BB21809A19400F44578 /* ListingDetailViewController.m */,
 				16261BC5180A2E0200F44578 /* FilterViewController.h */,
 				16261BC6180A2E0200F44578 /* FilterViewController.m */,
+				16261BC8180E2B4500F44578 /* SearchFilterViewController.h */,
+				16261BC9180E2B4500F44578 /* SearchFilterViewController.m */,
 			);
 			path = Sections;
 			sourceTree = "<group>";
@@ -886,6 +891,7 @@
 				836DF2EF17E4B7B2002BD42E /* NSData+Additions.m in Sources */,
 				838491D017E4D65A00CBABFE /* AbstractCell.m in Sources */,
 				838491C017E4D47F00CBABFE /* UserContentViewController.m in Sources */,
+				16261BCA180E2B4500F44578 /* SearchFilterViewController.m in Sources */,
 				16E7ADAD1800ADFF000C2D74 /* MediaCell.m in Sources */,
 				16261BC4180A2DA200F44578 /* Filter.m in Sources */,
 				836DF2F017E4B7B2002BD42E /* NSDate+Extended.m in Sources */,

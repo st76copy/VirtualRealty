@@ -14,7 +14,11 @@
 #import "SQLiteManager.h"
 #import "User.h"
 
-@interface ListingDetailViewController ()
+#import <Parse/Parse.h>
+@interface ListingDetailViewController ()<UIAlertViewDelegate>
+
+-(void)deleteObject;
+-(void)handleDeleteListing:(id)sender;
 
 -(void)enableFavoriteButton:(NSArray *)results;
 -(void)saveFavorite:(id)sender;
@@ -62,19 +66,29 @@
 {
     [super viewDidAppear:animated];
     
+    
+    
     if( [[User sharedUser]valid] )
     {
-        __block ListingDetailViewController *blockself = self;
-        
-        NSString   *sql = [QueryFactory getListing:self.listing andUser:[User sharedUser]];
-        __block SQLRequest *req = [[SQLRequest alloc]initWithQuery:sql andType:kSelect andName:@"select-favorite"];
-        
-        [req runSelectOnDatabaseManager:[SQLiteManager sharedDatabase] WithBlock:^(BOOL success) {
-            if( success  )
-            {
-                [blockself enableFavoriteButton:[req.results copy]];
-            }
-        }];
+        if( [self.listing.submitterObjectId intValue] == [[User sharedUser].uid intValue] )
+        {
+            UIBarButtonItem *delete = [[UIBarButtonItem alloc]initWithTitle:@"Delete Listing" style:UIBarButtonItemStyleBordered target:self action:@selector(handleDeleteListing:)];
+            self.navigationItem.rightBarButtonItem = delete;
+        }
+        else
+        {
+            __block ListingDetailViewController *blockself = self;
+            
+            NSString   *sql = [QueryFactory getListing:self.listing andUser:[User sharedUser]];
+            __block SQLRequest *req = [[SQLRequest alloc]initWithQuery:sql andType:kSelect andName:@"select-favorite"];
+            
+            [req runSelectOnDatabaseManager:[SQLiteManager sharedDatabase] WithBlock:^(BOOL success) {
+                if( success  )
+                {
+                    [blockself enableFavoriteButton:[req.results copy]];
+                }
+            }];
+        }
     }
 }
 
@@ -253,6 +267,8 @@
     [alert show];
 }
 
+
+#pragma mark - delete listing
 -(void)deleteFavorite:(id)sender
 {
     __block ListingDetailViewController *blockself = self;
@@ -282,6 +298,45 @@
     NSString *message = NSLocalizedString( @"This listing has been removed to your favorites", @"Genereic : removed listing messagea");
     UIAlertView *alert = [[UIAlertView alloc]initWithTitle:title message:message delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
     [alert show];
+}
+
+
+#pragma mark - delete listing
+-(void)handleDeleteListing:(id)sender
+{
+    NSString *title = NSLocalizedString(@"Delete Listing", @"Generic : alert view delete title");
+    NSString *message = NSLocalizedString(@"Are you sure you want to delete this listing, this cannot be undone.", @"Generic : alert view delete message");
+    UIAlertView *av = [[UIAlertView alloc]initWithTitle:title message:message delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"OK", nil];
+    
+    [av show];
+}
+
+-(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    switch (buttonIndex) {
+        case 1:
+            [self deleteObject];
+            break;
+    }
+}
+
+-(void)deleteObject
+{
+    __block ListingDetailViewController *blockself = self;
+    [PFCloud callFunctionInBackground:@"deleteListing" withParameters:@{@"objectId":self.listing.objectId} block:^(id object, NSError *error)
+    {
+        if( [object intValue ] == 1 )
+        {
+            [blockself.navigationController popViewControllerAnimated:YES];
+        }
+        else
+        {
+            NSString *title = NSLocalizedString(@"Sorry", @"Generic : alert view delete title");
+            NSString *message = NSLocalizedString(@"There was an error deleting your listing", @"Generic : alert view delete message");
+            UIAlertView *av = [[UIAlertView alloc]initWithTitle:title message:message delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
+            [av show];
+        }
+    }];
 }
 
 

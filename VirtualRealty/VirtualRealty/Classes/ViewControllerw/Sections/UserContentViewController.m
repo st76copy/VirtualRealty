@@ -19,12 +19,16 @@
 @interface UserContentViewController ()
 
 -(void)handleDataLoaded:(NSArray *)data;
+-(void)deleteObject;
+-(void)handleDeleteListing:(id)sender;
+
 @end
 
 @implementation UserContentViewController
 
 @synthesize table     = _table;
 @synthesize tableData = _tableData;
+@synthesize listing   = _listing;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -54,6 +58,8 @@
     self.table.delegate = self;
 
     [self.view addSubview:self.table];
+    
+
 }
 
 -(void)viewDidAppear:(BOOL)animated
@@ -61,7 +67,7 @@
     [super viewDidAppear:animated];
     
     __block UserContentViewController *blockself = self;
-    [PFCloud callFunctionInBackground:@"getListingsForUser" withParameters:@{@"userID":[User sharedUser].username} block:^(id object, NSError *error)
+    [PFCloud callFunctionInBackground:@"getListingsForUser" withParameters:@{@"userID":[User sharedUser].uid} block:^(id object, NSError *error)
     {
         [blockself handleDataLoaded:object];
     }];
@@ -90,8 +96,13 @@
 
 -(void)handleDataLoaded:(NSArray *)data
 {
+    
     Listing *listing;
     NSMutableArray *userListings = [self.tableData objectAtIndex:0];
+  
+    NSMutableArray *myListings = [self.tableData objectAtIndex:0];
+    [myListings removeAllObjects];
+    
     for( NSDictionary *info in data)
     {
         listing = [[Listing alloc]initWithFullData:info];
@@ -149,6 +160,9 @@
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    NSArray *group = [self.tableData objectAtIndex:indexPath.section];
+    _listing = [group objectAtIndex:indexPath.row];
+    
     [self.table deselectRowAtIndexPath:indexPath animated:YES];
     NSArray *section = [self.tableData objectAtIndex:indexPath.section];
     Listing *listing = [section objectAtIndex:indexPath.row];
@@ -156,6 +170,7 @@
     
     ListingDetailViewController *details = [[ListingDetailViewController alloc]initWithListing:listing];
     [self.navigationController pushViewController:details animated:YES];
+    
 }
 
 -(void)toggleMenu
@@ -171,5 +186,6 @@
     self.table.scrollEnabled = active;
     self.table.userInteractionEnabled = active;
 }
+
 
 @end
