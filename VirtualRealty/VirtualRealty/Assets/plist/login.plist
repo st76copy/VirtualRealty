@@ -24,6 +24,8 @@
 				<string>password</string>
 				<key>class</key>
 				<string>TextInputCell</string>
+				<key>is-secure</key>
+				<true/>
 			</dict>
 		</array>
 		<key>section-title</key>

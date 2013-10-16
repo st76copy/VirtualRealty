@@ -16,6 +16,8 @@
 				<string>TextInputCell</string>
 			</dict>
 			<dict>
+				<key>is-secure</key>
+				<true/>
 				<key>field</key>
 				<integer>1</integer>
 				<key>placeholder</key>

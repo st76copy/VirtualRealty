@@ -11,12 +11,14 @@
 #import "Listing.h"
 #import "ListingCell.h"
 #import "User.h"
+#import "ListingDetailViewController.h"
 
 @interface FeaturedViewController ()
 
 @end
 
 @implementation FeaturedViewController
+
 
 @synthesize table =_table;
 @synthesize tableData =_tableData;
@@ -48,7 +50,7 @@
 {
     [super viewDidAppear:animated];
     [self.tableData removeAllObjects];
-    
+    [self.table reloadData];
     __block FeaturedViewController *blockself = self;
     [PFCloud  callFunctionInBackground:@"getFeaturedListings" withParameters:[NSDictionary dictionary] block:^(id object, NSError *error)
     {
@@ -104,5 +106,26 @@
     return 120.0f;
 }
 
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    [self.table deselectRowAtIndexPath:indexPath animated:YES];
+    Listing *listing = [self.tableData objectAtIndex:indexPath.row];
+    ListingDetailViewController *details = [[ListingDetailViewController alloc]initWithListing:listing];
+    [self.navigationController pushViewController:details animated:YES];
+}
+
+-(void)toggleMenu
+{
+    [super toggleMenu];
+    self.table.scrollEnabled = active;
+    self.table.userInteractionEnabled = active;
+}
+
+-(void)setActive:(BOOL)value
+{
+    active = value;
+    self.table.scrollEnabled = active;
+    self.table.userInteractionEnabled = active;
+}
 
 @end

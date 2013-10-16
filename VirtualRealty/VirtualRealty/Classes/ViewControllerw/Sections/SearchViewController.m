@@ -9,7 +9,7 @@
 #import "SearchViewController.h"
 
 @interface SearchViewController ()
-
+-(void)handleMakeFilter:(id)sender;
 @end
 
 @implementation SearchViewController
@@ -30,6 +30,14 @@
 
     UISearchBar *searchBar = [[UISearchBar alloc]initWithFrame:CGRectMake(0, 0, 250, 40)];
     self.navigationItem.titleView = searchBar;
+    
+    UIBarButtonItem *filterButton = [[UIBarButtonItem alloc]initWithTitle:@"filter" style:UIBarButtonItemStyleBordered target:self action:@selector(handleMakeFilter:)];
+    self.navigationItem.rightBarButtonItem = filterButton;
 }
 
+
+-(void)handleMakeFilter:(id)sender
+{
+    
+}
 @end

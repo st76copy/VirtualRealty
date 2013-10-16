@@ -37,6 +37,11 @@
     BOOL on = [[self.cellinfo valueForKey:@"current-value"] boolValue];
     self.switchButton.on = on;
     [super render];
+    
+    if( [[self.cellinfo valueForKey:@"read-only"] boolValue ] )
+    {
+        self.switchButton.userInteractionEnabled = NO;
+    }
 }
 
 

@@ -19,7 +19,7 @@
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self)
     {
-    
+        
     }
     return self;
 }
@@ -27,6 +27,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    active = YES;
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc]initWithTitle:@"menu" style:UIBarButtonItemStylePlain target:self action:@selector(toggleMenu)];
 }
 
@@ -38,15 +39,22 @@
         
         if( rect.origin.x == 260 )
         {
+            active = YES;
             rect.origin.x = 0;
         }
         else
         {
+            active = NO;
             rect.origin.x = 260;
         }
         
         self.navigationController.view.frame = rect;
     }];
+}
+
+-(void)setActive:(BOOL)value
+{
+    active = value;
 }
 
 @end

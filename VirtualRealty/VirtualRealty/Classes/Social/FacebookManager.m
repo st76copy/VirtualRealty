@@ -10,15 +10,18 @@
 
 @interface FacebookManager()
 
--(void)handleEmailLoaded:(NSString *)email;
+-(void)handleResultsLoaded:(NSDictionary *)results;
 -(void)handleLoggedIn:(FBSession *)activeSession;
 @end
 
 @implementation FacebookManager
 
-@synthesize currentSession = _currentSession;
-@synthesize email          = _email;
-@synthesize connection     = _connection;
+@synthesize fbid            = _fbid;
+@synthesize currentSession  = _currentSession;
+@synthesize email           = _email;
+@synthesize connection      = _connection;
+@synthesize token           = _token;
+@synthesize tokenExpiration = _tokenExpiration;
 
 +(FacebookManager *)sharedManager
 {
@@ -75,30 +78,31 @@
     {
         _connection = [[FBRequestConnection alloc] init];
     }
-
-    _currentSession = activeSession;
     
-    FBRequest  *requst     = [[FBRequest alloc]initWithSession:self.currentSession graphPath:@"me"];
+    _currentSession    = activeSession;
+    _token             = [self.currentSession accessTokenData].accessToken;
+    _tokenExpiration   = [self.currentSession accessTokenData].expirationDate;
+    FBRequest  *requst = [[FBRequest alloc]initWithSession:self.currentSession graphPath:@"me"];
+    
     [self.connection addRequest:requst completionHandler:^(FBRequestConnection *connection, id result, NSError *error) {
-        NSString *email = [result valueForKey:@"email"];
-        if( email == nil )
+        
+        [blockself handleResultsLoaded:result];
+        
+        
+        if( blockself.loginBlock )
         {
-            if( blockself.loginBlock ){ blockself.loginBlock(NO); }
+            blockself.loginBlock(YES);
         }
-        else
-        {
-            [blockself handleEmailLoaded:email];
-            if( blockself.loginBlock ){ blockself.loginBlock(YES); }
-            
-        }
+        
     }];
     
     [self.connection start];
 }
 
--(void)handleEmailLoaded:(NSString *)email
+-(void)handleResultsLoaded:(NSDictionary *)results
 {
-    _email = email;
+    _email = [results valueForKey:@"email"];
+    _fbid  = [results valueForKey:@"id"];
 }
 
 -(void)logout

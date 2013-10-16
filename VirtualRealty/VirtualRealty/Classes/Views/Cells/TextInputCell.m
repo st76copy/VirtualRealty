@@ -20,6 +20,7 @@
         _inputField = [[UITextField alloc]initWithFrame:CGRectMake(0, 0, 200, 30)];
         self.inputField.backgroundColor = [UIColor colorWithRed:230.0f/255.0f green:230.0f/255.0f blue:230.0f/255.0f alpha:1.0f];
         //self.inputField.delegate = self;
+        self.inputField.autocapitalizationType = UITextAutocapitalizationTypeNone;
         self.inputField.textAlignment  = NSTextAlignmentRight;
         self.inputField.returnKeyType  = UIReturnKeyDone;
         [self.inputField addTarget:self  action:@selector(inputFieldBegan:) forControlEvents:UIControlEventEditingDidBegin];
@@ -45,6 +46,7 @@
 -(void)render
 {
     
+    
     [self.backgroundView setBackgroundColor:[UIColor whiteColor]];
     self.textLabel.text         = [self.cellinfo valueForKey:@"label"];
     self.inputField.placeholder = [self.cellinfo valueForKey:@"placeholder"];
@@ -57,6 +59,17 @@
     {
         self.inputField.text = @"";
     }
+    
+    if( [[self.cellinfo valueForKey:@"read-only"] boolValue ] )
+    {
+        self.inputField.userInteractionEnabled = NO;
+    }
+    
+    if( [[self.cellinfo valueForKey:@"is-secure"] boolValue])
+    {
+        self.inputField.secureTextEntry = YES;
+    }
+
 }
 
 -(void)inputTextChanged:(id)sender

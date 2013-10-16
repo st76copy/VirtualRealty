@@ -15,11 +15,15 @@
 #import "LocationManager.h"
 #import "FacebookManager.h"
 #import "LoadingView.h"
+#import "SQLiteManager.h"
+
 @interface AppDelegate()
 -(void)handleReachabilityKnow;
 -(void)initViewControllers;
 -(void)initThirdPartySDKs;
 -(void)handleNavigationRequest:(NSDictionary *)info;
+-(void)handleSwipeLeft:(UISwipeGestureRecognizer *)sender;
+-(void)handleSwipeRight:(UISwipeGestureRecognizer *)sender;
 @end
 
 @implementation AppDelegate
@@ -34,6 +38,22 @@
     
     self.window.rootViewController = [[LoadingViewController alloc]initWithNibName:nil bundle:nil];
     self.window.backgroundColor    = [UIColor whiteColor];
+    
+    [[SQLiteManager sharedDatabase]setUp:^(DatabaseState state) {
+        switch (state) {
+            case kDatabaseError :
+                break;
+                
+            case kDatabaseUpdated :
+                break;
+                
+            case kDatabaseValid :
+                break;
+            
+            case kDatabaseInvalid :
+                break;
+        }
+    }];
     
     _loadingView = [[LoadingView alloc]initWithFrame:self.window.frame];
     __block AppDelegate *blockself = self;
@@ -63,6 +83,15 @@
     [[LocationManager shareManager]startGettingLocations];
     [self initThirdPartySDKs];
     [self initViewControllers];
+    
+    UISwipeGestureRecognizer *leftSwipe = [[UISwipeGestureRecognizer alloc]initWithTarget:self action:@selector(handleSwipeLeft:)];
+    UISwipeGestureRecognizer *rightSwipe = [[UISwipeGestureRecognizer alloc]initWithTarget:self action:@selector(handleSwipeRight:)];
+    
+    leftSwipe.direction = UISwipeGestureRecognizerDirectionLeft;
+    rightSwipe.direction = UISwipeGestureRecognizerDirectionRight;
+    [self.window addGestureRecognizer:leftSwipe];
+    [self.window addGestureRecognizer:rightSwipe];
+
 }
 
 -(void) initViewControllers
@@ -145,7 +174,6 @@
 - (void)applicationWillEnterForeground:(UIApplication *)application{}
 - (void)applicationWillTerminate:(UIApplication *)application{}
 
-
 -(BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation
 {
     return [FBAppCall handleOpenURL:url sourceApplication:sourceApplication withSession:[FacebookManager sharedManager].currentSession ];
@@ -160,6 +188,31 @@
 -(void)hideLoader
 {
     [self.loadingView hide];
+}
+
+#pragma mark - window getstures
+-(void)handleSwipeLeft:(UISwipeGestureRecognizer *)sender
+{
+    [UIView animateWithDuration:0.3 animations:^{
+        CGRect rect = self.section.view.frame;
+        rect.origin.x = 0;
+        self.section.view.frame = rect;
+        AbstractViewController *avc =(AbstractViewController *)[self.section.viewControllers objectAtIndex:0];
+        [avc setActive:YES];
+    }];
+
+}
+
+-(void)handleSwipeRight:(UISwipeGestureRecognizer *)sender
+{
+    [UIView animateWithDuration:0.3 animations:^
+    {
+        CGRect rect = self.section.view.frame;
+        rect.origin.x = 260;
+        self.section.view.frame = rect;
+        AbstractViewController *avc = (AbstractViewController *)[self.section.viewControllers objectAtIndex:0];
+        [avc setActive:NO];
+    }];
 }
 
 @end

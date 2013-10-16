@@ -13,7 +13,7 @@
 #define kDATABASE_VERSION_KEY   @"database-version-key"
 #define kDATABASE_FILE_NAME     @"virtualrealty.sqlite"
 #define kDATABASE_QUEUE         "com.vr.virtualrealty.dbqueue"
-#define kDATABASE_VERSION       1.1f
+#define kDATABASE_VERSION       1.0f
 
 typedef enum DatabaseState
 {

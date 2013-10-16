@@ -138,7 +138,6 @@
 
 -(NSArray *)performSelect:(SQLRequest *)request
 {
-    sqlite3_reset(_databaseStatement);
     
     const char *sql    = [request.query UTF8String];
     int statementReady = sqlite3_prepare_v2(self.database, sql, -1, &_databaseStatement, NULL);
@@ -174,13 +173,13 @@
         queryResults = nil;
         [request setErrorMessage:[NSString stringWithUTF8String:sqlite3_errmsg(self.database)]];
     }
+    sqlite3_reset(_databaseStatement);
+    sqlite3_finalize(_databaseStatement);
     return queryResults;
 }
 
 -(BOOL)performAction:(SQLRequest *)request
 {
-    
-    sqlite3_reset(_databaseStatement);
     
     BOOL success       = NO;
     const char *sql    = [request.query UTF8String];
@@ -204,6 +203,7 @@
         success = NO;
     }
     sqlite3_reset(_databaseStatement);
+    sqlite3_finalize(_databaseStatement);
     return  success;
 }
 

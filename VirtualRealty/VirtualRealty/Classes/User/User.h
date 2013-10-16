@@ -26,7 +26,7 @@ typedef void (^LoginInCompleteBlock) (BOOL success);
 -(void)signupWithUsername:(NSString *)username andPassword:(NSString *)password andBlock:(LoginInCompleteBlock)block;
 -(void)loginWithFacebook:(LoginInCompleteBlock)block;
 -(void)logout;
-
+-(BOOL)valid;
 
 +(User* )sharedUser;
 @end

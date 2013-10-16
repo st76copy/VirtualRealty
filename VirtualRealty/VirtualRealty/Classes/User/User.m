@@ -16,9 +16,9 @@
 -(void)handleUserLoggedIn:(PFUser *)temp;
 -(void)loadFromDefaults;
 -(void)saveToDefaults:(PFUser *)user;
+-(void)authFacebookUser;
+-(void)handleFacebookAuth:(PFUser *)user;
 
--(void)tryRegisterFacebookUser:(PFUser *)temp;
--(void)tryLoginFacebookUser:(PFUser *)temp;
 @end
 
 @implementation User
@@ -157,7 +157,6 @@
 #pragma mark - facebook flow
 -(void)loginWithFacebook:(LoginInCompleteBlock)block
 {
-    
     self.loginBlock = block;
     
     __block User *blockself = self;
@@ -167,13 +166,7 @@
     {
         if( success )
         {
-            __block PFUser *temp  = [PFUser user];
-            temp.username = fb.email;
-            temp.email    = fb.email;
-            temp.password = kFACEBOOK_USER;
-            
-            [temp addObject:[NSNumber numberWithBool:YES] forKey:@"facebook_user"];
-            [blockself tryRegisterFacebookUser:temp];
+            [blockself authFacebookUser];
         }
         else
         {
@@ -181,29 +174,34 @@
             [[ErrorFactory getAlertForType:kUserLoginFailError andDelegateOrNil:nil andOtherButtons:nil]show];
         }
     }];
+    
 }
 
--(void)tryRegisterFacebookUser:(PFUser *)temp
+-(void)authFacebookUser
 {
     __block User *blockself = self;
-    
-    [temp signUpInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
-        if( succeeded )
+    FacebookManager *fb = [FacebookManager sharedManager];
+    [PFFacebookUtils initializeFacebook];   
+    [PFFacebookUtils logInWithFacebookId:fb.fbid accessToken:fb.token expirationDate:fb.tokenExpiration block:^(PFUser *user, NSError *error)
+    {
+        if( user )
         {
-            [blockself loginWithUsername:temp.username andPassword:temp.password andBlock:self.loginBlock];
+            [blockself handleFacebookAuth:user];
+            blockself.loginBlock(YES);
+            [[NSNotificationCenter defaultCenter]postNotificationName:kLOGIN_NOTIFICATION_NAME object:nil];
         }
         else
         {
-            [blockself tryLoginFacebookUser:temp];
+            blockself.loginBlock(NO);
         }
     }];
+    
 }
 
--(void)tryLoginFacebookUser:(PFUser *)temp
+-(void)handleFacebookAuth:(PFUser *)user
 {
-    [self loginWithUsername:temp.username andPassword:temp.password andBlock:self.loginBlock ];
+    [self saveToDefaults:user];
 }
-
 
 -(void)logout
 {
@@ -220,5 +218,10 @@
     [[NSNotificationCenter defaultCenter]postNotificationName:kLOGOUT_NOTIFICATION_NAME object:nil];
 }
 
+-(BOOL)valid
+{
+    return ( self.uid == nil  ) ? NO : YES;
+}
 
 @end
+    

@@ -7,6 +7,14 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		16261BB31809A19400F44578 /* ListingDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 16261BB21809A19400F44578 /* ListingDetailViewController.m */; };
+		16261BB51809A32E00F44578 /* listingdetails.plist in Resources */ = {isa = PBXBuildFile; fileRef = 16261BB41809A32E00F44578 /* listingdetails.plist */; };
+		16261BB81809B30900F44578 /* DetailsCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 16261BB71809B30900F44578 /* DetailsCell.m */; };
+		16261BBB1809BBD600F44578 /* virtualrealty.sqlite in Resources */ = {isa = PBXBuildFile; fileRef = 16261BBA1809BBD600F44578 /* virtualrealty.sqlite */; };
+		16261BBE1809D7E400F44578 /* QueryFactory.m in Sources */ = {isa = PBXBuildFile; fileRef = 16261BBD1809D7E400F44578 /* QueryFactory.m */; };
+		16261BC1180A2D9100F44578 /* SearchFilters.m in Sources */ = {isa = PBXBuildFile; fileRef = 16261BC0180A2D9100F44578 /* SearchFilters.m */; };
+		16261BC4180A2DA200F44578 /* Filter.m in Sources */ = {isa = PBXBuildFile; fileRef = 16261BC3180A2DA200F44578 /* Filter.m */; };
+		16261BC7180A2E0200F44578 /* FilterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 16261BC6180A2E0200F44578 /* FilterViewController.m */; };
 		16D50952180388000028E5D4 /* ListingCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 16D50951180388000028E5D4 /* ListingCell.m */; };
 		16E7AD9F17FA4FE6000C2D74 /* FacebookSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 16E7AD9D17FA4FE6000C2D74 /* FacebookSDK.framework */; };
 		16E7ADA017FA4FE6000C2D74 /* Parse.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 16E7AD9E17FA4FE6000C2D74 /* Parse.framework */; };
@@ -114,6 +122,20 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		16261BB11809A19400F44578 /* ListingDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ListingDetailViewController.h; sourceTree = "<group>"; };
+		16261BB21809A19400F44578 /* ListingDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ListingDetailViewController.m; sourceTree = "<group>"; };
+		16261BB41809A32E00F44578 /* listingdetails.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = listingdetails.plist; path = Assets/plist/listingdetails.plist; sourceTree = "<group>"; };
+		16261BB61809B30900F44578 /* DetailsCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DetailsCell.h; path = Cells/DetailsCell.h; sourceTree = "<group>"; };
+		16261BB71809B30900F44578 /* DetailsCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DetailsCell.m; path = Cells/DetailsCell.m; sourceTree = "<group>"; };
+		16261BBA1809BBD600F44578 /* virtualrealty.sqlite */ = {isa = PBXFileReference; lastKnownFileType = file; path = virtualrealty.sqlite; sourceTree = "<group>"; };
+		16261BBC1809D7E400F44578 /* QueryFactory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QueryFactory.h; sourceTree = "<group>"; };
+		16261BBD1809D7E400F44578 /* QueryFactory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QueryFactory.m; sourceTree = "<group>"; };
+		16261BBF180A2D9100F44578 /* SearchFilters.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SearchFilters.h; path = Data/SearchFilters.h; sourceTree = "<group>"; };
+		16261BC0180A2D9100F44578 /* SearchFilters.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SearchFilters.m; path = Data/SearchFilters.m; sourceTree = "<group>"; };
+		16261BC2180A2DA200F44578 /* Filter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Filter.h; path = Data/Filter.h; sourceTree = "<group>"; };
+		16261BC3180A2DA200F44578 /* Filter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Filter.m; path = Data/Filter.m; sourceTree = "<group>"; };
+		16261BC5180A2E0200F44578 /* FilterViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FilterViewController.h; sourceTree = "<group>"; };
+		16261BC6180A2E0200F44578 /* FilterViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FilterViewController.m; sourceTree = "<group>"; };
 		16D50950180388000028E5D4 /* ListingCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ListingCell.h; path = Cells/ListingCell.h; sourceTree = "<group>"; };
 		16D50951180388000028E5D4 /* ListingCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ListingCell.m; path = Cells/ListingCell.m; sourceTree = "<group>"; };
 		16E7AD9D17FA4FE6000C2D74 /* FacebookSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FacebookSDK.framework; sourceTree = "<group>"; };
@@ -317,6 +339,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		16261BB91809BBD600F44578 /* Database */ = {
+			isa = PBXGroup;
+			children = (
+				16261BBA1809BBD600F44578 /* virtualrealty.sqlite */,
+			);
+			path = Database;
+			sourceTree = "<group>";
+		};
 		8333DD2C17E4B2A700645B3E = {
 			isa = PBXGroup;
 			children = (
@@ -368,6 +398,7 @@
 		8333DD3E17E4B2A700645B3E /* VirtualRealty */ = {
 			isa = PBXGroup;
 			children = (
+				16261BB91809BBD600F44578 /* Database */,
 				838491B817E4D34B00CBABFE /* Assets */,
 				83ABFE4F17E4B9DB007ECB53 /* Libs */,
 				8333DD6717E4B2E700645B3E /* Classes */,
@@ -461,6 +492,8 @@
 				836DF2D217E4B7B2002BD42E /* SQLiteRequestQueue.m */,
 				836DF2D317E4B7B2002BD42E /* SQLRequest.h */,
 				836DF2D417E4B7B2002BD42E /* SQLRequest.m */,
+				16261BBC1809D7E400F44578 /* QueryFactory.h */,
+				16261BBD1809D7E400F44578 /* QueryFactory.m */,
 			);
 			path = Datbase;
 			sourceTree = "<group>";
@@ -552,6 +585,10 @@
 				838491C817E4D4B700CBABFE /* AddApartmentViewController.m */,
 				838491CA17E4D4CB00CBABFE /* SettingsViewController.h */,
 				838491CB17E4D4CB00CBABFE /* SettingsViewController.m */,
+				16261BB11809A19400F44578 /* ListingDetailViewController.h */,
+				16261BB21809A19400F44578 /* ListingDetailViewController.m */,
+				16261BC5180A2E0200F44578 /* FilterViewController.h */,
+				16261BC6180A2E0200F44578 /* FilterViewController.m */,
 			);
 			path = Sections;
 			sourceTree = "<group>";
@@ -603,6 +640,7 @@
 		838491B917E4D35100CBABFE /* plist */ = {
 			isa = PBXGroup;
 			children = (
+				16261BB41809A32E00F44578 /* listingdetails.plist */,
 				838491BC17E4D3E300CBABFE /* nav.plist */,
 				838491E217E4DD4600CBABFE /* login.plist */,
 				838491E717E4E16E00CBABFE /* signup.plist */,
@@ -639,6 +677,8 @@
 				16E7ADAC1800ADFF000C2D74 /* MediaCell.m */,
 				16D50950180388000028E5D4 /* ListingCell.h */,
 				16D50951180388000028E5D4 /* ListingCell.m */,
+				16261BB61809B30900F44578 /* DetailsCell.h */,
+				16261BB71809B30900F44578 /* DetailsCell.m */,
 			);
 			name = Cells;
 			sourceTree = "<group>";
@@ -654,6 +694,10 @@
 				838491D817E4D6E400CBABFE /* Listing.m */,
 				838491DB17E4D76400CBABFE /* ListingMedia.h */,
 				838491DC17E4D76400CBABFE /* ListingMedia.m */,
+				16261BBF180A2D9100F44578 /* SearchFilters.h */,
+				16261BC0180A2D9100F44578 /* SearchFilters.m */,
+				16261BC2180A2DA200F44578 /* Filter.h */,
+				16261BC3180A2DA200F44578 /* Filter.m */,
 			);
 			name = Data;
 			sourceTree = "<group>";
@@ -807,6 +851,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				16261BB51809A32E00F44578 /* listingdetails.plist in Resources */,
+				16261BBB1809BBD600F44578 /* virtualrealty.sqlite in Resources */,
 				838491BD17E4D3E300CBABFE /* nav.plist in Resources */,
 				83C2A20917E74B0200481CC0 /* settings.plist in Resources */,
 				8333DD4317E4B2A700645B3E /* InfoPlist.strings in Resources */,
@@ -841,6 +887,7 @@
 				838491D017E4D65A00CBABFE /* AbstractCell.m in Sources */,
 				838491C017E4D47F00CBABFE /* UserContentViewController.m in Sources */,
 				16E7ADAD1800ADFF000C2D74 /* MediaCell.m in Sources */,
+				16261BC4180A2DA200F44578 /* Filter.m in Sources */,
 				836DF2F017E4B7B2002BD42E /* NSDate+Extended.m in Sources */,
 				8316BCA717EA6A1700150FDD /* NumberInputCell.m in Sources */,
 				83ABFE7517E4B9DB007ECB53 /* AFURLSessionManager.m in Sources */,
@@ -860,8 +907,10 @@
 				83ABFE6E17E4B9DB007ECB53 /* AFHTTPRequestOperation.m in Sources */,
 				836DF2F717E4B7B2002BD42E /* SQLRequest.m in Sources */,
 				838491DD17E4D76400CBABFE /* ListingMedia.m in Sources */,
+				16261BB81809B30900F44578 /* DetailsCell.m in Sources */,
 				838491E117E4DCE500CBABFE /* LoginViewController.m in Sources */,
 				838491D917E4D6E400CBABFE /* Listing.m in Sources */,
+				16261BBE1809D7E400F44578 /* QueryFactory.m in Sources */,
 				838491EB17E4E6FA00CBABFE /* FormCell.m in Sources */,
 				838491B717E4D2B200CBABFE /* LoadingViewController.m in Sources */,
 				838491E617E4DE7400CBABFE /* TextInputCell.m in Sources */,
@@ -871,7 +920,9 @@
 				83ABFE7617E4B9DB007ECB53 /* AFXMLRequestOperation.m in Sources */,
 				836DF2F817E4B7B2002BD42E /* ErrorFactory.m in Sources */,
 				836DF2F917E4B7B2002BD42E /* DiscManager.m in Sources */,
+				16261BC7180A2E0200F44578 /* FilterViewController.m in Sources */,
 				836DF2FA17E4B7B2002BD42E /* JSONService.m in Sources */,
+				16261BB31809A19400F44578 /* ListingDetailViewController.m in Sources */,
 				838491D317E4D6B500CBABFE /* UserCell.m in Sources */,
 				83ABFE6C17E4B9DB007ECB53 /* AFHTTPClient+Rocket.m in Sources */,
 				83B85A3D17E7CC58008E6DEB /* Row.m in Sources */,
@@ -887,6 +938,7 @@
 				83ABFE7017E4B9DB007ECB53 /* AFJSONPatchSerializer.m in Sources */,
 				83B85A3717E7C42C008E6DEB /* TextCell.m in Sources */,
 				83ABFE7317E4B9DB007ECB53 /* AFSerialization.m in Sources */,
+				16261BC1180A2D9100F44578 /* SearchFilters.m in Sources */,
 				836DF2FE17E4B7B2002BD42E /* NavViewController.m in Sources */,
 				83A696EB17E76F640027FBAE /* FacebookManager.m in Sources */,
 				83ABFE7117E4B9DB007ECB53 /* AFJSONRequestOperation.m in Sources */,

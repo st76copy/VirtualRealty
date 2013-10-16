@@ -40,6 +40,12 @@
     return self;
 }
 
+-(void)prepareForReuse
+{
+    [super prepareForReuse];
+    self.thumb.image = nil;
+}
+
 -(void)layoutSubviews
 {
     [super layoutSubviews];

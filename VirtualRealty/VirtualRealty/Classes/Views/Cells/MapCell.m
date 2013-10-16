@@ -133,7 +133,43 @@
 
 -(void)render
 {
+    __block MapCell *blockself = self;
+    self.addresssLabel.text = [self.cellinfo valueForKey:@"current-value"];
     
+    if( [self.cellinfo valueForKey:@"current-value"] )
+    {
+        [[LocationManager shareManager]removeDelegate:self];
+        [[LocationManager shareManager]geoCodeUsingAddress:[self.cellinfo valueForKey:@"current-value"] block:^(CLLocationCoordinate2D loc)
+        {
+             
+            [blockself.map setCenterCoordinate:loc animated:YES];
+            MKCoordinateRegion region;
+            region.center = loc;
+            
+            MKCoordinateSpan span;
+            span.latitudeDelta  = 0.01;
+            span.longitudeDelta = 0.01;
+            region.span = span;
+             
+            MKPointAnnotation *annotation = [[MKPointAnnotation alloc] init];
+            [annotation setCoordinate:loc];
+            [self.map addAnnotation:annotation];
+            
+            [blockself.map setRegion:region animated:YES];
+            blockself.formValue = [LocationManager shareManager].currentAddress;
+            
+            if( self.formDelegate )
+            {
+                [blockself.formDelegate cell:self didChangeForField:[[self.cellinfo valueForKey:@"field"]intValue]];
+            }
+        }];
+    }
+    
+    if( [[self.cellinfo valueForKey:@"read-only"] boolValue ] )
+    {
+        [self.wrongAddressButton removeFromSuperview];
+        [self.wrongAddressButton removeTarget:self action:@selector(handleWrongAddresss:)forControlEvents:UIControlEventTouchUpInside];
+    }
 }
 
 @end

@@ -132,4 +132,19 @@
     [self.table reloadData];
 }
 
+-(void)toggleMenu
+{
+    [super toggleMenu];
+    self.table.scrollEnabled = active;
+    self.table.userInteractionEnabled = active;
+}
+
+-(void)setActive:(BOOL)value
+{
+    active = value;
+    self.table.scrollEnabled = active;
+    self.table.userInteractionEnabled = active;
+}
+
+
 @end

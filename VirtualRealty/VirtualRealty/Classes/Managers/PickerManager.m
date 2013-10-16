@@ -60,6 +60,8 @@
         _datePicker = [[UIDatePicker alloc]initWithFrame:CGRectMake(0, 44, 320, 250)];
         _standardPicker = [[UIPickerView alloc]initWithFrame:CGRectMake(0, 44, 320, 250)];
     
+        self.datePicker.datePickerMode = UIDatePickerModeDate;
+        
         [self.container addSubview:_datePicker];
         [self.container addSubview:_standardPicker];
         [self.container sendSubviewToBack:self.standardPicker];

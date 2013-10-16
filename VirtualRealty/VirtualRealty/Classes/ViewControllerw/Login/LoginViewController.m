@@ -187,11 +187,11 @@
                     if( success )
                     {
                         [blockself.loadingView hide];
-                        [self dismissViewControllerAnimated:YES completion:nil];
+                        [blockself dismissViewControllerAnimated:YES completion:nil];
                     }
                     else
                     {
-                       
+                        [blockself.loadingView hide];
                     }
                 }];
             }
@@ -206,11 +206,11 @@
                     if( success )
                     {
                         [blockself.loadingView hide];
-                        [self dismissViewControllerAnimated:YES completion:nil];
+                        [blockself dismissViewControllerAnimated:YES completion:nil];
                     }
                     else
                     {
-                        
+                        [blockself.loadingView hide];
                     }
                 }];
             }

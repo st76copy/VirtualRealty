@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Review</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+<script type="application/javascript" src="/js/jquery-2.0.3.js"></script>
+<script type="application/javascript" src="/js/parse.js"></script>
+<link rel="stylesheet" type="text/css" href="/css/styles.css"  />
+
+</head>
+
+<body>
+<div id="header">
+	<h1>All Listings</h1>
+</div>
+<div id="all-addresses">
+	<ul id="list"></ul>
+</div>
+<div id="listing-detail">
+	<div id="info">
+	    <h4 id="address"></h4>
+        <p id="submitter-id"></p>
+        <select id="state-box">
+            <option value="0">Pending</option>
+            <option value="1">Vacant</option>
+            <option value="2">Rented</option>
+        </select>
+    </div>
+    <div id="media">
+    	<img id="thumb" src="" width="400" height="300" />
+    	<video id="video" width="400" height="300" controls>
+        	 <source id="video-source" src="" type="video/mp4"></source>
+        </video>
+    </div>
+</div>
+</body>
+<script type="application/javascript">
+
+	var appid 	  = "yIp5Z8ERGHY8ELMVvfo4kGJuACTMUPNh5zxGhGuB";
+	var jskey 	  = "1jiGI5BvegoaJayj5qt4jd4iAx0Vx9d9HOOEr2OQ";
+	var masterkey = "zCcuZhyqyIQ8zrQd8Dhy01BsCNbk6eShZTD73Qev";
+
+	this.currentListing = null;
+	var self  = this;
+	
+	function handleLoaded()
+	{
+		var params = {
+			type:"GET",
+			url:"https://api.parse.com/1/classes/Listing",
+			beforeSend: function (request)
+            {
+                request.setRequestHeader("X-Parse-Application-Id", appid);
+			 	request.setRequestHeader("X-Parse-REST-API-Key", jskey);
+            },
+			success : function(data)
+			{
+				self.handleListingsLoaded(data);
+			},
+			error:function( jqXHR ,textStatus, errorThrown)
+			{
+				alert(errorThrown);
+			}	
+		};
+		
+		$.ajax( params );
+	}
+	
+	function handleListingsLoaded( data  )
+	{
+		var list = "";
+		for( var i =0; i < data.results.length; i++ )
+		{
+			var obj  = data.results[i];
+			var link = obj.objectId;
+			var li   = "<li><a id=\""+link+"\" href=\"javascript:void()\" onClick=\"handleLinkClick('"+link+"')\">"+obj.address+"</a></li>";
+			list = list.concat(li);
+		}
+		$( "#list" ).append( list );
+	}
+	
+	function handleLinkClick(obj)
+	{
+		var params = {
+			type:"GET",
+			url:"https://api.parse.com/1/classes/Listing/"+obj,
+			beforeSend: function (request)
+            {
+                request.setRequestHeader("X-Parse-Application-Id", appid);
+			 	request.setRequestHeader("X-Parse-REST-API-Key", jskey);
+            },
+			success : function(data)
+			{
+				self.handleListingInfoLoaded(data);
+			},
+			error:function( jqXHR ,textStatus, errorThrown)
+			{
+				alert(errorThrown);
+			}
+			
+		};
+		$("#listing-detail").css("visibility", "visible");
+		$.ajax( params );
+	}	
+	
+	function handleListingInfoLoaded(obj)
+	{
+		$( "#state-box" ).unbind( "change" );
+		
+		currentListing = obj;
+		
+		$("#address").text( obj.address );
+		$("#submitter-id").text( "submitted by : " + obj.submitterID );
+		$("#state-box").val( obj.listingState );
+		
+		$("#state-box").change( function () 
+		{
+			self.updateDetailsState( this.value );
+		});
+		loadImage();
+		loadVideo();  
+	}
+
+
+//
+	function loadImage()
+	{
+		var params = {
+			type:"GET",
+			contentTupe:'application/x-www-form-urlencoded; charset=UTF-8',
+			url:"https://api.parse.com/1/classes/ListingImage",
+			data:"where={\"listingID\" : \""+self.currentListing.objectId+"\"}",
+			beforeSend: function (request)
+            {
+			    request.setRequestHeader("X-Parse-Application-Id", appid);
+			 	request.setRequestHeader("X-Parse-REST-API-Key", jskey);
+            },
+			success : function(response)
+			{
+				self.handleImageLoaded(response.results[0]);
+			},
+			error:function( jqXHR ,textStatus, errorThrown)
+			{
+				alert("error "+ errorThrown);
+			}	
+		};
+		
+		$.ajax( params );
+	}
+	
+	function handleImageLoaded( img )
+	{
+		$("#thumb").attr( "src" ,img.bitmap.url ); 
+	}
+	
+	function loadVideo()
+	{
+		var params = {
+			type:"GET",
+			contentTupe:'application/x-www-form-urlencoded; charset=UTF-8',
+			url:"https://api.parse.com/1/classes/ListingVideo",
+			data:"where={\"listingID\" : \""+self.currentListing.objectId+"\"}",
+			beforeSend: function (request)
+            {
+			    request.setRequestHeader("X-Parse-Application-Id", appid);
+			 	request.setRequestHeader("X-Parse-REST-API-Key", jskey);
+            },
+			success : function(response)
+			{
+				self.handleVideoLoaded( response.results[0] );
+			},
+			error:function( jqXHR ,textStatus, errorThrown)
+			{
+				alert("error "+ errorThrown);
+			}	
+		};
+		
+		$.ajax( params );
+	}
+	
+	function handleVideoLoaded(obj)
+	{
+		$("#video-source").attr( "src" , obj.videofile.url ); 
+	}
+	
+	function updateDetailsState( state )
+	{
+		var params = {
+			contentType:"application/json",
+			type:"PUT",
+			data:	"{ \"listingState\" : "+state+" }",
+			url:"https://api.parse.com/1/classes/Listing/"+this.currentListing.objectId,
+			beforeSend: function (request)
+            {
+                request.setRequestHeader("X-Parse-Application-Id", appid);
+			 	request.setRequestHeader("X-Parse-REST-API-Key", jskey);
+            },
+			success : function(data)
+			{
+				alert( "listing : " + self.currentListing.objectId + " has been updated updated");
+			},
+			error:function( jqXHR ,textStatus, errorThrown)
+			{
+				alert(errorThrown);
+			}
+		};
+		$.ajax( params );
+	}
+	
+	$(document).ready( handleLoaded );
+	
+</script>
+</body>
+</html>

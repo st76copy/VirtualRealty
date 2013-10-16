@@ -62,6 +62,7 @@
         self.brokerfee    = [info valueForKey:@"brokerfee"];
         self.objectId     = [info valueForKey:@"objectId"];
         
+        self.moveInDate   = [info valueForKey:@"moveInDate"];
         self.outdoorSpace = [info valueForKey:@"outdoorSpace"];
         self.dogs         = [info valueForKey:@"dogs"];
         self.cats         = [info valueForKey:@"cats"];
@@ -242,13 +243,7 @@
             [userPhoto setObject:imageFile                  forKey:@"bitmap"];
             [userPhoto setObject:name                       forKey:@"name"];
             [userPhoto setObject:blocklisting.objectId      forKey:@"listingID"];
-            
             [userPhoto setObject:[User sharedUser].username forKey:@"username"];
-            
-            PFUser *temp = [PFUser user];
-            temp.username = @"*";
-            temp.objectId = @"*";
-            userPhoto.ACL = [PFACL ACLWithUser:temp];
             
             [userPhoto saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
                 if (!error)
@@ -284,12 +279,7 @@
             [userVideo setObject:name      forKey:@"name"];
             [userVideo setObject:[User sharedUser].username forKey:@"username"];
             [userVideo setObject:blocklisting.objectId      forKey:@"listingID"];
-        
-            PFUser *temp = [PFUser user];
-            temp.username = @"*";
-            temp.objectId = @"*";
-            userVideo.ACL = [PFACL ACLWithUser:temp];
-            
+    
             [userVideo saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
                 if (!error)
                 {

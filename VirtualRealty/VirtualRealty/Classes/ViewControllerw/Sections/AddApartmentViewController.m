@@ -80,7 +80,6 @@
     [_table setDataSource:self];
     [_table setDelegate:self];
     [self.view addSubview:_table];
-    editMode = NO;
 }
 
 -(void)viewDidAppear:(BOOL)animated
@@ -152,6 +151,8 @@
     {
         [cell clearError];
     }
+    
+    cell.selectionStyle = UITableViewCellSelectionStyleGray;
     
     return cell;
 }
@@ -596,4 +597,19 @@
 {
     [self dismissViewControllerAnimated:YES completion:nil];
 }
+
+-(void)toggleMenu
+{
+    [super toggleMenu];
+    self.table.scrollEnabled = active;
+    self.table.userInteractionEnabled = active;
+}
+
+-(void)setActive:(BOOL)value
+{
+    active = value;
+    self.table.scrollEnabled = active;
+    self.table.userInteractionEnabled = active;
+}
+
 @end

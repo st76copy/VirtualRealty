@@ -9,7 +9,12 @@
 #import <UIKit/UIKit.h>
 
 @interface AbstractViewController : UIViewController
+{
+    BOOL active;
+}
 
 -(void)toggleMenu;
+-(void)setActive:(BOOL)value;
+
 
 @end
