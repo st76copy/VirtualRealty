@@ -18,8 +18,11 @@
     key   : Configuration
     value : ${CONFIGURATION}
 */
-+(BuildEnvironment)getCurrentBuildEnvironment;
 
+
+
++(BuildEnvironment)getCurrentBuildEnvironment;
++(UIImage *)resizeImage:(UIImage *)img toSize:(CGSize)size;
 /* Short hand method for ducments directory */
 +(NSString *)getDocsDirectory;
 
@@ -31,4 +34,5 @@
 
 +(BOOL)isValidEmail:(NSString *)checkString;
 +(BOOL)isValidPassword:(NSString *)checkString;
+
 @end

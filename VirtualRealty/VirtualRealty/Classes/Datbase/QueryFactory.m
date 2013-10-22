@@ -19,8 +19,8 @@
 +(NSString *)getSaveListingQuery:(Listing *)listing
 {
     NSString *template = @"INSERT INTO UserListings"
-        "( uid, user_id,address,unit, neighborhood, movin_cost,montly_cost,movein_date, bedrooms, bathrooms, broker_fee, outdoor_space, cats, dogs, gym, listing_state, washer_dryer )"
-        "VALUES ('%@', '%@', '%@', '%@', '%@', %0.2f,%0.2f, '%@', %i, %i, %d, %d, %d, %d, %d, %i, %d );";
+        "( uid, user_id,address,unit, neighborhood, movin_cost,montly_cost,movein_date, bedrooms, bathrooms, broker_fee, outdoor_space, cats, dogs, gym, listing_state, washer_dryer, keywords )"
+        "VALUES ('%@', '%@', '%@', '%@', '%@', %0.2f,%0.2f, '%@', %i, %i, %d, %d, %d, %d, %d, %i, %d, %@ );";
     NSString *sql = [NSString stringWithFormat:template,
                      listing.objectId,
                      [User sharedUser].uid,
@@ -38,7 +38,8 @@
                      [listing.dogs boolValue],
                      [listing.gym boolValue],
                      [listing.listingState intValue],
-                     [listing.washerDryer boolValue]];
+                     [listing.washerDryer boolValue],
+                     [listing.keywords componentsJoinedByString:@","]];
                      
     
     return sql;

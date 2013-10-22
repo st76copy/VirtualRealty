@@ -16,10 +16,13 @@ typedef void (^LoadMediaBlock) (BOOL success);
 
 -(id)initWithDefaults;
 -(id)initWithFullData:(NSDictionary *)info;
+-(id)initWithSQLData:(NSDictionary *)info;
 -(NSDictionary * )toDictionary;
 -(NSMutableArray *)isValid;
 
 -(void)loadThumb:( LoadMediaBlock )block;
+-(void)loadVideo:( LoadMediaBlock )block;
+
 
 -(void)clearErrorForField:(FormField)field;
 -(void)saveMedia:( SaveMediaBlock )block;
@@ -60,8 +63,8 @@ typedef void (^LoadMediaBlock) (BOOL success);
 
 @property(nonatomic, strong)UIImage  *thumb;
 @property(nonatomic, strong)NSData   *video;
-
-
+@property(nonatomic, strong)NSArray  *keywords;
+@property(nonatomic, strong, readonly)NSURL *videoURL;
 
 
 @end

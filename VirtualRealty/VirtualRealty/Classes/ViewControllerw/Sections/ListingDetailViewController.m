@@ -13,8 +13,9 @@
 #import "QueryFactory.h"
 #import "SQLiteManager.h"
 #import "User.h"
-
+#import <MediaPlayer/MediaPlayer.h>
 #import <Parse/Parse.h>
+#import "ErrorFactory.h"
 @interface ListingDetailViewController ()<UIAlertViewDelegate>
 
 -(void)deleteObject;
@@ -25,7 +26,8 @@
 -(void)deleteFavorite:(id)sender;
 -(void)handleFavoriteSaved;
 -(void)handleDeleteComplete;
-
+-(void)handlePlayVideo;
+-(void)handleVideoDataLoaded;
 @end
 
 @implementation ListingDetailViewController
@@ -52,9 +54,7 @@
     
     self.view.backgroundColor = [UIColor grayColor];
     CGRect rect = self.view.bounds;
-    
-    
-    
+
     _table = [[UITableView alloc]initWithFrame:rect style:UITableViewStyleGrouped];
     [_table setDataSource:self];
     [_table setDelegate:self];
@@ -70,7 +70,7 @@
     
     if( [[User sharedUser]valid] )
     {
-        if( [self.listing.submitterObjectId intValue] == [[User sharedUser].uid intValue] )
+        if( [self.listing.submitterObjectId isEqualToString: [User sharedUser].uid ] )
         {
             UIBarButtonItem *delete = [[UIBarButtonItem alloc]initWithTitle:@"Delete Listing" style:UIBarButtonItemStyleBordered target:self action:@selector(handleDeleteListing:)];
             self.navigationItem.rightBarButtonItem = delete;
@@ -168,6 +168,17 @@
     [cell render];
     
     return cell;
+}
+
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    [self.table deselectRowAtIndexPath:indexPath animated:YES];
+    FormCell *cell = (FormCell  *)[self.table cellForRowAtIndexPath:indexPath];
+    NSString *customAction = [cell.cellinfo valueForKey:@"custom-action"];
+    if( customAction )
+    {
+        [self performSelector:NSSelectorFromString(customAction)];
+    }
 }
 
 #pragma - get model data
@@ -339,6 +350,27 @@
     }];
 }
 
+-(void)handlePlayVideo
+{
+    __block ListingDetailViewController *blockself = self;
+    
+    [self.listing loadVideo:^(BOOL success) {
+        if( success )
+        {
+            [blockself handleVideoDataLoaded];
+        }
+        else
+        {
+            [[ErrorFactory getAlertForType:kMediaNotAvailableError andDelegateOrNil:nil andOtherButtons:nil]show];
+        }
+    }];
+}
 
+-(void)handleVideoDataLoaded
+{
+    MPMoviePlayerViewController *vc = [[MPMoviePlayerViewController alloc]initWithContentURL:self.listing.videoURL];
+    [self presentViewController:vc animated:YES completion:nil];
+    [vc.moviePlayer play ];
+}
 
 @end

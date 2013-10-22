@@ -56,6 +56,15 @@
     return  environment;
 }
 
++(UIImage *)resizeImage:(UIImage *)img toSize:(CGSize)size
+{
+    UIGraphicsBeginImageContext( size );
+    [img drawInRect:CGRectMake(0, 0, size.width, size.height) ];
+    UIImage *smallImage = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    return smallImage;
+}
+
 +(NSString *)getDocsDirectory
 {
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);

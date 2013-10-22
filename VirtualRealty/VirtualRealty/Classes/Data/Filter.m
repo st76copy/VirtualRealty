@@ -10,4 +10,9 @@
 
 @implementation Filter
 
+@synthesize field, value;
+-(NSDictionary *)toDictionary
+{
+    return @{ @"name" : self.field, @"value" : self.value };
+}
 @end

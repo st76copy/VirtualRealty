@@ -351,5 +351,24 @@
 		<key>section-title</key>
 		<string>Media</string>
 	</dict>
+	<dict>
+		<key>cells</key>
+		<array>
+			<dict>
+				<key>field</key>
+				<integer>37</integer>
+				<key>state</key>
+				<integer>1</integer>
+				<key>animatable</key>
+				<false/>
+				<key>label</key>
+				<string>Key Words</string>
+				<key>class</key>
+				<string>KeyWordsCell</string>
+			</dict>
+		</array>
+		<key>section-title</key>
+		<string>Key Words</string>
+	</dict>
 </array>
 </plist>

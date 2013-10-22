@@ -23,6 +23,7 @@ Parse.Cloud.define("saveListing", function(request, response)
 	this.gym	      = ( request.params.gym == 0 ) ? false : true;
 	this.doorman      = ( request.params.doorman == 0 ) ? false : true;
 	this.pool         = ( request.params.pool == 0 ) ? false : true;
+	this.keywords     = request.params.keywords;
 	this.listingState = request.params.listingState;
 
     var query = new Parse.Query("Listing");
@@ -74,7 +75,7 @@ Parse.Cloud.define("saveListing", function(request, response)
 		listing.set( "unit", this.unit );
 		listing.set( "submitterID", this.submitterID );
 		listing.set( "submitterObjectId", this.submitterObjectId );
-		
+		listing.set( "keywords", this.keywords );
         listing.save( null, {
   			success: function(listing) {
   		   		response.success( { "code":2, "data" : listing } );
@@ -156,6 +157,79 @@ Parse.Cloud.define("deleteListing", function(request, response)
 				response.error("failed deleting image");		
 			}	
 		});	
+	}
+	
+});
+
+
+Parse.Cloud.define("search", function(request, response)
+{
+	var Listing = Parse.Object.extend("Listing");
+	var query   = new Parse.Query(Listing);
+	
+	if( request.params.filters )
+	{
+		var minPrice = request.params.filters["minCost"]["value"];
+		var maxPrice = request.params.filters["maxCost"]["value"];
+	}
+	
+	var boolArray = ["share", "dogs", "cats", "outdoorSpace", "washerDryer", "doorman", "pool", "gym"];
+	var keyword   = request.params.keyword;
+	
+	if( keyword )
+	{
+		query.equalTo( "keywords", keyword );
+		console.log( "searching keyword : " + keyword );
+	}
+	
+	if( request.params.filters )
+	{
+		query.greaterThan("monthlyCost", minPrice);
+		query.lessThan("monthlyCost", maxPrice);
+	
+		for( var key in request.params.filters )
+		{
+			if( key != "minCost" && key != "maxCost" )
+			{
+				query.equalTo(key, request.params.filters[key]["value"] );
+			}
+		}
+	}
+	
+	function contains(key)
+	{
+		var exists = false;
+		var flag;
+		
+		for(  var i = 0; i < boolArray.count; i ++ )
+		{
+			flag = boolArray[i];
+			if( flag == key )
+			{
+				exists = true;	
+			}
+		}
+		return exists;
+	}
+	
+	query.equalTo( "listingState", 1 );
+	query.descending("createdAt");
+	
+	query.find({
+		success: function(results) 
+		{
+			response.success( results );		
+	    },
+		error: function(error) 
+		{
+   			alert("Error: " + error.code + " " + error.message);
+  		}
+	});
+	
+	
+	function listingsLoaded( listings ) 
+	{
+
 	}
 	
 });

@@ -66,7 +66,12 @@
             cancelTitle = NSLocalizedString(@"OK", @"Genereic : Cancel ");
             break;
 
-
+        case  kMediaNotAvailableError :
+            title       = NSLocalizedString(@"Sorry", @"Error : Generic sorry");
+            message     = NSLocalizedString(@"The media for this listing is not available", @"Error : No media body");
+            cancelTitle = NSLocalizedString(@"OK", @"Genereic : Cancel ");
+            
+            break;
 
     }
     

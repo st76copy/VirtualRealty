@@ -9,5 +9,10 @@
 #import <Foundation/Foundation.h>
 
 @interface SearchFilters : NSObject
+@property(nonatomic, strong, readonly)NSMutableArray *filters;
 
+-(id)initWithDefaults;
+-(id)getValueForField:(FormField)field;
+-(void)setFilter:(FormField)field withValue:(id)value;
+-(NSDictionary *)getActiveFilters;
 @end

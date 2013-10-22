@@ -12,6 +12,7 @@
 #import "User.h"
 #import "DiscManager.h"
 
+
 @interface Listing()
 -(void)savePhoto;
 -(void)saveVideo;
@@ -20,6 +21,7 @@
 @end
 
 @implementation Listing
+@synthesize videoURL = _videoURL;
 @synthesize errors = _errors;
 @synthesize saveCompleteBlock;
 
@@ -75,9 +77,24 @@
         self.doorman      = [info valueForKey:@"doorman"];
         self.pool         = [info valueForKey:@"pool"];
         self.listingState = [info valueForKey:@"listingState"];
+        
+        if( [[info valueForKey:@"keywords"] isKindOfClass:[NSArray class]])
+        {
+            self.keywords = [info valueForKey:@"keywords"];
+        }
+
     }
     return  self;
+}
 
+-(id)initWithSQLData:(NSDictionary *)info
+{
+    self = [self initWithFullData:info];
+    if( self != nil)
+    {
+        self.keywords = [[info valueForKey:@"keywords"]componentsSeparatedByString:@","];
+    }
+    return self;
 }
 
 -(NSMutableArray *)isValid
@@ -202,7 +219,7 @@
     unsigned int propertyCount = 0;
     objc_property_t * properties = class_copyPropertyList([self class], &propertyCount);
     
-    NSArray *ommissionList = @[@"errors", @"geo", @"thumb", @"saveCompleteBlock", @"video"];
+    NSArray *ommissionList = @[@"errors", @"geo", @"thumb", @"saveCompleteBlock", @"video", @"videoURL"];
     NSString *key = nil;
     NSMutableDictionary *temp = [NSMutableDictionary dictionary];
     
@@ -318,7 +335,6 @@
         }
         else
         {
-            NSLog(@"%@ failed to load image %@ ", blockList, error );
             blockList.loadCompleteBlock( NO );
         }
     }];
@@ -335,6 +351,47 @@
         });
     });
 }
+
+-(void)loadVideo:( LoadMediaBlock )block
+{
+    
+    __block Listing *blockList = self;
+    self.loadCompleteBlock = block;
+    
+    PFQuery  *query            = [PFQuery queryWithClassName:@"ListingVideo"];
+    [query whereKey:@"listingID" equalTo:self.objectId];
+    
+    [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error)
+    {
+         if( error == nil && objects.count == 1 )
+         {
+             [blockList handleVideoLoaded:objects];
+         }
+         else
+         {
+             blockList.loadCompleteBlock( NO );
+         }
+    }];
+}
+
+-(void)handleVideoLoaded:(NSArray *)results
+{
+    if( results.count > 0 )
+    {
+        PFFile *file = [[results objectAtIndex:0] valueForKey:@"videofile"];
+        _videoURL    = [NSURL URLWithString:file.url];
+    }
+    
+    if( self.videoURL )
+    {
+        self.loadCompleteBlock(YES);
+    }
+    else
+    {
+        self.loadCompleteBlock(NO);
+    }
+}
+
 
 
 @end

@@ -39,23 +39,22 @@
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor grayColor];
     
-    _table = [[UITableView alloc]initWithFrame:self.view.frame];
+    _table = [[UITableView alloc]initWithFrame:self.view.frame style:UITableViewStylePlain];
     self.table.separatorInset = UIEdgeInsetsZero;
     self.table.dataSource = self;
     self.table.delegate = self;
     [self.view addSubview:self.table];
-
-}
--(void)viewDidAppear:(BOOL)animated
-{
-    [super viewDidAppear:animated];
-    [self.tableData removeAllObjects];
-    [self.table reloadData];
+   
     __block FeaturedViewController *blockself = self;
+    
     [PFCloud  callFunctionInBackground:@"getFeaturedListings" withParameters:[NSDictionary dictionary] block:^(id object, NSError *error)
     {
          [blockself handleDataLoaded:object];
     }];
+}
+-(void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
 }
 
 -(void)viewDidDisappear:(BOOL)animated
@@ -108,7 +107,6 @@
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    [self.table deselectRowAtIndexPath:indexPath animated:YES];
     Listing *listing = [self.tableData objectAtIndex:indexPath.row];
     ListingDetailViewController *details = [[ListingDetailViewController alloc]initWithListing:listing];
     [self.navigationController pushViewController:details animated:YES];
@@ -126,6 +124,11 @@
     active = value;
     self.table.scrollEnabled = active;
     self.table.userInteractionEnabled = active;
+}
+
+-(BOOL)shouldAutorotate
+{
+    return NO;
 }
 
 @end

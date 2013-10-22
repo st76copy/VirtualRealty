@@ -13,4 +13,5 @@
 
 @property(nonatomic, strong)NSString *field;
 @property(nonatomic, strong)id        value;
+-(NSDictionary *)toDictionary;
 @end

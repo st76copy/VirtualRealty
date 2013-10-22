@@ -12,5 +12,8 @@
 
 @property(nonatomic, strong)Listing *listing;
 @property(nonatomic, strong, readonly)UIImageView *thumb;
+@property(nonatomic, strong, readonly)UIView      *overlay;
+@property(nonatomic, strong, readonly)UIView      *textBG;
+@property(nonatomic, strong, readonly)UILabel     *stateLabel;
 
 @end

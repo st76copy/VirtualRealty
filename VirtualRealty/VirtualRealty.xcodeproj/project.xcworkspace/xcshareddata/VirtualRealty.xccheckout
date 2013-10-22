@@ -5,19 +5,19 @@
 	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
 	<false/>
 	<key>IDESourceControlProjectIdentifier</key>
-	<string>0D58C75B-0BB7-413F-9ABC-930D452BA653</string>
+	<string>730FE04E-868B-4B0A-82DB-D87E51E72135</string>
 	<key>IDESourceControlProjectName</key>
 	<string>VirtualRealty</string>
 	<key>IDESourceControlProjectOriginsDictionary</key>
 	<dict>
-		<key>E673B929-5761-4499-B170-C914CFF2D1AD</key>
+		<key>3B05E35C-F294-4847-96FD-FF8A80F7A78D</key>
 		<string>https://github.com/chrisshanley/VirtualRealty.git</string>
 	</dict>
 	<key>IDESourceControlProjectPath</key>
 	<string>VirtualRealty/VirtualRealty.xcodeproj/project.xcworkspace</string>
 	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
 	<dict>
-		<key>E673B929-5761-4499-B170-C914CFF2D1AD</key>
+		<key>3B05E35C-F294-4847-96FD-FF8A80F7A78D</key>
 		<string>../../..</string>
 	</dict>
 	<key>IDESourceControlProjectURL</key>
@@ -25,14 +25,14 @@
 	<key>IDESourceControlProjectVersion</key>
 	<integer>110</integer>
 	<key>IDESourceControlProjectWCCIdentifier</key>
-	<string>E673B929-5761-4499-B170-C914CFF2D1AD</string>
+	<string>3B05E35C-F294-4847-96FD-FF8A80F7A78D</string>
 	<key>IDESourceControlProjectWCConfigurations</key>
 	<array>
 		<dict>
 			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
 			<string>public.vcs.git</string>
 			<key>IDESourceControlWCCIdentifierKey</key>
-			<string>E673B929-5761-4499-B170-C914CFF2D1AD</string>
+			<string>3B05E35C-F294-4847-96FD-FF8A80F7A78D</string>
 			<key>IDESourceControlWCCName</key>
 			<string>VirtualRealty</string>
 		</dict>

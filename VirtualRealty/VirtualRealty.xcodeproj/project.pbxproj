@@ -16,6 +16,11 @@
 		16261BC4180A2DA200F44578 /* Filter.m in Sources */ = {isa = PBXBuildFile; fileRef = 16261BC3180A2DA200F44578 /* Filter.m */; };
 		16261BC7180A2E0200F44578 /* FilterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 16261BC6180A2E0200F44578 /* FilterViewController.m */; };
 		16261BCA180E2B4500F44578 /* SearchFilterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 16261BC9180E2B4500F44578 /* SearchFilterViewController.m */; };
+		16261BCC18102F9D00F44578 /* search-filter.plist in Resources */ = {isa = PBXBuildFile; fileRef = 16261BCB18102F9D00F44578 /* search-filter.plist */; };
+		16261BCF18131FF300F44578 /* KeyWordsCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 16261BCE18131FF300F44578 /* KeyWordsCell.m */; };
+		16261BD21813204400F44578 /* KeywordsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 16261BD11813204400F44578 /* KeywordsViewController.m */; };
+		164E9167181619080010CC8B /* UserListingCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 164E9166181619080010CC8B /* UserListingCell.m */; };
+		165C5B831815F40C00C294C7 /* Utils.m in Sources */ = {isa = PBXBuildFile; fileRef = 836DF2E217E4B7B2002BD42E /* Utils.m */; };
 		16D50952180388000028E5D4 /* ListingCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 16D50951180388000028E5D4 /* ListingCell.m */; };
 		16E7AD9F17FA4FE6000C2D74 /* FacebookSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 16E7AD9D17FA4FE6000C2D74 /* FacebookSDK.framework */; };
 		16E7ADA017FA4FE6000C2D74 /* Parse.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 16E7AD9E17FA4FE6000C2D74 /* Parse.framework */; };
@@ -54,7 +59,6 @@
 		836DF2F917E4B7B2002BD42E /* DiscManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 836DF2DA17E4B7B2002BD42E /* DiscManager.m */; };
 		836DF2FA17E4B7B2002BD42E /* JSONService.m in Sources */ = {isa = PBXBuildFile; fileRef = 836DF2DD17E4B7B2002BD42E /* JSONService.m */; };
 		836DF2FB17E4B7B2002BD42E /* ReachabilityManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 836DF2DF17E4B7B2002BD42E /* ReachabilityManager.m */; };
-		836DF2FC17E4B7B2002BD42E /* Utils.m in Sources */ = {isa = PBXBuildFile; fileRef = 836DF2E217E4B7B2002BD42E /* Utils.m */; };
 		836DF2FD17E4B7B2002BD42E /* AbstractViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 836DF2E617E4B7B2002BD42E /* AbstractViewController.m */; };
 		836DF2FE17E4B7B2002BD42E /* NavViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 836DF2E917E4B7B2002BD42E /* NavViewController.m */; };
 		836DF2FF17E4B7B2002BD42E /* LoadingView.m in Sources */ = {isa = PBXBuildFile; fileRef = 836DF2EE17E4B7B2002BD42E /* LoadingView.m */; };
@@ -139,6 +143,13 @@
 		16261BC6180A2E0200F44578 /* FilterViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FilterViewController.m; sourceTree = "<group>"; };
 		16261BC8180E2B4500F44578 /* SearchFilterViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchFilterViewController.h; sourceTree = "<group>"; };
 		16261BC9180E2B4500F44578 /* SearchFilterViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchFilterViewController.m; sourceTree = "<group>"; };
+		16261BCB18102F9D00F44578 /* search-filter.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "search-filter.plist"; path = "Assets/plist/search-filter.plist"; sourceTree = "<group>"; };
+		16261BCD18131FF300F44578 /* KeyWordsCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KeyWordsCell.h; path = Cells/KeyWordsCell.h; sourceTree = "<group>"; };
+		16261BCE18131FF300F44578 /* KeyWordsCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KeyWordsCell.m; path = Cells/KeyWordsCell.m; sourceTree = "<group>"; };
+		16261BD01813204400F44578 /* KeywordsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KeywordsViewController.h; sourceTree = "<group>"; };
+		16261BD11813204400F44578 /* KeywordsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KeywordsViewController.m; sourceTree = "<group>"; };
+		164E9165181619080010CC8B /* UserListingCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UserListingCell.h; path = Cells/UserListingCell.h; sourceTree = "<group>"; };
+		164E9166181619080010CC8B /* UserListingCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UserListingCell.m; path = Cells/UserListingCell.m; sourceTree = "<group>"; };
 		16D50950180388000028E5D4 /* ListingCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ListingCell.h; path = Cells/ListingCell.h; sourceTree = "<group>"; };
 		16D50951180388000028E5D4 /* ListingCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ListingCell.m; path = Cells/ListingCell.m; sourceTree = "<group>"; };
 		16E7AD9D17FA4FE6000C2D74 /* FacebookSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FacebookSDK.framework; sourceTree = "<group>"; };
@@ -594,6 +605,8 @@
 				16261BC6180A2E0200F44578 /* FilterViewController.m */,
 				16261BC8180E2B4500F44578 /* SearchFilterViewController.h */,
 				16261BC9180E2B4500F44578 /* SearchFilterViewController.m */,
+				16261BD01813204400F44578 /* KeywordsViewController.h */,
+				16261BD11813204400F44578 /* KeywordsViewController.m */,
 			);
 			path = Sections;
 			sourceTree = "<group>";
@@ -645,6 +658,7 @@
 		838491B917E4D35100CBABFE /* plist */ = {
 			isa = PBXGroup;
 			children = (
+				16261BCB18102F9D00F44578 /* search-filter.plist */,
 				16261BB41809A32E00F44578 /* listingdetails.plist */,
 				838491BC17E4D3E300CBABFE /* nav.plist */,
 				838491E217E4DD4600CBABFE /* login.plist */,
@@ -684,6 +698,10 @@
 				16D50951180388000028E5D4 /* ListingCell.m */,
 				16261BB61809B30900F44578 /* DetailsCell.h */,
 				16261BB71809B30900F44578 /* DetailsCell.m */,
+				16261BCD18131FF300F44578 /* KeyWordsCell.h */,
+				16261BCE18131FF300F44578 /* KeyWordsCell.m */,
+				164E9165181619080010CC8B /* UserListingCell.h */,
+				164E9166181619080010CC8B /* UserListingCell.m */,
 			);
 			name = Cells;
 			sourceTree = "<group>";
@@ -862,6 +880,7 @@
 				83C2A20917E74B0200481CC0 /* settings.plist in Resources */,
 				8333DD4317E4B2A700645B3E /* InfoPlist.strings in Resources */,
 				83A5600B17E7BB360084C605 /* newlisting.plist in Resources */,
+				16261BCC18102F9D00F44578 /* search-filter.plist in Resources */,
 				838491E317E4DD4600CBABFE /* login.plist in Resources */,
 				838491E817E4E16E00CBABFE /* signup.plist in Resources */,
 				8333DD4B17E4B2A700645B3E /* Images.xcassets in Resources */,
@@ -883,6 +902,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				165C5B831815F40C00C294C7 /* Utils.m in Sources */,
 				838491D617E4D6CF00CBABFE /* User.m in Sources */,
 				83ABFE7417E4B9DB007ECB53 /* AFURLConnectionOperation.m in Sources */,
 				8333DD4917E4B2A700645B3E /* AppDelegate.m in Sources */,
@@ -909,6 +929,7 @@
 				83A5600E17E7BBBD0084C605 /* MapCell.m in Sources */,
 				8316BCB017EB993200150FDD /* CheckCell.m in Sources */,
 				836DF2F617E4B7B2002BD42E /* SQLiteRequestQueue.m in Sources */,
+				164E9167181619080010CC8B /* UserListingCell.m in Sources */,
 				83B85A3A17E7CC49008E6DEB /* Section.m in Sources */,
 				83ABFE6E17E4B9DB007ECB53 /* AFHTTPRequestOperation.m in Sources */,
 				836DF2F717E4B7B2002BD42E /* SQLRequest.m in Sources */,
@@ -935,7 +956,7 @@
 				836DF2FB17E4B7B2002BD42E /* ReachabilityManager.m in Sources */,
 				16D50952180388000028E5D4 /* ListingCell.m in Sources */,
 				83ABFE6B17E4B9DB007ECB53 /* AFEventSource.m in Sources */,
-				836DF2FC17E4B7B2002BD42E /* Utils.m in Sources */,
+				16261BCF18131FF300F44578 /* KeyWordsCell.m in Sources */,
 				838491C617E4D49B00CBABFE /* SearchViewController.m in Sources */,
 				8316BCAA17EB8FAD00150FDD /* KeyboardManager.m in Sources */,
 				836DF2FD17E4B7B2002BD42E /* AbstractViewController.m in Sources */,
@@ -948,6 +969,7 @@
 				836DF2FE17E4B7B2002BD42E /* NavViewController.m in Sources */,
 				83A696EB17E76F640027FBAE /* FacebookManager.m in Sources */,
 				83ABFE7117E4B9DB007ECB53 /* AFJSONRequestOperation.m in Sources */,
+				16261BD21813204400F44578 /* KeywordsViewController.m in Sources */,
 				836DF2FF17E4B7B2002BD42E /* LoadingView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

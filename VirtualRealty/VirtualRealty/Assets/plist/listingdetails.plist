@@ -47,20 +47,12 @@
 			<dict>
 				<key>read-only</key>
 				<true/>
+				<key>custom-action</key>
+				<string>handlePlayVideo</string>
 				<key>field</key>
 				<integer>17</integer>
 				<key>label</key>
 				<string>Video</string>
-				<key>class</key>
-				<string>DetailsCell</string>
-			</dict>
-			<dict>
-				<key>read-only</key>
-				<true/>
-				<key>field</key>
-				<integer>18</integer>
-				<key>label</key>
-				<string>Thumbnail</string>
 				<key>class</key>
 				<string>DetailsCell</string>
 			</dict>

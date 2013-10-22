@@ -18,8 +18,9 @@
 #import "ReachabilityManager.h"
 #import <Parse/Parse.h>
 #import "ErrorFactory.h"
+#import "KeywordsViewController.h"
 
-@interface AddApartmentViewController ()<UIImagePickerControllerDelegate,UINavigationControllerDelegate>
+@interface AddApartmentViewController ()<UIImagePickerControllerDelegate,UINavigationControllerDelegate, KeyWordDelegate>
 -(void)handleListingComplete;
 -(void)animateToCell;
 -(id)getValueForFormField:(FormField)field;
@@ -29,6 +30,8 @@
 -(void)pickerWillHide;
 -(void)handleSubmitListing:(id)sender;
 -(void)handleCaptureMedia;
+-(void)showKeywords;
+
 @end
 
 @implementation AddApartmentViewController
@@ -217,6 +220,9 @@
         case kThumbnail:
             [self handleCaptureMedia];
             break;
+        case kKeywords:
+            [self showKeywords];
+            break;
         default:
         break;
     }
@@ -335,6 +341,9 @@
             break;
         case kThumbnail:
             value = self.listing.thumb;
+            break;
+        case kKeywords:
+            return self.listing.keywords;
             break;
             
         default:
@@ -578,10 +587,13 @@
 #pragma mark - image picker delegate
 -(void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info
 {
+    UIImage *source;
     switch (self.currentField)
     {
         case kThumbnail:
-            self.listing.thumb = [info valueForKey:UIImagePickerControllerOriginalImage];
+
+            source = [info valueForKey:UIImagePickerControllerOriginalImage];
+            self.listing.thumb = [Utils resizeImage:source toSize:CGSizeMake(source.size.width * 0.3, source.size.height * 0.3 )];
             break;
         case kVideo:
             self.listing.video = [NSData dataWithContentsOfURL:[info valueForKey:UIImagePickerControllerMediaURL]];
@@ -610,6 +622,26 @@
     active = value;
     self.table.scrollEnabled = active;
     self.table.userInteractionEnabled = active;
+}
+
+#pragma mark - keywords
+-(void)showKeywords
+{
+    KeywordsViewController *keywords = [[KeywordsViewController alloc]initWithWords:[self.listing.keywords mutableCopy]];
+    keywords.delegate = self;
+    [self.navigationController pushViewController:keywords animated:YES];
+}
+
+-(void)keywordsDone:(KeywordsViewController *)vc
+{
+    self.listing.keywords = [vc.words copy];
+    [self.table reloadRowsAtIndexPaths:@[self.currentIndexpath] withRowAnimation:UITableViewRowAnimationAutomatic];
+    FormCell *temp = (FormCell*)[self.table cellForRowAtIndexPath:self.currentIndexpath];
+ 
+    NSMutableDictionary *info = [temp.cellinfo mutableCopy];
+    [info setValue:[self getValueForFormField:[[info valueForKey:@"field"] intValue]] forKey:@"current-value"];
+    [temp setCellinfo:info];
+    [temp render];
 }
 
 @end

@@ -102,4 +102,9 @@
     [self.table reloadData];
 }
 
+-(BOOL)shouldAutorotate
+{
+    return NO;
+}
+
 @end

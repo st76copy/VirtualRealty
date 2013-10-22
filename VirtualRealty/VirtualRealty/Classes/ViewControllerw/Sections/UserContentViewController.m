@@ -15,12 +15,11 @@
 #import "SQLRequest.h"
 #import "QueryFactory.h"
 #import "ListingDetailViewController.h"
-
+#import "UserListingCell.h"
 @interface UserContentViewController ()
 
 -(void)handleDataLoaded:(NSArray *)data;
--(void)deleteObject;
--(void)handleDeleteListing:(id)sender;
+
 
 @end
 
@@ -81,7 +80,7 @@
             [favs removeAllObjects];
             for( NSDictionary *info in req.results )
             {
-                Listing *listing = [[Listing alloc]initWithFullData:info];
+                Listing *listing = [[Listing alloc]initWithSQLData:info];
                 [favs addObject:listing];
             }
         }
@@ -124,13 +123,27 @@
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    NSString *reuse = ( indexPath.section == 0 ) ? @"user-cell" : @"cell";
+    
     NSArray *section   = [self.tableData objectAtIndex:indexPath.section];
     Listing *info      = [section objectAtIndex:indexPath.row];
-    ListingCell * cell = [self.table dequeueReusableCellWithIdentifier:@"cell"];
+    
+    
+    ListingCell * cell = [self.table dequeueReusableCellWithIdentifier:reuse];
     
     if( cell == nil )
     {
-        cell = [[ListingCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"cell"];
+        switch (indexPath.section)
+        {
+            case 0:
+                cell = [[UserListingCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:reuse];
+                break;
+           
+            case 1:
+                cell = [[ListingCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:reuse];
+                break;
+
+        }
     }
     
     cell.listing = info;
@@ -142,7 +155,8 @@
 -(NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
 {
     NSString *title = @"";
-    switch (section) {
+    switch (section)
+    {
         case 0:
             title = NSLocalizedString( @"My Listings", @"Title for user uploaded listings");
             break;
@@ -186,6 +200,7 @@
     self.table.scrollEnabled = active;
     self.table.userInteractionEnabled = active;
 }
+
 
 
 @end

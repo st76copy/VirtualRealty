@@ -81,7 +81,25 @@ typedef enum FormField
     kPool= 16,
     kVideo = 17,
     kThumbnail = 18,
+    kKeywords  = 37,
+
     
+    // search filters
+    kNeightborhoodFilter = 22,
+    kMinCostFilter       = 23,
+    kMaxCostFilter       = 24,
+    kBrokerFeeFilter     = 25,
+    kBedroomsFilter      = 26,
+    kBathroomsFilter     = 27,
+    kShareFilter         = 28,
+    kDogsFilter          = 29,
+    kCatsFilter          = 30,
+    kMoveInFilter        = 31,
+    kOutdoorSpaceFilter  = 32,
+    kWasherDryerFilter   = 33,
+    kDoormanFilter       = 34,
+    kGymFilter           = 35,
+    kPoolFilter          = 36
 
 }FormField;
 

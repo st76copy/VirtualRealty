@@ -25,6 +25,8 @@ typedef enum ErrorType
     kListingPendingError,
     // form errors
     
+    //media errors,
+    kMediaNotAvailableError,
     
     kInvalidUsernameError,
     kInvalidPasswordError

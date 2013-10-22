@@ -49,6 +49,10 @@
         float value =  [[self.cellinfo valueForKey:@"current-value"] floatValue];
         self.inputField.text = [NSString stringWithFormat:@"%0.2f", value];
     }
+    else
+    {
+        self.inputField.text = @"";
+    }
     
     if( [[self.cellinfo valueForKey:@"read-only"]boolValue] )
     {
