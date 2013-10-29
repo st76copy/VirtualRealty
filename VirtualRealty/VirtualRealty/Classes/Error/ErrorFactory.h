@@ -23,6 +23,8 @@ typedef enum ErrorType
     // data errors
     kListingExistsError,
     kListingPendingError,
+    kListingMediaError,
+    kListingSavingError,
     // form errors
     
     //media errors,

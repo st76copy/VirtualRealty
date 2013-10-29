@@ -283,7 +283,14 @@
     switch( field )
     {
         case kAddress:
-            value = self.listing.address;
+            if( self.listing.geo )
+            {
+                value = @{@"address" : self.listing.address, @"location" : self.listing.geo };
+            }
+            else
+            {
+                value = ( self.listing.address ) ? @{ @"address" : self.listing.address } : nil;
+            }
             break;
         case kUnit:
             value = self.listing.unit;
@@ -362,7 +369,8 @@
     switch( field )
     {
         case kAddress:
-            self.listing.address  = cell.formValue;
+            self.listing.address  = [cell.formValue valueForKey:@"address"];
+            self.listing.geo      = [cell.formValue valueForKey:@"location"];
             break;
             
         case kUnit:
@@ -512,6 +520,8 @@
         {
             switch ([[object valueForKey:@"code"] intValue]) {
                 case kSaveFailed:
+                    [[ErrorFactory getAlertForType:kListingSavingError andDelegateOrNil:nil andOtherButtons:nil] show];
+                    
                     break;
                 case kSaveSuccess:
                     
@@ -525,6 +535,7 @@
                         }
                         else
                         {
+                            [[ErrorFactory getAlertForType:kListingMediaError andDelegateOrNil:nil andOtherButtons:nil] show];
                             [delegate hideLoader];
                         }
                     }];

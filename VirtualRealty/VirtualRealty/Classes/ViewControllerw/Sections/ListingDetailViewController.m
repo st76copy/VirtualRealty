@@ -189,7 +189,14 @@
     switch( field )
     {
         case kAddress:
-            value = self.listing.address;
+            if( self.listing.geo )
+            {
+                value = @{@"address" : self.listing.address, @"location" : self.listing.geo };
+            }
+            else
+            {
+                value = ( self.listing.address ) ? @{ @"address" : self.listing.address } : nil;
+            }
             break;
         case kUnit:
             value = self.listing.unit;
@@ -334,7 +341,8 @@
 -(void)deleteObject
 {
     __block ListingDetailViewController *blockself = self;
-    [PFCloud callFunctionInBackground:@"deleteListing" withParameters:@{@"objectId":self.listing.objectId} block:^(id object, NSError *error)
+    NSDictionary *params = @{@"objectId":self.listing.objectId};
+    [PFCloud callFunctionInBackground:@"deleteListing" withParameters:params block:^(id object, NSError *error)
     {
         if( [object intValue ] == 1 )
         {

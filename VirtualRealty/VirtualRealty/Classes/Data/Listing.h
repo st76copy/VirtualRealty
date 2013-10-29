@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 #import <CoreLocation/CoreLocation.h>
 
+
 typedef void (^SaveMediaBlock) (BOOL success);
 typedef void (^LoadMediaBlock) (BOOL success);
 
@@ -65,6 +66,5 @@ typedef void (^LoadMediaBlock) (BOOL success);
 @property(nonatomic, strong)NSData   *video;
 @property(nonatomic, strong)NSArray  *keywords;
 @property(nonatomic, strong, readonly)NSURL *videoURL;
-
 
 @end

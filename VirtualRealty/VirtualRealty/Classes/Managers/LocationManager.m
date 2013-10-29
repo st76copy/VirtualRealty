@@ -99,6 +99,8 @@
 -(void)geoCodeUsingAddress:(NSString *)address block:(void (^) (CLLocationCoordinate2D loc) )block
 {
     _currentAddress = address;
+    
+    
     dispatch_async( dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
         
         NSString *esc_addr =  [address stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
@@ -121,6 +123,8 @@
         __block CLLocationCoordinate2D location;
         location.latitude = [latString doubleValue];// latitude;
         location.longitude = [lngString doubleValue]; //longitude;
+        
+        _location = [[CLLocation alloc]initWithLatitude:location.latitude longitude:location.longitude];
         
         dispatch_async(dispatch_get_main_queue(), ^{
             block( location );

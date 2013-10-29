@@ -82,6 +82,7 @@ typedef enum FormField
     kVideo = 17,
     kThumbnail = 18,
     kKeywords  = 37,
+    kGeo       = 38,
 
     
     // search filters

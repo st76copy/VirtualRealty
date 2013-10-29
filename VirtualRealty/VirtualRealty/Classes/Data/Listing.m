@@ -239,6 +239,12 @@
         }
     }
     
+    if( self.geo )
+    {
+        [temp setValue:[NSNumber numberWithDouble:self.geo.coordinate.latitude] forKey:@"lat"];
+        [temp setValue:[NSNumber numberWithDouble:self.geo.coordinate.longitude] forKey:@"long"];
+    }
+    
     return temp;
 }
 

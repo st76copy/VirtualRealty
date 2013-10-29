@@ -13,6 +13,12 @@
 <body>
 <div id="header">
 	<h1>All Listings</h1>
+    <select id="view-box">
+	    <option value="3">All</option>
+        <option value="0">Pending</option>
+        <option value="1">Vacant</option>
+        <option value="2">Rented</option>
+    </select>
 </div>
 <div id="all-addresses">
 	<ul id="list"></ul>
@@ -20,16 +26,23 @@
 <div id="listing-detail">
 	<div id="info">
 	    <h4 id="address"></h4>
+        <p id="email"></p>
         <p id="submitter-id"></p>
         <select id="state-box">
             <option value="0">Pending</option>
             <option value="1">Vacant</option>
             <option value="2">Rented</option>
         </select>
+        <select id="featured-box">
+            <option value="false">standard</option>
+            <option value="true">featured</option>
+        </select>
+    
+        <a href="javascript:deleteListing();" id="delete-button" >Delete Listing</a>
     </div>
     <div id="media">
     	<img id="thumb" src="" width="400" height="300" />
-    	<video id="video" width="400" height="300" controls>
+    	<video id="video" width="400" height="300" controls="controls" src="">
         	 <source id="video-source" src="" type="video/mp4"></source>
         </video>
     </div>
@@ -40,12 +53,26 @@
 	var appid 	  = "yIp5Z8ERGHY8ELMVvfo4kGJuACTMUPNh5zxGhGuB";
 	var jskey 	  = "1jiGI5BvegoaJayj5qt4jd4iAx0Vx9d9HOOEr2OQ";
 	var masterkey = "zCcuZhyqyIQ8zrQd8Dhy01BsCNbk6eShZTD73Qev";
-
+	this.currentlyViewing  = 3;
 	this.currentListing = null;
 	var self  = this;
 	
+	Parse.initialize("yIp5Z8ERGHY8ELMVvfo4kGJuACTMUPNh5zxGhGuB", "Nf2cFp00Z0sAJWNt65qFK7CySC8Pzz0ihjYawsoa");
+	
+	
+	
+	
 	function handleLoaded()
 	{
+		$( "#view-box" ).unbind( "change" );
+		$("#view-box").change( function () 
+		{
+			self.currentlyViewing = this.value;
+			self.handleLoaded(  );
+		});
+		
+		$("#list").empty();
+		
 		var params = {
 			type:"GET",
 			url:"https://api.parse.com/1/classes/Listing",
@@ -64,6 +91,11 @@
 			}	
 		};
 		
+		if( self.currentlyViewing != 3 )
+		{
+			params.data = "where={ \"listingState\" : "+currentlyViewing+"}";	
+		}
+		
 		$.ajax( params );
 	}
 	
@@ -79,6 +111,7 @@
 		}
 		$( "#list" ).append( list );
 	}
+	
 	
 	function handleLinkClick(obj)
 	{
@@ -107,23 +140,30 @@
 	function handleListingInfoLoaded(obj)
 	{
 		$( "#state-box" ).unbind( "change" );
+		$( "#featured-box" ).unbind( "change" );
 		
-		currentListing = obj;
+		self.currentListing = obj;
 		
 		$("#address").text( obj.address );
 		$("#submitter-id").text( "submitted by : " + obj.submitterID );
+		$("#email").text( "contact : " + obj.contact );
 		$("#state-box").val( obj.listingState );
+		$("#featured-box").val( obj.isFeatured.toString() );
 		
 		$("#state-box").change( function () 
 		{
 			self.updateDetailsState( this.value );
 		});
+		
+		$("#featured-box").change( function () 
+		{
+			self.updateDetailsFeatured( this.value );
+		});
+		
 		loadImage();
 		loadVideo();  
 	}
 
-
-//
 	function loadImage()
 	{
 		var params = {
@@ -156,6 +196,7 @@
 	
 	function loadVideo()
 	{
+
 		var params = {
 			type:"GET",
 			contentTupe:'application/x-www-form-urlencoded; charset=UTF-8',
@@ -181,7 +222,9 @@
 	
 	function handleVideoLoaded(obj)
 	{
-		$("#video-source").attr( "src" , obj.videofile.url ); 
+		
+		$("#video-source").attr( "src" , obj.videofile.url );
+		$("#video").attr( "src" , obj.videofile.url ); 
 	}
 	
 	function updateDetailsState( state )
@@ -199,6 +242,45 @@
 			success : function(data)
 			{
 				alert( "listing : " + self.currentListing.objectId + " has been updated updated");
+			},
+			error:function( jqXHR ,textStatus, errorThrown)
+			{
+				alert(errorThrown);
+			}
+		};
+		$.ajax( params );
+	}
+	
+	function deleteListing()
+	{
+		
+		Parse.Cloud.run('deleteListing',  { "objectId" : self.currentListing.objectId }, {
+ 			success: function(result) 
+			{
+				$("#listing-detail").empty();
+				self.handleLoaded();
+			},
+    		error: function(error) {
+			}
+		});
+	}	
+	
+	function updateDetailsFeatured( state )
+	{
+		var featured = ( state == "true" ) ? true : false;
+		var params = {
+			contentType:"application/json",
+			type:"PUT",
+			data:	"{ \"isFeatured\" : "+featured+" }",
+			url:"https://api.parse.com/1/classes/Listing/"+this.currentListing.objectId,
+			beforeSend: function (request)
+            {
+                request.setRequestHeader("X-Parse-Application-Id", appid);
+			 	request.setRequestHeader("X-Parse-REST-API-Key", jskey);
+            },
+			success : function(data)
+			{
+				alert( "listing : " + self.currentListing.objectId + " has updated featured");
 			},
 			error:function( jqXHR ,textStatus, errorThrown)
 			{

@@ -25,6 +25,8 @@ Parse.Cloud.define("saveListing", function(request, response)
 	this.pool         = ( request.params.pool == 0 ) ? false : true;
 	this.keywords     = request.params.keywords;
 	this.listingState = request.params.listingState;
+	this.long         = request.params.long;
+	this.lat          = request.params.lat;
 
     var query = new Parse.Query("Listing");
     query.equalTo( "address", request.params.address );
@@ -54,6 +56,12 @@ Parse.Cloud.define("saveListing", function(request, response)
         var Listing = Parse.Object.extend("Listing");
 		var listing = new Listing();
 		
+		if( this.long && this.lat )
+		{
+			var geo = new Parse.GeoPoint({latitude:this.lat, longitude:this.long});	
+			listing.set( "location" , geo );
+		}
+		
 		listing.set( "address" , this.address );
 		listing.set( "neighborhood" , this.neighborhood );
 		listing.set( "monthlyCost" , this.monthlyCost );
@@ -76,6 +84,7 @@ Parse.Cloud.define("saveListing", function(request, response)
 		listing.set( "submitterID", this.submitterID );
 		listing.set( "submitterObjectId", this.submitterObjectId );
 		listing.set( "keywords", this.keywords );
+		listing.set( "isFeatured", false );
         listing.save( null, {
   			success: function(listing) {
   		   		response.success( { "code":2, "data" : listing } );
@@ -135,8 +144,21 @@ Parse.Cloud.define("getFeaturedListings", function(request, response)
 
 Parse.Cloud.define("deleteListing", function(request, response)
 {
-	var Listing = Parse.Object.extend("Listing");
-	var query   = new Parse.Query(Listing);
+	console.log( "Trying to delete listing " + request.params.objectId );
+	
+	var Listing      = Parse.Object.extend("Listing");
+	var ListingVideo = Parse.Object.extend("ListingVideo");
+	var ListingImage = Parse.Object.extend("ListingImage");
+	
+	var query  	   = new Parse.Query(Listing);
+	var queryVideo = new Parse.Query(ListingVideo);
+	var queryImage = new Parse.Query(ListingImage);
+	
+	queryVideo.equalTo("listingID", request.params.objectId);
+	queryImage.equalTo("listingID", request.params.objectId);
+	
+	console.log( "Trying to delete listing " + request.params.objectId );
+	
 	
 	query.get( request.params.objectId , {
 		success: function( listing ){
@@ -146,6 +168,58 @@ Parse.Cloud.define("deleteListing", function(request, response)
 			response.error("failed getting image");	
 		}
 	});
+	
+	
+	
+	queryVideo.find( {
+		success: function( array )
+		{
+			console.log( "Loaded video  " + array[0] );
+			videoLoaded( ( array.length > 0) ? array[0] : null );
+		},
+		error: function()
+		{
+
+		}
+	});
+	
+	function videoLoaded(video)
+	{
+		if( video )
+		{
+			video.destroy(
+			{
+				success:function(){
+				},
+				error:function(){
+				}	
+			});	
+		}
+	}
+	
+	queryImage.find( {
+		success: function( array )
+		{
+			imageLoaded(  ( array.length > 0)  ? array[0] : null );
+		},
+		error: function(){
+		
+		}
+	});
+	
+	function imageLoaded(img)
+	{
+		if( img ) 
+		{
+			img.destroy(
+			{
+				success:function(){
+				},
+				error:function(){
+				}	
+			});	
+		}		
+	}
 	
 	function listingLoaded( listing ) 
 	{

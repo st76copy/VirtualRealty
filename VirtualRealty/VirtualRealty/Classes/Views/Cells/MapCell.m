@@ -8,6 +8,10 @@
 
 #import "MapCell.h"
 
+@interface MapCell()
+-(void)textFieldChanged:(id)sender;
+@end
+
 
 @implementation MapCell
 
@@ -90,8 +94,11 @@
         [self.map setRegion:region animated:YES];
         [self.addresssLabel setText:[LocationManager shareManager].currentAddress];
         [[LocationManager shareManager]removeDelegate:self];
-        self.formValue = [LocationManager shareManager].currentAddress;
         
+        
+        self.formValue = @{@"address" :[LocationManager shareManager].currentAddress, @"location" :[LocationManager shareManager].location  };
+        
+        [self.formDelegate cell:self didChangeForField:[[self.cellinfo valueForKey:@"geo"]intValue]];
         [self.formDelegate cell:self didChangeForField:[[self.cellinfo valueForKey:@"field"]intValue]];
     }
 }
@@ -103,6 +110,14 @@
     [self.addresssLabel setText:@"enter address"];
     [self.addresssLabel becomeFirstResponder];
     [self.addresssLabel addTarget:self  action:@selector(textFieldFinished:)  forControlEvents:UIControlEventEditingDidEndOnExit];
+    [self.addresssLabel addTarget:self  action:@selector(textFieldChanged:)  forControlEvents:UIControlEventEditingChanged];
+}
+
+-(void)textFieldChanged:(id)sender
+{
+    [super clearError];
+    self.formValue = [NSNumber numberWithFloat:[self.addresssLabel.text floatValue]];
+    [self.formDelegate cell:self didChangeForField:[[self.cellinfo valueForKey:@"field"]intValue] ];
 }
 
 -(void)textFieldFinished:(id)sender
@@ -126,7 +141,7 @@
         [self.map addAnnotation:annotation];
         
         [blockself.map setRegion:region animated:YES];
-        blockself.formValue = [LocationManager shareManager].currentAddress;
+        self.formValue = @{@"address" :[LocationManager shareManager].currentAddress, @"location" :[LocationManager shareManager].location  };
         [blockself.formDelegate cell:self didChangeForField:[[self.cellinfo valueForKey:@"field"]intValue]];
     }];
 }
@@ -134,12 +149,12 @@
 -(void)render
 {
     __block MapCell *blockself = self;
-    self.addresssLabel.text = [self.cellinfo valueForKey:@"current-value"];
+    self.addresssLabel.text = [[self.cellinfo valueForKey:@"current-value"] valueForKey:@"address"];
     
     if( [self.cellinfo valueForKey:@"current-value"] )
     {
         [[LocationManager shareManager]removeDelegate:self];
-        [[LocationManager shareManager]geoCodeUsingAddress:[self.cellinfo valueForKey:@"current-value"] block:^(CLLocationCoordinate2D loc)
+        [[LocationManager shareManager]geoCodeUsingAddress:[[self.cellinfo valueForKey:@"current-value"] valueForKey:@"address"] block:^(CLLocationCoordinate2D loc)
         {
              
             [blockself.map setCenterCoordinate:loc animated:YES];
@@ -156,11 +171,12 @@
             [self.map addAnnotation:annotation];
             
             [blockself.map setRegion:region animated:YES];
-            blockself.formValue = [LocationManager shareManager].currentAddress;
+            blockself.formValue = @{@"address" :[LocationManager shareManager].currentAddress, @"location" :[LocationManager shareManager].location};
             
             if( self.formDelegate )
             {
                 [blockself.formDelegate cell:self didChangeForField:[[self.cellinfo valueForKey:@"field"]intValue]];
+                [blockself.formDelegate cell:self didChangeForField:[[self.cellinfo valueForKey:@"geo"]intValue]];
             }
         }];
     }

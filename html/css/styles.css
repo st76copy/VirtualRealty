@@ -105,7 +105,16 @@ h1
 	font-size:14px;
 }
 
-#submitter-id
+#submitter-id 
+{
+	margin:0px;
+	padding:0px;	
+	font-family:Arial, Helvetica, sans-serif;
+	font-size:14px;
+	color:#333;
+}
+
+#email 
 {
 	margin:0px;
 	padding:0px;	
