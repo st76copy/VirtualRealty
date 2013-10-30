@@ -233,7 +233,7 @@
 				<key>animatable</key>
 				<true/>
 				<key>label</key>
-				<string>South Bronx</string>
+				<string>North Bronx</string>
 				<key>class</key>
 				<string>CheckCell</string>
 			</dict>

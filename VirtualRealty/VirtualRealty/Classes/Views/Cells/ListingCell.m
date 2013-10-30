@@ -14,7 +14,7 @@
 @synthesize textBG = _textBG;
 @synthesize thumb = _thumb;
 @synthesize overlay = _overlay;
-
+@synthesize priceLabel = _priceLabel;;
 
 -(id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {
@@ -38,6 +38,10 @@
         _stateLabel = [[UILabel alloc]initWithFrame:CGRectZero];
         [self.stateLabel setFont:[UIFont boldSystemFontOfSize:10]];
         [self.contentView addSubview:self.stateLabel];
+        
+        _priceLabel = [[UILabel alloc]initWithFrame:CGRectZero];
+        [self.priceLabel setFont:[UIFont fontWithName:@"Baskerville-BoldItalic" size:12]];
+        [self.contentView addSubview:self.priceLabel];
     }
     return self;
 }
@@ -69,14 +73,22 @@
     self.detailTextLabel.frame = rect;
     self.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     
+    
+    rect = self.priceLabel.frame;
+    rect.origin.x = 320 - ( self.priceLabel.frame.size.width + 10 );
+    rect.origin.y = 20 - ( self.priceLabel.frame.size.height * 0.5);
+    self.priceLabel.frame = rect;
+    
 }
 
 -(void)render
 {
     __block ListingCell *blockself = self;
     
-    self.textLabel.text = self.listing.address;
+    self.textLabel.text       = self.listing.address;
     self.detailTextLabel.text = [NSString stringWithFormat:@"Available on : %@",[self.listing.moveInDate toShortString]];
+    self.priceLabel.text      = [NSString stringWithFormat:@"$%0.2f per month", [self.listing.monthlyCost floatValue]];
+    [self.priceLabel sizeToFit];
     
     if( self.listing.thumb == nil )
     {

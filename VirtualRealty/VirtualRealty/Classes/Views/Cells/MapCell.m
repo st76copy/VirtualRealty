@@ -7,7 +7,7 @@
 //
 
 #import "MapCell.h"
-
+#import "UIColor+Extended.h"
 @interface MapCell()
 -(void)textFieldChanged:(id)sender;
 @end
@@ -19,6 +19,7 @@
 @synthesize textBackGround = _textBackGround;
 @synthesize addresssLabel  = _addresssLabel;
 @synthesize wrongAddressButton = _wrongAddressButton;
+
 
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {
@@ -105,9 +106,14 @@
 
 -(void)handleWrongAddresss:(id)sender
 {
+    NSDictionary *params =@{NSForegroundColorAttributeName: [UIColor colorFromHex:@"CCCCCC"]};
+    NSAttributedString *string = [[NSAttributedString alloc]initWithString:@"enter address" attributes:params];
     [self.addresssLabel setReturnKeyType:UIReturnKeyDone];
     [self.addresssLabel setEnabled:YES];
-    [self.addresssLabel setText:@"enter address"];
+    [self.addresssLabel setText:@""];
+    [self.addresssLabel setPlaceholder:@"enter address"];
+    
+    [self.addresssLabel setAttributedPlaceholder:string];
     [self.addresssLabel becomeFirstResponder];
     [self.addresssLabel addTarget:self  action:@selector(textFieldFinished:)  forControlEvents:UIControlEventEditingDidEndOnExit];
     [self.addresssLabel addTarget:self  action:@selector(textFieldChanged:)  forControlEvents:UIControlEventEditingChanged];
@@ -116,7 +122,7 @@
 -(void)textFieldChanged:(id)sender
 {
     [super clearError];
-    self.formValue = [NSNumber numberWithFloat:[self.addresssLabel.text floatValue]];
+    self.formValue = @{@"address" :[LocationManager shareManager].currentAddress, @"location" :[LocationManager shareManager].location  };
     [self.formDelegate cell:self didChangeForField:[[self.cellinfo valueForKey:@"field"]intValue] ];
 }
 

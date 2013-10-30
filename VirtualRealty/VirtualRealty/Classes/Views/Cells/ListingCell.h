@@ -15,5 +15,7 @@
 @property(nonatomic, strong, readonly)UIView      *overlay;
 @property(nonatomic, strong, readonly)UIView      *textBG;
 @property(nonatomic, strong, readonly)UILabel     *stateLabel;
+@property(nonatomic, strong, readonly)UILabel     *priceLabel;;
+
 
 @end
