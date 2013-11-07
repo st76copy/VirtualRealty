@@ -22,6 +22,11 @@ typedef void (^LoginInCompleteBlock) (BOOL success);
 
 @property(nonatomic, strong)Listing *currentListing;
 
+@property(nonatomic, strong)NSNumber *activelySearching;
+@property(nonatomic, strong)NSNumber *maxRent;
+@property(nonatomic, strong)NSNumber *minBedrooms;
+@property(nonatomic, strong)NSDate   *moveInAfter;
+
 -(void)loginWithUsername:(NSString *)username andPassword:(NSString *)password andBlock:(LoginInCompleteBlock)block;
 -(void)signupWithUsername:(NSString *)username andPassword:(NSString *)password andBlock:(LoginInCompleteBlock)block;
 -(void)loginWithFacebook:(LoginInCompleteBlock)block;

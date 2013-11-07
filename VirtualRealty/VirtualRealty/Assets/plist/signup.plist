@@ -51,6 +51,45 @@
 		<array>
 			<dict>
 				<key>label</key>
+				<string>Actively Looking</string>
+				<key>field</key>
+				<integer>39</integer>
+				<key>class</key>
+				<string>SwitchCell</string>
+			</dict>
+			<dict>
+				<key>label</key>
+				<string>Max Rent</string>
+				<key>field</key>
+				<integer>41</integer>
+				<key>class</key>
+				<string>NumberInputCell</string>
+			</dict>
+			<dict>
+				<key>label</key>
+				<string>Minimum Bedrooms</string>
+				<key>field</key>
+				<integer>42</integer>
+				<key>class</key>
+				<string>NumberInputCell</string>
+			</dict>
+			<dict>
+				<key>label</key>
+				<string>Move In After</string>
+				<key>field</key>
+				<integer>40</integer>
+				<key>class</key>
+				<string>DateCell</string>
+			</dict>
+		</array>
+		<key>section-title</key>
+		<string>Actively Searching</string>
+	</dict>
+	<dict>
+		<key>cells</key>
+		<array>
+			<dict>
+				<key>label</key>
 				<string>Go To Login</string>
 				<key>custom-action</key>
 				<string>toggleForm</string>

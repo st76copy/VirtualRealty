@@ -219,7 +219,7 @@
     unsigned int propertyCount = 0;
     objc_property_t * properties = class_copyPropertyList([self class], &propertyCount);
     
-    NSArray *ommissionList = @[@"errors", @"geo", @"thumb", @"saveCompleteBlock", @"video", @"videoURL"];
+    NSArray *ommissionList = @[@"errors", @"geo", @"thumb", @"saveCompleteBlock", @"video", @"videoURL", @"keywords"];
     NSString *key = nil;
     NSMutableDictionary *temp = [NSMutableDictionary dictionary];
     

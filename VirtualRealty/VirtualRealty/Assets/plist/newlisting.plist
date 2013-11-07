@@ -326,7 +326,7 @@
 				<key>label</key>
 				<string>Broker Fee</string>
 				<key>class</key>
-				<string>SwitchCell</string>
+				<string>NumberInputCell</string>
 			</dict>
 		</array>
 		<key>section-title</key>

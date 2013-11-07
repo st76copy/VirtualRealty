@@ -26,7 +26,10 @@
 
 -(void)handleSwitchChanged:(id)sender
 {
-    [self.formDelegate cell:self didStartInteract:[[self.cellinfo valueForKey:@"field"]intValue]];
+    if( [self.formDelegate respondsToSelector:@selector(cell:didStartInteract:)] )
+    {
+        [self.formDelegate cell:self didStartInteract:[[self.cellinfo valueForKey:@"field"]intValue]];
+    }
     BOOL on = self.switchButton.on;
     self.formValue = [NSNumber numberWithBool:on];
     [self.formDelegate cell:self didChangeForField:[[self.cellinfo valueForKey:@"field"]intValue]];

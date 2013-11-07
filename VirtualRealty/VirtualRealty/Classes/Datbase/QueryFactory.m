@@ -20,7 +20,7 @@
 {
     NSString *template = @"INSERT INTO UserListings"
         "( uid, user_id,address,unit, neighborhood, movin_cost,montly_cost,movein_date, bedrooms, bathrooms, broker_fee, outdoor_space, cats, dogs, gym, listing_state, washer_dryer, keywords )"
-        "VALUES ('%@', '%@', '%@', '%@', '%@', %0.2f,%0.2f, '%@', %i, %i, %d, %d, %d, %d, %d, %i, %d, %@ );";
+        "VALUES ('%@', '%@', '%@', '%@', '%@', %0.2f,%0.2f, '%@', %i, %i, %f, %d, %d, %d, %d, %i, %d, '%@' );";
     NSString *sql = [NSString stringWithFormat:template,
                      listing.objectId,
                      [User sharedUser].uid,
@@ -32,7 +32,7 @@
                      [listing.moveInDate toSQLString],
                      [listing.bedrooms intValue],
                      [listing.bathrooms intValue],
-                     [listing.brokerfee boolValue],
+                     [listing.brokerfee floatValue],
                      [listing.outdoorSpace boolValue],
                      [listing.cats boolValue],
                      [listing.dogs boolValue],

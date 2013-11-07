@@ -100,7 +100,13 @@ typedef enum FormField
     kWasherDryerFilter   = 33,
     kDoormanFilter       = 34,
     kGymFilter           = 35,
-    kPoolFilter          = 36
+    kPoolFilter          = 36,
+    
+    // login extended
+    kUserActivelyLooking = 39,
+    kUserMovinDate       = 40,
+    kUserMaxRent         = 41,
+    kUserMinBedrooms     = 42,
 
 }FormField;
 

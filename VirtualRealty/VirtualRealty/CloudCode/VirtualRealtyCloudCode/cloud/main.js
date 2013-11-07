@@ -10,7 +10,7 @@ Parse.Cloud.define("saveListing", function(request, response)
     this.neighborhood = request.params.neighborhood;
 	this.monthlyCost  = request.params.monthlyCost;
 	this.moveInCost   = request.params.moveInCost;
-	this.brokerfee    = ( request.params.brokerfee == 0 ) ? false : true;
+	this.brokerfee    = request.params.brokerfee;
 	this.moveInDate   = request.params.moveInDate;
 	this.contact      = request.params.contact;
 	this.share        = ( request.params.share == 0) ? false : true;

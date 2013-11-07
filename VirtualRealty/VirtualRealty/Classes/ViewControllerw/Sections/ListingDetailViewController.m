@@ -270,7 +270,15 @@
     SQLRequest *req = [[SQLRequest alloc]initWithQuery:sql andType:kSelect andName:@"save-favorite"];
     [req runInsertOnDatabaseManager:[SQLiteManager sharedDatabase] WithBlock:^(BOOL success)
     {
-        [blockself handleFavoriteSaved];
+        if( success  )
+        {
+            [blockself handleFavoriteSaved];
+        }
+        else
+        {
+            [blockself handleFavoriteFailed];   
+        }
+        
     }];
 }
 
@@ -281,6 +289,15 @@
     
     NSString *title   = NSLocalizedString( @"Saved", @"Genereic : Saved object");
     NSString *message = NSLocalizedString( @"This listing has been saved to your favorites", @"Genereic : Saved listing messagea");
+    UIAlertView *alert = [[UIAlertView alloc]initWithTitle:title message:message delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+    [alert show];
+}
+
+-(void)handleFavoriteFailed
+{
+    
+    NSString *title   = NSLocalizedString( @"Sorry", @"Genereic : Sorry");
+    NSString *message = NSLocalizedString( @"There was an error saving your listing" , @"Saved listing failed message");
     UIAlertView *alert = [[UIAlertView alloc]initWithTitle:title message:message delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
     [alert show];
 }

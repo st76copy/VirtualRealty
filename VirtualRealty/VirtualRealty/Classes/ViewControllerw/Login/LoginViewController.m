@@ -12,27 +12,33 @@
 #import "ErrorFactory.h"
 #import "Utils.h"
 #import "User.h"
+#import "KeyboardManager.h"
+#import "PickerManager.h"
+#import "NSDate+Extended.h"
 
-@interface LoginViewController ()<FormCellDelegate>
+@interface LoginViewController ()<FormCellDelegate,KeyboardManagerDelegate,PickerManagerDelegate>
 
 -(void)handleLoginTouch:(id)sender;
 -(void)handleCancelTouch:(id)sender;
 -(id)getValueForField:(FormField)field;
 -(BOOL)validateForm;
 -(void)facebookLogin;
+
 @end
 
 @implementation LoginViewController
 
-@synthesize loginArray  = _loginArray;
-@synthesize signupArray = _signupArray;
-@synthesize loginTabel  = _loginTabel;
-@synthesize signupTabel = _signupTabel;
-@synthesize loadingView = _loadingView;
+@synthesize currentIndexPath = _currentIndexPath;
+@synthesize loginArray       = _loginArray;
+@synthesize signupArray      = _signupArray;
+@synthesize loginTabel       = _loginTabel;
+@synthesize signupTabel      = _signupTabel;
+@synthesize loadingView      = _loadingView;
 
 @synthesize username = _username;
 @synthesize password = _password;
 
+@synthesize currentField = _currentField;
 @synthesize state = _state;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
@@ -79,6 +85,20 @@
     
 }
 
+-(void)viewDidAppear:(BOOL)animated
+{
+    [[KeyboardManager sharedManager]registerDelegate:self];
+    [[PickerManager sharedManager]registerDelegate:self];
+}
+
+-(void)viewDidDisappear:(BOOL)animated
+{
+    [[KeyboardManager sharedManager]unregisterDelegate:self];
+    [[PickerManager sharedManager]unregisterDelegate:self];
+}
+
+
+
 -(NSInteger )tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     NSDictionary *sectionInfo = ( _state == kLogin ) ? [_loginArray objectAtIndex:section] : [_signupArray objectAtIndex:section];
@@ -93,22 +113,27 @@
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    NSString *reuse = @"cell";
-    
+
+
     NSDictionary *sectionInfo = ( _state == kLogin ) ? [_loginArray objectAtIndex:indexPath.section] : [_signupArray objectAtIndex:indexPath.section];
     NSArray      *cells       = [sectionInfo valueForKey:@"cells"];
     NSMutableDictionary *info = [[cells objectAtIndex:indexPath.row]mutableCopy];
+
     
     [info setValue:[self getValueForField:[[info valueForKey:@"field"] intValue]] forKey:@"current-value"];
-    FormCell *cell = (FormCell *)[tableView dequeueReusableCellWithIdentifier:reuse];
     
+    NSString *reuse = [info valueForKey:@"class"];
+    FormCell *cell  = (FormCell *)[tableView dequeueReusableCellWithIdentifier:reuse];
+    
+    NSLog(@"%@ loading class %@ ", self, [info valueForKey:@"class"]);
     if( cell == nil )
     {
         cell = [[NSClassFromString([info valueForKey:@"class"]) alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:reuse];
     }
     
+    cell.indexPath    = indexPath;
     cell.formDelegate = self;
-    cell.cellinfo = info;
+    cell.cellinfo     = info;
     [cell render];
  
     return cell;
@@ -116,12 +141,54 @@
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    FormCell *cell = (FormCell*)[tableView cellForRowAtIndexPath:indexPath];
+    
+    FormCell *cell  = (FormCell*)[tableView cellForRowAtIndexPath:indexPath];
+    FormField field = [[cell.cellinfo valueForKey:@"field"]intValue];
+   
+    if( [KeyboardManager sharedManager].isShowing && [self isSameCell:indexPath] )
+    {
+        [[KeyboardManager sharedManager] close];
+        return;
+    }
+    
+    if( [PickerManager sharedManager].isShowing && [self isSameCell:indexPath] )
+    {
+        [[PickerManager sharedManager]hidePicker];
+        return;
+    }
+    
+    if( [cell.cellinfo valueForKey:@"field"] && self.currentField != [[cell.cellinfo valueForKey:@"field"] intValue])
+    {
+        _currentField      = [[cell.cellinfo valueForKey:@"field"]intValue];
+        _currentIndexPath  = indexPath;
+    }
+    
+    switch (field)
+    {
+        case kUserActivelyLooking:
+            break;
+        case kUserMovinDate:
+            [PickerManager sharedManager].type = kDate;
+            [[PickerManager sharedManager]showPickerInView:self.view];
+            break;
+        case kUserMinBedrooms:
+        case kUserMaxRent:
+            [cell setFocus];
+            [self animateToCell];
+            break;
+            
+        default:
+            break;
+    }
+    
+    
     if( [cell.cellinfo valueForKey:@"custom-action"] )
     {
         SEL sel = NSSelectorFromString([cell.cellinfo valueForKey:@"custom-action"]);
         [self performSelector:sel];
     }
+    
+    
 }
 
 -(NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
@@ -130,18 +197,37 @@
     return [sectionInfo valueForKey:@"section-title"];
 }
 
+-(void)cell:(FormCell *)cell didStartInteract:(FormField)field
+{
+    [self tableView:self.signupTabel didSelectRowAtIndexPath:cell.indexPath];
+}
+
 -(void)cell:(FormCell *)cell didChangeForField:(FormField)field
 {
-    TextInputCell *c = nil;
+    
+    UITableView *view = ( self.state == kLogin ) ? self.loginTabel : self.signupTabel;
+    FormCell *c = (FormCell *)[view cellForRowAtIndexPath:self.currentIndexPath];
     switch (field)
     {
         case kEmail:
-            c = ( TextInputCell *)cell;
-            _username = c.inputField.text;
+            _username = c.formValue;
             break;
         case kPassword:
-            c = ( TextInputCell *)cell;
-            _password = c.inputField.text;
+            _password = c.formValue;
+            break;
+        case kUserActivelyLooking :
+            [User sharedUser].activelySearching = c.formValue;
+            break;
+        case kUserMaxRent :
+            [User sharedUser].maxRent = c.formValue;
+            break;
+        case kUserMinBedrooms :
+            [User sharedUser].minBedrooms = c.formValue;
+            break;
+        case kUserMovinDate :
+            [User sharedUser].moveInAfter = c.formValue;
+            break;
+        default:
             break;
     }
 }
@@ -165,14 +251,26 @@
         case kPassword:
             value = _password;
             break;
+        case kUserActivelyLooking :
+            value = [User sharedUser].activelySearching;
+            break;
+        case kUserMaxRent :
+            value = [User sharedUser].maxRent;
+            break;
+        case kUserMinBedrooms :
+            value = [User sharedUser].minBedrooms;
+            break;
+        case kUserMovinDate :
+            value = [User sharedUser].moveInAfter;
+            break;
+        default:
+            break;
     }
     return value;
 }
 
 -(void)handleLoginTouch:(id)sender
 {
-    
-    
     if( [self validateForm] )
     {
         
@@ -291,6 +389,76 @@
         [blockself.loadingView hide];
     }];
 }
+#pragma mark - utils;
+-(void)animateToCell
+{
+    CGRect rect = [self.signupTabel cellForRowAtIndexPath:self.currentIndexPath].frame;
+    [self.signupTabel scrollRectToVisible:rect animated:YES];
+}
 
+-(BOOL)isSameCell:(NSIndexPath *)path
+{
+    return ( self.currentIndexPath.row == path.row && self.currentIndexPath.section == path.section ) ? YES : NO;
+}
+
+
+#pragma mark - picker
+-(void)pickerWillShow
+{
+    if( [KeyboardManager sharedManager].isShowing )
+    {
+        [[KeyboardManager sharedManager]close];
+    }
+    
+    [UIView animateWithDuration:0.4 animations:^
+     {
+         self.signupTabel.contentInset =  UIEdgeInsetsMake(0, 0,[PickerManager sharedManager].container.frame.size.height, 0);
+     }];
+    
+    [self animateToCell];
+}
+
+-(void)pickerWillHide
+{
+    [UIView animateWithDuration:0.3  animations:^{
+        self.signupTabel.contentInset =  UIEdgeInsetsMake(64, 0, 0, 0);
+    }];
+}
+
+-(void)pickerDone
+{
+    FormCell *cell = (FormCell *)[self.signupTabel cellForRowAtIndexPath:self.currentIndexPath];
+    cell.formValue = [PickerManager sharedManager].datePicker.date;
+    cell.detailTextLabel.text = [[PickerManager sharedManager].datePicker.date toString];
+    [cell.formDelegate cell:cell didChangeForField:self.currentField];
+    [self.signupTabel reloadRowsAtIndexPaths:@[self.currentIndexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
+    [[PickerManager sharedManager]hidePicker];
+}
+
+#pragma mark - keyboard manager
+-(void)keyboardWillShow
+{
+    if( [PickerManager sharedManager].isShowing)
+    {
+        [[PickerManager sharedManager]hidePicker];
+    }
+    
+    [UIView setAnimationCurve:[KeyboardManager sharedManager].animationCurve ];
+    
+    [UIView animateWithDuration:[KeyboardManager sharedManager ].animationTime animations:^
+     {
+         self.signupTabel.contentInset =  UIEdgeInsetsMake(0, 0, [KeyboardManager sharedManager].keyboardFrame.size.height, 0);
+     }];
+    
+    [self animateToCell];
+    
+}
+
+-(void)keyboardWillHide
+{
+    [UIView animateWithDuration:0.3  animations:^{
+        self.signupTabel.contentInset =  UIEdgeInsetsMake(64, 0, 0, 0);
+    }];
+}
 
 @end

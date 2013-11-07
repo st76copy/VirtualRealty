@@ -46,6 +46,9 @@
     if( self != nil )
     {
         _state = kNoUser;
+        self.minBedrooms = @0;
+        self.maxRent     = @0;
+        self.moveInAfter = [NSDate date];
         [self loadFromDefaults];
     }
     return self;
@@ -70,6 +73,11 @@
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     [defaults setValue:_username forKey:@"username"];
     [defaults setValue:_uid      forKey:@"uid"];
+    
+    [defaults setValue:self.moveInAfter forKey:@"moveInAfter"];
+    [defaults setValue:self.maxRent     forKey:@"maxRent"];
+    [defaults setValue:self.minBedrooms forKey:@"minBedrooms"];
+    
     [defaults synchronize];
     _state = kUserValid;
 }
@@ -105,6 +113,12 @@
     temp.username = username;
     temp.password = password;
     temp.email    = username;
+    
+    [temp setValue:self.activelySearching forKey:@"activelySearching"];
+    [temp setValue:self.moveInAfter forKey:@"moveInAfter"];
+    [temp setValue:self.minBedrooms forKey:@"minBedrooms"];
+    [temp setValue:self.maxRent     forKey:@"maxRent"];
+   
     [temp addObject:[NSNumber numberWithBool:NO] forKey:@"facebook_user"];
     
     if( password == nil )
@@ -200,7 +214,14 @@
 
 -(void)handleFacebookAuth:(PFUser *)user
 {
-    [self saveToDefaults:user];
+    __block User *blockself = self;
+    [user addObject:self.moveInAfter forKey:@"moveInAfter"];
+    [user addObject:self.minBedrooms forKey:@"minBedrooms"];
+    [user addObject:self.maxRent     forKey:@"maxRent"];
+
+    [user saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+        [blockself saveToDefaults:user];      
+    }];
 }
 
 -(void)logout

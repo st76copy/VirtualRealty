@@ -122,7 +122,28 @@
 -(void)textFieldChanged:(id)sender
 {
     [super clearError];
-    self.formValue = @{@"address" :[LocationManager shareManager].currentAddress, @"location" :[LocationManager shareManager].location  };
+    __block MapCell *blockself = self;
+    
+    [[LocationManager shareManager]geoCodeUsingAddress:self.addresssLabel.text block:^(CLLocationCoordinate2D loc)
+    {
+         [blockself.map setCenterCoordinate:loc animated:YES];
+         MKCoordinateRegion region;
+         region.center = loc;
+         
+         MKCoordinateSpan span;
+         span.latitudeDelta  = 0.01;
+         span.longitudeDelta = 0.01;
+         region.span = span;
+         
+         MKPointAnnotation *annotation = [[MKPointAnnotation alloc] init];
+         [annotation setCoordinate:loc];
+         [self.map addAnnotation:annotation];
+         
+         [blockself.map setRegion:region animated:YES];
+         self.formValue = @{@"address" :[LocationManager shareManager].currentAddress, @"location" :[LocationManager shareManager].location  };
+         [blockself.formDelegate cell:self didChangeForField:[[self.cellinfo valueForKey:@"field"]intValue]];
+    }];
+
     [self.formDelegate cell:self didChangeForField:[[self.cellinfo valueForKey:@"field"]intValue] ];
 }
 
