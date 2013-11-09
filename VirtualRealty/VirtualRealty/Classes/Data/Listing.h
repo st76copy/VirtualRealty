@@ -64,6 +64,7 @@ typedef void (^LoadMediaBlock) (BOOL success);
 
 @property(nonatomic, strong)UIImage  *thumb;
 @property(nonatomic, strong)NSData   *video;
+@property(nonatomic, strong)NSString *videoName;
 @property(nonatomic, strong)NSArray  *keywords;
 @property(nonatomic, strong, readonly)NSURL *videoURL;
 

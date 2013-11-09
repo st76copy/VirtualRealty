@@ -41,7 +41,8 @@
         [self.tableData addObject:myListings];
         [self.tableData addObject:favorites];
         
-        self.navigationItem.title = @"My Listings";
+        self.navigationItem.title = [NSString stringWithFormat: @"Welcome %@", [User sharedUser].username];
+        
     }
     return self;
 }

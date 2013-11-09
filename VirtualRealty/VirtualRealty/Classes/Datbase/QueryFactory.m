@@ -20,7 +20,7 @@
 {
     NSString *template = @"INSERT INTO UserListings"
         "( uid, user_id,address,unit, neighborhood, movin_cost,montly_cost,movein_date, bedrooms, bathrooms, broker_fee, outdoor_space, cats, dogs, gym, listing_state, washer_dryer, keywords )"
-        "VALUES ('%@', '%@', '%@', '%@', '%@', %0.2f,%0.2f, '%@', %i, %i, %f, %d, %d, %d, %d, %i, %d, '%@' );";
+        "VALUES ('%@', '%@', '%@', '%@', '%@', %f, %f, '%@', %i, %i, %f, %d, %d, %d, %d, %i, %d, '%@' );";
     NSString *sql = [NSString stringWithFormat:template,
                      listing.objectId,
                      [User sharedUser].uid,
@@ -52,14 +52,14 @@
 
 +(NSString *)getFavoritesForUser:(User *)listing
 {
-    NSString *template = @"SELECT uid as objectId,address,unit, neighborhood, movin_cost,montly_cost,movein_date, bedrooms, bathrooms, broker_fee, outdoor_space, cats, dogs, gym, listing_state, washer_dryer FROM UserListings WHERE user_id = '%@'";
+    NSString *template = @"SELECT uid as objectId,address,unit, neighborhood, movin_cost as moveInCost,montly_cost as monthlyCost,movein_date as moveInDate, bedrooms, bathrooms, broker_fee as brokerfee, outdoor_space as outdoorSpace, cats, dogs, gym, listing_state as listingState, washer_dryer as washerDryer FROM UserListings WHERE user_id = '%@'";
     
     return [NSString stringWithFormat:template, [User sharedUser].uid];
 }
 
 +(NSString *)getListing:(Listing *)listing andUser:( User *)user
 {
-    NSString *template = @"SELECT uid as objectId,address,unit, neighborhood, movin_cost,montly_cost,movein_date, bedrooms, bathrooms, broker_fee, outdoor_space, cats, dogs, gym, listing_state, washer_dryer FROM UserListings WHERE uid = '%@' AND user_id = '%@'";
+    NSString *template = @"SELECT uid as objectId,address,unit, neighborhood, movin_cost as moveInCost,montly_cost as moveInCost,movein_date as moveInDate, bedrooms, bathrooms, broker_fee as brokerfee, outdoor_space as outdoorSpace, cats, dogs, gym, listing_state as listingState, washer_dryer as washerDryer FROM UserListings WHERE uid = '%@' AND user_id = '%@'";
     return  [NSString stringWithFormat:template, listing.objectId, user.uid];
 }
 @end

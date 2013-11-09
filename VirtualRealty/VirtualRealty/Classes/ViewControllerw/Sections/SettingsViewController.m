@@ -10,8 +10,11 @@
 #import "AbstractCell.h"
 #import "User.h"
 #import "AppDelegate.h"
+#import "FormCell.h"
+#import "ReachabilityManager.h"
+#import "ErrorFactory.h"
 
-@interface SettingsViewController ()
+@interface SettingsViewController ()<FormCellDelegate>
 -(void)toggleLogin;
 @end
 
@@ -19,6 +22,7 @@
 
 @synthesize table = _table;
 @synthesize data  = _data;
+@synthesize currentIndexPath = _currentIndexPath;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -53,6 +57,47 @@
     [self.table reloadData];
 }
 
+#pragma mark - cell managers
+
+-(void)cell:(FormCell *)cell didStartInteract:(FormField)field
+{
+    [self tableView:self.table didSelectRowAtIndexPath:cell.indexPath];
+}
+
+-(void)cell:(FormCell *)cell didChangeForField:(FormField)field
+{
+    switch (field)
+    {
+        case kUserActivelyLooking:
+            if( [ReachabilityManager sharedManager].currentStatus == NotReachable )
+            {
+                [[ReachabilityManager sharedManager]showAlert];
+                cell.formValue = [User sharedUser].activelySearching;
+                [cell render];
+            }
+            else
+            {
+                if( [User sharedUser].state == kUserValid )
+                {
+                    [User sharedUser].activelySearching = cell.formValue;
+                    [[User sharedUser]update];
+                }
+                else
+                {
+                    [[ErrorFactory getAlertCustomMessage:@"Please register to adjust this setting" andDelegateOrNil:nil andOtherButtons:nil ]show];
+                    cell.formValue = [User sharedUser].activelySearching;
+                    [cell render];
+                }
+            }
+            break;
+            
+        default:
+            
+            break;
+    }
+    
+}
+
 #pragma mark - Table Managment
 -(NSInteger )tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
@@ -68,15 +113,22 @@
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    NSDictionary *info = [self.data objectAtIndex:indexPath.row];
+    NSDictionary *info = [[self.data objectAtIndex:indexPath.row]mutableCopy];
     
-    AbstractCell *cell = (AbstractCell *)[tableView dequeueReusableCellWithIdentifier:[info valueForKey:@"cell"]];
+    FormCell *cell = (FormCell *)[tableView dequeueReusableCellWithIdentifier:[info valueForKey:@"cell"]];
+    
+
+    [info setValue:[self getValueForFormField:[[info valueForKey:@"field"] intValue]] forKey:@"current-value"];
+    
     
     if( cell == nil )
     {
         cell = [[NSClassFromString([info valueForKey:@"cell"]) alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:[info valueForKey:@"cell"]];
     }
+    
     cell.cellinfo = info;
+    cell.indexPath = indexPath;
+    cell.formDelegate = self;
     [cell render];
     return cell;
 }
@@ -93,6 +145,21 @@
         default:
             break;
     }
+}
+
+-(id)getValueForFormField:(FormField)field
+{
+    id value;
+    switch ( field )
+    {
+        case kUserActivelyLooking:
+            value = [User sharedUser].activelySearching;
+            break;
+            
+        default:
+            break;
+    }
+    return value;
 }
 
 -(void)handleLogin:(NSNotification* )note

@@ -124,6 +124,8 @@ Parse.Cloud.define("getFeaturedListings", function(request, response)
 	var Listing = Parse.Object.extend("Listing");
 	var query = new Parse.Query( Listing );
 	query.equalTo( "listingState", 1 );
+	query.equalTo( "isFeatured", true );
+
 	query.descending("createdAt");
 	
 	query.find({
@@ -235,6 +237,25 @@ Parse.Cloud.define("deleteListing", function(request, response)
 	
 });
 
+Parse.Cloud.define("allListings", function(request, response)
+{
+	var Listing = Parse.Object.extend("Listing");
+	var query = new Parse.Query( Listing );
+	query.equalTo( "listingState", 1 );
+
+	query.descending("createdAt");
+	
+	query.find({
+		success: function(results) 
+		{
+			response.success( results );		
+	    },
+		error: function(error) 
+		{
+   			alert("Error: " + error.code + " " + error.message);
+  		}
+	});
+});
 
 Parse.Cloud.define("search", function(request, response)
 {

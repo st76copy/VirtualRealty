@@ -13,6 +13,10 @@
 #import "FacebookManager.h"
 
 @interface User()
+{
+    PFUser *userRef;
+}
+-(void)softLogin:(void (^) (BOOL success) )block;
 -(void)handleUserLoggedIn:(PFUser *)temp;
 -(void)loadFromDefaults;
 -(void)saveToDefaults:(PFUser *)user;
@@ -27,7 +31,8 @@
 @synthesize username = _username;
 @synthesize loginBlock;
 @synthesize state    = _state;
-
+@synthesize password = _password;
+@synthesize facebookUser = _facebookUser;
 +(User *)sharedUser
 {
     static User *instance;
@@ -46,6 +51,7 @@
     if( self != nil )
     {
         _state = kNoUser;
+        _facebookUser    = [NSNumber numberWithBool:NO];
         self.minBedrooms = @0;
         self.maxRent     = @0;
         self.moveInAfter = [NSDate date];
@@ -59,6 +65,16 @@
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     _username = [defaults valueForKey:@"username"];
     _uid      = [defaults valueForKey:@"uid"];
+    _password = [defaults valueForKey:@"password"];
+    _facebookUser = [defaults valueForKey:@"facebookUser"];
+    
+    self.minBedrooms = ([defaults valueForKey:@"minBedrooms"] ) ? [defaults valueForKey:@"minBedrooms"] : @0;
+    self.maxRent     = ([defaults valueForKey:@"maxRent"])?[defaults valueForKey:@"maxRent"] : @0;
+    self.moveInAfter = ([defaults valueForKey:@"moveInAfter"]) ? [defaults valueForKey:@"moveInAfter"] : [NSDate date];
+    self.activelySearching = ([defaults valueForKey:@"activelySearching"])?[defaults valueForKey:@"activelySearching"] : [NSNumber numberWithBool:NO];
+    
+    userRef   = [defaults valueForKey:@"userRef"];
+    
     if( self.username != nil  || self.uid != nil )
     {
         _state = kUserValid;
@@ -67,16 +83,24 @@
 
 -(void)saveToDefaults:(PFUser *)temp
 {
-    _username = temp.username;
+    userRef   = temp;
+    _username = temp.email;
     _uid      = temp.objectId;
     
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     [defaults setValue:_username forKey:@"username"];
     [defaults setValue:_uid      forKey:@"uid"];
+    [defaults setValue:_password forKey:@"password"];
+    [defaults setValue:_facebookUser forKey:@"facebookUser" ];
     
-    [defaults setValue:self.moveInAfter forKey:@"moveInAfter"];
-    [defaults setValue:self.maxRent     forKey:@"maxRent"];
-    [defaults setValue:self.minBedrooms forKey:@"minBedrooms"];
+    
+    if( [self.activelySearching boolValue] )
+    {
+        [defaults setValue:self.activelySearching forKey:@"activelySearching"];
+        [defaults setValue:self.moveInAfter forKey:@"moveInAfter"];
+        [defaults setValue:self.maxRent     forKey:@"maxRent"];
+        [defaults setValue:self.minBedrooms forKey:@"minBedrooms"];
+    }
     
     [defaults synchronize];
     _state = kUserValid;
@@ -90,6 +114,7 @@
     {
         self.loginBlock = block;
     }
+    _password = password;
     
     __block User *blockself = self;
     [PFUser logInWithUsernameInBackground:username password:password block:^(PFUser *user, NSError *error)
@@ -114,10 +139,12 @@
     temp.password = password;
     temp.email    = username;
     
+    _password = password;
+    
     [temp setValue:self.activelySearching forKey:@"activelySearching"];
-    [temp setValue:self.moveInAfter forKey:@"moveInAfter"];
-    [temp setValue:self.minBedrooms forKey:@"minBedrooms"];
-    [temp setValue:self.maxRent     forKey:@"maxRent"];
+    [temp setValue:self.moveInAfter       forKey:@"moveInAfter"];
+    [temp setValue:self.minBedrooms       forKey:@"minBedrooms"];
+    [temp setValue:self.maxRent           forKey:@"maxRent"];
    
     [temp addObject:[NSNumber numberWithBool:NO] forKey:@"facebook_user"];
     
@@ -193,6 +220,7 @@
 
 -(void)authFacebookUser
 {
+    NSLog(@"%@ authFacebookUser " , self );
     __block User *blockself = self;
     FacebookManager *fb = [FacebookManager sharedManager];
     [PFFacebookUtils initializeFacebook];   
@@ -201,8 +229,7 @@
         if( user )
         {
             [blockself handleFacebookAuth:user];
-            blockself.loginBlock(YES);
-            [[NSNotificationCenter defaultCenter]postNotificationName:kLOGIN_NOTIFICATION_NAME object:nil];
+            //[[NSNotificationCenter defaultCenter]postNotificationName:kLOGIN_NOTIFICATION_NAME object:nil];
         }
         else
         {
@@ -215,13 +242,90 @@
 -(void)handleFacebookAuth:(PFUser *)user
 {
     __block User *blockself = self;
-    [user addObject:self.moveInAfter forKey:@"moveInAfter"];
-    [user addObject:self.minBedrooms forKey:@"minBedrooms"];
-    [user addObject:self.maxRent     forKey:@"maxRent"];
+    NSLog(@"%@ facebookAUtho " , self);
+    [user setValue:self.moveInAfter forKey:@"moveInAfter"];
+    [user setValue:self.minBedrooms forKey:@"minBedrooms"];
+    [user setValue:self.maxRent     forKey:@"maxRent"];
+    
+    if( user.email == nil )
+    {
+        user.email    = self.username;
+    }
+    
+    _facebookUser = [NSNumber numberWithBool:YES];
 
     [user saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
-        [blockself saveToDefaults:user];      
+        
+        [blockself saveToDefaults:user];
+        if( blockself.loginBlock )
+        {
+            blockself.loginBlock(YES);
+        }
     }];
+}
+
+-(void)update
+{
+    __block User *blockself = self;
+    if( userRef )
+    {
+        [userRef saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+            
+            if( succeeded )
+            {
+                
+            }
+            else
+            {
+                [[ErrorFactory getAlertCustomMessage:@"Sorry update currently not available" andDelegateOrNil:Nil andOtherButtons:nil]show];
+            }
+        }];
+    }
+    else
+    {
+        [self softLogin:^(BOOL success) {
+            if( success  )
+            {
+                [blockself update];
+            }
+            else
+            {
+                [[ErrorFactory getAlertCustomMessage:@"Sorry soft login failed" andDelegateOrNil:Nil andOtherButtons:nil]show];
+            }
+        }];
+    }
+}
+
+-(void)softLogin:(void (^) (BOOL success) )block
+{
+    if( [self.facebookUser boolValue] )
+    {
+        self.loginBlock = ^(BOOL success)
+        {
+            if( success )
+            {
+                block(YES);
+            }
+            else
+            {
+                block(NO);
+            }
+        };
+        [self authFacebookUser];
+    }
+    else
+    {
+        [self loginWithUsername:self.username andPassword:self.password andBlock:^(BOOL success) {
+            if( success )
+            {
+                block(YES);
+            }
+            else
+            {
+                block(NO);
+            }
+        }];
+    }
 }
 
 -(void)logout
@@ -229,9 +333,15 @@
     _username = nil;
     _uid      = nil;
     
+    _activelySearching = [NSNumber numberWithBool:NO];
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     [defaults removeObjectForKey:@"username"];
     [defaults removeObjectForKey:@"uid"];
+    [defaults removeObjectForKey:@"activelySearching"];
+    [defaults removeObjectForKey:@"moveInAfter"];
+    [defaults removeObjectForKey:@"maxRent"];
+    [defaults removeObjectForKey:@"minBedrooms"];
+
     [defaults synchronize];
     _state = kNoUser;
     

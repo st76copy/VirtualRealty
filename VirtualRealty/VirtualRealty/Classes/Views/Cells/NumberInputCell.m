@@ -22,8 +22,14 @@
     return self;
 }
 
+-(void)layoutSubviews
+{
+    [super layoutSubviews];
+}
+
 -(void)inputTextChanged:(id)sender
 {
+    
     [super clearError];
     self.formValue = [NSNumber numberWithFloat:[self.inputField.text floatValue]];
     [self.formDelegate cell:self didChangeForField:[[self.cellinfo valueForKey:@"field"]intValue] ];
@@ -44,10 +50,13 @@
     self.textLabel.text         = [self.cellinfo valueForKey:@"label"];
     self.inputField.placeholder = [self.cellinfo valueForKey:@"placeholder"];
     
+    
+    NSString *format = [self.cellinfo valueForKey:@"format"];
     if( [self.cellinfo valueForKey:@"current-value"] )
     {
         float value =  [[self.cellinfo valueForKey:@"current-value"] floatValue];
-        self.inputField.text = [NSString stringWithFormat:@"%0.2f", value];
+        NSString *text = ( value == 0 ) ? @"" : [NSString stringWithFormat:format, value];
+        self.inputField.text = text;
     }
     else
     {

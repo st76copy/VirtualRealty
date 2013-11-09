@@ -12,5 +12,5 @@
 
 @property(nonatomic, strong, readonly)UITableView *table;
 @property(nonatomic, strong, readonly)NSArray     *data;
-
+@property(nonatomic, strong, readonly)NSIndexPath *currentIndexPath;
 @end

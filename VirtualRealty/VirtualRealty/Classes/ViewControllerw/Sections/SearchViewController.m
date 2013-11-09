@@ -52,6 +52,13 @@
     
     UIBarButtonItem *filterButton = [[UIBarButtonItem alloc]initWithTitle:@"filter" style:UIBarButtonItemStyleBordered target:self action:@selector(handleMakeFilter:)];
     self.navigationItem.rightBarButtonItem = filterButton;
+    
+    __block SearchViewController *blockself = self;
+    [PFCloud  callFunctionInBackground:@"allListings" withParameters:[NSDictionary dictionary] block:^(id object, NSError *error)
+    {
+         [blockself handleDataLoaded:object];
+    }];
+
 }
 
 -(void)handleDataLoaded:(NSArray *)data

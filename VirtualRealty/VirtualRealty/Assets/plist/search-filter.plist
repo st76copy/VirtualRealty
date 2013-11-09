@@ -97,6 +97,10 @@
 		<key>cells</key>
 		<array>
 			<dict>
+				<key>placeholder</key>
+				<string>$0.00</string>
+				<key>format</key>
+				<string>$%0.2f</string>
 				<key>animatable</key>
 				<false/>
 				<key>field</key>
@@ -109,6 +113,10 @@
 				<string>NumberInputCell</string>
 			</dict>
 			<dict>
+				<key>placeholder</key>
+				<string>$0.00</string>
+				<key>format</key>
+				<string>$%0.2f</string>
 				<key>field</key>
 				<integer>24</integer>
 				<key>state</key>
@@ -121,6 +129,10 @@
 				<string>NumberInputCell</string>
 			</dict>
 			<dict>
+				<key>placeholder</key>
+				<string>$0.00</string>
+				<key>format</key>
+				<string>$%0.2f</string>
 				<key>field</key>
 				<integer>25</integer>
 				<key>state</key>
@@ -140,6 +152,8 @@
 		<key>cells</key>
 		<array>
 			<dict>
+				<key>placeholder</key>
+				<string>bedrooms needed</string>
 				<key>animatable</key>
 				<false/>
 				<key>field</key>
@@ -152,6 +166,8 @@
 				<string>NumberInputCell</string>
 			</dict>
 			<dict>
+				<key>placeholder</key>
+				<string>minimum bathrooms</string>
 				<key>animatable</key>
 				<false/>
 				<key>field</key>

@@ -82,6 +82,7 @@
     _table = [[UITableView alloc]initWithFrame:rect style:UITableViewStyleGrouped];
     [_table setDataSource:self];
     [_table setDelegate:self];
+    [_table setSeparatorInset:UIEdgeInsetsZero];
     [self.view addSubview:_table];
 }
 
@@ -344,7 +345,7 @@
             value = self.listing.washerDryer;
             break;
         case kVideo :
-            value = self.listing.video;
+            value = self.listing.videoName;
             break;
         case kThumbnail:
             value = self.listing.thumb;
@@ -431,8 +432,6 @@
         default:
             break;
     }
-    
-    NSLog(@"%@ current listing \n%@ ",self,  self.listing);
 }
 
 -(void)cell:(FormCell *)cell didStartInteract:(FormField)field
@@ -577,6 +576,7 @@
         case kVideo:
             
             imagePicker.mediaTypes        = @[(NSString *) kUTTypeMovie];
+            imagePicker.videoMaximumDuration = 60 * 1;
             imagePicker.cameraCaptureMode = UIImagePickerControllerCameraCaptureModeVideo;
             break;
         default:
@@ -607,6 +607,7 @@
             self.listing.thumb = [Utils resizeImage:source toSize:CGSizeMake(source.size.width * 0.3, source.size.height * 0.3 )];
             break;
         case kVideo:
+            self.listing.videoName = self.listing.address;
             self.listing.video = [NSData dataWithContentsOfURL:[info valueForKey:UIImagePickerControllerMediaURL]];
             break;
         default:

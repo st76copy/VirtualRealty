@@ -64,6 +64,8 @@
 		<key>cells</key>
 		<array>
 			<dict>
+				<key>format</key>
+				<string>$%0.2f</string>
 				<key>read-only</key>
 				<true/>
 				<key>field</key>
@@ -74,6 +76,8 @@
 				<string>NumberInputCell</string>
 			</dict>
 			<dict>
+				<key>format</key>
+				<string>$%0.2f</string>
 				<key>read-only</key>
 				<true/>
 				<key>field</key>
@@ -84,6 +88,8 @@
 				<string>NumberInputCell</string>
 			</dict>
 			<dict>
+				<key>format</key>
+				<string>$%0.2f</string>
 				<key>read-only</key>
 				<true/>
 				<key>field</key>
@@ -101,6 +107,8 @@
 		<key>cells</key>
 		<array>
 			<dict>
+				<key>format</key>
+				<string>$%0.1f</string>
 				<key>read-only</key>
 				<true/>
 				<key>field</key>
@@ -111,6 +119,8 @@
 				<string>NumberInputCell</string>
 			</dict>
 			<dict>
+				<key>format</key>
+				<string>$%0.1f</string>
 				<key>read-only</key>
 				<true/>
 				<key>field</key>

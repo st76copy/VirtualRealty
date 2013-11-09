@@ -3,7 +3,7 @@
 <plist version="1.0">
 <array>
 	<dict>
-		<key>filed</key>
+		<key>field</key>
 		<integer>0</integer>
 		<key>requires-user</key>
 		<true/>
@@ -13,6 +13,18 @@
 		<string>UserContentViewController</string>
 		<key>label</key>
 		<string>logged in as %@</string>
+	</dict>
+	<dict>
+		<key>field</key>
+		<integer>39</integer>
+		<key>requires-user</key>
+		<true/>
+		<key>cell</key>
+		<string>SwitchCell</string>
+		<key>class</key>
+		<string>UserContentViewController</string>
+		<key>label</key>
+		<string>Actively Looking</string>
 	</dict>
 </array>
 </plist>

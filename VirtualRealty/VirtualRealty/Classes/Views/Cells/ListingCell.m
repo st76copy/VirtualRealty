@@ -94,12 +94,16 @@
     {
         [self.listing loadThumb:^(BOOL success)
         {
-            blockself.thumb.image = blockself.listing.thumb;
+            CGSize size  = blockself.listing.thumb.size;
+            UIImage *img = [Utils resizeImage:blockself.listing.thumb toSize:CGSizeMake(size.width * 0.3, size.height * 0.3)];
+            blockself.thumb.image = img;
         }];
     }
     else
     {
-        self.thumb.image = self.listing.thumb;
+        CGSize size  = blockself.listing.thumb.size;
+        UIImage *img = [Utils resizeImage:blockself.listing.thumb toSize:CGSizeMake(size.width * 0.3, size.height * 0.3)];
+        self.thumb.image = img;
     }
     self.selectionStyle = UITableViewCellSelectionStyleNone;
     

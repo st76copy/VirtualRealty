@@ -42,6 +42,12 @@
     if( self != nil )
     {
         _connection = [[FBRequestConnection alloc] init];
+        
+        NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+        _token = [defaults valueForKey:@"token"];
+        _tokenExpiration = [defaults valueForKey:@"tokenExpiration"];
+        _fbid = [defaults valueForKey:@"fbid"];
+
     }
     return self;
 }
@@ -82,12 +88,12 @@
     _currentSession    = activeSession;
     _token             = [self.currentSession accessTokenData].accessToken;
     _tokenExpiration   = [self.currentSession accessTokenData].expirationDate;
+    
     FBRequest  *requst = [[FBRequest alloc]initWithSession:self.currentSession graphPath:@"me"];
     
     [self.connection addRequest:requst completionHandler:^(FBRequestConnection *connection, id result, NSError *error) {
         
         [blockself handleResultsLoaded:result];
-        
         
         if( blockself.loginBlock )
         {
@@ -103,12 +109,25 @@
 {
     _email = [results valueForKey:@"email"];
     _fbid  = [results valueForKey:@"id"];
+    
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    [defaults setValue:_token forKey:@"token"];
+    [defaults setValue:_tokenExpiration forKey:@"tokenExpiration"];
+    [defaults setValue:_fbid forKey:@"fbid"];
+    [defaults synchronize];
 }
 
 -(void)logout
 {
     self.loginBlock = nil;
     [self.currentSession close];
+    
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    [defaults removeObjectForKey:@"token"];
+    [defaults removeObjectForKey:@"tokenExpiration"];
+    [defaults removeObjectForKey:@"fbid"];
+    [defaults synchronize];
+
     _email = nil;
 }
 

@@ -10,7 +10,7 @@
 
 #define kSQLStringFromat      @"yyyy-MM-dd HH:mm:ss"
 #define kStandardStringFormat @"dd-MM-yyyy hh:mm:ss a z"
-#define kShortFormat          @"dd-MM-yyyy"
+#define kShortFormat          @"MM/dd/yyyy"
 
 @implementation NSDate (Extended)
 

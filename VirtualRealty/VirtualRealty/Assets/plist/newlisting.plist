@@ -293,6 +293,10 @@
 		<key>cells</key>
 		<array>
 			<dict>
+				<key>format</key>
+				<string>$%0.2f</string>
+				<key>placeholder</key>
+				<string>$0.00</string>
 				<key>animatable</key>
 				<false/>
 				<key>field</key>
@@ -305,6 +309,10 @@
 				<string>NumberInputCell</string>
 			</dict>
 			<dict>
+				<key>format</key>
+				<string>$%0.2f</string>
+				<key>placeholder</key>
+				<string>$0.00</string>
 				<key>field</key>
 				<integer>5</integer>
 				<key>state</key>
@@ -317,6 +325,10 @@
 				<string>NumberInputCell</string>
 			</dict>
 			<dict>
+				<key>format</key>
+				<string>$%0.2f</string>
+				<key>placeholder</key>
+				<string>$0.00</string>
 				<key>field</key>
 				<integer>6</integer>
 				<key>state</key>
@@ -336,6 +348,10 @@
 		<key>cells</key>
 		<array>
 			<dict>
+				<key>format</key>
+				<string>%0.1f</string>
+				<key>placeholder</key>
+				<string>minimum bedrooms</string>
 				<key>animatable</key>
 				<false/>
 				<key>field</key>
@@ -348,6 +364,10 @@
 				<string>NumberInputCell</string>
 			</dict>
 			<dict>
+				<key>format</key>
+				<string>%0.1f</string>
+				<key>placeholder</key>
+				<string>minimum bathrooms</string>
 				<key>animatable</key>
 				<false/>
 				<key>field</key>
@@ -408,6 +428,8 @@
 				<string>DateCell</string>
 			</dict>
 			<dict>
+				<key>placeholder</key>
+				<string>email address</string>
 				<key>field</key>
 				<integer>20</integer>
 				<key>state</key>

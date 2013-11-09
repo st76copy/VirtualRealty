@@ -13,9 +13,11 @@ typedef void (^LoginInCompleteBlock) (BOOL success);
 
 @interface User : NSObject
 
-@property(nonatomic, strong, readonly)NSString   *username;
-@property(nonatomic, strong, readonly)NSString   *uid;
 @property(nonatomic, copy)LoginInCompleteBlock    loginBlock;
+@property(nonatomic, strong)NSString             *username;
+@property(nonatomic, strong)NSNumber             *facebookUser;
+@property(nonatomic, strong, readonly)NSString   *password;
+@property(nonatomic, strong, readonly)NSString   *uid;
 @property(nonatomic, assign, readonly)UserState  state;
 @property(nonatomic, strong, readonly)NSArray    *listings;
 @property(nonatomic, strong, readonly)NSArray    *recentListings;
@@ -32,6 +34,6 @@ typedef void (^LoginInCompleteBlock) (BOOL success);
 -(void)loginWithFacebook:(LoginInCompleteBlock)block;
 -(void)logout;
 -(BOOL)valid;
-
+-(void)update;
 +(User* )sharedUser;
 @end

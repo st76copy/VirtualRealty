@@ -6,9 +6,8 @@
 //  Copyright (c) 2013 virtualrealty. All rights reserved.
 //
 
-#import "AbstractCell.h"
-
-@interface UserCell : AbstractCell
+#import "FormCell.h"
+@interface UserCell : FormCell
 
 
 

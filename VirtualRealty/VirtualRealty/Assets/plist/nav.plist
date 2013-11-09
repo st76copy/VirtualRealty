@@ -10,7 +10,7 @@
 		<key>class</key>
 		<string>UserContentViewController</string>
 		<key>label</key>
-		<string>logged in as %@</string>
+		<string>My Listings</string>
 	</dict>
 	<dict>
 		<key>requires-user</key>
@@ -28,7 +28,7 @@
 		<key>cell</key>
 		<string>AbstractCell</string>
 		<key>label</key>
-		<string>Search</string>
+		<string>All Listings</string>
 		<key>class</key>
 		<string>SearchViewController</string>
 	</dict>

@@ -36,10 +36,21 @@
 {
     [super layoutSubviews];
     [self.backgroundView setBackgroundColor:[UIColor whiteColor]];
-    CGRect rect = self.inputField.frame;
-    rect.origin.x = self.contentView.frame.size.width - (rect.size.width + 5);
+
+    [self.textLabel sizeToFit];
+    CGRect rect = self.textLabel.frame;
+    rect.origin.x = 10.0f;
+    rect.origin.y = self.contentView.frame.size.height * 0.5 - rect.size.height * 0.5;
+    self.textLabel.frame = rect;
+    
+    float width = 300 - ( self.textLabel.frame.origin.x + self.textLabel.frame.size.width);
+
+    rect = self.inputField.frame;
+    rect.size.width = width;
+    rect.origin.x = self.textLabel.frame.origin.x + self.textLabel.frame.size.width + 10;
     rect.origin.y = self.contentView.frame.size.height * 0.5 - rect.size.height * 0.5;
     self.inputField.frame = rect;
+    
     [self.contentView bringSubviewToFront:self.inputField];
 }
 
@@ -98,6 +109,7 @@
     
     if([self.formDelegate respondsToSelector:@selector(cell:didStartInteract:)] )
     {
+        [[KeyboardManager sharedManager]showWithFocusField:self.inputField];
         [self.formDelegate cell:self didStartInteract:[[self.cellinfo valueForKey:@"field"]intValue]];
     }
 }
@@ -114,6 +126,10 @@
 
 -(void)setFocus
 {
-    [[KeyboardManager sharedManager]showWithFocusField:self.inputField];
+    if( [KeyboardManager sharedManager].isShowing == NO)
+    {
+        [[KeyboardManager sharedManager]showWithFocusField:self.inputField];
+    }
+
 }
 @end

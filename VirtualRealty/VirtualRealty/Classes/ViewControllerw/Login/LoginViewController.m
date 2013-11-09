@@ -113,19 +113,15 @@
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-
-
     NSDictionary *sectionInfo = ( _state == kLogin ) ? [_loginArray objectAtIndex:indexPath.section] : [_signupArray objectAtIndex:indexPath.section];
     NSArray      *cells       = [sectionInfo valueForKey:@"cells"];
     NSMutableDictionary *info = [[cells objectAtIndex:indexPath.row]mutableCopy];
-
     
     [info setValue:[self getValueForField:[[info valueForKey:@"field"] intValue]] forKey:@"current-value"];
     
     NSString *reuse = [info valueForKey:@"class"];
     FormCell *cell  = (FormCell *)[tableView dequeueReusableCellWithIdentifier:reuse];
     
-    NSLog(@"%@ loading class %@ ", self, [info valueForKey:@"class"]);
     if( cell == nil )
     {
         cell = [[NSClassFromString([info valueForKey:@"class"]) alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:reuse];
@@ -160,11 +156,19 @@
     if( [cell.cellinfo valueForKey:@"field"] && self.currentField != [[cell.cellinfo valueForKey:@"field"] intValue])
     {
         _currentField      = [[cell.cellinfo valueForKey:@"field"]intValue];
-        _currentIndexPath  = indexPath;
+    }
+    
+    if( [self isSameCell:indexPath] == NO || _currentIndexPath == nil)
+    {
+        _currentIndexPath = indexPath;
     }
     
     switch (field)
     {
+        case kEmail:
+        case kPassword:
+            [cell setFocus];
+            break;
         case kUserActivelyLooking:
             break;
         case kUserMovinDate:
@@ -199,7 +203,11 @@
 
 -(void)cell:(FormCell *)cell didStartInteract:(FormField)field
 {
-    [self tableView:self.signupTabel didSelectRowAtIndexPath:cell.indexPath];
+    if( [self isSameCell:cell.indexPath] == NO )
+    {
+        NSLog(@"%@ start interact ", self );
+        [self tableView:self.signupTabel didSelectRowAtIndexPath:cell.indexPath];
+    }
 }
 
 -(void)cell:(FormCell *)cell didChangeForField:(FormField)field
@@ -207,10 +215,14 @@
     
     UITableView *view = ( self.state == kLogin ) ? self.loginTabel : self.signupTabel;
     FormCell *c = (FormCell *)[view cellForRowAtIndexPath:self.currentIndexPath];
+    
+    NSLog(@"%@  did change %@ for field %i ", self,c, field);
+    
     switch (field)
     {
         case kEmail:
             _username = c.formValue;
+            NSLog(@"%@ setting current email %@ ", self, _username);
             break;
         case kPassword:
             _password = c.formValue;
@@ -338,6 +350,7 @@
 
 -(void)handleCancelTouch:(id)sender
 {
+    [[KeyboardManager sharedManager]close];
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
@@ -372,23 +385,61 @@
 
 -(void)facebookLogin
 {
-    __block LoginViewController *blockself = self;
-    
-    [self.view addSubview:self.loadingView];
-    [self.loadingView show];
-    
-    [[User sharedUser] loginWithFacebook:^(BOOL success) {
-        if( success )
+    switch ( self.state) {
+        case kLogin:
         {
-           [self dismissViewControllerAnimated:YES completion:nil];
-        }
-        else
-        {
+            __block LoginViewController *blockself = self;
+            
+            [self.view addSubview:self.loadingView];
+            [self.loadingView show];
+            [User sharedUser].username = _username;
+            
+            [[User sharedUser] loginWithFacebook:^(BOOL success) {
+                if( success )
+                {
+                    [self dismissViewControllerAnimated:YES completion:nil];
+                }
+                else
+                {
+                    
+                }
+                [blockself.loadingView hide];
+            }];
             
         }
-        [blockself.loadingView hide];
-    }];
+        break;
+        case kSignup :
+            if( _username   )
+            {
+                __block LoginViewController *blockself = self;
+                
+                [self.view addSubview:self.loadingView];
+                [self.loadingView show];
+                [User sharedUser].username = _username;
+                
+                [[User sharedUser] loginWithFacebook:^(BOOL success) {
+                    if( success )
+                    {
+                        [self dismissViewControllerAnimated:YES completion:nil];
+                    }
+                    else
+                    {
+                        
+                    }
+                    [blockself.loadingView hide];
+                }];
+                
+            }
+            else
+            {
+                [[ErrorFactory getAlertForType:kInvalidUsernameError andDelegateOrNil:nil andOtherButtons:nil]show];
+            }
+
+        break;
+    }
 }
+
+
 #pragma mark - utils;
 -(void)animateToCell
 {
@@ -398,6 +449,11 @@
 
 -(BOOL)isSameCell:(NSIndexPath *)path
 {
+    if( _currentIndexPath == nil )
+    {
+        return NO;
+    }
+    
     return ( self.currentIndexPath.row == path.row && self.currentIndexPath.section == path.section ) ? YES : NO;
 }
 
@@ -461,4 +517,8 @@
     }];
 }
 
+-(BOOL)shouldAutorotate
+{
+    return NO;
+}
 @end

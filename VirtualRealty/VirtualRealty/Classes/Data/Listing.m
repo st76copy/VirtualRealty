@@ -11,6 +11,7 @@
 #import <Parse/Parse.h>
 #import "User.h"
 #import "DiscManager.h"
+#import "NSDate+Extended.h"
 
 
 @interface Listing()
@@ -42,7 +43,7 @@
         self.gym          = [NSNumber numberWithBool:NO];
         self.doorman      = [NSNumber numberWithBool:NO];
         self.pool         = [NSNumber numberWithBool:NO];
-        self.brokerfee    = [NSNumber numberWithBool:NO];
+        self.brokerfee    = [NSNumber numberWithFloat:0.00f];
         self.listingState = [NSNumber numberWithInt:kPending];
     }
     return  self;
@@ -56,7 +57,7 @@
         _errors = [NSMutableArray array];
         self.submitterObjectId = [info valueForKey:@"submitterObjectId"];
         self.submitterID  = [info valueForKey:@"submitterID"];
-        self.contact      = [info valueForKey:@"submitterID"];
+        self.contact      = [info valueForKey:@"contact"];
         self.address      = [info valueForKey:@"address"];
         self.unit         = [info valueForKey:@"unit"];
         self.neighborhood = [info valueForKey:@"neighborhood"];
@@ -66,7 +67,7 @@
         self.bedrooms     = [info valueForKey:@"bedrooms"];
         self.brokerfee    = [info valueForKey:@"brokerfee"];
         self.objectId     = [info valueForKey:@"objectId"];
-
+        
         self.moveInDate   = [info valueForKey:@"moveInDate"];
         self.outdoorSpace = [info valueForKey:@"outdoorSpace"];
         self.dogs         = [info valueForKey:@"dogs"];
@@ -92,7 +93,8 @@
     self = [self initWithFullData:info];
     if( self != nil)
     {
-        self.keywords = [[info valueForKey:@"keywords"]componentsSeparatedByString:@","];
+        self.keywords   = [[info valueForKey:@"keywords"]componentsSeparatedByString:@","];
+        self.moveInDate = [NSDate fromSQLString:[info valueForKey:@"moveInDate"]];
     }
     return self;
 }
@@ -258,7 +260,7 @@
 {
     __block Listing *blocklisting = self;
     NSData *imageData      = UIImageJPEGRepresentation(self.thumb, 0.05f);
-    __block NSString *name = [self.address stringByReplacingOccurrencesOfString:@" " withString:@"-"];
+    __block NSString *name = self.objectId;
     
     PFFile *imageFile = [PFFile fileWithName:[NSString stringWithFormat:@"%@%@", name, @".jpg"] data:imageData];
     [imageFile saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
@@ -292,7 +294,7 @@
 -(void)saveVideo
 {
     __block Listing *blocklisting = self;
-    __block NSString *name = [self.address stringByReplacingOccurrencesOfString:@" " withString:@"-"];
+    __block NSString *name = self.objectId;
     
     PFFile *videoFile = [PFFile fileWithName:[NSString stringWithFormat:@"%@%@", name, @".mov"] data:self.video];
     

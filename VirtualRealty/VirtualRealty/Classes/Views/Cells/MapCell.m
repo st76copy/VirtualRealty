@@ -28,7 +28,9 @@
     {
         [self setSelectionStyle:UITableViewCellSelectionStyleNone];
         _map = [[MKMapView alloc]initWithFrame:CGRectZero];
+        [self.map setUserInteractionEnabled:NO];
         [self.contentView addSubview:self.map];
+        
         
         _textBackGround = [[UIView alloc]initWithFrame:CGRectZero];
         [self.textBackGround setBackgroundColor:[UIColor blackColor]];
@@ -212,6 +214,8 @@
     {
         [self.wrongAddressButton removeFromSuperview];
         [self.wrongAddressButton removeTarget:self action:@selector(handleWrongAddresss:)forControlEvents:UIControlEventTouchUpInside];
+        [self.contentView setUserInteractionEnabled:NO];
+        [self.map setUserInteractionEnabled:NO];
     }
 }
 
