@@ -16,7 +16,7 @@
 
 #define kLOGIN_NOTIFICATION_NAME  @"login-notification-name"
 #define kLOGOUT_NOTIFICATION_NAME @"logout-notification-name"
-
+#define kGOOGLE_PLACES_KEY @"AIzaSyBklCiCoqPMyS84Bd2Zn4PxUFl8wIpHXQQ"
 
 #pragma mark - Build device
 typedef enum DeviceType
@@ -107,6 +107,8 @@ typedef enum FormField
     kUserMovinDate       = 40,
     kUserMaxRent         = 41,
     kUserMinBedrooms     = 42,
+    
+    kSocial     = 43,
 
 }FormField;
 

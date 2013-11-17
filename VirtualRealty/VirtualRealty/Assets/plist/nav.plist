@@ -34,6 +34,16 @@
 	</dict>
 	<dict>
 		<key>requires-user</key>
+		<false/>
+		<key>cell</key>
+		<string>AbstractCell</string>
+		<key>label</key>
+		<string>Near Me</string>
+		<key>class</key>
+		<string>NearMeViewController</string>
+	</dict>
+	<dict>
+		<key>requires-user</key>
 		<true/>
 		<key>cell</key>
 		<string>AbstractCell</string>

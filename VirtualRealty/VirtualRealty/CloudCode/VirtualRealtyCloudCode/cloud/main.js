@@ -257,16 +257,41 @@ Parse.Cloud.define("allListings", function(request, response)
 	});
 });
 
+Parse.Cloud.define("nearMe", function(request, response)
+{
+	var Listing = Parse.Object.extend("Listing");
+	var query = new Parse.Query( Listing );
+	
+	var dist = request.params.distance;
+	var loc = new Parse.GeoPoint( request.params.latt, request.params.long );
+	query.withinMiles("location", loc, dist);
+	
+	console.log( request.params.long +" : "+ request.params.latt );
+	
+	query.find({
+		success: function(results) 
+		{
+			response.success( results );		
+	    },
+		error: function(error) 
+		{
+   			alert("Error: " + error.code + " " + error.message);
+  		}
+	});
+});
+
+
 Parse.Cloud.define("search", function(request, response)
 {
 	var Listing = Parse.Object.extend("Listing");
 	var query   = new Parse.Query(Listing);
-	
+	console.log( "search ----  " + request.params.filters );
 	if( request.params.filters )
 	{
-		var minPrice = request.params.filters["minCost"]["value"];
-		var maxPrice = request.params.filters["maxCost"]["value"];
-	}
+		console.log("have filters ");
+		var minPrice = (request.params.filters["minCost"] != undefined) ? request.params.filters["minCost"]["value"] : null;
+		var maxPrice = (request.params.filters["maxCost"] != undefined) ? request.params.filters["maxCost"]["value"] : null;
+	 }
 	
 	var boolArray = ["share", "dogs", "cats", "outdoorSpace", "washerDryer", "doorman", "pool", "gym"];
 	var keyword   = request.params.keyword;
@@ -279,9 +304,17 @@ Parse.Cloud.define("search", function(request, response)
 	
 	if( request.params.filters )
 	{
-		query.greaterThan("monthlyCost", minPrice);
-		query.lessThan("monthlyCost", maxPrice);
-	
+		if( minPrice )
+		{
+			query.greaterThan("monthlyCost", minPrice);
+		}
+		
+		if( maxPrice )
+		{ 
+			query.lessThan("monthlyCost", maxPrice);	
+		}
+		
+		
 		for( var key in request.params.filters )
 		{
 			if( key != "minCost" && key != "maxCost" )

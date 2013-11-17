@@ -16,6 +16,8 @@
 #import <MediaPlayer/MediaPlayer.h>
 #import <Parse/Parse.h>
 #import "ErrorFactory.h"
+#import "SocialLifeViewController.h"
+
 @interface ListingDetailViewController ()<UIAlertViewDelegate>
 
 -(void)deleteObject;
@@ -396,6 +398,12 @@
     MPMoviePlayerViewController *vc = [[MPMoviePlayerViewController alloc]initWithContentURL:self.listing.videoURL];
     [self presentViewController:vc animated:YES completion:nil];
     [vc.moviePlayer play ];
+}
+
+-(void)showSocialLife
+{
+    SocialLifeViewController *vc = [[SocialLifeViewController alloc]initWithLocation:self.listing.geo];
+    [self.navigationController pushViewController:vc animated:YES];
 }
 
 @end

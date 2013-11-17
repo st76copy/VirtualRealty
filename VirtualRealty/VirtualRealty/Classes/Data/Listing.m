@@ -68,6 +68,9 @@
         self.brokerfee    = [info valueForKey:@"brokerfee"];
         self.objectId     = [info valueForKey:@"objectId"];
         
+        PFGeoPoint *temp  = [info valueForKey:@"location"];
+        
+        self.geo          = [[CLLocation alloc]initWithLatitude:temp.latitude longitude:temp.longitude];
         self.moveInDate   = [info valueForKey:@"moveInDate"];
         self.outdoorSpace = [info valueForKey:@"outdoorSpace"];
         self.dogs         = [info valueForKey:@"dogs"];

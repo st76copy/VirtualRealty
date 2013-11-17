@@ -37,6 +37,18 @@
 				<key>class</key>
 				<string>TextCell</string>
 			</dict>
+			<dict>
+				<key>read-only</key>
+				<true/>
+				<key>field</key>
+				<integer>43</integer>
+				<key>label</key>
+				<string>Social Life</string>
+				<key>class</key>
+				<string>TextCell</string>
+				<key>custom-action</key>
+				<string>showSocialLife</string>
+			</dict>
 		</array>
 		<key>section-title</key>
 		<string>Location</string>
@@ -108,7 +120,7 @@
 		<array>
 			<dict>
 				<key>format</key>
-				<string>$%0.1f</string>
+				<string>%0.1f</string>
 				<key>read-only</key>
 				<true/>
 				<key>field</key>
@@ -120,7 +132,7 @@
 			</dict>
 			<dict>
 				<key>format</key>
-				<string>$%0.1f</string>
+				<string>%0.1f</string>
 				<key>read-only</key>
 				<true/>
 				<key>field</key>

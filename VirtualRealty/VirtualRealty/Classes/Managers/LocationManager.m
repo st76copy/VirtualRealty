@@ -66,11 +66,9 @@
         CLGeocoder *gc = [[CLGeocoder alloc] init];
         _location = [locations objectAtIndex:0];;
         
-        
         [gc reverseGeocodeLocation:self.location completionHandler:^(NSArray *placemark, NSError *error)
         {
              CLPlacemark *pm = [placemark objectAtIndex:0];
-             
              [blockmanager handleFormatAddress:pm.addressDictionary];
         }];
         

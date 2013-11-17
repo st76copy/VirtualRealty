@@ -333,5 +333,10 @@
     [[PickerManager sharedManager]hidePicker];
 }
 
+-(BOOL)shouldAutorotate
+{
+    return NO;
+}
+
 
 @end

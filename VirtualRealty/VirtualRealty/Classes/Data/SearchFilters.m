@@ -105,6 +105,6 @@
         }
     }
     
-    return active;
+    return ( active.count > 0 ) ? active : nil;
 }
 @end

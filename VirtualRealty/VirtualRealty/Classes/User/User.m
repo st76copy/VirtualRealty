@@ -54,6 +54,7 @@
         _facebookUser    = [NSNumber numberWithBool:NO];
         self.minBedrooms = @0;
         self.maxRent     = @0;
+        self.activelySearching = [NSNumber numberWithBool:YES];
         self.moveInAfter = [NSDate date];
         [self loadFromDefaults];
     }
@@ -63,9 +64,9 @@
 -(void)loadFromDefaults
 {
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    _username = [defaults valueForKey:@"username"];
-    _uid      = [defaults valueForKey:@"uid"];
-    _password = [defaults valueForKey:@"password"];
+    _username     = [defaults valueForKey:@"username"];
+    _uid          = [defaults valueForKey:@"uid"];
+    _password     = [defaults valueForKey:@"password"];
     _facebookUser = [defaults valueForKey:@"facebookUser"];
     
     self.minBedrooms = ([defaults valueForKey:@"minBedrooms"] ) ? [defaults valueForKey:@"minBedrooms"] : @0;
@@ -229,7 +230,7 @@
         if( user )
         {
             [blockself handleFacebookAuth:user];
-            //[[NSNotificationCenter defaultCenter]postNotificationName:kLOGIN_NOTIFICATION_NAME object:nil];
+            
         }
         else
         {
@@ -242,11 +243,15 @@
 -(void)handleFacebookAuth:(PFUser *)user
 {
     __block User *blockself = self;
-    NSLog(@"%@ facebookAUtho " , self);
-    [user setValue:self.moveInAfter forKey:@"moveInAfter"];
-    [user setValue:self.minBedrooms forKey:@"minBedrooms"];
-    [user setValue:self.maxRent     forKey:@"maxRent"];
+
+    _facebookUser = [NSNumber numberWithBool:YES];
+    [user setValue:self.moveInAfter  forKey:@"moveInAfter"];
+    [user setValue:self.minBedrooms  forKey:@"minBedrooms"];
+    [user setValue:self.maxRent      forKey:@"maxRent"];
+    [user setValue:self.activelySearching  forKey:@"activelySearching"];
     
+    [user setValue:self.facebookUser forKey:@"facebookUser"];
+ 
     if( user.email == nil )
     {
         user.email    = self.username;
@@ -260,6 +265,7 @@
         if( blockself.loginBlock )
         {
             blockself.loginBlock(YES);
+            [[NSNotificationCenter defaultCenter]postNotificationName:kLOGIN_NOTIFICATION_NAME object:nil];
         }
     }];
 }
@@ -269,11 +275,19 @@
     __block User *blockself = self;
     if( userRef )
     {
+        
+        [userRef setValue:self.moveInAfter        forKey:@"moveInAfter"];
+        [userRef setValue:self.minBedrooms        forKey:@"minBedrooms"];
+        [userRef setValue:self.maxRent            forKey:@"maxRent"];
+        [userRef setValue:self.activelySearching  forKey:@"activelySearching"];
+
         [userRef saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
             
             if( succeeded )
             {
-                
+                UIAlertView * av = [ErrorFactory getAlertCustomMessage:@"Your profiles has been updated" andDelegateOrNil:Nil andOtherButtons:nil];
+                av.title = @"Success";
+                [av show];
             }
             else
             {
@@ -341,7 +355,9 @@
     [defaults removeObjectForKey:@"moveInAfter"];
     [defaults removeObjectForKey:@"maxRent"];
     [defaults removeObjectForKey:@"minBedrooms"];
-
+    [defaults removeObjectForKey:@"password"];
+    [defaults removeObjectForKey:@"facebookUser"];
+    
     [defaults synchronize];
     _state = kNoUser;
     

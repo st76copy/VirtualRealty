@@ -27,7 +27,7 @@
     if (self)
     {
         [self setSelectionStyle:UITableViewCellSelectionStyleNone];
-        _map = [[MKMapView alloc]initWithFrame:CGRectZero];
+        _map = [[GMSMapView alloc]initWithFrame:CGRectZero];
         [self.map setUserInteractionEnabled:NO];
         [self.contentView addSubview:self.map];
         
@@ -54,6 +54,7 @@
         [self.contentView addSubview:_wrongAddressButton];
         
         [[LocationManager shareManager]registerDelegate:self];
+
     }
     return self;
 }
@@ -81,24 +82,18 @@
 {
     if( [LocationManager shareManager].currentAddress != nil )
     {
-        [self.map setCenterCoordinate:[LocationManager shareManager].location.coordinate animated:YES];
-        MKCoordinateRegion region;
-        region.center = [LocationManager shareManager].location.coordinate;
         
-        MKCoordinateSpan span;
-        span.latitudeDelta  = 0.01;
-        span.longitudeDelta = 0.01;
-        region.span = span;
+        CLLocationDegrees lat  = [LocationManager shareManager].location.coordinate.latitude;
+        CLLocationDegrees log  = [LocationManager shareManager].location.coordinate.longitude;
+        GMSCameraPosition *camera = [GMSCameraPosition cameraWithLatitude:lat longitude:log zoom:14];
+        [self.map setCamera:camera];
+      
+        GMSMarker *marker = [[GMSMarker alloc] init];
+        marker.position = camera.target;
+        marker.map = self.map;
         
-        MKPointAnnotation *annotation = [[MKPointAnnotation alloc] init];
-        [annotation setCoordinate:[LocationManager shareManager].location.coordinate];
-        [self.map addAnnotation:annotation];
-        
-        [self.map setRegion:region animated:YES];
         [self.addresssLabel setText:[LocationManager shareManager].currentAddress];
         [[LocationManager shareManager]removeDelegate:self];
-        
-        
         self.formValue = @{@"address" :[LocationManager shareManager].currentAddress, @"location" :[LocationManager shareManager].location  };
         
         [self.formDelegate cell:self didChangeForField:[[self.cellinfo valueForKey:@"geo"]intValue]];
@@ -128,22 +123,17 @@
     
     [[LocationManager shareManager]geoCodeUsingAddress:self.addresssLabel.text block:^(CLLocationCoordinate2D loc)
     {
-         [blockself.map setCenterCoordinate:loc animated:YES];
-         MKCoordinateRegion region;
-         region.center = loc;
-         
-         MKCoordinateSpan span;
-         span.latitudeDelta  = 0.01;
-         span.longitudeDelta = 0.01;
-         region.span = span;
-         
-         MKPointAnnotation *annotation = [[MKPointAnnotation alloc] init];
-         [annotation setCoordinate:loc];
-         [self.map addAnnotation:annotation];
-         
-         [blockself.map setRegion:region animated:YES];
-         self.formValue = @{@"address" :[LocationManager shareManager].currentAddress, @"location" :[LocationManager shareManager].location  };
-         [blockself.formDelegate cell:self didChangeForField:[[self.cellinfo valueForKey:@"field"]intValue]];
+        CLLocationDegrees lat  = loc.latitude;
+        CLLocationDegrees log  = loc.longitude;
+        GMSCameraPosition *camera = [GMSCameraPosition cameraWithLatitude:lat longitude:log zoom:14];
+        [blockself.map setCamera:camera];
+        
+        GMSMarker *marker = [[GMSMarker alloc] init];
+        marker.position = camera.target;
+        marker.map = blockself.map;
+        
+        self.formValue = @{@"address" :[LocationManager shareManager].currentAddress, @"location" :[LocationManager shareManager].location  };
+        [blockself.formDelegate cell:self didChangeForField:[[self.cellinfo valueForKey:@"field"]intValue]];
     }];
 
     [self.formDelegate cell:self didChangeForField:[[self.cellinfo valueForKey:@"field"]intValue] ];
@@ -155,22 +145,16 @@
     
     [[LocationManager shareManager]geoCodeUsingAddress:self.addresssLabel.text block:^(CLLocationCoordinate2D loc)
     {
-    
-        [blockself.map setCenterCoordinate:loc animated:YES];
-        MKCoordinateRegion region;
-        region.center = loc;
+        CLLocationDegrees lat  = loc.latitude;
+        CLLocationDegrees log  = loc.longitude;
+        GMSCameraPosition *camera = [GMSCameraPosition cameraWithLatitude:lat longitude:log zoom:14];
+        [blockself.map setCamera:camera];
         
-        MKCoordinateSpan span;
-        span.latitudeDelta  = 0.01;
-        span.longitudeDelta = 0.01;
-        region.span = span;
+        GMSMarker *marker = [[GMSMarker alloc] init];
+        marker.position = camera.target;
+        marker.map = blockself.map;
         
-        MKPointAnnotation *annotation = [[MKPointAnnotation alloc] init];
-        [annotation setCoordinate:loc];
-        [self.map addAnnotation:annotation];
-        
-        [blockself.map setRegion:region animated:YES];
-        self.formValue = @{@"address" :[LocationManager shareManager].currentAddress, @"location" :[LocationManager shareManager].location  };
+        blockself.formValue = @{@"address" :[LocationManager shareManager].currentAddress, @"location" :[LocationManager shareManager].location  };
         [blockself.formDelegate cell:self didChangeForField:[[self.cellinfo valueForKey:@"field"]intValue]];
     }];
 }
@@ -180,26 +164,23 @@
     __block MapCell *blockself = self;
     self.addresssLabel.text = [[self.cellinfo valueForKey:@"current-value"] valueForKey:@"address"];
     
+    [[LocationManager shareManager]startGettingLocations];
+    
     if( [self.cellinfo valueForKey:@"current-value"] )
     {
         [[LocationManager shareManager]removeDelegate:self];
         [[LocationManager shareManager]geoCodeUsingAddress:[[self.cellinfo valueForKey:@"current-value"] valueForKey:@"address"] block:^(CLLocationCoordinate2D loc)
         {
-             
-            [blockself.map setCenterCoordinate:loc animated:YES];
-            MKCoordinateRegion region;
-            region.center = loc;
             
-            MKCoordinateSpan span;
-            span.latitudeDelta  = 0.01;
-            span.longitudeDelta = 0.01;
-            region.span = span;
-             
-            MKPointAnnotation *annotation = [[MKPointAnnotation alloc] init];
-            [annotation setCoordinate:loc];
-            [self.map addAnnotation:annotation];
+            CLLocationDegrees lat  = [LocationManager shareManager].location.coordinate.latitude;
+            CLLocationDegrees log  = [LocationManager shareManager].location.coordinate.longitude;
+            GMSCameraPosition *camera = [GMSCameraPosition cameraWithLatitude:lat longitude:log zoom:15];
+            [self.map setCamera:camera];
             
-            [blockself.map setRegion:region animated:YES];
+            GMSMarker *marker = [[GMSMarker alloc] init];
+            marker.position   = camera.target;
+            marker.map        = self.map;
+            
             blockself.formValue = @{@"address" :[LocationManager shareManager].currentAddress, @"location" :[LocationManager shareManager].location};
             
             if( self.formDelegate )

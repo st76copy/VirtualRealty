@@ -32,6 +32,7 @@
     }
     BOOL on = self.switchButton.on;
     self.formValue = [NSNumber numberWithBool:on];
+    NSLog(@"set switch to %@, %d", self.formValue, [self.formValue boolValue]);
     [self.formDelegate cell:self didChangeForField:[[self.cellinfo valueForKey:@"field"]intValue]];
 }
 
