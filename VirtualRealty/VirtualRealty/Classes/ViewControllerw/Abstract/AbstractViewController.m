@@ -7,7 +7,7 @@
 //
 
 #import "AbstractViewController.h"
-
+#import "UIColor+Extended.h"
 @interface AbstractViewController ()
 
 @end
@@ -28,7 +28,10 @@
 {
     [super viewDidLoad];
     active = YES;
-    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc]initWithTitle:@"menu" style:UIBarButtonItemStylePlain target:self action:@selector(toggleMenu)];
+    
+    UIImage *buger = [UIImage imageNamed:@"menu.png"];
+    [[UIBarButtonItem appearance]setTintColor:[UIColor colorFromHex:@"ffffff"]];
+    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc]initWithImage:buger style:UIBarButtonItemStylePlain target:self action:@selector(toggleMenu)];
 }
 
 

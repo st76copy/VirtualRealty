@@ -13,6 +13,7 @@
 #import "FormCell.h"
 #import "ReachabilityManager.h"
 #import "ErrorFactory.h"
+#import <Parse/Parse.h>
 
 @interface SettingsViewController ()<FormCellDelegate>
 -(void)toggleLogin;
@@ -128,7 +129,10 @@
     
     cell.cellinfo = info;
     cell.indexPath = indexPath;
-    cell.formDelegate = self;
+    if( [cell isKindOfClass:[FormCell class]] )
+    {
+        cell.formDelegate = self;        
+    }
     [cell render];
     return cell;
 }
@@ -136,15 +140,30 @@
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     NSDictionary *info = [self.data objectAtIndex:indexPath.row];
+   
     
-    switch ([[info valueForKey:@"field"] intValue ] )
+    if( [info valueForKey:@"custom-action"] )
     {
-        case kUser:
-            [self toggleLogin];
-            break;
-        default:
-            break;
+        [self performSelector:NSSelectorFromString([info valueForKey:@"custom-action"])];
     }
+    else
+    {
+        switch ([[info valueForKey:@"field"] intValue ] )
+        {
+            case kUser:
+                [self toggleLogin];
+                break;
+            default:
+                break;
+        }
+    }
+}
+
+-(void)testEmail
+{
+    [PFCloud callFunctionInBackground:@"notifyAdmin" withParameters:@{ @"objectId": @"6jxl87h" } block:^(id object, NSError *error){
+        NSLog(@"%@ testing email system : called notify admin \n%@ \n%@", self,object, error);
+    }];
 }
 
 -(id)getValueForFormField:(FormField)field

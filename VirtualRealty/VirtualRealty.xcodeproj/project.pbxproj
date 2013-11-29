@@ -7,6 +7,13 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		161AE1C318463F5100B61CCB /* menu.png in Resources */ = {isa = PBXBuildFile; fileRef = 161AE1C118463F5100B61CCB /* menu.png */; };
+		161AE1C418463F5100B61CCB /* menu@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 161AE1C218463F5100B61CCB /* menu@2x.png */; };
+		161AE1C91846413600B61CCB /* left-wedge.png in Resources */ = {isa = PBXBuildFile; fileRef = 161AE1C51846413600B61CCB /* left-wedge.png */; };
+		161AE1CA1846413600B61CCB /* left-wedge@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 161AE1C61846413600B61CCB /* left-wedge@2x.png */; };
+		161AE1CF1846459200B61CCB /* MapPriceTag.m in Sources */ = {isa = PBXBuildFile; fileRef = 161AE1CE1846459200B61CCB /* MapPriceTag.m */; };
+		161AE1D21846460500B61CCB /* bottom-wedge.png in Resources */ = {isa = PBXBuildFile; fileRef = 161AE1D01846460500B61CCB /* bottom-wedge.png */; };
+		161AE1D31846460500B61CCB /* bottom-wedge@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 161AE1D11846460500B61CCB /* bottom-wedge@2x.png */; };
 		16261BB31809A19400F44578 /* ListingDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 16261BB21809A19400F44578 /* ListingDetailViewController.m */; };
 		16261BB51809A32E00F44578 /* listingdetails.plist in Resources */ = {isa = PBXBuildFile; fileRef = 16261BB41809A32E00F44578 /* listingdetails.plist */; };
 		16261BB81809B30900F44578 /* DetailsCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 16261BB71809B30900F44578 /* DetailsCell.m */; };
@@ -30,6 +37,11 @@
 		164353501839231F00B3DBBA /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 164353491839231F00B3DBBA /* OpenGLES.framework */; };
 		1643535318394DE700B3DBBA /* NearMeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1643535218394DE700B3DBBA /* NearMeViewController.m */; };
 		1643535618395F9C00B3DBBA /* SocialLifeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1643535518395F9C00B3DBBA /* SocialLifeViewController.m */; };
+		16435358183D9D9000B3DBBA /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 16435357183D9D9000B3DBBA /* MessageUI.framework */; };
+		1643535B1845257D00B3DBBA /* NavCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1643535A1845257D00B3DBBA /* NavCell.m */; };
+		16435361184528E900B3DBBA /* CustomNavViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 16435360184528E900B3DBBA /* CustomNavViewController.m */; };
+		164353651845310400B3DBBA /* MapListToggleView.m in Sources */ = {isa = PBXBuildFile; fileRef = 164353641845310400B3DBBA /* MapListToggleView.m */; };
+		164353691845427100B3DBBA /* PriceView.m in Sources */ = {isa = PBXBuildFile; fileRef = 164353681845427100B3DBBA /* PriceView.m */; };
 		164E9167181619080010CC8B /* UserListingCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 164E9166181619080010CC8B /* UserListingCell.m */; };
 		165C5B831815F40C00C294C7 /* Utils.m in Sources */ = {isa = PBXBuildFile; fileRef = 836DF2E217E4B7B2002BD42E /* Utils.m */; };
 		16D50952180388000028E5D4 /* ListingCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 16D50951180388000028E5D4 /* ListingCell.m */; };
@@ -138,6 +150,14 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		161AE1C118463F5100B61CCB /* menu.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = menu.png; sourceTree = "<group>"; };
+		161AE1C218463F5100B61CCB /* menu@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "menu@2x.png"; sourceTree = "<group>"; };
+		161AE1C51846413600B61CCB /* left-wedge.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "left-wedge.png"; sourceTree = "<group>"; };
+		161AE1C61846413600B61CCB /* left-wedge@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "left-wedge@2x.png"; sourceTree = "<group>"; };
+		161AE1CD1846459200B61CCB /* MapPriceTag.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MapPriceTag.h; path = Custom/MapPriceTag.h; sourceTree = "<group>"; };
+		161AE1CE1846459200B61CCB /* MapPriceTag.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MapPriceTag.m; path = Custom/MapPriceTag.m; sourceTree = "<group>"; };
+		161AE1D01846460500B61CCB /* bottom-wedge.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bottom-wedge.png"; sourceTree = "<group>"; };
+		161AE1D11846460500B61CCB /* bottom-wedge@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bottom-wedge@2x.png"; sourceTree = "<group>"; };
 		16261BB11809A19400F44578 /* ListingDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ListingDetailViewController.h; sourceTree = "<group>"; };
 		16261BB21809A19400F44578 /* ListingDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ListingDetailViewController.m; sourceTree = "<group>"; };
 		16261BB41809A32E00F44578 /* listingdetails.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = listingdetails.plist; path = Assets/plist/listingdetails.plist; sourceTree = "<group>"; };
@@ -172,6 +192,15 @@
 		1643535218394DE700B3DBBA /* NearMeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NearMeViewController.m; sourceTree = "<group>"; };
 		1643535418395F9C00B3DBBA /* SocialLifeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SocialLifeViewController.h; sourceTree = "<group>"; };
 		1643535518395F9C00B3DBBA /* SocialLifeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SocialLifeViewController.m; sourceTree = "<group>"; };
+		16435357183D9D9000B3DBBA /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
+		164353591845257D00B3DBBA /* NavCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NavCell.h; path = Cells/NavCell.h; sourceTree = "<group>"; };
+		1643535A1845257D00B3DBBA /* NavCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NavCell.m; path = Cells/NavCell.m; sourceTree = "<group>"; };
+		1643535F184528E900B3DBBA /* CustomNavViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomNavViewController.h; sourceTree = "<group>"; };
+		16435360184528E900B3DBBA /* CustomNavViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomNavViewController.m; sourceTree = "<group>"; };
+		164353631845310400B3DBBA /* MapListToggleView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MapListToggleView.h; path = Custom/MapListToggleView.h; sourceTree = "<group>"; };
+		164353641845310400B3DBBA /* MapListToggleView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MapListToggleView.m; path = Custom/MapListToggleView.m; sourceTree = "<group>"; };
+		164353671845427100B3DBBA /* PriceView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PriceView.h; path = Custom/PriceView.h; sourceTree = "<group>"; };
+		164353681845427100B3DBBA /* PriceView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PriceView.m; path = Custom/PriceView.m; sourceTree = "<group>"; };
 		164E9165181619080010CC8B /* UserListingCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UserListingCell.h; path = Cells/UserListingCell.h; sourceTree = "<group>"; };
 		164E9166181619080010CC8B /* UserListingCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UserListingCell.m; path = Cells/UserListingCell.m; sourceTree = "<group>"; };
 		16D50950180388000028E5D4 /* ListingCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ListingCell.h; path = Cells/ListingCell.h; sourceTree = "<group>"; };
@@ -338,6 +367,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				16435358183D9D9000B3DBBA /* MessageUI.framework in Frameworks */,
 				1643534A1839231F00B3DBBA /* CoreData.framework in Frameworks */,
 				1643534B1839231F00B3DBBA /* CoreText.framework in Frameworks */,
 				1643534C1839231F00B3DBBA /* GLKit.framework in Frameworks */,
@@ -385,12 +415,39 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		161AE1C018463F5100B61CCB /* images */ = {
+			isa = PBXGroup;
+			children = (
+				161AE1C51846413600B61CCB /* left-wedge.png */,
+				161AE1C61846413600B61CCB /* left-wedge@2x.png */,
+				161AE1C118463F5100B61CCB /* menu.png */,
+				161AE1C218463F5100B61CCB /* menu@2x.png */,
+				161AE1D01846460500B61CCB /* bottom-wedge.png */,
+				161AE1D11846460500B61CCB /* bottom-wedge@2x.png */,
+			);
+			name = images;
+			path = Assets/images;
+			sourceTree = "<group>";
+		};
 		16261BB91809BBD600F44578 /* Database */ = {
 			isa = PBXGroup;
 			children = (
 				16261BBA1809BBD600F44578 /* virtualrealty.sqlite */,
 			);
 			path = Database;
+			sourceTree = "<group>";
+		};
+		16435362184530DE00B3DBBA /* Custom */ = {
+			isa = PBXGroup;
+			children = (
+				164353631845310400B3DBBA /* MapListToggleView.h */,
+				164353641845310400B3DBBA /* MapListToggleView.m */,
+				164353671845427100B3DBBA /* PriceView.h */,
+				164353681845427100B3DBBA /* PriceView.m */,
+				161AE1CD1846459200B61CCB /* MapPriceTag.h */,
+				161AE1CE1846459200B61CCB /* MapPriceTag.m */,
+			);
+			name = Custom;
 			sourceTree = "<group>";
 		};
 		8333DD2C17E4B2A700645B3E = {
@@ -415,6 +472,7 @@
 		8333DD3717E4B2A700645B3E /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				16435357183D9D9000B3DBBA /* MessageUI.framework */,
 				164353431839231F00B3DBBA /* CoreData.framework */,
 				164353441839231F00B3DBBA /* CoreText.framework */,
 				164353451839231F00B3DBBA /* GLKit.framework */,
@@ -628,6 +686,8 @@
 		836DF2EA17E4B7B2002BD42E /* Sections */ = {
 			isa = PBXGroup;
 			children = (
+				1643535F184528E900B3DBBA /* CustomNavViewController.h */,
+				16435360184528E900B3DBBA /* CustomNavViewController.m */,
 				838491BE17E4D47F00CBABFE /* UserContentViewController.h */,
 				838491BF17E4D47F00CBABFE /* UserContentViewController.m */,
 				838491C117E4D48C00CBABFE /* FeaturedViewController.h */,
@@ -657,6 +717,7 @@
 		836DF2EB17E4B7B2002BD42E /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				16435362184530DE00B3DBBA /* Custom */,
 				838491CD17E4D5CB00CBABFE /* Cells */,
 				836DF2EC17E4B7B2002BD42E /* Loader */,
 			);
@@ -693,6 +754,7 @@
 		838491B817E4D34B00CBABFE /* Assets */ = {
 			isa = PBXGroup;
 			children = (
+				161AE1C018463F5100B61CCB /* images */,
 				838491B917E4D35100CBABFE /* plist */,
 			);
 			name = Assets;
@@ -745,6 +807,8 @@
 				16261BCE18131FF300F44578 /* KeyWordsCell.m */,
 				164E9165181619080010CC8B /* UserListingCell.h */,
 				164E9166181619080010CC8B /* UserListingCell.m */,
+				164353591845257D00B3DBBA /* NavCell.h */,
+				1643535A1845257D00B3DBBA /* NavCell.m */,
 			);
 			name = Cells;
 			sourceTree = "<group>";
@@ -919,15 +983,21 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				161AE1D31846460500B61CCB /* bottom-wedge@2x.png in Resources */,
 				16261BB51809A32E00F44578 /* listingdetails.plist in Resources */,
 				16435342183922A400B3DBBA /* GoogleMaps.bundle in Resources */,
+				161AE1C418463F5100B61CCB /* menu@2x.png in Resources */,
 				16261BBB1809BBD600F44578 /* virtualrealty.sqlite in Resources */,
 				838491BD17E4D3E300CBABFE /* nav.plist in Resources */,
 				83C2A20917E74B0200481CC0 /* settings.plist in Resources */,
 				8333DD4317E4B2A700645B3E /* InfoPlist.strings in Resources */,
+				161AE1CA1846413600B61CCB /* left-wedge@2x.png in Resources */,
 				83A5600B17E7BB360084C605 /* newlisting.plist in Resources */,
 				16261BCC18102F9D00F44578 /* search-filter.plist in Resources */,
+				161AE1C318463F5100B61CCB /* menu.png in Resources */,
+				161AE1D21846460500B61CCB /* bottom-wedge.png in Resources */,
 				838491E317E4DD4600CBABFE /* login.plist in Resources */,
+				161AE1C91846413600B61CCB /* left-wedge.png in Resources */,
 				838491E817E4E16E00CBABFE /* signup.plist in Resources */,
 				8333DD4B17E4B2A700645B3E /* Images.xcassets in Resources */,
 			);
@@ -963,13 +1033,16 @@
 				16261BC4180A2DA200F44578 /* Filter.m in Sources */,
 				836DF2F017E4B7B2002BD42E /* NSDate+Extended.m in Sources */,
 				8316BCA717EA6A1700150FDD /* NumberInputCell.m in Sources */,
+				16435361184528E900B3DBBA /* CustomNavViewController.m in Sources */,
 				83ABFE7517E4B9DB007ECB53 /* AFURLSessionManager.m in Sources */,
 				8316BCB317ED18F000150FDD /* PickerManager.m in Sources */,
 				836DF2F217E4B7B2002BD42E /* NSString+MD5Addition.m in Sources */,
 				83ABFE6D17E4B9DB007ECB53 /* AFHTTPClient.m in Sources */,
+				164353691845427100B3DBBA /* PriceView.m in Sources */,
 				836DF2F317E4B7B2002BD42E /* UIColor+Extended.m in Sources */,
 				1643535618395F9C00B3DBBA /* SocialLifeViewController.m in Sources */,
 				836DF2F417E4B7B2002BD42E /* UIDevice+IdentifierAddition.m in Sources */,
+				164353651845310400B3DBBA /* MapListToggleView.m in Sources */,
 				8316BCAD17EB961F00150FDD /* SwitchCell.m in Sources */,
 				836DF2F517E4B7B2002BD42E /* SQLiteManager.m in Sources */,
 				83AD462517F761430085025E /* DateCell.m in Sources */,
@@ -986,9 +1059,11 @@
 				838491E117E4DCE500CBABFE /* LoginViewController.m in Sources */,
 				838491D917E4D6E400CBABFE /* Listing.m in Sources */,
 				16261BBE1809D7E400F44578 /* QueryFactory.m in Sources */,
+				161AE1CF1846459200B61CCB /* MapPriceTag.m in Sources */,
 				838491EB17E4E6FA00CBABFE /* FormCell.m in Sources */,
 				838491B717E4D2B200CBABFE /* LoadingViewController.m in Sources */,
 				838491E617E4DE7400CBABFE /* TextInputCell.m in Sources */,
+				1643535B1845257D00B3DBBA /* NavCell.m in Sources */,
 				83ABFE7217E4B9DB007ECB53 /* AFPropertyListRequestOperation.m in Sources */,
 				83ABFE6F17E4B9DB007ECB53 /* AFImageRequestOperation.m in Sources */,
 				838491C917E4D4B700CBABFE /* AddApartmentViewController.m in Sources */,
@@ -1150,7 +1225,10 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "VirtualRealty/VirtualRealty-Prefix.pch";
 				INFOPLIST_FILE = "VirtualRealty/VirtualRealty-Info.plist";
-				OTHER_LDFLAGS = "-all_load";
+				OTHER_LDFLAGS = (
+					"-all_load",
+					"-ObjC",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				WRAPPER_EXTENSION = app;
@@ -1173,6 +1251,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "VirtualRealty/VirtualRealty-Prefix.pch";
 				INFOPLIST_FILE = "VirtualRealty/VirtualRealty-Info.plist";
+				"OTHER_LDFLAGS[arch=*]" = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				WRAPPER_EXTENSION = app;

@@ -76,64 +76,66 @@
 
 -(void)handleDataLoaded:(NSData *)data
 {
-    NSDictionary *json = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:nil];
-    NSLog(@"%@ loaded places %@ ", self , json );
-    NSMutableArray *markers = [NSMutableArray array];
-    GMSMarker *marker;
-    for( NSDictionary *info in [json valueForKey:@"results"] )
-    {
-        float longatude = [[[[info valueForKey:@"geometry"]valueForKey:@"location"]valueForKey:@"lng"]floatValue];
-        float lat       = [[[[info valueForKey:@"geometry"]valueForKey:@"location"]valueForKey:@"lat"]floatValue];
-        CLLocation *loc = [[CLLocation alloc]initWithLatitude:lat longitude:longatude];
-        
-        marker = [GMSMarker markerWithPosition:loc.coordinate];
-        marker.map = self.mapView;
-        marker.title = [info valueForKey:@"name"];
-        [markers addObject:marker];
-    }
-    
-    
-    GMSCameraPosition *camera;
-    float mostNorth = marker.position.latitude;
-    float mostSouth = marker.position.latitude;
-    float mostEast  = marker.position.longitude;
-    float mostWest  = marker.position.longitude;
-    
-    for( GMSMarker *marker in self.mapView.markers )
-    {
-        if( marker.position.latitude < mostSouth)
+    dispatch_async(dispatch_get_main_queue(), ^{
+        NSDictionary *json = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:nil];
+        NSLog(@"%@ loaded places %@ ", self , json );
+        NSMutableArray *markers = [NSMutableArray array];
+        GMSMarker *marker;
+        for( NSDictionary *info in [json valueForKey:@"results"] )
         {
-            mostSouth = marker.position.latitude;
+            float longatude = [[[[info valueForKey:@"geometry"]valueForKey:@"location"]valueForKey:@"lng"]floatValue];
+            float lat       = [[[[info valueForKey:@"geometry"]valueForKey:@"location"]valueForKey:@"lat"]floatValue];
+            CLLocation *loc = [[CLLocation alloc]initWithLatitude:lat longitude:longatude];
+            
+            marker = [GMSMarker markerWithPosition:loc.coordinate];
+            marker.map = self.mapView;
+            marker.title = [info valueForKey:@"name"];
+            [markers addObject:marker];
         }
         
-        if( marker.position.latitude > mostNorth)
+        
+        GMSCameraPosition *camera;
+        float mostNorth = marker.position.latitude;
+        float mostSouth = marker.position.latitude;
+        float mostEast  = marker.position.longitude;
+        float mostWest  = marker.position.longitude;
+        
+        for( GMSMarker *marker in self.mapView.markers )
         {
-            mostNorth = marker.position.latitude;
+            if( marker.position.latitude < mostSouth)
+            {
+                mostSouth = marker.position.latitude;
+            }
+            
+            if( marker.position.latitude > mostNorth)
+            {
+                mostNorth = marker.position.latitude;
+            }
+            
+            if( marker.position.longitude < mostWest )
+            {
+                mostWest =  marker.position.longitude;
+            }
+            
+            if( marker.position.longitude > mostEast )
+            {
+                mostEast = marker.position.longitude;
+            }
         }
         
-        if( marker.position.longitude < mostWest )
+        CLLocationCoordinate2D northEast = CLLocationCoordinate2DMake(mostNorth, mostEast);
+        CLLocationCoordinate2D southWest = CLLocationCoordinate2DMake(mostSouth, mostWest);
+        GMSCoordinateBounds *bounds = [[GMSCoordinateBounds alloc]initWithCoordinate:northEast coordinate:southWest];
+        camera = [self.mapView cameraForBounds:bounds insets:UIEdgeInsetsMake(110, 30, 110, 30)];
+        
+        if( camera.zoom  > 18 )
         {
-            mostWest =  marker.position.longitude;
+            camera = [GMSCameraPosition cameraWithLatitude:camera.target.latitude longitude:camera.target.longitude zoom:18];
         }
         
-        if( marker.position.longitude > mostEast )
-        {
-            mostEast = marker.position.longitude;
-        }
-    }
-    
-    CLLocationCoordinate2D northEast = CLLocationCoordinate2DMake(mostNorth, mostEast);
-    CLLocationCoordinate2D southWest = CLLocationCoordinate2DMake(mostSouth, mostWest);
-    GMSCoordinateBounds *bounds = [[GMSCoordinateBounds alloc]initWithCoordinate:northEast coordinate:southWest];
-    camera = [self.mapView cameraForBounds:bounds insets:UIEdgeInsetsMake(110, 30, 110, 30)];
-    
-    if( camera.zoom  > 18 )
-    {
-        camera = [GMSCameraPosition cameraWithLatitude:camera.target.latitude longitude:camera.target.longitude zoom:18];
-    }
-    
-    [self.mapView setCamera:camera];
-    [self.mapView startRendering];
+        [self.mapView setCamera:camera];
+        [self.mapView startRendering];
+    });
     
 }
 

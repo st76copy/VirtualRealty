@@ -68,6 +68,7 @@
     
     self.view.backgroundColor = [UIColor grayColor];
     CGRect rect = self.view.bounds;
+    self.navigationItem.title = @"Search Filter";
     
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc]initWithTitle:@"Done" style:UIBarButtonItemStyleDone target:self action:@selector(handleDone:)];
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc]initWithTitle:@"Cancel" style:UIBarButtonItemStyleDone target:self action:@selector(handleCancel:)];
@@ -336,6 +337,11 @@
 -(BOOL)shouldAutorotate
 {
     return NO;
+}
+
+-(UIStatusBarStyle)preferredStatusBarStyle
+{
+    return UIStatusBarStyleLightContent;
 }
 
 

@@ -183,6 +183,8 @@
 				<string>DateCell</string>
 			</dict>
 			<dict>
+				<key>custom-action</key>
+				<string>showEmail</string>
 				<key>read-only</key>
 				<true/>
 				<key>field</key>

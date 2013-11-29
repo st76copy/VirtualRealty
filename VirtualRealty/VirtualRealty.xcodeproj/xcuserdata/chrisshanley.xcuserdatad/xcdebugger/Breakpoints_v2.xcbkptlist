@@ -19,74 +19,42 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "VirtualRealty/Classes/ViewControllerw/Sections/SearchFilterViewController.m"
-            timestampString = "406406946.242687"
+            filePath = "VirtualRealty/Classes/ViewControllerw/Sections/SettingsViewController.m"
+            timestampString = "406686289.509899"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "269"
-            endingLineNumber = "269"
-            landmarkName = "-handleDone:"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "VirtualRealty/Classes/ViewControllerw/Sections/SearchViewController.m"
-            timestampString = "406407708.87777"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "103"
-            endingLineNumber = "103"
-            landmarkName = "-filtersDoneWithOptions:"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "VirtualRealty/Classes/ViewControllerw/Sections/SearchViewController.m"
-            timestampString = "406407708.87777"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "117"
-            endingLineNumber = "117"
-            landmarkName = "-filtersDoneWithOptions:"
+            startingLineNumber = "164"
+            endingLineNumber = "164"
+            landmarkName = "-testEmail"
             landmarkType = "5">
             <Locations>
                <Location
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "-[SearchViewController filtersDoneWithOptions:]"
+                  symbolName = "-[SettingsViewController testEmail]"
                   moduleName = "VirtualRealty"
-                  urlString = "file:///Projects/VirtualRealty/VirtualRealty/VirtualRealty/Classes/ViewControllerw/Sections/SearchViewController.m"
-                  timestampString = "406418887.812082"
+                  urlString = "file:///Projects/VirtualRealty/VirtualRealty/VirtualRealty/Classes/ViewControllerw/Sections/SettingsViewController.m"
+                  timestampString = "407446634.51923"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "117"
-                  endingLineNumber = "117"
-                  offsetFromSymbolStart = "1166">
+                  startingLineNumber = "164"
+                  endingLineNumber = "164"
+                  offsetFromSymbolStart = "65">
                </Location>
                <Location
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "-[SearchViewController filtersDoneWithOptions:]"
+                  symbolName = "__35-[SettingsViewController testEmail]_block_invoke"
                   moduleName = "VirtualRealty"
-                  urlString = "file:///Projects/VirtualRealty/VirtualRealty/VirtualRealty/Classes/ViewControllerw/Sections/SearchViewController.m"
-                  timestampString = "406418887.81226"
+                  urlString = "file:///Projects/VirtualRealty/VirtualRealty/VirtualRealty/Classes/ViewControllerw/Sections/SettingsViewController.m"
+                  timestampString = "407446634.519401"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "117"
-                  endingLineNumber = "117"
-                  offsetFromSymbolStart = "1324">
+                  startingLineNumber = "164"
+                  endingLineNumber = "164"
+                  offsetFromSymbolStart = "92">
                </Location>
             </Locations>
          </BreakpointContent>
@@ -97,29 +65,13 @@
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "VirtualRealty/Classes/ViewControllerw/Sections/SocialLifeViewController.m"
-            timestampString = "406418597.149984"
+            filePath = "VirtualRealty/Classes/Views/Custom/PriceView.m"
+            timestampString = "407257434.155639"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "94"
-            endingLineNumber = "94"
-            landmarkName = "-handleDataLoaded:"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "VirtualRealty/Classes/ViewControllerw/Sections/SocialLifeViewController.m"
-            timestampString = "406418597.149984"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "135"
-            endingLineNumber = "135"
-            landmarkName = "-handleDataLoaded:"
+            startingLineNumber = "46"
+            endingLineNumber = "46"
+            landmarkName = "-setPrice:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>

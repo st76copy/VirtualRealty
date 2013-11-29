@@ -143,6 +143,12 @@ typedef enum
     kSaveSuccess
 }ServerError;
 
+typedef enum
+{
+    kMap,
+    kList
+}ListingViewingState;
+
 #define kFACEBOOK_USER @"facebook-user"
 
 #endif

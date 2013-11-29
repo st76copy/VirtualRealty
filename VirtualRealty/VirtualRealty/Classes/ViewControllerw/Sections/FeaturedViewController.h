@@ -7,10 +7,11 @@
 //
 
 #import "AbstractViewController.h"
-
+#import <GoogleMaps/GoogleMaps.h>
 
 @interface FeaturedViewController : AbstractViewController<UITableViewDataSource, UITableViewDelegate>
 
-@property(nonatomic, strong,readonly)NSMutableArray *tableData;
-@property(nonatomic, strong,readonly)UITableView    *table;
+@property(nonatomic, strong, readonly)NSMutableArray *tableData;
+@property(nonatomic, strong, readonly)UITableView    *table;
+@property(nonatomic, strong, readonly)GMSMapView    *mapView;
 @end

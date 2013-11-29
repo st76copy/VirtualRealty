@@ -1,3 +1,6 @@
+
+require('cloud/app.js');
+	
 Parse.Cloud.define("saveListing", function(request, response)
 {
     var self    = this;
@@ -50,6 +53,8 @@ Parse.Cloud.define("saveListing", function(request, response)
             save();
         }
     }
+	
+	
                    
     function save()
     {
@@ -87,15 +92,58 @@ Parse.Cloud.define("saveListing", function(request, response)
 		listing.set( "isFeatured", false );
         listing.save( null, {
   			success: function(listing) {
+				sendEmail(listing);
   		   		response.success( { "code":2, "data" : listing } );
 		  	},
   			error: function(listing, error) {
 				response.error(  { "code":1, "data":error } );
 			}
 		});
-     
     }
+	
+	function sendEmail( listing )
+	{
+			var successParams = {};
+			successParams.method = "POST";
+			successParams.params = {"listingID" : listing.objectId };
+			successParams.url = "http://virtualrealtynyc.com/notification.php";
+			successParams.success = function(httpResponse){};
+		
+			var failParams = {};
+			failParams.success = function(httpResponse){};
+			Parse.Cloud.httpRequest( successParams, failParams);
+     } 
+		
 });
+
+Parse.Cloud.define( "notifyAdmin", function(request, response) 
+{
+	
+	var params 	  = {};
+	params.method  = "POST";
+	
+	params.headers =  
+	{
+   		'Content-Type': 'application/x-www-form-urlencoded'
+ 	};
+	
+	params.url     = "http://virtualrealtynyc.com/notification.php";
+	params.body    = { "listing" :  request.params.objectId };
+	
+	params.success = function(httpResponse)
+	{
+		response.success( httpResponse );	
+	};
+	
+	params.error = function(httpResponse)
+	{
+		response.error( "error admin failed " + request.params.objectId );	
+	};
+	
+	Parse.Cloud.httpRequest( params );
+});
+
+
 
 Parse.Cloud.define("getListingsForUser", function(request, response)
 {
@@ -265,6 +313,7 @@ Parse.Cloud.define("nearMe", function(request, response)
 	var dist = request.params.distance;
 	var loc = new Parse.GeoPoint( request.params.latt, request.params.long );
 	query.withinMiles("location", loc, dist);
+	query.equalTo( "listingState", 1 );
 	
 	console.log( request.params.long +" : "+ request.params.latt );
 	

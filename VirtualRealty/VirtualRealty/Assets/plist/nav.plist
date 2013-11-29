@@ -3,60 +3,60 @@
 <plist version="1.0">
 <array>
 	<dict>
-		<key>requires-user</key>
-		<true/>
-		<key>cell</key>
-		<string>UserCell</string>
-		<key>class</key>
-		<string>UserContentViewController</string>
-		<key>label</key>
-		<string>My Listings</string>
-	</dict>
-	<dict>
+		<key>active</key>
+		<false/>
 		<key>requires-user</key>
 		<false/>
 		<key>cell</key>
-		<string>AbstractCell</string>
+		<string>NavCell</string>
 		<key>class</key>
 		<string>FeaturedViewController</string>
 		<key>label</key>
 		<string>Featured</string>
 	</dict>
 	<dict>
+		<key>active</key>
+		<true/>
 		<key>requires-user</key>
 		<false/>
 		<key>cell</key>
-		<string>AbstractCell</string>
+		<string>NavCell</string>
 		<key>label</key>
 		<string>All Listings</string>
 		<key>class</key>
 		<string>SearchViewController</string>
 	</dict>
 	<dict>
+		<key>active</key>
+		<true/>
 		<key>requires-user</key>
 		<false/>
 		<key>cell</key>
-		<string>AbstractCell</string>
+		<string>NavCell</string>
 		<key>label</key>
 		<string>Near Me</string>
 		<key>class</key>
 		<string>NearMeViewController</string>
 	</dict>
 	<dict>
+		<key>active</key>
+		<true/>
 		<key>requires-user</key>
 		<true/>
 		<key>cell</key>
-		<string>AbstractCell</string>
+		<string>NavCell</string>
 		<key>class</key>
 		<string>AddApartmentViewController</string>
 		<key>label</key>
 		<string>Add An Apartment</string>
 	</dict>
 	<dict>
+		<key>active</key>
+		<true/>
 		<key>requires-user</key>
 		<false/>
 		<key>cell</key>
-		<string>AbstractCell</string>
+		<string>NavCell</string>
 		<key>class</key>
 		<string>SettingsViewController</string>
 		<key>label</key>

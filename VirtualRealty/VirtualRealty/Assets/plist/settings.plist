@@ -26,5 +26,13 @@
 		<key>label</key>
 		<string>Actively Looking</string>
 	</dict>
+	<dict>
+		<key>cell</key>
+		<string>AbstractCell</string>
+		<key>custom-action</key>
+		<string>testEmail</string>
+		<key>label</key>
+		<string>Test Email</string>
+	</dict>
 </array>
 </plist>

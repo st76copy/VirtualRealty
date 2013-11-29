@@ -19,6 +19,7 @@
 @property(nonatomic, strong, readonly)LoadingView   *loadingView;
 -(void)showlogin;
 -(void)showLoader;
+-(void)showLoaderInView:(UIView *)view;
 -(void)hideLoader;
 
 @end

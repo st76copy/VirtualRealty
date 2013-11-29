@@ -17,6 +17,9 @@
 #import "LoadingView.h"
 #import "SQLiteManager.h"
 #import <GoogleMaps/GoogleMaps.h>
+#import "CustomNavViewController.h"
+#import "KeyboardManager.h"
+#import "SearchViewController.h"
 
 @interface AppDelegate()
 -(void)handleReachabilityKnow;
@@ -92,8 +95,8 @@
     rightSwipe.direction = UISwipeGestureRecognizerDirectionRight;
     [self.window addGestureRecognizer:leftSwipe];
     [self.window addGestureRecognizer:rightSwipe];
-
 }
+
 
 -(void) initViewControllers
 {
@@ -112,10 +115,10 @@
             __block AppDelegate *blockself = self;
             _nav = [[NavViewController alloc]initWithNibName:nil bundle:nil];
             
-            UIViewController *rootViewController = [[FeaturedViewController alloc]initWithNibName:nil bundle:nil];
+            UIViewController *rootViewController = [[SearchViewController alloc]initWithNibName:nil bundle:nil];
             
             CGRect rect;
-            _section = [[UINavigationController alloc]initWithRootViewController:rootViewController];
+            _section = [[CustomNavViewController alloc]initWithRootViewController:rootViewController];
             
             rect = self.section.view.frame;
             rect.origin = CGPointMake(0, 0);
@@ -124,6 +127,7 @@
             [_nav addChildViewController:self.section];
             [_nav.view addSubview:self.section.view];
             [_nav loadNavigation];
+            
             [_nav setSelectBlock:^(NSDictionary *info)
             {
                 [blockself handleNavigationRequest:info];
@@ -138,6 +142,7 @@
 
 -(void)handleNavigationRequest:(NSDictionary *)info
 {
+    [[KeyboardManager sharedManager]close];
     if( [[info valueForKey:@"requires-user"]boolValue] == YES )
     {
         if( [User sharedUser].state == kNoUser )
@@ -185,6 +190,12 @@
 {
     [self.window.rootViewController.view addSubview:self.loadingView];
     [self.loadingView show];
+}
+
+-(void)showLoaderInView:(UIView *)view
+{
+    [view addSubview:self.loadingView];
+    [self.loadingView show]; 
 }
 
 -(void)hideLoader

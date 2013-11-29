@@ -8,14 +8,17 @@
 
 #import "AbstractCell.h"
 #import "Listing.h"
+#import "PriceView.h"
 @interface ListingCell : AbstractCell
 
 @property(nonatomic, strong)Listing *listing;
 @property(nonatomic, strong, readonly)UIImageView *thumb;
-@property(nonatomic, strong, readonly)UIView      *overlay;
-@property(nonatomic, strong, readonly)UIView      *textBG;
+@property(nonatomic, strong, readonly)PriceView   *priceView;
+@property(nonatomic, strong, readonly)UIView      *stroke;
 @property(nonatomic, strong, readonly)UILabel     *stateLabel;
-@property(nonatomic, strong, readonly)UILabel     *priceLabel;;
+@property(nonatomic, strong, readonly)UILabel     *addressLabel;
+@property(nonatomic, strong, readonly)UILabel     *listingDetailsLabel;
 
+-(void)showCloseWithTarget:(id)target andSEL:( SEL )selector;
 
 @end

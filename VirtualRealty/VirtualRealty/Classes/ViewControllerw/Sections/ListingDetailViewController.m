@@ -16,9 +16,10 @@
 #import <MediaPlayer/MediaPlayer.h>
 #import <Parse/Parse.h>
 #import "ErrorFactory.h"
+#import <MessageUI/MessageUI.h>
 #import "SocialLifeViewController.h"
 
-@interface ListingDetailViewController ()<UIAlertViewDelegate>
+@interface ListingDetailViewController ()<UIAlertViewDelegate, MFMailComposeViewControllerDelegate>
 
 -(void)deleteObject;
 -(void)handleDeleteListing:(id)sender;
@@ -405,5 +406,30 @@
     SocialLifeViewController *vc = [[SocialLifeViewController alloc]initWithLocation:self.listing.geo];
     [self.navigationController pushViewController:vc animated:YES];
 }
+
+#pragma mark - mail
+-(void)showEmail
+{
+    if( [MFMailComposeViewController canSendMail])
+    {
+        MFMailComposeViewController *vc = [[MFMailComposeViewController alloc]init];
+        vc.mailComposeDelegate = self;
+        [vc setToRecipients:@[self.listing.contact]];
+        [vc setSubject:[NSString stringWithFormat:@"VirtualRealty Listing Inquiry - %@" , self.listing.address]];
+        [self presentViewController:vc animated:YES completion:nil];
+    }
+    else
+    {
+        [[ErrorFactory getAlertCustomMessage:@"There are no email acounts on this device" andDelegateOrNil:nil andOtherButtons:nil]show];
+    }
+    
+}
+
+-(void)mailComposeController:(MFMailComposeViewController *)controller didFinishWithResult:(MFMailComposeResult)result error:(NSError *)error
+{
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
+
+
 
 @end
