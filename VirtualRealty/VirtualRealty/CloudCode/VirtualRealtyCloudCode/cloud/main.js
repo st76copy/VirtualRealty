@@ -103,22 +103,34 @@ Parse.Cloud.define("saveListing", function(request, response)
 	
 	function sendEmail( listing )
 	{
-			var successParams = {};
-			successParams.method = "POST";
-			successParams.params = {"listingID" : listing.objectId };
-			successParams.url = "http://virtualrealtynyc.com/notification.php";
-			successParams.success = function(httpResponse){};
+		var params 	  = {};
+		params.method  = "POST";
 		
-			var failParams = {};
-			failParams.success = function(httpResponse){};
-			Parse.Cloud.httpRequest( successParams, failParams);
+		params.headers =  
+		{
+			'Content-Type': 'application/x-www-form-urlencoded'
+		};
+		
+		params.url     = "http://virtualrealtynyc.com/notification.php";
+		params.body    = { "listing" :  request.params.objectId };
+		
+		params.success = function(httpResponse)
+		{
+			response.success( httpResponse );	
+		};
+		
+		params.error = function(httpResponse)
+		{
+			response.error( "error admin failed " + request.params.objectId );	
+		};
+			
+		Parse.Cloud.httpRequest( params );
      } 
 		
 });
 
 Parse.Cloud.define( "notifyAdmin", function(request, response) 
 {
-	
 	var params 	  = {};
 	params.method  = "POST";
 	

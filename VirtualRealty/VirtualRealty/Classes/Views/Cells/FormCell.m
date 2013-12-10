@@ -53,4 +53,9 @@
         [self.errorView removeFromSuperview];
     }
 }
+
+-(void)render
+{
+    self.imageView.image = [UIImage imageNamed:self.cellinfo[@"icon"]];
+}
 @end

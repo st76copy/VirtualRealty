@@ -33,16 +33,16 @@
         
         
         _textBackGround = [[UIView alloc]initWithFrame:CGRectZero];
-        [self.textBackGround setBackgroundColor:[UIColor blackColor]];
+        [self.textBackGround setBackgroundColor:[UIColor whiteColor]];
         [self.textBackGround setAlpha:0.6f];
         [self.contentView addSubview:self.textBackGround];
         
         _addresssLabel = [[UITextField alloc]initWithFrame:CGRectZero];
-        [self.addresssLabel setTextColor:[UIColor whiteColor]];
+        [self.addresssLabel setTextColor:[UIColor colorFromHex:@"434343"]];
         [self.addresssLabel setBackgroundColor:[UIColor clearColor ]];
         [self.addresssLabel setAdjustsFontSizeToFitWidth:YES];
         [self.addresssLabel setText:@"Loading Address"];
-        [self.addresssLabel setFont:[UIFont boldSystemFontOfSize:12]];
+        [self.addresssLabel setFont:[UIFont systemFontOfSize    :17]];
         [self.addresssLabel setEnabled:NO];
         [self.contentView addSubview:self.addresssLabel];
         
@@ -68,14 +68,16 @@
 -(void)layoutSubviews
 {
     [super layoutSubviews];
-    [self.map setFrame:CGRectMake(0, 0, self.contentView.frame.size.width, self.contentView.frame.size.height)];
+    [self.map setFrame:CGRectMake(0, 0, self.contentView.frame.size.width, self.contentView.frame.size.height - 38.0f)];
     
     CGRect rect = self.map.bounds;
-    rect.size.height = 50;
-    rect.origin.y = self.map.frame.size.height - rect.size.height;
+    rect.size.height = 38.0f;
+    rect.origin.y = self.map.frame.size.height;
     self.textBackGround.frame = rect;
     
-    self.addresssLabel.frame = self.textBackGround.frame;
+    rect = self.textBackGround.frame;
+    rect.origin.x = 15;
+    self.addresssLabel.frame = rect;
 }
 
 -(void)locationUpdated
@@ -109,7 +111,6 @@
     [self.addresssLabel setEnabled:YES];
     [self.addresssLabel setText:@""];
     [self.addresssLabel setPlaceholder:@"enter address"];
-    
     [self.addresssLabel setAttributedPlaceholder:string];
     [self.addresssLabel becomeFirstResponder];
     [self.addresssLabel addTarget:self  action:@selector(textFieldFinished:)  forControlEvents:UIControlEventEditingDidEndOnExit];

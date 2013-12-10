@@ -210,8 +210,8 @@
 
 -(void)showDetails:(Listing *)listing
 {
-    ListingDetailViewController *details = [[ListingDetailViewController alloc]initWithListing:listing];
-    [self.navigationController pushViewController:details animated:YES];
+    ListingDetailViewController *detailsVC = [[ListingDetailViewController alloc]initWithListing:listing];
+    [self.navigationController pushViewController:detailsVC animated:YES];
 }
 
 #pragma mark - map
@@ -340,12 +340,17 @@
 
 -(ListingCell *)getDetails:(Listing *)listing
 {
+    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(detailsTouched:)];
+    
     ListingCell *cell = [[ListingCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@""];
+    
     cell.frame = CGRectMake(0, 0, 320, 215);
     cell.listing = listing;
     [cell render];
     [cell layoutSubviews];
     [cell setBackgroundColor:[UIColor whiteColor]];
+    [cell addGestureRecognizer:tap];
+    
     CGRect rect = cell.frame;
     rect.origin.y = cell.frame.size.height * -1;
     cell.frame = rect;
@@ -424,6 +429,12 @@
         details = nil;
     }];
     [self resetMap];
+}
+
+-(void)detailsTouched:(UITapGestureRecognizer *)sender
+{
+    ListingCell *cell = (ListingCell *)sender.view;
+    [self showDetails:cell.listing];
 }
 
 @end

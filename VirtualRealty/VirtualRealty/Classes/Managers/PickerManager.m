@@ -131,7 +131,6 @@
     
     for( id<PickerManagerDelegate> obj in self.delegates )
     {
-        
         [obj pickerWillShow];
     }
 }
@@ -176,13 +175,25 @@
 -(NSString *)pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component
 {
     NSArray *comp = [self.pickerData objectAtIndex:component];
-    return [comp objectAtIndex:row];
+    return comp[row][@"label"];
 }
 
 -(NSInteger)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component
 {
     NSArray *comp = [self.pickerData objectAtIndex:component];
     return comp.count;
+}
+
+-(void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component
+{
+    
+}
+
+-(id)valueForComponent:(int)compIndex
+{
+    int rowIndex  = [self.standardPicker selectedRowInComponent:compIndex];
+    NSDictionary *info = self.pickerData[compIndex][rowIndex];
+    return info[@"value"];
 }
 
 #pragma mark - ui responders

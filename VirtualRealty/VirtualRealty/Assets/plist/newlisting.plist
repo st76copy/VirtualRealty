@@ -6,6 +6,48 @@
 		<key>cells</key>
 		<array>
 			<dict>
+				<key>display-height</key>
+				<integer>127</integer>
+				<key>field</key>
+				<integer>17</integer>
+				<key>state</key>
+				<integer>1</integer>
+				<key>animatable</key>
+				<false/>
+				<key>label</key>
+				<string>Video</string>
+				<key>class</key>
+				<string>MediaCell</string>
+			</dict>
+		</array>
+		<key>section-title</key>
+		<string>Video Tour</string>
+	</dict>
+	<dict>
+		<key>cells</key>
+		<array>
+			<dict>
+				<key>display-height</key>
+				<integer>127</integer>
+				<key>field</key>
+				<integer>18</integer>
+				<key>state</key>
+				<integer>1</integer>
+				<key>animatable</key>
+				<false/>
+				<key>label</key>
+				<string>Thumbnail</string>
+				<key>class</key>
+				<string>MediaCell</string>
+			</dict>
+		</array>
+		<key>section-title</key>
+		<string>Cover Photo</string>
+	</dict>
+	<dict>
+		<key>cells</key>
+		<array>
+			<dict>
 				<key>geo</key>
 				<integer>38</integer>
 				<key>animatable</key>
@@ -293,6 +335,8 @@
 		<key>cells</key>
 		<array>
 			<dict>
+				<key>icon</key>
+				<string>dollar-icon.png</string>
 				<key>format</key>
 				<string>$%0.2f</string>
 				<key>placeholder</key>
@@ -309,6 +353,8 @@
 				<string>NumberInputCell</string>
 			</dict>
 			<dict>
+				<key>icon</key>
+				<string>dollar-icon.png</string>
 				<key>format</key>
 				<string>$%0.2f</string>
 				<key>placeholder</key>
@@ -325,6 +371,8 @@
 				<string>NumberInputCell</string>
 			</dict>
 			<dict>
+				<key>icon</key>
+				<string>dollar-icon.png</string>
 				<key>format</key>
 				<string>$%0.2f</string>
 				<key>placeholder</key>
@@ -348,6 +396,8 @@
 		<key>cells</key>
 		<array>
 			<dict>
+				<key>icon</key>
+				<string>bedrooms-icon.png</string>
 				<key>format</key>
 				<string>%0.1f</string>
 				<key>placeholder</key>
@@ -361,9 +411,60 @@
 				<key>label</key>
 				<string>Bedrooms</string>
 				<key>class</key>
-				<string>NumberInputCell</string>
+				<string>PickerInputCell</string>
+				<key>picker-data</key>
+				<array>
+					<array>
+						<dict>
+							<key>label</key>
+							<string>Bedrooms</string>
+							<key>value</key>
+							<string></string>
+						</dict>
+					</array>
+					<array>
+						<dict>
+							<key>label</key>
+							<string>1</string>
+							<key>value</key>
+							<integer>1</integer>
+						</dict>
+						<dict>
+							<key>label</key>
+							<string>2</string>
+							<key>value</key>
+							<integer>2</integer>
+						</dict>
+						<dict>
+							<key>label</key>
+							<string>3</string>
+							<key>value</key>
+							<integer>3</integer>
+						</dict>
+						<dict>
+							<key>label</key>
+							<string>4</string>
+							<key>value</key>
+							<integer>4</integer>
+						</dict>
+						<dict>
+							<key>label</key>
+							<string>5</string>
+							<key>value</key>
+							<integer>5</integer>
+						</dict>
+						<dict>
+							<key>label</key>
+							<string>5+</string>
+							<key>value</key>
+							<integer>6</integer>
+						</dict>
+					</array>
+				</array>
 			</dict>
 			<dict>
+				<key>icon</key>
+				<string>bathrooms-icon.png</string>
 				<key>format</key>
 				<string>%0.1f</string>
 				<key>placeholder</key>
@@ -426,20 +527,6 @@
 				<string>Move In Date</string>
 				<key>class</key>
 				<string>DateCell</string>
-			</dict>
-			<dict>
-				<key>placeholder</key>
-				<string>email address</string>
-				<key>field</key>
-				<integer>20</integer>
-				<key>state</key>
-				<integer>1</integer>
-				<key>animatable</key>
-				<false/>
-				<key>label</key>
-				<string>Contact</string>
-				<key>class</key>
-				<string>TextInputCell</string>
 			</dict>
 		</array>
 		<key>section-title</key>
@@ -516,32 +603,36 @@
 		<key>cells</key>
 		<array>
 			<dict>
+				<key>placeholder</key>
+				<string>email address</string>
 				<key>field</key>
-				<integer>17</integer>
+				<integer>20</integer>
 				<key>state</key>
 				<integer>1</integer>
 				<key>animatable</key>
 				<false/>
 				<key>label</key>
-				<string>Video</string>
+				<string>Email</string>
 				<key>class</key>
-				<string>MediaCell</string>
+				<string>TextInputCell</string>
 			</dict>
 			<dict>
+				<key>placeholder</key>
+				<string>digits</string>
 				<key>field</key>
-				<integer>18</integer>
+				<integer>20</integer>
 				<key>state</key>
 				<integer>1</integer>
 				<key>animatable</key>
 				<false/>
 				<key>label</key>
-				<string>Thumbnail</string>
+				<string>Phone</string>
 				<key>class</key>
-				<string>MediaCell</string>
+				<string>TextInputCell</string>
 			</dict>
 		</array>
 		<key>section-title</key>
-		<string>Media</string>
+		<string>Contact</string>
 	</dict>
 	<dict>
 		<key>cells</key>

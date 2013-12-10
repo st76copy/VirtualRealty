@@ -35,7 +35,7 @@
                   symbolName = "-[SettingsViewController testEmail]"
                   moduleName = "VirtualRealty"
                   urlString = "file:///Projects/VirtualRealty/VirtualRealty/VirtualRealty/Classes/ViewControllerw/Sections/SettingsViewController.m"
-                  timestampString = "407446634.51923"
+                  timestampString = "408412074.639334"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "164"
@@ -49,7 +49,7 @@
                   symbolName = "__35-[SettingsViewController testEmail]_block_invoke"
                   moduleName = "VirtualRealty"
                   urlString = "file:///Projects/VirtualRealty/VirtualRealty/VirtualRealty/Classes/ViewControllerw/Sections/SettingsViewController.m"
-                  timestampString = "407446634.519401"
+                  timestampString = "408412074.639684"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "164"
@@ -72,6 +72,38 @@
             startingLineNumber = "46"
             endingLineNumber = "46"
             landmarkName = "-setPrice:"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "VirtualRealty/Classes/ViewControllerw/Sections/AddApartmentViewController.m"
+            timestampString = "408222376.291406"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "479"
+            endingLineNumber = "479"
+            landmarkName = "-keyboardWillShow"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "VirtualRealty/Classes/ViewControllerw/Sections/AddApartmentViewController.m"
+            timestampString = "408222376.291406"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "486"
+            endingLineNumber = "486"
+            landmarkName = "-keyboardWillShow"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>

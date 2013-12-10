@@ -5,7 +5,7 @@
 //  Created by chrisshanley on 9/14/13.
 //  Copyright (c) 2013 virtualrealty. All rights reserved.
 //
-
+#import "UIColor+Extended.h"
 #import "TextInputCell.h"
 #import "KeyboardManager.h"
 @implementation TextInputCell
@@ -18,7 +18,8 @@
     if (self)
     {
         _inputField = [[UITextField alloc]initWithFrame:CGRectMake(0, 0, 200, 30)];
-        self.inputField.backgroundColor = [UIColor colorWithRed:230.0f/255.0f green:230.0f/255.0f blue:230.0f/255.0f alpha:1.0f];
+        self.inputField.backgroundColor = [UIColor clearColor];
+
         //self.inputField.delegate = self;
         self.inputField.autocapitalizationType = UITextAutocapitalizationTypeNone;
         self.inputField.textAlignment  = NSTextAlignmentRight;
@@ -39,8 +40,8 @@
 
     [self.textLabel sizeToFit];
     CGRect rect = self.textLabel.frame;
-    rect.origin.x = 10.0f;
     rect.origin.y = self.contentView.frame.size.height * 0.5 - rect.size.height * 0.5;
+    self.textLabel.textColor = [UIColor colorFromHex:@"434343"];
     self.textLabel.frame = rect;
     
     float width = 300 - ( self.textLabel.frame.origin.x + self.textLabel.frame.size.width);
@@ -56,7 +57,7 @@
 
 -(void)render
 {
-    
+    [super render];
     
     [self.backgroundView setBackgroundColor:[UIColor whiteColor]];
     self.textLabel.text         = [self.cellinfo valueForKey:@"label"];
@@ -73,6 +74,7 @@
     
     if( [[self.cellinfo valueForKey:@"read-only"] boolValue ] )
     {
+        self.inputField.textColor = [UIColor colorFromHex:@"00aeef"];
         self.inputField.userInteractionEnabled = NO;
     }
     
@@ -126,10 +128,6 @@
 
 -(void)setFocus
 {
-    if( [KeyboardManager sharedManager].isShowing == NO)
-    {
-        [[KeyboardManager sharedManager]showWithFocusField:self.inputField];
-    }
-
+    [[KeyboardManager sharedManager]showWithFocusField:self.inputField];
 }
 @end

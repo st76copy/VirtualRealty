@@ -8,6 +8,8 @@
 
 #import "NumberInputCell.h"
 #import "KeyboardManager.h"
+#import "UIColor+Extended.h"
+
 @implementation NumberInputCell
 
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
@@ -47,6 +49,7 @@
 
 -(void)render
 {
+    self.imageView.image = [UIImage imageNamed:self.cellinfo[@"icon"]];
     self.textLabel.text         = [self.cellinfo valueForKey:@"label"];
     self.inputField.placeholder = [self.cellinfo valueForKey:@"placeholder"];
     
@@ -66,6 +69,7 @@
     if( [[self.cellinfo valueForKey:@"read-only"]boolValue] )
     {
         self.inputField.userInteractionEnabled = NO;
+        self.inputField.textColor = [UIColor colorFromHex:@"00aeef"];
     }
     
 }

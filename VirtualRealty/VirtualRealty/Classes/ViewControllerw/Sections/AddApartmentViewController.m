@@ -19,6 +19,7 @@
 #import <Parse/Parse.h>
 #import "ErrorFactory.h"
 #import "KeywordsViewController.h"
+#import "SectionTitleView.h"
 
 @interface AddApartmentViewController ()<UIImagePickerControllerDelegate,UINavigationControllerDelegate, KeyWordDelegate>
 -(void)handleListingComplete;
@@ -76,6 +77,7 @@
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor grayColor];
     CGRect rect = self.view.bounds;
+    rect.size.height -= self.navigationController.navigationBar.frame.size.height;
     
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc]initWithTitle:@"Submit" style:UIBarButtonItemStyleDone target:self action:@selector(handleSubmitListing:)];
     
@@ -83,6 +85,9 @@
     [_table setDataSource:self];
     [_table setDelegate:self];
     [_table setSeparatorInset:UIEdgeInsetsZero];
+    [_table setSectionFooterHeight:0.0f];
+    [_table setSectionHeaderHeight:44.0f];
+    [_table setSeparatorColor:[UIColor clearColor]];
     [self.view addSubview:_table];
 }
 
@@ -211,10 +216,9 @@
             break;
         case kMonthlyRent:
         case kMoveInCost:
-        case kBedrooms:
-        case kBathrooms:
         case kContact:
         case kUnit:
+        case kBrokerFee:
             [cell setFocus];
             break;
         case kVideo:
@@ -224,6 +228,13 @@
         case kKeywords:
             [self showKeywords];
             break;
+        case kBedrooms:
+        case kBathrooms:
+            [PickerManager sharedManager].type = kStandard;
+            [PickerManager sharedManager].pickerData = cell.cellinfo[@"picker-data"];
+            [[PickerManager sharedManager]showPickerInView:self.view];
+            break;
+            
         default:
         break;
     }
@@ -234,7 +245,24 @@
 {
     Section *sec = [self.tableData objectAtIndex:indexPath.section];
     Row     *row = [sec.rows objectAtIndex:indexPath.row];
-    return  ( [row.info valueForKey:@"display-height"] ) ? [[row.info valueForKey:@"display-height"] floatValue] : 50.0f;
+    return  ( [row.info valueForKey:@"display-height"] ) ? [[row.info valueForKey:@"display-height"] floatValue] : 38.0f;
+}
+
+-(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
+{
+    Section *sectionInfo           = [self.tableData objectAtIndex:section];
+    SectionTitleView *sectionTitle = [[SectionTitleView alloc]initWithTitle:sectionInfo.title];
+    return sectionTitle;
+}
+
+-(float)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
+{
+    return 44;
+}
+
+-(float)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
+{
+    return 0;
 }
 
 
@@ -272,6 +300,7 @@
 -(void)animateToCell
 {
     CGRect rect = [self.table cellForRowAtIndexPath:self.currentIndexpath].frame;
+    rect.size.height += 20;
     [self.table scrollRectToVisible:rect animated:YES];
 }
 
@@ -451,17 +480,17 @@
     
     [UIView animateWithDuration:[KeyboardManager sharedManager ].animationTime animations:^
     {
-        self.table.contentInset =  UIEdgeInsetsMake(0, 0, [KeyboardManager sharedManager].keyboardFrame.size.height, 0);
+        self.table.contentInset =  UIEdgeInsetsMake(0, 0, [KeyboardManager sharedManager].keyboardFrame.size.height + 50, 0);
     }];
 
-    [self animateToCell];
+  //  [self animateToCell];
 
 }
 
 -(void)keyboardWillHide
 {
     [UIView animateWithDuration:0.3  animations:^{
-        self.table.contentInset =  UIEdgeInsetsMake(64, 0, 0, 0);
+        self.table.contentInset =  UIEdgeInsetsMake(0.0f, 0, 0, 0);
     }];
 }
 
@@ -472,26 +501,36 @@
     {
         [[KeyboardManager sharedManager]close];
     }
+ 
+    float height      = [PickerManager sharedManager].container.frame.size.height;
     
-    [UIView animateWithDuration:0.4 animations:^
-    {
-         self.table.contentInset =  UIEdgeInsetsMake(0, 0,[PickerManager sharedManager].container.frame.size.height, 0);
+    [UIView animateWithDuration:0.3  animations:^{
+        self.table.contentInset =  UIEdgeInsetsMake(0, 0, height, 0);
     }];
-    
     [self animateToCell];
 }
 
 -(void)pickerWillHide
 {
     [UIView animateWithDuration:0.3  animations:^{
-        self.table.contentInset =  UIEdgeInsetsMake(64, 0, 0, 0);
+        self.table.contentInset =  UIEdgeInsetsMake(0, 0, 0, 0);
     }];
 }
 
 -(void)pickerDone
 {
     FormCell *cell = (FormCell *)[self.table cellForRowAtIndexPath:self.currentIndexpath];
-    cell.formValue = [PickerManager sharedManager].datePicker.date;
+    
+    switch ([PickerManager sharedManager].type) {
+        case kStandard:
+            cell.formValue = [[PickerManager sharedManager] valueForComponent:1];
+            break;
+            
+        default:
+            cell.formValue = [PickerManager sharedManager].datePicker.date;
+            break;
+    }
+    
     cell.detailTextLabel.text = [[PickerManager sharedManager].datePicker.date toString];
     [cell.formDelegate cell:cell didChangeForField:self.currentField];
     [self.table reloadRowsAtIndexPaths:@[self.currentIndexpath] withRowAnimation:UITableViewRowAnimationAutomatic];

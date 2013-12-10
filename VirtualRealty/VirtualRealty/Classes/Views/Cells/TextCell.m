@@ -7,7 +7,7 @@
 //
 
 #import "TextCell.h"
-
+#import "UIColor+Extended.h"
 @implementation TextCell
 
 -(id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
@@ -18,9 +18,22 @@
 -(void)layoutSubviews
 {
     [super layoutSubviews];
-    self.textLabel.font = [UIFont systemFontOfSize:12];
+    self.textLabel.textColor = [UIColor colorFromHex:@"434343"];
     CGRect rect = self.textLabel.frame;
-    rect.origin.x = 20;
+    rect.origin.y = self.contentView.frame.size.height * 0.5 - rect.size.height * 0.5;
+    self.textLabel.textColor = [UIColor colorFromHex:@"434343"];
+    self.textLabel.frame = rect;
+    
+
+    [self.detailTextLabel setTextAlignment:NSTextAlignmentLeft];
+    [self.detailTextLabel sizeToFit];
+
+    rect = self.detailTextLabel.frame;
+    rect.origin.x = self.contentView.frame.size.width - (self.detailTextLabel.frame.size.width + 10);
+    rect.origin.y = self.contentView.frame.size.height * 0.5 - rect.size.height * 0.5;
+    self.detailTextLabel.frame = rect;
+    self.detailTextLabel.textColor = [UIColor colorFromHex:@"00aeef"];
+    
 }
 
 -(void)render

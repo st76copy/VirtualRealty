@@ -6,6 +6,46 @@
 		<key>cells</key>
 		<array>
 			<dict>
+				<key>display-height</key>
+				<integer>238</integer>
+				<key>read-only</key>
+				<true/>
+				<key>custom-action</key>
+				<string>handlePlayVideo</string>
+				<key>field</key>
+				<integer>17</integer>
+				<key>label</key>
+				<string>Video</string>
+				<key>class</key>
+				<string>ListingInfoCell</string>
+			</dict>
+		</array>
+		<key>section-title</key>
+		<string>Media</string>
+	</dict>
+	<dict>
+		<key>cells</key>
+		<array>
+			<dict>
+				<key>display-height</key>
+				<integer>240</integer>
+				<key>read-only</key>
+				<true/>
+				<key>field</key>
+				<integer>43</integer>
+				<key>label</key>
+				<string>Social Life</string>
+				<key>class</key>
+				<string>SocialLifeCell</string>
+			</dict>
+		</array>
+		<key>section-title</key>
+		<string>Social Life</string>
+	</dict>
+	<dict>
+		<key>cells</key>
+		<array>
+			<dict>
 				<key>read-only</key>
 				<true/>
 				<key>field</key>
@@ -15,7 +55,7 @@
 				<key>class</key>
 				<string>MapCell</string>
 				<key>display-height</key>
-				<string>150</string>
+				<string>183</string>
 			</dict>
 			<dict>
 				<key>read-only</key>
@@ -37,40 +77,9 @@
 				<key>class</key>
 				<string>TextCell</string>
 			</dict>
-			<dict>
-				<key>read-only</key>
-				<true/>
-				<key>field</key>
-				<integer>43</integer>
-				<key>label</key>
-				<string>Social Life</string>
-				<key>class</key>
-				<string>TextCell</string>
-				<key>custom-action</key>
-				<string>showSocialLife</string>
-			</dict>
 		</array>
 		<key>section-title</key>
 		<string>Location</string>
-	</dict>
-	<dict>
-		<key>cells</key>
-		<array>
-			<dict>
-				<key>read-only</key>
-				<true/>
-				<key>custom-action</key>
-				<string>handlePlayVideo</string>
-				<key>field</key>
-				<integer>17</integer>
-				<key>label</key>
-				<string>Video</string>
-				<key>class</key>
-				<string>DetailsCell</string>
-			</dict>
-		</array>
-		<key>section-title</key>
-		<string>Media</string>
 	</dict>
 	<dict>
 		<key>cells</key>
@@ -109,7 +118,7 @@
 				<key>label</key>
 				<string>Broker Fee</string>
 				<key>class</key>
-				<string>SwitchCell</string>
+				<string>NumberInputCell</string>
 			</dict>
 		</array>
 		<key>section-title</key>

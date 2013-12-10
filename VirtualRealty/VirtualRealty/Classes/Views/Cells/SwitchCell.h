@@ -10,5 +10,6 @@
 
 @interface SwitchCell : FormCell
 -(void)handleSwitchChanged:(id)sender;
+@property(nonatomic, strong, readonly)UILabel  *stateLabel;
 @property(nonatomic,strong,readonly)UISwitch *switchButton;
 @end

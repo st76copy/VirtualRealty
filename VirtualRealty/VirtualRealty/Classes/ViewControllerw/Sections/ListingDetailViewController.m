@@ -18,6 +18,7 @@
 #import "ErrorFactory.h"
 #import <MessageUI/MessageUI.h>
 #import "SocialLifeViewController.h"
+#import "SectionTitleView.h"
 
 @interface ListingDetailViewController ()<UIAlertViewDelegate, MFMailComposeViewControllerDelegate>
 
@@ -57,10 +58,14 @@
     
     self.view.backgroundColor = [UIColor grayColor];
     CGRect rect = self.view.bounds;
-
+    rect.size.height -= self.navigationController.navigationBar.frame.size.height;
+    
     _table = [[UITableView alloc]initWithFrame:rect style:UITableViewStyleGrouped];
     [_table setDataSource:self];
     [_table setDelegate:self];
+    [_table setSeparatorColor:[UIColor clearColor]];
+    [_table setSectionFooterHeight:0.0f];
+    [_table setSectionHeaderHeight:44.0f];
     [self.view addSubview:_table];
     
 }
@@ -68,8 +73,7 @@
 -(void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
-    
-    
+
     
     if( [[User sharedUser]valid] )
     {
@@ -114,11 +118,7 @@
 
 #pragma mark - table data and delegates
 #pragma mark - table delegate and data
--(NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
-{
-    NSDictionary *sectionInfo = [self.tableData objectAtIndex:section];
-    return [sectionInfo valueForKey:@"section-title"];
-}
+
 
 -(NSInteger )tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
@@ -145,7 +145,7 @@
     }
     else
     {
-        height = 50.0f;
+        height = 38.0f;
     }
     
     return height;
@@ -184,6 +184,24 @@
     }
 }
 
+-(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
+{
+    NSDictionary *sectionInfo      = [self.tableData objectAtIndex:section];
+    NSString *title                = [sectionInfo valueForKey:@"section-title"];
+    SectionTitleView *sectionTitle = [[SectionTitleView alloc]initWithTitle:title];
+    return sectionTitle;
+}
+
+-(float)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
+{
+    return 44;
+}
+
+-(float)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
+{
+    return 0;
+}
+
 #pragma - get model data
 -(id)getValueForFormField:(FormField)field
 {
@@ -191,6 +209,9 @@
     
     switch( field )
     {
+        case kSocial:
+            value = self.listing.geo;
+            break;
         case kAddress:
             if( self.listing.geo )
             {
@@ -253,7 +274,7 @@
             value = self.listing.washerDryer;
             break;
         case kVideo :
-            value = self.listing.video;
+            value = self.listing;
             break;
         case kThumbnail:
             value = self.listing.thumb;
