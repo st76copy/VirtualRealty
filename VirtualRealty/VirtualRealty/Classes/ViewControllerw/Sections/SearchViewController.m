@@ -17,7 +17,8 @@
 #import "CustomNavViewController.h"
 #import "MapPriceTag.h"
 #import "ListingCell.h"
-
+#import "LocationManager.h"
+#import "User.h"
 @interface SearchViewController ()<SearchFilterDelegate, UISearchBarDelegate, UITableViewDataSource, UITableViewDelegate, GMSMapViewDelegate,ToggleDelegate>
 {
     ListingCell *details;
@@ -59,6 +60,7 @@
     self.navigationItem.titleView = _searchBar;
     self.searchBar.delegate = self;
     self.searchBar.keyboardType = UIReturnKeySearch;
+    self.searchBar.text = nil;
     
     CGRect rect;
     MapListToggleView *mapListToggle = [[MapListToggleView alloc]initWithFrame:CGRectZero];
@@ -87,6 +89,11 @@
     [self.view addSubview:mapListToggle];
     UIBarButtonItem *filterButton = [[UIBarButtonItem alloc]initWithTitle:@"FILTER" style:UIBarButtonItemStyleBordered target:self action:@selector(handleMakeFilter:)];
     self.navigationItem.rightBarButtonItem = filterButton;
+}
+
+-(void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
     
     AppDelegate *app = (AppDelegate *)[UIApplication sharedApplication].delegate;
     
@@ -125,17 +132,29 @@
     SearchFilterViewController *filters =[[SearchFilterViewController alloc]initWithNibName:nil bundle:nil];
     filters.delegate = self;
     CustomNavViewController *nc = [[CustomNavViewController alloc ]initWithRootViewController:filters];
+    filters.navigationItem.title = ([self.searchBar.text isEqualToString:@""]) ?  @"Filters" : [NSString stringWithFormat:@"Filters For %@", self.searchBar.text];
     [self presentViewController:nc animated:YES completion:nil];
 }
 
+-(void)showDetails:(Listing *)listing
+{
+    ListingDetailViewController *detailsVC = [[ListingDetailViewController alloc]initWithListing:listing];
+    [self.navigationController pushViewController:detailsVC animated:YES];
+}
+
+
+#pragma mark - filter delegate
 -(void)filtersDoneWithOptions:(NSDictionary *)options
 {
-
     if( options == nil )
     {
         [self dismissViewControllerAnimated:YES completion:nil];
         return;
     }
+    
+    AppDelegate *app = (AppDelegate *)[UIApplication sharedApplication].delegate;
+    [app showLoaderInView:self.view];
+    
     
     NSDictionary *params = nil;
     
@@ -151,25 +170,80 @@
     __block SearchViewController *blockself = self;
     
     [self dismissViewControllerAnimated:YES completion:nil];
-    [PFCloud callFunctionInBackground:@"search" withParameters:params block:^(id object, NSError *error)
+    
+    if( self.searchBar.text && [self.searchBar.text isEqualToString:@""] == NO )
     {
-        
-        [blockself handleDataLoaded:object];
-    }];
+        NSLog(@"%@ -- running search wiht term %@ ", self, self.searchBar.text);
+        [[LocationManager shareManager]requestGeoFromString:[NSString stringWithFormat:@"%@, NYC",[self.searchBar.text lowercaseString]] block:^(CLLocationCoordinate2D loc, NSDictionary *results) {
+            
+            
+            NSMutableDictionary *temp = [NSMutableDictionary dictionaryWithDictionary:[params mutableCopy]];
+            temp[@"long"]     = [NSNumber numberWithDouble:loc.longitude];
+            temp[@"latt"]     = [NSNumber numberWithDouble:loc.latitude];
+            temp[@"distance"] = [User sharedUser].searchRadius;
+            
+            [PFCloud callFunctionInBackground:@"search" withParameters:temp block:^(id object, NSError *error)
+            {
+                 [blockself handleDataLoaded:object];
+            }];
+            [blockself.searchBar resignFirstResponder];
+        }];
+    }
+    else
+    {
+        NSLog(@"%@ -- running search wiht filters only %@ ", self, params );
+        [PFCloud callFunctionInBackground:@"search" withParameters:params block:^(id object, NSError *error)
+        {
+            if( error )
+            {
+                NSLog(@"%@  found error with results  %@ ", self, error);
+            }
+            else
+            {
+                [blockself handleDataLoaded:object];
+            }
+        }];
+    }
 }
+
+
+-(void)clearFilters
+{
+    AppDelegate *app = (AppDelegate *)[UIApplication sharedApplication].delegate;
+    
+    [app showLoaderInView:self.view];
+    __block SearchViewController *blockself = self;
+    [PFCloud  callFunctionInBackground:@"allListings" withParameters:[NSDictionary dictionary] block:^(id object, NSError *error)
+     {
+         [blockself handleDataLoaded:object];
+     }];
+}
+
 
 - (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar
 {
+    
+    AppDelegate *app = (AppDelegate *)[UIApplication sharedApplication].delegate;
+    [app showLoaderInView:self.view];
+    
     __block SearchViewController *blockself = self;
-    NSDictionary *params = @{ @"keyword" : [self.searchBar.text lowercaseString] };
-    [PFCloud callFunctionInBackground:@"search" withParameters:params block:^(id object, NSError *error)
-    {
-        [blockself handleDataLoaded:object];
+    
+    [[LocationManager shareManager]requestGeoFromString:[NSString stringWithFormat:@"%@, NYC",[self.searchBar.text lowercaseString]] block:^(CLLocationCoordinate2D loc, NSDictionary *results) {
+
+        NSDictionary *params = @{@"long":[NSNumber numberWithDouble:loc.longitude],
+                                 @"latt":[NSNumber numberWithDouble:loc.latitude],
+                                 @"distance":[User sharedUser].searchRadius
+                                 };
+        
+        [PFCloud callFunctionInBackground:@"search" withParameters:params block:^(id object, NSError *error)
+        {
+            [blockself handleDataLoaded:object];
+        }];
+        [blockself.searchBar resignFirstResponder];
     }];
-    [self.searchBar resignFirstResponder];
 }
 
-
+#pragma mark - table delegate
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
     return 1;
@@ -208,11 +282,6 @@
     [self showDetails:listing];
 }
 
--(void)showDetails:(Listing *)listing
-{
-    ListingDetailViewController *detailsVC = [[ListingDetailViewController alloc]initWithListing:listing];
-    [self.navigationController pushViewController:detailsVC animated:YES];
-}
 
 #pragma mark - map
 -(void )handleShowMap:(id)sender

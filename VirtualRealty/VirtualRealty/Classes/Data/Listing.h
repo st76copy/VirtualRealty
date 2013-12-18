@@ -47,7 +47,8 @@ typedef void (^LoadMediaBlock) (BOOL success);
 @property(nonatomic, strong)NSNumber *brokerfee;
 
 @property(nonatomic, strong)NSDate   *moveInDate;
-@property(nonatomic, strong)NSString *contact;
+@property(nonatomic, strong)NSString *email;
+@property(nonatomic, strong)NSString *phone;
 @property(nonatomic, strong)NSNumber *share;
 
 @property(nonatomic, strong)NSNumber *bedrooms;
@@ -67,5 +68,15 @@ typedef void (^LoadMediaBlock) (BOOL success);
 @property(nonatomic, strong)NSString *videoName;
 @property(nonatomic, strong)NSArray  *keywords;
 @property(nonatomic, strong, readonly)NSURL *videoURL;
+
+
+// extended properties
+@property(nonatomic, strong)NSNumber *zip;
+@property(nonatomic, strong)NSString *street;
+@property(nonatomic, strong)NSString *city;
+@property(nonatomic, strong)NSString *state;
+@property(nonatomic, strong)NSString *borough;
+
+
 
 @end

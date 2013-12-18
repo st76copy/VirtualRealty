@@ -24,8 +24,12 @@
     _location = self.cellinfo[@"current-value"];
     
     _mapView = [[GMSMapView alloc]initWithFrame:CGRectMake(0, 0, 320, 240)];
-    _mapView.userInteractionEnabled = NO;
     self.mapView.delegate = self;
+    self.mapView.settings.scrollGestures = NO;
+    self.mapView.settings.zoomGestures   = NO;
+    self.mapView.settings.consumesGesturesInView = NO;
+    self.mapView.myLocationEnabled = NO;
+    
     [self.contentView addSubview:self.mapView];
     
  
@@ -34,14 +38,8 @@
     CLLocationDegrees log  = _location.coordinate.longitude;
     GMSCameraPosition *camera = [GMSCameraPosition cameraWithLatitude:lat longitude:log zoom:12];
     [self.mapView setCamera:camera];
-    
-    GMSMarker *marker = [[GMSMarker alloc] init];
-    marker.position = camera.target;
-    marker.title = @"Me";
-    marker.map = self.mapView;
-    
-    NSString *template = @"https://maps.googleapis.com/maps/api/place/search/json?location=%f,%f&radius=%@&types=%@&sensor=true&key=%@";
-    NSString *url = [NSString stringWithFormat:template, _location.coordinate.latitude, _location.coordinate.longitude,@"400", @"restaurant%7cbar", kGOOGLE_PLACES_KEY];
+     NSString *template = @"https://maps.googleapis.com/maps/api/place/search/json?location=%f,%f&radius=%@&types=%@&sensor=true&key=%@";
+    NSString *url = [NSString stringWithFormat:template, _location.coordinate.latitude, _location.coordinate.longitude,@"200", @"restaurant%7cbar%7csubway_station%7cgrocery_or_supermarket", kGOOGLE_PLACES_KEY];
     NSMutableURLRequest *req = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:url]];
     
     NSURLSessionDataTask *task;
@@ -67,6 +65,7 @@
         NSDictionary *json = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:nil];
         NSMutableArray *markers = [NSMutableArray array];
         GMSMarker *marker;
+        
         for( NSDictionary *info in [json valueForKey:@"results"] )
         {
             float longatude = [[[[info valueForKey:@"geometry"]valueForKey:@"location"]valueForKey:@"lng"]floatValue];
@@ -75,7 +74,11 @@
             
             marker = [GMSMarker markerWithPosition:loc.coordinate];
             marker.map = self.mapView;
+            marker.icon = [Utils getIconForBusinessTypes:info[@"types"]];
+            marker.userData = info;
             marker.title = [info valueForKey:@"name"];
+            marker.snippet =[info valueForKey:@"name"];
+            marker.groundAnchor = CGPointMake(0.5, 0.5);
             [markers addObject:marker];
         }
         
@@ -119,9 +122,23 @@
             camera = [GMSCameraPosition cameraWithLatitude:camera.target.latitude longitude:camera.target.longitude zoom:18];
         }
         
+        
+        marker = [[GMSMarker alloc] init];
+        marker.position = camera.target;
+        marker.title = @"Me";
+        marker.icon = [UIImage imageNamed:@"home-icon.png"];
+        marker.map = self.mapView;
+        
+
         [self.mapView setCamera:camera];
         [self.mapView startRendering];
     });
-    
 }
+
+-(BOOL)mapView:(GMSMapView *)mapView didTapMarker:(GMSMarker *)marker
+{
+    NSLog(@"%@ --- did tap %@ ", self, marker.userData);
+    return YES;
+}
+
 @end

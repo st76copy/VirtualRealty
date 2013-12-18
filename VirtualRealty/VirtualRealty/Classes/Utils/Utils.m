@@ -135,4 +135,39 @@
     return  checkString.length > 5 ? YES : NO;
 }
 
++(UIImage *)getIconForBusinessTypes:(NSArray *)value
+{
+    NSString *restaurantFlag = @"restaurant";
+    NSString *barFlag        = @"bar";
+    NSString *groceryFlag    = @"grocery_or_supermarket";
+    NSString *subwayFlag     = @"subway_station";
+    UIImage *icon;
+    for( NSString *type in value)
+    {
+        if( [type isEqualToString:restaurantFlag ] )
+        {
+            icon = [UIImage imageNamed:@"restaurant-icon.png"];
+            break;
+        }
+        
+        if( [type isEqualToString:barFlag ] )
+        {
+            icon = [UIImage imageNamed:@"bar-icon.png"];
+            break;
+        }
+        
+        if( [type isEqualToString:groceryFlag ] )
+        {
+            icon = [UIImage imageNamed:@"grocery-icon.png"];
+            break;
+        }
+        if([type isEqualToString:subwayFlag])
+        {
+            icon = [UIImage imageNamed:@"subway-icon.png"];
+        }
+        
+    }
+    return icon;
+}
+
 @end

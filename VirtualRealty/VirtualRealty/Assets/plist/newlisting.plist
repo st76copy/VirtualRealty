@@ -48,34 +48,73 @@
 		<key>cells</key>
 		<array>
 			<dict>
-				<key>geo</key>
-				<integer>38</integer>
 				<key>animatable</key>
 				<false/>
 				<key>state</key>
 				<integer>1</integer>
 				<key>field</key>
-				<integer>2</integer>
+				<integer>45</integer>
 				<key>label</key>
-				<string>Address</string>
-				<key>class</key>
-				<string>MapCell</string>
-				<key>display-height</key>
-				<string>150</string>
-			</dict>
-			<dict>
-				<key>animatable</key>
-				<false/>
-				<key>state</key>
-				<integer>1</integer>
-				<key>field</key>
-				<integer>21</integer>
-				<key>label</key>
-				<string>Unit</string>
+				<string>Street</string>
+				<key>placeholder</key>
+				<string>street address</string>
 				<key>class</key>
 				<string>TextInputCell</string>
 			</dict>
 			<dict>
+				<key>placeholder</key>
+				<string>borough</string>
+				<key>animatable</key>
+				<false/>
+				<key>state</key>
+				<integer>1</integer>
+				<key>field</key>
+				<integer>46</integer>
+				<key>label</key>
+				<string>Borough</string>
+				<key>class</key>
+				<string>TextCell</string>
+				<key>picker-index</key>
+				<integer>0</integer>
+				<key>picker-data</key>
+				<array>
+					<array>
+						<dict>
+							<key>label</key>
+							<string>Manhattan</string>
+							<key>value</key>
+							<string>Manhattan</string>
+						</dict>
+						<dict>
+							<key>label</key>
+							<string>Brooklyn</string>
+							<key>value</key>
+							<string>Brooklyn</string>
+						</dict>
+						<dict>
+							<key>label</key>
+							<string>Queens</string>
+							<key>value</key>
+							<string>Queens</string>
+						</dict>
+						<dict>
+							<key>label</key>
+							<string>The Bronx</string>
+							<key>value</key>
+							<string>The Bronx</string>
+						</dict>
+						<dict>
+							<key>label</key>
+							<string>Staten Island</string>
+							<key>value</key>
+							<string>St George </string>
+						</dict>
+					</array>
+				</array>
+			</dict>
+			<dict>
+				<key>placeholder</key>
+				<string>neighborhood</string>
 				<key>animatable</key>
 				<false/>
 				<key>state</key>
@@ -86,246 +125,490 @@
 				<string>Neighborhood</string>
 				<key>class</key>
 				<string>TextCell</string>
+				<key>picker-index</key>
+				<integer>0</integer>
+				<key>picker-data</key>
+				<array>
+					<array>
+						<dict>
+							<key>label</key>
+							<string>Manhattan</string>
+							<key>value</key>
+							<string>Manhattan</string>
+						</dict>
+						<dict>
+							<key>label</key>
+							<string>Lower Manhattan</string>
+							<key>value</key>
+							<string>Lower Manhattan</string>
+						</dict>
+						<dict>
+							<key>label</key>
+							<string>Midtown</string>
+							<key>value</key>
+							<string>Midtown</string>
+						</dict>
+						<dict>
+							<key>label</key>
+							<string>Upper East Side</string>
+							<key>value</key>
+							<string>Upper West Side</string>
+						</dict>
+						<dict>
+							<key>label</key>
+							<string>Upper Manhattan</string>
+							<key>value</key>
+							<string>Upper Manhattan</string>
+						</dict>
+						<dict>
+							<key>label</key>
+							<string>Bay Ridge</string>
+							<key>value</key>
+							<string>Bay Ridge</string>
+						</dict>
+						<dict>
+							<key>label</key>
+							<string>Bedford Stuyvesant</string>
+							<key>value</key>
+							<string>Bedford Stuyvesant</string>
+						</dict>
+						<dict>
+							<key>label</key>
+							<string>Boerum Hill</string>
+							<key>value</key>
+							<string>Boerum Hill</string>
+						</dict>
+						<dict>
+							<key>label</key>
+							<string>Brooklyn Heights</string>
+							<key>value</key>
+							<string>Brooklyn Heights</string>
+						</dict>
+						<dict>
+							<key>label</key>
+							<string>Bushwick</string>
+							<key>value</key>
+							<string>Bushwick</string>
+						</dict>
+						<dict>
+							<key>label</key>
+							<string>Carroll Gardens</string>
+							<key>value</key>
+							<string>Carroll Gardens</string>
+						</dict>
+						<dict>
+							<key>label</key>
+							<string>Clinton Hill</string>
+							<key>value</key>
+							<string>Clinton Hill</string>
+						</dict>
+						<dict>
+							<key>label</key>
+							<string>Crown Heights</string>
+							<key>value</key>
+							<string>Crown Heights</string>
+						</dict>
+						<dict>
+							<key>label</key>
+							<string>Downtown Brooklyn</string>
+							<key>value</key>
+							<string>Downtown Brooklyn</string>
+						</dict>
+						<dict>
+							<key>label</key>
+							<string>Dumbo</string>
+							<key>value</key>
+							<string>Dumbo</string>
+						</dict>
+						<dict>
+							<key>label</key>
+							<string>East Williamsburg</string>
+							<key>value</key>
+							<string>East Williamsburg</string>
+						</dict>
+						<dict>
+							<key>label</key>
+							<string>Fort Greene</string>
+							<key>value</key>
+							<string>Fort Greene</string>
+						</dict>
+						<dict>
+							<key>label</key>
+							<string>Gowanus</string>
+							<key>value</key>
+							<string>Gowanus</string>
+						</dict>
+						<dict>
+							<key>label</key>
+							<string>Greenpoint</string>
+							<key>value</key>
+							<string>Greenpoint</string>
+						</dict>
+						<dict>
+							<key>label</key>
+							<string>Park Slope</string>
+							<key>value</key>
+							<string>Park Slope</string>
+						</dict>
+						<dict>
+							<key>label</key>
+							<string>Prospect Heights</string>
+							<key>value</key>
+							<string>Prospect Heights</string>
+						</dict>
+						<dict>
+							<key>label</key>
+							<string>Prospect Lefferts Gardens</string>
+							<key>value</key>
+							<string>Prospect Lefferts Gardens</string>
+						</dict>
+						<dict>
+							<key>label</key>
+							<string>Red Hook</string>
+							<key>value</key>
+							<string>Red Hook</string>
+						</dict>
+						<dict>
+							<key>label</key>
+							<string>South Slope</string>
+							<key>value</key>
+							<string>South Slope</string>
+						</dict>
+						<dict>
+							<key>label</key>
+							<string>Sunset Park</string>
+							<key>value</key>
+							<string>Sunset Park</string>
+						</dict>
+						<dict>
+							<key>label</key>
+							<string>Williamsburg</string>
+							<key>value</key>
+							<string>Williamsburg</string>
+						</dict>
+						<dict>
+							<key>label</key>
+							<string>Astoria</string>
+							<key>value</key>
+							<string>Astoria</string>
+						</dict>
+						<dict>
+							<key>label</key>
+							<string>Hunters Point</string>
+							<key>value</key>
+							<string>Hunters Point</string>
+						</dict>
+						<dict>
+							<key>label</key>
+							<string>Sunnyside</string>
+							<key>value</key>
+							<string>Sunnyside</string>
+						</dict>
+						<dict>
+							<key>label</key>
+							<string>Woodside</string>
+							<key>value</key>
+							<string>Woodside</string>
+						</dict>
+						<dict>
+							<key>label</key>
+							<string>Ridgewood</string>
+							<key>value</key>
+							<string>Ridgewood</string>
+						</dict>
+						<dict>
+							<key>label</key>
+							<string>Riverdale</string>
+							<key>value</key>
+							<string>Riverdale</string>
+						</dict>
+						<dict>
+							<key>label</key>
+							<string>South Bronx</string>
+							<key>value</key>
+							<string>South Bronx</string>
+						</dict>
+						<dict>
+							<key>label</key>
+							<string>St George </string>
+							<key>value</key>
+							<string>St George </string>
+						</dict>
+					</array>
+				</array>
 			</dict>
 			<dict>
-				<key>field</key>
-				<integer>3</integer>
-				<key>state</key>
-				<integer>0</integer>
+				<key>placeholder</key>
+				<string>city</string>
 				<key>animatable</key>
-				<true/>
+				<false/>
+				<key>state</key>
+				<integer>1</integer>
+				<key>field</key>
+				<integer>48</integer>
 				<key>label</key>
-				<string>Uptown</string>
+				<string>City</string>
+				<key>current-value</key>
+				<string>New York</string>
 				<key>class</key>
-				<string>CheckCell</string>
+				<string>TextCell</string>
+				<key>picker-index</key>
+				<integer>0</integer>
+				<key>picker-data</key>
+				<array>
+					<array>
+						<dict>
+							<key>label</key>
+							<string>Manhattan</string>
+							<key>value</key>
+							<string>Manhattan</string>
+						</dict>
+						<dict>
+							<key>label</key>
+							<string>Lower Manhattan</string>
+							<key>value</key>
+							<string>Lower Manhattan</string>
+						</dict>
+						<dict>
+							<key>label</key>
+							<string>Midtown</string>
+							<key>value</key>
+							<string>Midtown</string>
+						</dict>
+						<dict>
+							<key>label</key>
+							<string>Upper East Side</string>
+							<key>value</key>
+							<string>Upper West Side</string>
+						</dict>
+						<dict>
+							<key>label</key>
+							<string>Upper Manhattan</string>
+							<key>value</key>
+							<string>Upper Manhattan</string>
+						</dict>
+						<dict>
+							<key>label</key>
+							<string>Bay Ridge</string>
+							<key>value</key>
+							<string>Bay Ridge</string>
+						</dict>
+						<dict>
+							<key>label</key>
+							<string>Bedford Stuyvesant</string>
+							<key>value</key>
+							<string>Bedford Stuyvesant</string>
+						</dict>
+						<dict>
+							<key>label</key>
+							<string>Boerum Hill</string>
+							<key>value</key>
+							<string>Boerum Hill</string>
+						</dict>
+						<dict>
+							<key>label</key>
+							<string>Brooklyn Heights</string>
+							<key>value</key>
+							<string>Brooklyn Heights</string>
+						</dict>
+						<dict>
+							<key>label</key>
+							<string>Bushwick</string>
+							<key>value</key>
+							<string>Bushwick</string>
+						</dict>
+						<dict>
+							<key>label</key>
+							<string>Carroll Gardens</string>
+							<key>value</key>
+							<string>Carroll Gardens</string>
+						</dict>
+						<dict>
+							<key>label</key>
+							<string>Clinton Hill</string>
+							<key>value</key>
+							<string>Clinton Hill</string>
+						</dict>
+						<dict>
+							<key>label</key>
+							<string>Crown Heights</string>
+							<key>value</key>
+							<string>Crown Heights</string>
+						</dict>
+						<dict>
+							<key>label</key>
+							<string>Downtown Brooklyn</string>
+							<key>value</key>
+							<string>Downtown Brooklyn</string>
+						</dict>
+						<dict>
+							<key>label</key>
+							<string>Dumbo</string>
+							<key>value</key>
+							<string>Dumbo</string>
+						</dict>
+						<dict>
+							<key>label</key>
+							<string>East Williamsburg</string>
+							<key>value</key>
+							<string>East Williamsburg</string>
+						</dict>
+						<dict>
+							<key>label</key>
+							<string>Fort Greene</string>
+							<key>value</key>
+							<string>Fort Greene</string>
+						</dict>
+						<dict>
+							<key>label</key>
+							<string>Gowanus</string>
+							<key>value</key>
+							<string>Gowanus</string>
+						</dict>
+						<dict>
+							<key>label</key>
+							<string>Greenpoint</string>
+							<key>value</key>
+							<string>Greenpoint</string>
+						</dict>
+						<dict>
+							<key>label</key>
+							<string>Park Slope</string>
+							<key>value</key>
+							<string>Park Slope</string>
+						</dict>
+						<dict>
+							<key>label</key>
+							<string>Prospect Heights</string>
+							<key>value</key>
+							<string>Prospect Heights</string>
+						</dict>
+						<dict>
+							<key>label</key>
+							<string>Prospect Lefferts Gardens</string>
+							<key>value</key>
+							<string>Prospect Lefferts Gardens</string>
+						</dict>
+						<dict>
+							<key>label</key>
+							<string>Red Hook</string>
+							<key>value</key>
+							<string>Red Hook</string>
+						</dict>
+						<dict>
+							<key>label</key>
+							<string>South Slope</string>
+							<key>value</key>
+							<string>South Slope</string>
+						</dict>
+						<dict>
+							<key>label</key>
+							<string>Sunset Park</string>
+							<key>value</key>
+							<string>Sunset Park</string>
+						</dict>
+						<dict>
+							<key>label</key>
+							<string>Williamsburg</string>
+							<key>value</key>
+							<string>Williamsburg</string>
+						</dict>
+						<dict>
+							<key>label</key>
+							<string>Astoria</string>
+							<key>value</key>
+							<string>Astoria</string>
+						</dict>
+						<dict>
+							<key>label</key>
+							<string>Hunters Point</string>
+							<key>value</key>
+							<string>Hunters Point</string>
+						</dict>
+						<dict>
+							<key>label</key>
+							<string>Sunnyside</string>
+							<key>value</key>
+							<string>Sunnyside</string>
+						</dict>
+						<dict>
+							<key>label</key>
+							<string>Woodside</string>
+							<key>value</key>
+							<string>Woodside</string>
+						</dict>
+						<dict>
+							<key>label</key>
+							<string>Ridgewood</string>
+							<key>value</key>
+							<string>Ridgewood</string>
+						</dict>
+						<dict>
+							<key>label</key>
+							<string>Riverdale</string>
+							<key>value</key>
+							<string>Riverdale</string>
+						</dict>
+						<dict>
+							<key>label</key>
+							<string>South Bronx</string>
+							<key>value</key>
+							<string>South Bronx</string>
+						</dict>
+						<dict>
+							<key>label</key>
+							<string>St George </string>
+							<key>value</key>
+							<string>St George </string>
+						</dict>
+					</array>
+				</array>
 			</dict>
 			<dict>
-				<key>field</key>
-				<integer>3</integer>
+				<key>placeholder</key>
+				<string>zip</string>
 				<key>animatable</key>
-				<true/>
+				<false/>
 				<key>state</key>
-				<integer>0</integer>
+				<integer>1</integer>
+				<key>field</key>
+				<integer>47</integer>
 				<key>label</key>
-				<string>Upper West Side</string>
+				<string>Zip Code</string>
 				<key>class</key>
-				<string>CheckCell</string>
+				<string>NumberInputCell</string>
+				<key>format</key>
+				<string>%i</string>
 			</dict>
 			<dict>
-				<key>field</key>
-				<integer>3</integer>
 				<key>animatable</key>
-				<true/>
+				<false/>
 				<key>state</key>
-				<integer>0</integer>
+				<integer>1</integer>
+				<key>field</key>
+				<integer>49</integer>
+				<key>current-value</key>
+				<string>NY</string>
 				<key>label</key>
-				<string>Upper East Side</string>
+				<string>State</string>
 				<key>class</key>
-				<string>CheckCell</string>
+				<string>TextCell</string>
+				<key>read-only</key>
+				<true/>
 			</dict>
 			<dict>
-				<key>field</key>
-				<integer>3</integer>
+				<key>placeholder</key>
+				<string>unit</string>
 				<key>animatable</key>
-				<true/>
+				<false/>
 				<key>state</key>
-				<integer>0</integer>
-				<key>label</key>
-				<string>Midtown West</string>
-				<key>class</key>
-				<string>CheckCell</string>
-			</dict>
-			<dict>
+				<integer>1</integer>
 				<key>field</key>
-				<integer>3</integer>
-				<key>state</key>
-				<integer>0</integer>
-				<key>animatable</key>
-				<true/>
+				<integer>21</integer>
 				<key>label</key>
-				<string>Midtown East</string>
+				<string>Unit</string>
 				<key>class</key>
-				<string>CheckCell</string>
-			</dict>
-			<dict>
-				<key>field</key>
-				<integer>3</integer>
-				<key>state</key>
-				<integer>0</integer>
-				<key>animatable</key>
-				<true/>
-				<key>label</key>
-				<string>Lower West Side</string>
-				<key>class</key>
-				<string>CheckCell</string>
-			</dict>
-			<dict>
-				<key>field</key>
-				<integer>3</integer>
-				<key>state</key>
-				<integer>0</integer>
-				<key>animatable</key>
-				<true/>
-				<key>label</key>
-				<string>Lower East Side</string>
-				<key>class</key>
-				<string>CheckCell</string>
-			</dict>
-			<dict>
-				<key>field</key>
-				<integer>3</integer>
-				<key>state</key>
-				<integer>0</integer>
-				<key>animatable</key>
-				<true/>
-				<key>label</key>
-				<string>North Brooklyn</string>
-				<key>class</key>
-				<string>CheckCell</string>
-			</dict>
-			<dict>
-				<key>field</key>
-				<integer>3</integer>
-				<key>state</key>
-				<integer>0</integer>
-				<key>animatable</key>
-				<true/>
-				<key>label</key>
-				<string>South Brooklyn</string>
-				<key>class</key>
-				<string>CheckCell</string>
-			</dict>
-			<dict>
-				<key>field</key>
-				<integer>3</integer>
-				<key>state</key>
-				<integer>0</integer>
-				<key>animatable</key>
-				<true/>
-				<key>label</key>
-				<string>Center Brooklyn</string>
-				<key>class</key>
-				<string>CheckCell</string>
-			</dict>
-			<dict>
-				<key>field</key>
-				<integer>3</integer>
-				<key>state</key>
-				<integer>0</integer>
-				<key>animatable</key>
-				<true/>
-				<key>label</key>
-				<string>East Brooklyn</string>
-				<key>class</key>
-				<string>CheckCell</string>
-			</dict>
-			<dict>
-				<key>field</key>
-				<integer>3</integer>
-				<key>state</key>
-				<integer>0</integer>
-				<key>animatable</key>
-				<true/>
-				<key>label</key>
-				<string>Western Queens</string>
-				<key>class</key>
-				<string>CheckCell</string>
-			</dict>
-			<dict>
-				<key>field</key>
-				<integer>3</integer>
-				<key>state</key>
-				<integer>0</integer>
-				<key>animatable</key>
-				<true/>
-				<key>label</key>
-				<string>Central Queens</string>
-				<key>class</key>
-				<string>CheckCell</string>
-			</dict>
-			<dict>
-				<key>field</key>
-				<integer>3</integer>
-				<key>state</key>
-				<integer>0</integer>
-				<key>animatable</key>
-				<true/>
-				<key>label</key>
-				<string>South Queens</string>
-				<key>class</key>
-				<string>CheckCell</string>
-			</dict>
-			<dict>
-				<key>field</key>
-				<integer>3</integer>
-				<key>state</key>
-				<integer>0</integer>
-				<key>animatable</key>
-				<true/>
-				<key>label</key>
-				<string>Eastern Queens</string>
-				<key>class</key>
-				<string>CheckCell</string>
-			</dict>
-			<dict>
-				<key>field</key>
-				<integer>3</integer>
-				<key>state</key>
-				<integer>0</integer>
-				<key>animatable</key>
-				<true/>
-				<key>label</key>
-				<string>North Bronx</string>
-				<key>class</key>
-				<string>CheckCell</string>
-			</dict>
-			<dict>
-				<key>field</key>
-				<integer>3</integer>
-				<key>state</key>
-				<integer>0</integer>
-				<key>animatable</key>
-				<true/>
-				<key>label</key>
-				<string>South Bronx</string>
-				<key>class</key>
-				<string>CheckCell</string>
-			</dict>
-			<dict>
-				<key>field</key>
-				<integer>3</integer>
-				<key>state</key>
-				<integer>0</integer>
-				<key>animatable</key>
-				<true/>
-				<key>label</key>
-				<string>Northern Staten Island</string>
-				<key>class</key>
-				<string>CheckCell</string>
-			</dict>
-			<dict>
-				<key>field</key>
-				<integer>3</integer>
-				<key>state</key>
-				<integer>0</integer>
-				<key>animatable</key>
-				<true/>
-				<key>label</key>
-				<string>Central Staten Island</string>
-				<key>class</key>
-				<string>CheckCell</string>
-			</dict>
-			<dict>
-				<key>field</key>
-				<integer>3</integer>
-				<key>state</key>
-				<integer>0</integer>
-				<key>animatable</key>
-				<true/>
-				<key>label</key>
-				<string>Southern Staten Island</string>
-				<key>class</key>
-				<string>CheckCell</string>
+				<string>TextInputCell</string>
 			</dict>
 		</array>
 		<key>section-title</key>
@@ -338,9 +621,9 @@
 				<key>icon</key>
 				<string>dollar-icon.png</string>
 				<key>format</key>
-				<string>$%0.2f</string>
+				<string>$%i</string>
 				<key>placeholder</key>
-				<string>$0.00</string>
+				<string>$0</string>
 				<key>animatable</key>
 				<false/>
 				<key>field</key>
@@ -350,15 +633,15 @@
 				<key>label</key>
 				<string>Montly Rent</string>
 				<key>class</key>
-				<string>NumberInputCell</string>
+				<string>MoneyInputCell</string>
 			</dict>
 			<dict>
 				<key>icon</key>
 				<string>dollar-icon.png</string>
 				<key>format</key>
-				<string>$%0.2f</string>
+				<string>$%i</string>
 				<key>placeholder</key>
-				<string>$0.00</string>
+				<string>$0</string>
 				<key>field</key>
 				<integer>5</integer>
 				<key>state</key>
@@ -368,15 +651,15 @@
 				<key>label</key>
 				<string>Movin Cost</string>
 				<key>class</key>
-				<string>NumberInputCell</string>
+				<string>MoneyInputCell</string>
 			</dict>
 			<dict>
 				<key>icon</key>
 				<string>dollar-icon.png</string>
 				<key>format</key>
-				<string>$%0.2f</string>
+				<string>$%i</string>
 				<key>placeholder</key>
-				<string>$0.00</string>
+				<string>$0</string>
 				<key>field</key>
 				<integer>6</integer>
 				<key>state</key>
@@ -386,7 +669,7 @@
 				<key>label</key>
 				<string>Broker Fee</string>
 				<key>class</key>
-				<string>NumberInputCell</string>
+				<string>MoneyInputCell</string>
 			</dict>
 		</array>
 		<key>section-title</key>
@@ -410,61 +693,92 @@
 				<integer>1</integer>
 				<key>label</key>
 				<string>Bedrooms</string>
+				<key>picker-index</key>
+				<integer>0</integer>
 				<key>class</key>
-				<string>PickerInputCell</string>
+				<string>TextCell</string>
 				<key>picker-data</key>
 				<array>
 					<array>
 						<dict>
 							<key>label</key>
-							<string>Bedrooms</string>
+							<string>1 Bedroom</string>
 							<key>value</key>
-							<string></string>
-						</dict>
-					</array>
-					<array>
-						<dict>
-							<key>label</key>
-							<string>1</string>
-							<key>value</key>
-							<integer>1</integer>
+							<string>1 Bedroom</string>
 						</dict>
 						<dict>
 							<key>label</key>
-							<string>2</string>
+							<string>2 Bedroom</string>
 							<key>value</key>
-							<integer>2</integer>
+							<string>2 Bedroom</string>
 						</dict>
 						<dict>
 							<key>label</key>
-							<string>3</string>
+							<string>3 Bedroom</string>
 							<key>value</key>
-							<integer>3</integer>
+							<string>3 Bedroom</string>
 						</dict>
 						<dict>
 							<key>label</key>
-							<string>4</string>
+							<string>4 Bedroom</string>
 							<key>value</key>
-							<integer>4</integer>
+							<string>4 Bedroom</string>
 						</dict>
 						<dict>
 							<key>label</key>
-							<string>5</string>
+							<string>5 Bedroom</string>
 							<key>value</key>
-							<integer>5</integer>
+							<string>5 Bedroom</string>
 						</dict>
 						<dict>
 							<key>label</key>
-							<string>5+</string>
+							<string>More then 5</string>
 							<key>value</key>
-							<integer>6</integer>
+							<string>More then 5</string>
 						</dict>
 					</array>
 				</array>
 			</dict>
 			<dict>
+				<key>picker-data</key>
+				<array>
+					<array>
+						<dict>
+							<key>label</key>
+							<string>1 Bath</string>
+							<key>value</key>
+							<string>1 Bath</string>
+						</dict>
+						<dict>
+							<key>label</key>
+							<string>1.5 Baths</string>
+							<key>value</key>
+							<string>1.5 Baths</string>
+						</dict>
+						<dict>
+							<key>label</key>
+							<string>2 Baths</string>
+							<key>value</key>
+							<string>2 Baths</string>
+						</dict>
+						<dict>
+							<key>label</key>
+							<string>2.5 Baths</string>
+							<key>value</key>
+							<string>2.5 Baths</string>
+						</dict>
+						<dict>
+							<key>label</key>
+							<string>More then 3 Bathrooms</string>
+							<key>value</key>
+							<string>More then 3 Bathrooms</string>
+						</dict>
+					</array>
+				</array>
 				<key>icon</key>
 				<string>bathrooms-icon.png</string>
+				<key>picker-index</key>
+				<integer>0</integer>
 				<key>format</key>
 				<string>%0.1f</string>
 				<key>placeholder</key>
@@ -478,7 +792,7 @@
 				<key>label</key>
 				<string>Bathrooms</string>
 				<key>class</key>
-				<string>NumberInputCell</string>
+				<string>TextCell</string>
 			</dict>
 			<dict>
 				<key>field</key>
@@ -620,7 +934,7 @@
 				<key>placeholder</key>
 				<string>digits</string>
 				<key>field</key>
-				<integer>20</integer>
+				<integer>44</integer>
 				<key>state</key>
 				<integer>1</integer>
 				<key>animatable</key>
@@ -628,7 +942,7 @@
 				<key>label</key>
 				<string>Phone</string>
 				<key>class</key>
-				<string>TextInputCell</string>
+				<string>PhoneInputCell</string>
 			</dict>
 		</array>
 		<key>section-title</key>

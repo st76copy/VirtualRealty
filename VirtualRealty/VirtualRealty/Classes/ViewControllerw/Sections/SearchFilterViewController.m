@@ -7,6 +7,7 @@
 //
 
 #import "SearchFilterViewController.h"
+#import "UIColor+Extended.h"
 #import "Section.h"
 #import "Row.h"
 #import "FormCell.h"
@@ -15,12 +16,14 @@
 #import "CheckCell.h"
 #import "PickerManager.h"
 #import "NSDate+Extended.h"
+#import "SectionTitleView.h"
 
 @interface SearchFilterViewController ()<FormCellDelegate, PickerManagerDelegate, KeyboardManagerDelegate>
 
 -(id)getValueForFormField:(FormField)field;
 -(void)handleDone:(id)sender;
 -(void)handleCancel:(id)sender;
+-(void)handleClearFliters:(id)sender;
 @end
 
 @implementation SearchFilterViewController
@@ -68,7 +71,7 @@
     
     self.view.backgroundColor = [UIColor grayColor];
     CGRect rect = self.view.bounds;
-    self.navigationItem.title = @"Search Filter";
+    rect.size.height -= self.navigationController.navigationBar.frame.size.height;
     
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc]initWithTitle:@"Done" style:UIBarButtonItemStyleDone target:self action:@selector(handleDone:)];
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc]initWithTitle:@"Cancel" style:UIBarButtonItemStyleDone target:self action:@selector(handleCancel:)];
@@ -76,7 +79,30 @@
     _table = [[UITableView alloc]initWithFrame:rect style:UITableViewStyleGrouped];
     [_table setDataSource:self];
     [_table setDelegate:self];
+    [_table setSectionFooterHeight:0.0f];
+    [_table setSectionHeaderHeight:44.0f];
+    [_table setContentInset:UIEdgeInsetsZero];
+    [_table setBackgroundColor:[UIColor colorFromHex:@"cbd5d9"]];
     [self.view addSubview:_table];
+
+    UIView *container = [[UIView alloc]initWithFrame:CGRectMake(0, 0, 320, 101)];
+    [container setBackgroundColor:[UIColor colorFromHex:@"cbd5d9"]];
+    
+    UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
+    [button setBackgroundImage:[UIImage imageNamed:@"footer-button-fill.png"] forState:UIControlStateNormal];
+    [button setTitle:@"Clear Filters" forState:UIControlStateNormal];
+    [button setTitleColor:[UIColor colorFromHex:@"cbd5d9"] forState:UIControlStateHighlighted];
+    [button addTarget:self action:@selector(handleClearFliters:) forControlEvents:UIControlEventTouchUpInside];
+    [button sizeToFit];
+    
+    rect = button.frame;
+    rect.origin.x = 160 - button.frame.size.width * 0.5;
+    rect.origin.y = 40  - button.frame.size.height * 0.5;
+    button.frame = rect;
+    [container addSubview:button];
+    
+    
+    self.table.tableFooterView = container;
 }
 
 -(void)viewDidAppear:(BOOL)animated
@@ -122,6 +148,7 @@
     NSMutableDictionary *info = [row.info mutableCopy];
     FormField field           = [[info valueForKey:@"field"]intValue];
     
+    
     [info setValue:[self getValueForFormField:field] forKey:@"current-value"];
     
     
@@ -166,22 +193,12 @@
     {
             
         case kNeightborhoodFilter:
-        {
-            CheckCell *c = (CheckCell *)[self.table cellForRowAtIndexPath:indexPath];
-            NSMutableDictionary *info = [[c cellinfo]mutableCopy];
-            
-            if( [c isKindOfClass:[CheckCell class]] )
-            {
-                [self.filters setFilter:kNeightborhoodFilter withValue:[info valueForKey:@"label"]];
-                [self.table reloadRowsAtIndexPaths:@[self.currentPath] withRowAnimation:UITableViewRowAnimationAutomatic];
-        
-                [info setValue:[self getValueForFormField:[[info valueForKey:@"field"] intValue]] forKey:@"current-value"];
-                [c setCellinfo:info];
-                [c render];
-            }
-            [[KeyboardManager sharedManager] close];
-            [self addRows];
-        }
+        case kBoroughFilter:
+        case kBedroomsFilter:
+        case kBathroomsFilter:
+            [PickerManager sharedManager].type = kStandard;
+            [PickerManager sharedManager].pickerData = cell.cellinfo[@"picker-data"];
+            [[PickerManager sharedManager]showPickerInView:self.view];
             break;
         case kMoveInFilter :
             [PickerManager sharedManager].type = kDate;
@@ -189,8 +206,6 @@
             break;
         case kMinCostFilter:
         case kMaxCostFilter:
-        case kBedroomsFilter:
-        case kBathroomsFilter:
             [cell setFocus];
             break;
         default:
@@ -206,6 +221,22 @@
     return  ( [row.info valueForKey:@"display-height"] ) ? [[row.info valueForKey:@"display-height"] floatValue] : 50.0f;
 }
 
+-(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
+{
+    Section *sectionInfo           = [self.tableData objectAtIndex:section];
+    SectionTitleView *sectionTitle = [[SectionTitleView alloc]initWithTitle:sectionInfo.title];
+    return sectionTitle;
+}
+
+-(float)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
+{
+    return 44;
+}
+
+-(float)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
+{
+    return 0;
+}
 
 #pragma mark - custom cell handlers
 -(BOOL)isSameCell:(NSIndexPath *)path
@@ -213,34 +244,10 @@
     return ( self.currentPath.row == path.row && self.currentPath.section == path.section ) ? YES : NO;
 }
 
--(void)addRows
-{
-    Section *secion = [self.tableData objectAtIndex:self.currentPath.section];
-    [secion toggleRows];
-    
-    NSMutableArray *paths = [NSMutableArray array];
-    NSIndexPath    *path;
-    
-    for( int i = 1; i <= [secion animatableRows]; i ++ )
-    {
-        path = [NSIndexPath indexPathForRow:self.currentPath.row + i inSection:self.currentPath.section];
-        [paths addObject:path];
-    }
-    
-    if( secion.state == kContracted )
-    {
-        [self.table deleteRowsAtIndexPaths:paths withRowAnimation:UITableViewRowAnimationBottom];
-        [self.table scrollToRowAtIndexPath:self.currentPath atScrollPosition:UITableViewScrollPositionTop animated:YES];
-    }
-    else
-    {
-        [self.table insertRowsAtIndexPaths:paths withRowAnimation:UITableViewRowAnimationTop];
-    }
-}
-
 -(void)animateToCell
 {
     CGRect rect = [self.table cellForRowAtIndexPath:self.currentPath].frame;
+    rect.size.height += 20;
     [self.table scrollRectToVisible:rect animated:YES];
 }
 
@@ -262,9 +269,7 @@
     return [self.filters getValueForField:field];
 }
 
-
 #pragma mark - ui resonders
-
 -(void)handleDone:(id)sender
 {
     [self.delegate filtersDoneWithOptions:[self.filters getActiveFilters]];
@@ -320,19 +325,32 @@
 -(void)pickerWillHide
 {
     [UIView animateWithDuration:0.3  animations:^{
-        self.table.contentInset =  UIEdgeInsetsMake(64, 0, 0, 0);
+        self.table.contentInset =  UIEdgeInsetsMake(0, 0, 0, 0);
     }];
 }
 
 -(void)pickerDone
 {
     FormCell *cell = (FormCell *)[self.table cellForRowAtIndexPath:self.currentPath];
-    cell.formValue = [PickerManager sharedManager].datePicker.date;
-    cell.detailTextLabel.text = [[PickerManager sharedManager].datePicker.date toString];
+    int index = [cell.cellinfo[@"picker-index"] intValue];
+    
+    switch ([PickerManager sharedManager].type) {
+        case kStandard:
+            cell.formValue = [[PickerManager sharedManager] valueForComponent:index];
+            cell.detailTextLabel.text = [[PickerManager sharedManager] valueForComponent:index];
+            break;
+            
+        default:
+            cell.formValue = [PickerManager sharedManager].datePicker.date;
+            cell.detailTextLabel.text = [[PickerManager sharedManager].datePicker.date toString];
+            break;
+    }
+    
     [cell.formDelegate cell:cell didChangeForField:self.currentField];
     [self.table reloadRowsAtIndexPaths:@[self.currentPath] withRowAnimation:UITableViewRowAnimationAutomatic];
     [[PickerManager sharedManager]hidePicker];
 }
+
 
 -(BOOL)shouldAutorotate
 {
@@ -342,6 +360,13 @@
 -(UIStatusBarStyle)preferredStatusBarStyle
 {
     return UIStatusBarStyleLightContent;
+}
+
+-(void)handleClearFliters:(id)sender
+{
+    [self.filters clear];
+    [self.table reloadData];
+    [self.delegate clearFilters];
 }
 
 

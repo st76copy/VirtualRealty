@@ -9,13 +9,11 @@ Parse.Cloud.define("saveListing", function(request, response)
 	this.submitterID  		= request.params.submitterID;
 	this.submitterObjectId  = request.params.submitterObjectId;
 	this.unit 		  = request.params.unit;
-    this.address      = request.params.address;
     this.neighborhood = request.params.neighborhood;
 	this.monthlyCost  = request.params.monthlyCost;
 	this.moveInCost   = request.params.moveInCost;
 	this.brokerfee    = request.params.brokerfee;
 	this.moveInDate   = request.params.moveInDate;
-	this.contact      = request.params.contact;
 	this.share        = ( request.params.share == 0) ? false : true;
 	this.bedrooms     = request.params.bedrooms;
 	this.bathrooms    = request.params.bathrooms;
@@ -30,15 +28,25 @@ Parse.Cloud.define("saveListing", function(request, response)
 	this.listingState = request.params.listingState;
 	this.long         = request.params.long;
 	this.lat          = request.params.lat;
-
+	this.phone   	  = request.params.phone;
+	this.email 	  	  = request.params.email;
+	
+	this.borough      = request.params.borough;
+	this.street       = request.params.street;
+	this.neighborhood = request.params.neighborhood;
+	this.city         = request.params.city;
+	this.state        = request.params.state;
+	this.zip		  = request.params.zip;
+	
+	
     var query = new Parse.Query("Listing");
-    query.equalTo( "address", request.params.address );
+    query.equalTo( "street", request.params.street );
 	query.equalTo( "unit", request.params.unit );
     
     query.find(
     {
         success: function(results){ checkExistComplete(results); },
-        error: function(error){ response.error( { "code": 1, "data":error  }); }
+        error: function(error){ response.error( { "code": 1, "data":"service failed to run match" }); }
     });
            
                    
@@ -67,7 +75,7 @@ Parse.Cloud.define("saveListing", function(request, response)
 			listing.set( "location" , geo );
 		}
 		
-		listing.set( "address" , this.address );
+
 		listing.set( "neighborhood" , this.neighborhood );
 		listing.set( "monthlyCost" , this.monthlyCost );
 		listing.set( "moveInCost" , this.moveInCost );
@@ -83,13 +91,24 @@ Parse.Cloud.define("saveListing", function(request, response)
 		listing.set( "gym" , this.gym );
 		listing.set( "doorman" , this.doorman );
 		listing.set( "pool" , this.pool );
-		listing.set( "contact", this.contact );
 		listing.set( "listingState", this.listingState );
 		listing.set( "unit", this.unit );
 		listing.set( "submitterID", this.submitterID );
 		listing.set( "submitterObjectId", this.submitterObjectId );
 		listing.set( "keywords", this.keywords );
 		listing.set( "isFeatured", false );
+		
+		listing.set( "phone", this.phone );
+		listing.set( "email", this.email );
+		
+		
+		listing.set( "borough", this.borough );
+		listing.set( "street", this.street );
+		listing.set( "neighborhood", this.neighborhood );
+		listing.set( "city", this.city );
+		listing.set( "state", this.state  );
+		listing.set( "zip", this.zip );
+		
         listing.save( null, {
   			success: function(listing) {
 				sendEmail(listing);
@@ -112,7 +131,7 @@ Parse.Cloud.define("saveListing", function(request, response)
 		};
 		
 		params.url     = "http://virtualrealtynyc.com/notification.php";
-		params.body    = { "listing" :  request.params.objectId };
+		params.body    = { "listing" :  listing.get("objectId") };
 		
 		params.success = function(httpResponse)
 		{
@@ -346,27 +365,43 @@ Parse.Cloud.define("search", function(request, response)
 {
 	var Listing = Parse.Object.extend("Listing");
 	var query   = new Parse.Query(Listing);
-	console.log( "search ----  " + request.params.filters );
+	
+	if( request.params.distance != undefined )
+	{
+		var dist = request.params.distance;
+		var loc = new Parse.GeoPoint( request.params.latt, request.params.long );
+		query.withinMiles("location", loc, dist);
+		query.equalTo( "listingState", 1 );
+	}
+	
 	if( request.params.filters )
 	{
-		console.log("have filters ");
 		var minPrice = (request.params.filters["minCost"] != undefined) ? request.params.filters["minCost"]["value"] : null;
 		var maxPrice = (request.params.filters["maxCost"] != undefined) ? request.params.filters["maxCost"]["value"] : null;
-	 }
+	
+		console.log( "Searching min price : " + minPrice );
+		console.log( "Searching max price : " + maxPrice );
+	
+		if( request.params.filters.borough != undefined )
+		{
+			query.equalTo( "borough",   request.params.filters.borough);
+		}
+		
+		if( request.params.filters.neighborhood != undefined )
+		{
+			query.equalTo( "neighborhood",   request.params.filters.neighborhood);
+		}
+	}
+	
+	
 	
 	var boolArray = ["share", "dogs", "cats", "outdoorSpace", "washerDryer", "doorman", "pool", "gym"];
-	var keyword   = request.params.keyword;
-	
-	if( keyword )
-	{
-		query.equalTo( "keywords", keyword );
-		console.log( "searching keyword : " + keyword );
-	}
 	
 	if( request.params.filters )
 	{
 		if( minPrice )
 		{
+			console.log( "Set monthlyCost price : " + minPrice );
 			query.greaterThan("monthlyCost", minPrice);
 		}
 		

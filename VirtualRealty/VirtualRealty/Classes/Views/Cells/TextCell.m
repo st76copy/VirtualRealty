@@ -32,14 +32,35 @@
     rect.origin.x = self.contentView.frame.size.width - (self.detailTextLabel.frame.size.width + 10);
     rect.origin.y = self.contentView.frame.size.height * 0.5 - rect.size.height * 0.5;
     self.detailTextLabel.frame = rect;
-    self.detailTextLabel.textColor = [UIColor colorFromHex:@"00aeef"];
+
     
 }
 
 -(void)render
 {
     self.textLabel.text = [self.cellinfo valueForKey:@"label"];
-    self.detailTextLabel.text = [self.cellinfo valueForKey:@"current-value"];
+    self.imageView.image = [UIImage imageNamed:self.cellinfo[@"icon"]];
+    if( self.cellinfo[@"current-value"] && [self.cellinfo[@"current-value"] isEqualToString:@""] == NO )
+    {
+        
+        self.detailTextLabel.textColor = [UIColor colorFromHex:@"00aeef"];
+        NSString *text = ( self.cellinfo[@"current-value"] ) ? self.cellinfo[@"current-value"] : self.cellinfo[@"default"];
+        self.detailTextLabel.text = text;
+    }
+    else
+    {
+        self.detailTextLabel.textColor = [UIColor colorFromHex:@"aaaaaa"];
+        self.detailTextLabel.text = [self.cellinfo valueForKey:@"placeholder"];
+    }
+    
+    if( [self.cellinfo[@"read-only"]boolValue] )
+    {
+        if( self.cellinfo[@"current-value"] == nil )
+        {
+            self.detailTextLabel.text = self.cellinfo[@"default"];
+        }
+    }
+        
     [self.detailTextLabel sizeToFit];
 }
 

@@ -1,3 +1,4 @@
+
 //
 //  MapCell.m
 //  VirtualRealty
@@ -8,6 +9,8 @@
 
 #import "MapCell.h"
 #import "UIColor+Extended.h"
+#import "KeyboardManager.h"
+
 @interface MapCell()
 -(void)textFieldChanged:(id)sender;
 @end
@@ -18,7 +21,6 @@
 @synthesize map = _map;
 @synthesize textBackGround = _textBackGround;
 @synthesize addresssLabel  = _addresssLabel;
-@synthesize wrongAddressButton = _wrongAddressButton;
 
 
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
@@ -26,10 +28,12 @@
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self)
     {
+        
         [self setSelectionStyle:UITableViewCellSelectionStyleNone];
         _map = [[GMSMapView alloc]initWithFrame:CGRectZero];
         [self.map setUserInteractionEnabled:NO];
         [self.contentView addSubview:self.map];
+        [self.map setHidden:YES];
         
         
         _textBackGround = [[UIView alloc]initWithFrame:CGRectZero];
@@ -43,15 +47,14 @@
         [self.addresssLabel setAdjustsFontSizeToFitWidth:YES];
         [self.addresssLabel setText:@"Loading Address"];
         [self.addresssLabel setFont:[UIFont systemFontOfSize    :17]];
-        [self.addresssLabel setEnabled:NO];
+        [self.addresssLabel setPlaceholder:@"address"];
+        [self.addresssLabel addTarget:self  action:@selector(textFieldFinished:)  forControlEvents:UIControlEventEditingDidBegin];
+        [self.addresssLabel addTarget:self  action:@selector(textFieldFinished:)  forControlEvents:UIControlEventEditingDidEndOnExit];
+        [self.addresssLabel addTarget:self  action:@selector(textFieldChanged:)  forControlEvents:UIControlEventEditingChanged];
+        
+        
         [self.contentView addSubview:self.addresssLabel];
         
-        _wrongAddressButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-        [_wrongAddressButton setTitle:@"wrong address" forState:UIControlStateNormal];
-        [_wrongAddressButton sizeToFit];
-        [_wrongAddressButton addTarget:self action:@selector(handleWrongAddresss:) forControlEvents:UIControlEventTouchUpInside];
-        
-        [self.contentView addSubview:_wrongAddressButton];
         
         [[LocationManager shareManager]registerDelegate:self];
 
@@ -68,35 +71,30 @@
 -(void)layoutSubviews
 {
     [super layoutSubviews];
-    [self.map setFrame:CGRectMake(0, 0, self.contentView.frame.size.width, self.contentView.frame.size.height - 38.0f)];
-    
-    CGRect rect = self.map.bounds;
-    rect.size.height = 38.0f;
-    rect.origin.y = self.map.frame.size.height;
-    self.textBackGround.frame = rect;
-    
-    rect = self.textBackGround.frame;
-    rect.origin.x = 15;
-    self.addresssLabel.frame = rect;
+    self.textBackGround.frame = CGRectMake(0, 0, 320, 38);
+    self.addresssLabel.frame  = CGRectMake(15, 0, 320, 38);
 }
 
 -(void)locationUpdated
 {
     if( [LocationManager shareManager].currentAddress != nil )
     {
+        NSDictionary *address = [LocationManager shareManager].addressInfo;
+        NSDictionary *info = @{
+            @"city" : address[@"City"],
+            @"street" : address[@"FormattedAddressLines"][0],
+            @"borough" : [(NSString *)address[@"FormattedAddressLines"][1] componentsSeparatedByString:@","][0],
+            @"neighborhood" : address[@"SubLocality"],
+            @"zip" : address[@"ZIP"],
+            @"state" : address[@"State"]
+        };
         
-        CLLocationDegrees lat  = [LocationManager shareManager].location.coordinate.latitude;
-        CLLocationDegrees log  = [LocationManager shareManager].location.coordinate.longitude;
-        GMSCameraPosition *camera = [GMSCameraPosition cameraWithLatitude:lat longitude:log zoom:14];
-        [self.map setCamera:camera];
-      
-        GMSMarker *marker = [[GMSMarker alloc] init];
-        marker.position = camera.target;
-        marker.map = self.map;
+        NSString *addressString = [NSString stringWithFormat:@"%@\n%@, %@ %@", info[@"street"],info[@"borough"],info[@"state"],info[@"zip"]];
+        self.addresssLabel.text = addressString;
         
-        [self.addresssLabel setText:[LocationManager shareManager].currentAddress];
+        NSLog(@"%@ ", addressString);
         [[LocationManager shareManager]removeDelegate:self];
-        self.formValue = @{@"address" :[LocationManager shareManager].currentAddress, @"location" :[LocationManager shareManager].location  };
+        self.formValue = @{@"address" :[LocationManager shareManager].currentAddress, @"location" :[LocationManager shareManager].location, @"details" : info  };
         
         [self.formDelegate cell:self didChangeForField:[[self.cellinfo valueForKey:@"geo"]intValue]];
         [self.formDelegate cell:self didChangeForField:[[self.cellinfo valueForKey:@"field"]intValue]];
@@ -113,27 +111,34 @@
     [self.addresssLabel setPlaceholder:@"enter address"];
     [self.addresssLabel setAttributedPlaceholder:string];
     [self.addresssLabel becomeFirstResponder];
-    [self.addresssLabel addTarget:self  action:@selector(textFieldFinished:)  forControlEvents:UIControlEventEditingDidEndOnExit];
-    [self.addresssLabel addTarget:self  action:@selector(textFieldChanged:)  forControlEvents:UIControlEventEditingChanged];
+
 }
+
+
+-(void)inputFieldBegan:(id)sender
+{
+    if( self.selected )
+    {
+        return;
+    }
+    
+    if([self.formDelegate respondsToSelector:@selector(cell:didStartInteract:)] )
+    {
+        [[KeyboardManager sharedManager]showWithFocusField:self.addresssLabel];
+        [self.formDelegate cell:self didStartInteract:[[self.cellinfo valueForKey:@"field"]intValue]];
+    }
+}
+
 
 -(void)textFieldChanged:(id)sender
 {
     [super clearError];
     __block MapCell *blockself = self;
     
-    [[LocationManager shareManager]geoCodeUsingAddress:self.addresssLabel.text block:^(CLLocationCoordinate2D loc)
+    [[LocationManager shareManager]setCurrentLocationByString:self.addresssLabel.text block:^(CLLocationCoordinate2D loc)
     {
-        CLLocationDegrees lat  = loc.latitude;
-        CLLocationDegrees log  = loc.longitude;
-        GMSCameraPosition *camera = [GMSCameraPosition cameraWithLatitude:lat longitude:log zoom:14];
-        [blockself.map setCamera:camera];
-        
-        GMSMarker *marker = [[GMSMarker alloc] init];
-        marker.position = camera.target;
-        marker.map = blockself.map;
-        
-        self.formValue = @{@"address" :[LocationManager shareManager].currentAddress, @"location" :[LocationManager shareManager].location  };
+        NSDictionary *address = [LocationManager shareManager].addressInfo;
+        self.formValue = @{@"address" :[LocationManager shareManager].currentAddress, @"location" :[LocationManager shareManager].location, @"details" :  address };
         [blockself.formDelegate cell:self didChangeForField:[[self.cellinfo valueForKey:@"field"]intValue]];
     }];
 
@@ -144,17 +149,8 @@
 {
     __block MapCell *blockself = self;
     
-    [[LocationManager shareManager]geoCodeUsingAddress:self.addresssLabel.text block:^(CLLocationCoordinate2D loc)
+    [[LocationManager shareManager]setCurrentLocationByString:self.addresssLabel.text block:^(CLLocationCoordinate2D loc)
     {
-        CLLocationDegrees lat  = loc.latitude;
-        CLLocationDegrees log  = loc.longitude;
-        GMSCameraPosition *camera = [GMSCameraPosition cameraWithLatitude:lat longitude:log zoom:14];
-        [blockself.map setCamera:camera];
-        
-        GMSMarker *marker = [[GMSMarker alloc] init];
-        marker.position = camera.target;
-        marker.map = blockself.map;
-        
         blockself.formValue = @{@"address" :[LocationManager shareManager].currentAddress, @"location" :[LocationManager shareManager].location  };
         [blockself.formDelegate cell:self didChangeForField:[[self.cellinfo valueForKey:@"field"]intValue]];
     }];
@@ -163,41 +159,45 @@
 -(void)render
 {
     __block MapCell *blockself = self;
-    self.addresssLabel.text = [[self.cellinfo valueForKey:@"current-value"] valueForKey:@"address"];
-    
-    [[LocationManager shareManager]startGettingLocations];
     
     if( [self.cellinfo valueForKey:@"current-value"] )
     {
-        [[LocationManager shareManager]removeDelegate:self];
-        [[LocationManager shareManager]geoCodeUsingAddress:[[self.cellinfo valueForKey:@"current-value"] valueForKey:@"address"] block:^(CLLocationCoordinate2D loc)
-        {
-            
-            CLLocationDegrees lat  = [LocationManager shareManager].location.coordinate.latitude;
-            CLLocationDegrees log  = [LocationManager shareManager].location.coordinate.longitude;
-            GMSCameraPosition *camera = [GMSCameraPosition cameraWithLatitude:lat longitude:log zoom:15];
-            [self.map setCamera:camera];
-            
-            GMSMarker *marker = [[GMSMarker alloc] init];
-            marker.position   = camera.target;
-            marker.map        = self.map;
-            
-            blockself.formValue = @{@"address" :[LocationManager shareManager].currentAddress, @"location" :[LocationManager shareManager].location};
-            
-            if( self.formDelegate )
-            {
-                [blockself.formDelegate cell:self didChangeForField:[[self.cellinfo valueForKey:@"field"]intValue]];
-                [blockself.formDelegate cell:self didChangeForField:[[self.cellinfo valueForKey:@"geo"]intValue]];
-            }
-        }];
+        self.addresssLabel.text = [[self.cellinfo valueForKey:@"current-value"] valueForKey:@"address"];
     }
-    
-    if( [[self.cellinfo valueForKey:@"read-only"] boolValue ] )
+    else
     {
-        [self.wrongAddressButton removeFromSuperview];
-        [self.wrongAddressButton removeTarget:self action:@selector(handleWrongAddresss:)forControlEvents:UIControlEventTouchUpInside];
-        [self.contentView setUserInteractionEnabled:NO];
-        [self.map setUserInteractionEnabled:NO];
+        [[LocationManager shareManager]startGettingLocations];
+        
+        if( [self.cellinfo valueForKey:@"current-value"] )
+        {
+            [[LocationManager shareManager]removeDelegate:self];
+            [[LocationManager shareManager]setCurrentLocationByString:[[self.cellinfo valueForKey:@"current-value"] valueForKey:@"address"] block:^(CLLocationCoordinate2D loc)
+             {
+                 NSDictionary *address = [LocationManager shareManager].addressInfo;
+                 NSDictionary *info = @{@"city" : address[@"City"],
+                                        @"street" : address[@"FormattedAddressLines"][0],
+                                        @"borough" : [(NSString *)address[@"FormattedAddressLines"][1] componentsSeparatedByString:@","][0],
+                                        @"neighborhood" : address[@"SubLocality"],
+                                        @"zip" : address[@"ZIP"],
+                                        @"state" : address[@"State"]
+                                        };
+                 
+                 NSString *addressString = [NSString stringWithFormat:@"%@\n%@,%@ %@", info[@"street"],info[@"borough"],info[@"state"],info[@"zip"]];
+                 self.addresssLabel.text = addressString;
+                 
+                 if( self.formDelegate )
+                 {
+                     [blockself.formDelegate cell:self didChangeForField:[[self.cellinfo valueForKey:@"field"]intValue]];
+                     [blockself.formDelegate cell:self didChangeForField:[[self.cellinfo valueForKey:@"geo"]intValue]];
+                 }
+             }];
+        }
+        
+        if( [[self.cellinfo valueForKey:@"read-only"] boolValue ] )
+        {
+            [self.contentView setUserInteractionEnabled:NO];
+            [self.map setUserInteractionEnabled:NO];
+        }
     }
 }
 

@@ -85,7 +85,7 @@
         else
         {
             __block ListingDetailViewController *blockself = self;
-            
+             
             NSString   *sql = [QueryFactory getListing:self.listing andUser:[User sharedUser]];
             __block SQLRequest *req = [[SQLRequest alloc]initWithQuery:sql andType:kSelect andName:@"select-favorite"];
             
@@ -212,16 +212,6 @@
         case kSocial:
             value = self.listing.geo;
             break;
-        case kAddress:
-            if( self.listing.geo )
-            {
-                value = @{@"address" : self.listing.address, @"location" : self.listing.geo };
-            }
-            else
-            {
-                value = ( self.listing.address ) ? @{ @"address" : self.listing.address } : nil;
-            }
-            break;
         case kUnit:
             value = self.listing.unit;
             break;
@@ -243,8 +233,8 @@
         case kBrokerFee:
             value = self.listing.brokerfee;
             break;
-        case kContact:
-            value = self.listing.contact;
+        case kContactEmail:
+            value = self.listing.email;
             break;
         case kShare:
             value = self.listing.share;
@@ -279,7 +269,9 @@
         case kThumbnail:
             value = self.listing.thumb;
             break;
-            
+        case kContactPhone:
+            value = self.listing.phone;
+            break;
         default:
             break;
     }
@@ -435,7 +427,7 @@
     {
         MFMailComposeViewController *vc = [[MFMailComposeViewController alloc]init];
         vc.mailComposeDelegate = self;
-        [vc setToRecipients:@[self.listing.contact]];
+        [vc setToRecipients:@[self.listing.email]];
         [vc setSubject:[NSString stringWithFormat:@"VirtualRealty Listing Inquiry - %@" , self.listing.address]];
         [self presentViewController:vc animated:YES completion:nil];
     }

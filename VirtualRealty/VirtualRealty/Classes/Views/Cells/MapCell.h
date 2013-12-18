@@ -16,6 +16,6 @@
 @property(nonatomic, strong, readonly)GMSMapView  *map;
 @property(nonatomic, strong, readonly)UIView      *textBackGround;
 @property(nonatomic, strong, readonly)UITextField *addresssLabel;
-@property(nonatomic, strong, readonly)UIButton    *wrongAddressButton;
+
 
 @end

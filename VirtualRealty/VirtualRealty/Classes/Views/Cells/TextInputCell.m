@@ -19,15 +19,13 @@
     {
         _inputField = [[UITextField alloc]initWithFrame:CGRectMake(0, 0, 200, 30)];
         self.inputField.backgroundColor = [UIColor clearColor];
-
-        //self.inputField.delegate = self;
         self.inputField.autocapitalizationType = UITextAutocapitalizationTypeNone;
         self.inputField.textAlignment  = NSTextAlignmentRight;
         self.inputField.returnKeyType  = UIReturnKeyDone;
         [self.inputField addTarget:self  action:@selector(inputFieldBegan:) forControlEvents:UIControlEventEditingDidBegin];
         [self.inputField addTarget:self  action:@selector(inputTextChanged:) forControlEvents:UIControlEventEditingChanged];
         [self.inputField addTarget:self  action:@selector(textFieldFinished:)  forControlEvents:UIControlEventEditingDidEndOnExit];
-         
+        [self.inputField setFont:[UIFont systemFontOfSize:12 ]];
         [self.contentView addSubview:self.inputField];
     }
     return self;
@@ -46,12 +44,14 @@
     
     float width = 300 - ( self.textLabel.frame.origin.x + self.textLabel.frame.size.width);
 
+    self.inputField.frame = rect;
+    self.inputField.textColor = [UIColor colorFromHex:@"00aeef"];
+    
     rect = self.inputField.frame;
     rect.size.width = width;
     rect.origin.x = self.textLabel.frame.origin.x + self.textLabel.frame.size.width + 10;
     rect.origin.y = self.contentView.frame.size.height * 0.5 - rect.size.height * 0.5;
     self.inputField.frame = rect;
-    
     [self.contentView bringSubviewToFront:self.inputField];
 }
 

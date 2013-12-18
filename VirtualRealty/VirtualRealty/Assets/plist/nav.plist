@@ -30,6 +30,18 @@
 		<key>active</key>
 		<true/>
 		<key>requires-user</key>
+		<true/>
+		<key>cell</key>
+		<string>NavCell</string>
+		<key>class</key>
+		<string>UserContentViewController</string>
+		<key>label</key>
+		<string>My Listings</string>
+	</dict>
+	<dict>
+		<key>active</key>
+		<true/>
+		<key>requires-user</key>
 		<false/>
 		<key>cell</key>
 		<string>NavCell</string>

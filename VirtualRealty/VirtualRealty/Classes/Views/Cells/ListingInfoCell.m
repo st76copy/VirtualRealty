@@ -36,15 +36,15 @@
         
         _addressLabel = [[UILabel alloc]initWithFrame:CGRectZero];
         [self.addressLabel setTextColor:[UIColor colorFromHex:@"424242"]];
-        [self.addressLabel setFont:[UIFont systemFontOfSize:18]];
+        [self.addressLabel setFont:[UIFont systemFontOfSize:19]];
         
         
         _listingDetailsLabel = [[UILabel alloc]initWithFrame:CGRectZero];
         [self.listingDetailsLabel setTextColor:[UIColor colorFromHex:@"424242"]];
         [self.listingDetailsLabel setFont:[UIFont systemFontOfSize:14]];
         
-        _stroke = [[UIView alloc]initWithFrame:CGRectMake(0, 186, 181, 2)];
-        [_stroke setBackgroundColor:[UIColor colorFromHex:@"c77732"]];
+        _stroke = [[UIView alloc]initWithFrame:CGRectMake(0, 219, 181, 2)];
+        [_stroke setBackgroundColor:[UIColor colorFromHex:@"00aeef"]];
         
         UIButton *playButton = [UIButton buttonWithType:UIButtonTypeCustom];
         [playButton setImage:[UIImage imageNamed:@"play-button.png"] forState:UIControlStateNormal];
@@ -79,7 +79,7 @@
     rect.origin.y = self.thumb.frame.size.height - rect.size.height;
     self.priceView.frame = rect;
     
-    self.addressLabel.frame = CGRectMake(5, self.thumb.frame.size.height + 5, 320, 0);
+    self.addressLabel.frame = CGRectMake(5, self.thumb.frame.size.height + 28, 320, 0);
     [self.addressLabel sizeToFit];
     
     if( self.addressLabel.frame.size.width > 320 )
@@ -99,9 +99,11 @@
     
     _listing = self.cellinfo[@"current-value"];
     __block ListingInfoCell *blockself = self;
+
+    self.addressLabel.text = self.listing.street;
     
-    self.addressLabel.text = [self.listing.address uppercaseString];
-    NSString *detailsText = [NSString stringWithFormat:@"%i BED, %i BATH", [self.listing.bedrooms intValue],[self.listing.bathrooms intValue] ];
+    
+    NSString *detailsText = [NSString stringWithFormat:@"%@, %@ in %@", self.listing.bedrooms, self.listing.bathrooms, self.listing.neighborhood];
     self.listingDetailsLabel.text = detailsText;
     
     [self.priceView setPrice:[self.listing.monthlyCost floatValue]];

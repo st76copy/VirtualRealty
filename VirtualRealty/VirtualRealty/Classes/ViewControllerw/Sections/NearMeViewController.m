@@ -8,6 +8,7 @@
 
 #import "NearMeViewController.h"
 #import "LocationManager.h"
+#import "MapPriceTag.h"
 #import "Listing.h"
 #import "ListingDetailViewController.h"
 #import <Parse/Parse.h>
@@ -38,24 +39,28 @@
 {
     [super viewDidLoad];
     self.navigationItem.title = @"Near Me";
-    _mapView = [[GMSMapView alloc]initWithFrame:self.view.frame];
+    CGRect rect = self.view.bounds;
+    rect.size.height -= self.navigationController.navigationBar.frame.size.height;
+    
+    _mapView = [[GMSMapView alloc]initWithFrame:rect];
     self.mapView.delegate = self;
     [self.view addSubview:self.mapView];
  
-    UIView *bg = [[UIView alloc]initWithFrame:CGRectMake(0, 65, 320, 80)];
+    UIView *bg = [[UIView alloc]initWithFrame:CGRectMake(0, 0, 320, 50)];
     [bg setBackgroundColor:[UIColor colorWithWhite:1 alpha:0.8]];
     [self.view addSubview:bg];
     
     _distance = 0.5f;
     
-    _distanceLabel = [[UILabel alloc]initWithFrame:CGRectMake(0, 110, 320, 20)];
+    _distanceLabel = [[UILabel alloc]initWithFrame:CGRectMake(0, 50 - 15, 320, 15)];
     [self.distanceLabel setBackgroundColor:[UIColor clearColor]];
     [self.distanceLabel setText:@"0.5 miles"];
+    [self.distanceLabel setFont:[UIFont systemFontOfSize:12]];
     [self.distanceLabel setTextColor:[UIColor blackColor]];
     [self.distanceLabel setTextAlignment:NSTextAlignmentCenter];
     [self.view addSubview:self.distanceLabel];
     
-    UISlider *distanceSlider = [[UISlider alloc]initWithFrame:CGRectMake(20, 80, 280, 20)];
+    UISlider *distanceSlider = [[UISlider alloc]initWithFrame:CGRectMake(20,  10, 280, 20)];
     distanceSlider.minimumValue = 0.5;
     distanceSlider.maximumValue = 2.0;
     [distanceSlider addTarget:self action:@selector(handleSliderChange:) forControlEvents:UIControlEventValueChanged];
@@ -112,13 +117,18 @@
         [temp addObject:[[Listing alloc]initWithFullData:info]];
     }
     
+    MapPriceTag *priceTag;
     
     [self.mapView clear];
     for( Listing *listing in temp )
     {
+        priceTag = [[MapPriceTag alloc]initWithFrame:CGRectZero];
+        [priceTag setPrice:[listing.monthlyCost floatValue]];
+        
         marker = [GMSMarker markerWithPosition:listing.geo.coordinate];
         marker.map = self.mapView;
         marker.userData = listing;
+        marker.icon = [priceTag toBitmap];
     }
     
     float mostNorth = marker.position.latitude;

@@ -21,6 +21,7 @@
 @synthesize locationManager = _locationManager;
 @synthesize renderQueue     = _renderQueue;
 
+
 +(LocationManager *)shareManager
 {
     static LocationManager *instance;
@@ -38,10 +39,12 @@
     if( self != nil )
     {
         _locationManager = [[CLLocationManager alloc]init];
+        _locationManager.desiredAccuracy = kCLLocationAccuracyBest;
+        _locationManager.distanceFilter = kCLDistanceFilterNone;
         [_locationManager setDelegate:self];
         
         _renderQueue = dispatch_queue_create("com.vr.LocationManager", NULL);
-        _delegates   = [NSMutableArray array];
+        _delegates   = [NSHashTable weakObjectsHashTable];
     }
     return self;
 }
@@ -68,12 +71,13 @@
         
         [gc reverseGeocodeLocation:self.location completionHandler:^(NSArray *placemark, NSError *error)
         {
-             CLPlacemark *pm = [placemark objectAtIndex:0];
-             [blockmanager handleFormatAddress:pm.addressDictionary];
+            CLPlacemark *pm = [placemark objectAtIndex:0];
+            [blockmanager handleFormatAddress:pm.addressDictionary];
         }];
         
         dispatch_async(dispatch_get_main_queue(), ^{
-            for( id<LocationManagerDelegate> del in self.delegates )
+            NSHashTable *copy = [self.delegates copy];
+            for( id<LocationManagerDelegate> del in copy )
             {
                 [del locationUpdated];
             }
@@ -84,17 +88,15 @@
 
 -(void) handleFormatAddress:(NSDictionary *)addressInfo
 {
+    _addressInfo = addressInfo;
     NSString *street = [addressInfo valueForKey:@"Street"];
     NSString *city   = [addressInfo valueForKey:@"City"];
     NSString *zip    = [addressInfo valueForKey:@"ZIP"];
     NSString *state  = [addressInfo valueForKey:@"State"];
-    
     _currentAddress = [NSString stringWithFormat:@"%@\n%@,%@ %@", street, city, state, zip];
 }
-
-
     
--(void)geoCodeUsingAddress:(NSString *)address block:(void (^) (CLLocationCoordinate2D loc) )block
+-(void)setCurrentLocationByString:(NSString *)address block:(void (^) (CLLocationCoordinate2D loc) )block
 {
     _currentAddress = address;
     
@@ -108,7 +110,7 @@
         NSData   *data  = [response dataUsingEncoding:NSUTF8StringEncoding];
         NSDictionary *googleResponse = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:nil];
         
-        NSDictionary    *resultsDict = [googleResponse valueForKey:  @"results"];   // get the results dictionary
+        NSArray        *resultsDict = [googleResponse valueForKey:  @"results"];   // get the results dictionary
         NSDictionary   *geometryDict = [resultsDict valueForKey: @"geometry"];   // geometry dictionary within the  results dictionary
         NSDictionary   *locationDict = [geometryDict valueForKey: @"location"];   // location dictionary within the geometry dictionary
         
@@ -117,6 +119,23 @@
         
         NSArray *lngArray = [locationDict valueForKey: @"lng"];
         NSString *lngString = [lngArray lastObject];     // (one element) array entries provided by the json parser
+        
+        NSArray *addressComps = resultsDict[0][@"address_components"];
+        
+    
+        NSString *street   = [NSString stringWithFormat:@"%@ %@", addressComps[0][@"long_name"],addressComps[1][@"short_name"]];
+        NSString *city     = addressComps[4][@"short_name"];
+        NSString *state    = addressComps[6][@"short_name"];
+        NSString *borough  = addressComps[3][@"short_name"];
+        NSString *ZIP      = addressComps[8][@"short_name"];
+        NSString *hood     = addressComps[2][@"short_name"];
+        _addressInfo = @{
+            @"FormattedAddressLines" :@[ street,borough] ,
+            @"City" :city,
+            @"State" : state,
+            @"SubLocality" :hood,
+            @"ZIP":ZIP
+        };
         
         __block CLLocationCoordinate2D location;
         location.latitude = [latString doubleValue];// latitude;
@@ -130,9 +149,37 @@
     });
 }
 
--(void)getAddress:(NSString *)address block:(void (^) (CLLocationCoordinate2D loc) )block
+-(void)requestGeoFromString:(NSString *)term block:(void (^) (CLLocationCoordinate2D loc, NSDictionary *results) )block
 {
     
+    dispatch_async( dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
+        
+        NSString *esc_addr =  [term stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+        NSString *req = [NSString stringWithFormat:@"http://maps.google.com/maps/api/geocode/json?sensor=false&address=%@", esc_addr];
+        
+        NSString *response = [NSString stringWithContentsOfURL: [NSURL URLWithString: req] encoding: NSUTF8StringEncoding error: NULL];
+        NSData   *data  = [response dataUsingEncoding:NSUTF8StringEncoding];
+        NSDictionary *googleResponse = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:nil];
+        
+        NSDictionary   *resultsDict  = [googleResponse valueForKey:  @"results"];   // get the results dictionary
+        NSDictionary   *geometryDict = [resultsDict valueForKey: @"geometry"];   // geometry dictionary within the  results dictionary
+        NSDictionary   *locationDict = [geometryDict valueForKey: @"location"];   // location dictionary within the geometry dictionary
+        
+        NSArray *latArray = [locationDict valueForKey: @"lat"];
+        NSString *latString = [latArray lastObject];     // (one element) array entries provided by the json parser
+        
+        NSArray *lngArray = [locationDict valueForKey: @"lng"];
+        NSString *lngString = [lngArray lastObject];     // (one element) array entries provided by the json parser
+        
+        __block CLLocationCoordinate2D location;
+        location.latitude = [latString doubleValue];// latitude;
+        location.longitude = [lngString doubleValue]; //longitude;
+        
+        dispatch_async(dispatch_get_main_queue(), ^
+        {
+            block( location, resultsDict );
+        });
+    });
 }
 
 -(void)stopGettingLocation

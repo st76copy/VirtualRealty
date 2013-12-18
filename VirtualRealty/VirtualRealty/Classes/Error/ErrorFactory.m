@@ -56,7 +56,7 @@
             
         case kListingExistsError:
             title       = NSLocalizedString(@"Sorry", @"Error : Invalid username error title");
-            message     = NSLocalizedString(@"Your media failed to save for this listing, please try again.", @"Error : Listing media failed error body");
+            message     = NSLocalizedString(@"Your listing is already in our database, please contact admin to resolve the issue.", @"Error : Listing media failed error body");
             cancelTitle = NSLocalizedString(@"Cancel", @"Genereic : Cancel ");
             break;
 

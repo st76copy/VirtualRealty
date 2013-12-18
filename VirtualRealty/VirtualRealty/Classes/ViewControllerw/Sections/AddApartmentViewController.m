@@ -20,8 +20,9 @@
 #import "ErrorFactory.h"
 #import "KeywordsViewController.h"
 #import "SectionTitleView.h"
+#import "LocationManager.h"
 
-@interface AddApartmentViewController ()<UIImagePickerControllerDelegate,UINavigationControllerDelegate, KeyWordDelegate>
+@interface AddApartmentViewController ()<UIImagePickerControllerDelegate,UINavigationControllerDelegate, KeyWordDelegate, UIAlertViewDelegate, LocationManagerDelegate>
 -(void)handleListingComplete;
 -(void)animateToCell;
 -(id)getValueForFormField:(FormField)field;
@@ -93,14 +94,31 @@
 
 -(void)viewDidAppear:(BOOL)animated
 {
+
     [super viewDidAppear:animated];
+    
+    if(  [ReachabilityManager sharedManager].currentStatus == NotReachable )
+    {
+        [[ReachabilityManager sharedManager]showAlert];
+        return;
+    }
+    
+    
     [[KeyboardManager sharedManager]registerDelegate:self];
     [[PickerManager sharedManager]registerDelegate:self];
     
     if( [User sharedUser].currentListing == nil )
     {
         _listing = [[Listing alloc]initWithDefaults];
+        _listing.email = [User sharedUser].username;
         [User sharedUser].currentListing = self.listing;
+    }
+    
+    if(self.listing.street == nil )
+    {
+        [self getLocation];
+        AppDelegate *app = (AppDelegate *)[UIApplication sharedApplication].delegate;
+        [app showLoaderInView:self.view];
     }
 }
 
@@ -109,6 +127,70 @@
     [super viewDidAppear:animated];
     [[KeyboardManager sharedManager]unregisterDelegate:self];
     [[PickerManager sharedManager]unregisterDelegate:self];
+ }
+
+#pragma mark - location 
+-(void)getLocation
+{
+    [[LocationManager shareManager]registerDelegate:self];
+    [[LocationManager shareManager]startGettingLocations];
+}
+
+-(void)locationUpdated
+{
+    [[LocationManager shareManager]stopGettingLocation];
+    [[LocationManager shareManager]removeDelegate:self];
+    AppDelegate *app = (AppDelegate *)[UIApplication sharedApplication].delegate;
+    [app hideLoader];
+    
+    NSDictionary *address = [LocationManager shareManager].addressInfo;
+    NSDictionary *info = @{
+                           @"city" : address[@"City"],
+                           @"street" : address[@"FormattedAddressLines"][0],
+                           @"borough" : [(NSString *)address[@"FormattedAddressLines"][1] componentsSeparatedByString:@","][0],
+                           @"neighborhood" : address[@"SubLocality"],
+                           @"zip" : address[@"ZIP"],
+                           @"state" : address[@"State"]
+                           };
+ 
+    NSString *addressString = [NSString stringWithFormat:@"%@\n%@, %@ %@", info[@"street"],info[@"borough"],info[@"state"],info[@"zip"]];
+    NSString *title         = @"Hello";
+    NSString *message       = [NSString stringWithFormat:@"Is this the appartment your trying to list\n%@", addressString];
+    UIAlertView *av         = [[UIAlertView alloc]initWithTitle:title message:message delegate:self cancelButtonTitle:@"No" otherButtonTitles:@"Yes",@"Almost", nil];
+    [av show];
+}
+
+-(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    NSDictionary *address = [LocationManager shareManager].addressInfo;
+    NSDictionary *info = @{@"city" : address[@"City"],
+                           @"street" : address[@"FormattedAddressLines"][0],
+                           @"borough" : [(NSString *)address[@"FormattedAddressLines"][1] componentsSeparatedByString:@","][0],
+                           @"neighborhood" : address[@"SubLocality"],
+                           @"zip" : address[@"ZIP"],
+                           @"state" : address[@"State"]
+                           };
+    
+    switch (buttonIndex)
+    {
+        case 0:
+            break;
+        case  1:
+            self.listing.street = info[@"street"];
+            self.listing.borough = info[@"borough"];
+            self.listing.neighborhood = info[@"neighborhood"];
+            self.listing.zip = info[@"zip"];
+            self.listing.geo = [[LocationManager shareManager].location copy];
+            [self.table reloadData];
+            break;
+
+        case  2:
+            self.listing.borough = info[@"borough"];
+            self.listing.neighborhood = info[@"neighborhood"];
+            self.listing.zip = info[@"zip"];
+            [self.table reloadData];
+            break;
+}
 }
 
 #pragma mark - table delegate and data
@@ -141,12 +223,12 @@
     
     
     FormCell *cell = (FormCell *)[tableView dequeueReusableCellWithIdentifier:[info valueForKey:@"class"]];
-    
+    NSLog(@"%@ failing on cell %@ ", self, info[@"class"]);
     if( cell == nil )
     {
         cell = [[NSClassFromString([info valueForKey:@"class"]) alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:[info valueForKey:@"class"]];
     }
-    
+
     cell.formDelegate = self;
     cell.indexPath = indexPath;
     cell.cellinfo = info;
@@ -190,35 +272,18 @@
     
     switch (self.currentField)
     {
-        case kAddress:
-            break;
-            
-        case kNeightborhood:
-        {
-            CheckCell *c = (CheckCell *)[self.table cellForRowAtIndexPath:indexPath];
-            NSMutableDictionary *info = [[c cellinfo]mutableCopy];
-            if( [c isKindOfClass:[CheckCell class]] )
-            {
-                [self.listing clearErrorForField:kNeightborhood];
-                self.listing.neighborhood = [c.cellinfo valueForKey:@"label"];
-                [info setValue:[self getValueForFormField:[[info valueForKey:@"field"] intValue]] forKey:@"current-value"];
-                [self.table reloadRowsAtIndexPaths:@[self.currentIndexpath] withRowAnimation:UITableViewRowAnimationAutomatic];
-                [c setCellinfo:info];
-                [c render];
-            }
-            [[KeyboardManager sharedManager] close];
-            [self addRows];
-        }
-        break;
         case kMoveInDate :
             [PickerManager sharedManager].type = kDate;
             [[PickerManager sharedManager]showPickerInView:self.view];
             break;
         case kMonthlyRent:
         case kMoveInCost:
-        case kContact:
+        case kContactPhone:
+        case kContactEmail:
         case kUnit:
         case kBrokerFee:
+        case kZip :
+        case kStreet :
             [cell setFocus];
             break;
         case kVideo:
@@ -230,6 +295,8 @@
             break;
         case kBedrooms:
         case kBathrooms:
+        case kNeightborhood:
+        case kBorough:
             [PickerManager sharedManager].type = kStandard;
             [PickerManager sharedManager].pickerData = cell.cellinfo[@"picker-data"];
             [[PickerManager sharedManager]showPickerInView:self.view];
@@ -312,21 +379,26 @@
     
     switch( field )
     {
-        case kAddress:
-            if( self.listing.geo )
-            {
-                value = @{@"address" : self.listing.address, @"location" : self.listing.geo };
-            }
-            else
-            {
-                value = ( self.listing.address ) ? @{ @"address" : self.listing.address } : nil;
-            }
+        case kStreet :
+            value = self.listing.street;
             break;
-        case kUnit:
-            value = self.listing.unit;
+        case kBorough:
+            value = self.listing.borough;
             break;
         case kNeightborhood:
             value = self.listing.neighborhood;
+            break;
+        case kState:
+            value = self.listing.state;
+            break;
+        case kCity :
+            value = self.listing.city;
+            break;
+        case kZip:
+            value = self.listing.zip;
+            break;
+        case kUnit:
+            value = self.listing.unit;
             break;
         case kMonthlyRent:
             value = self.listing.monthlyCost;
@@ -343,8 +415,11 @@
         case kBrokerFee:
             value = self.listing.brokerfee;
             break;
-        case kContact:
-            value = self.listing.contact;
+        case kContactEmail:
+            value = self.listing.email;
+            break;
+        case kContactPhone :
+            value = self.listing.phone;
             break;
         case kShare:
             value = self.listing.share;
@@ -382,7 +457,7 @@
         case kKeywords:
             return self.listing.keywords;
             break;
-            
+    
         default:
             break;
     }
@@ -398,13 +473,17 @@
     [self.listing clearErrorForField:field];
     switch( field )
     {
-        case kAddress:
-            self.listing.address  = [cell.formValue valueForKey:@"address"];
-            self.listing.geo      = [cell.formValue valueForKey:@"location"];
+        case kStreet:
+            self.listing.street = cell.formValue;
             break;
-            
+        case kBorough:
+            self.listing.borough  =  formcell.detailTextLabel.text;
+            break;
         case kUnit:
             self.listing.unit     = cell.formValue;
+            break;
+        case kZip :
+            self.listing.zip      = cell.formValue;
             break;
         case kNeightborhood:
             _listing.neighborhood = formcell.detailTextLabel.text;
@@ -419,10 +498,10 @@
             _listing.brokerfee    = [NSNumber numberWithFloat:[formcell.formValue floatValue]];
             break;
         case kBedrooms:
-            _listing.bedrooms     = [NSNumber numberWithFloat:[formcell.formValue floatValue]];
+            _listing.bedrooms     = formcell.formValue;
             break;
         case kBathrooms:
-            _listing.bathrooms    = [NSNumber numberWithFloat:[formcell.formValue floatValue]];
+            _listing.bathrooms    = formcell.formValue;
             break;
         case kShare:
             _listing.share        = [NSNumber numberWithFloat:[formcell.formValue floatValue]];
@@ -430,8 +509,12 @@
         case kMoveInDate:
             _listing.moveInDate   = formcell.formValue;
             break;
-        case kContact:
-            _listing.contact      = formcell.formValue;
+        case kContactEmail:
+            _listing.email      = formcell.formValue;
+            break;
+        case kContactPhone:
+            _listing.phone      = formcell.formValue;
+            NSLog(@"%@ ", _listing.phone);
             break;
         case kDogs:
             _listing.dogs         = [NSNumber numberWithFloat:[formcell.formValue floatValue]];
@@ -520,18 +603,20 @@
 -(void)pickerDone
 {
     FormCell *cell = (FormCell *)[self.table cellForRowAtIndexPath:self.currentIndexpath];
+    int index = [cell.cellinfo[@"picker-index"] intValue];
     
     switch ([PickerManager sharedManager].type) {
         case kStandard:
-            cell.formValue = [[PickerManager sharedManager] valueForComponent:1];
+            cell.formValue = [[PickerManager sharedManager] valueForComponent:index];
+            cell.detailTextLabel.text = [[PickerManager sharedManager] valueForComponent:index];
             break;
             
         default:
             cell.formValue = [PickerManager sharedManager].datePicker.date;
+            cell.detailTextLabel.text = [[PickerManager sharedManager].datePicker.date toString];
             break;
     }
     
-    cell.detailTextLabel.text = [[PickerManager sharedManager].datePicker.date toString];
     [cell.formDelegate cell:cell didChangeForField:self.currentField];
     [self.table reloadRowsAtIndexPaths:@[self.currentIndexpath] withRowAnimation:UITableViewRowAnimationAutomatic];
     [[PickerManager sharedManager]hidePicker];
@@ -548,7 +633,25 @@
         [[ReachabilityManager sharedManager]showAlert];
         return;
     }
-    
+
+    if( self.listing.geo == nil )
+    {
+        NSString *addressString = [NSString stringWithFormat:@"%@ %@, %@, %i", self.listing.street, self.listing.borough, self.listing.state, [self.listing.zip intValue]];
+        [[LocationManager shareManager]setCurrentLocationByString:addressString block:^(CLLocationCoordinate2D loc) {
+            blockself.listing.geo = [[CLLocation alloc]initWithLatitude:loc.latitude longitude:loc.longitude];
+            [blockself saveListing];
+        }];
+    }
+    else
+    {
+        [self saveListing];
+    }
+}
+
+-(void)saveListing
+{
+    __block AppDelegate *delegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
+    __block AddApartmentViewController *blockself = self;
     
     if( [self.listing isValid].count == 0 )
     {
@@ -559,10 +662,9 @@
             switch ([[object valueForKey:@"code"] intValue]) {
                 case kSaveFailed:
                     [[ErrorFactory getAlertForType:kListingSavingError andDelegateOrNil:nil andOtherButtons:nil] show];
-                    
-                    break;
+                     break;
                 case kSaveSuccess:
-                    
+                     
                     self.listing.objectId = [[object valueForKey:@"data"] valueForKey:@"objectId"];
                     [self.listing saveMedia:^(BOOL success) {
                         if( success )
@@ -577,7 +679,7 @@
                             [delegate hideLoader];
                         }
                     }];
-                    
+                     
                     break;
                 case kListingExist:
                     [[ErrorFactory getAlertForType:kListingExistsError andDelegateOrNil:Nil andOtherButtons:nil]show];
@@ -585,11 +687,9 @@
                     break;
             }
         }];
-
     }
     else
     {
-        
         NSString *title = NSLocalizedString(@"Sorry",@"Generic : sorry");
         NSString *message = NSLocalizedString( @"Some of the required fields are missing and are show in red, please complete the form to proceed", @"Genereic : error for failed listing submission");
         UIAlertView *failed = [[UIAlertView alloc]initWithTitle:title message:message delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
@@ -597,7 +697,6 @@
         [self.table reloadData];
     }
 }
-
 
 -(void)handleCaptureMedia
 {

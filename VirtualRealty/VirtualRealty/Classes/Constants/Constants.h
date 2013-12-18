@@ -68,7 +68,15 @@ typedef enum FormField
     kBedrooms = 7,
     kBathrooms = 8,
     kMoveInDate = 19,
-    kContact = 20,
+    kContactEmail = 20,
+    kContactPhone = 44,
+    
+    kStreet = 45,
+    kBorough = 46,
+    kZip = 47,
+    kCity = 48,
+    kState = 49,
+  
     
     kShare = 9,
     kDogs = 10,
@@ -101,6 +109,7 @@ typedef enum FormField
     kDoormanFilter       = 34,
     kGymFilter           = 35,
     kPoolFilter          = 36,
+    kBoroughFilter       = 50,
     
     // login extended
     kUserActivelyLooking = 39,
@@ -109,7 +118,8 @@ typedef enum FormField
     kUserMinBedrooms     = 42,
     
     kSocial     = 43,
-
+    kSearchRadius = 51
+ 
 }FormField;
 
 typedef enum SectionState

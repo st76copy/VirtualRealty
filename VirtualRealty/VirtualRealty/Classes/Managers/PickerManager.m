@@ -21,7 +21,7 @@
 @synthesize datePicker     = _datePicker;
 @synthesize type           = _type;
 @synthesize standardPicker = _standardPicker;
-@synthesize pickerData;
+@synthesize pickerData     = _pickerData;;
 @synthesize isShowing      = _isShowing;
 
 +(PickerManager *)sharedManager
@@ -72,6 +72,15 @@
     return self;
 }
 
+-(void)setPickerData:(NSArray *)pickerData
+{
+    _pickerData = pickerData;
+    if( self.type == kStandard )
+    {
+        [self.standardPicker reloadAllComponents];
+    }
+}
+
 -(void)setType:(PickerType)value
 {
     if( self.type != value )
@@ -113,25 +122,35 @@
 
 -(void)showPickerInView:(UIView *)view
 {
-    _isShowing = YES;
-    [self.container removeFromSuperview];
-    
-    CGRect rect = self.container.frame;
-    rect.origin.y = view.frame.size.height;
-    rect.origin.x = 0;
-    self.container.frame = rect;
-    
-    rect.origin.y = view.frame.size.height - rect.size.height;
-    
-    [UIView animateWithDuration:0.4 animations:^{
-        self.container.frame = rect;
-    }];
-    
-    [view addSubview:self.container];
-    
-    for( id<PickerManagerDelegate> obj in self.delegates )
+    if( _isShowing == NO )
     {
-        [obj pickerWillShow];
+        _isShowing = YES;
+        [self.container removeFromSuperview];
+        
+        CGRect rect = self.container.frame;
+        rect.origin.y = view.frame.size.height;
+        rect.origin.x = 0;
+        self.container.frame = rect;
+        
+        rect.origin.y = view.frame.size.height - rect.size.height;
+        
+        [UIView animateWithDuration:0.4 animations:^{
+            self.container.frame = rect;
+        }];
+        
+        [view addSubview:self.container];
+        
+        for( id<PickerManagerDelegate> obj in self.delegates )
+        {
+            [obj pickerWillShow];
+        }
+    }
+    else
+    {
+        if( self.type == kStandard )
+        {
+            [self.standardPicker reloadAllComponents];
+        }
     }
 }
 

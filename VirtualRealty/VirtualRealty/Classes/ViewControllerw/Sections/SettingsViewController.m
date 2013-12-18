@@ -92,6 +92,9 @@
             }
             break;
             
+        case kSearchRadius:
+            [User sharedUser].searchRadius = cell.formValue;
+            break;
         default:
             
             break;
@@ -137,11 +140,23 @@
     return cell;
 }
 
+-(float)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    NSDictionary *info = [self.data objectAtIndex:indexPath.row];
+    float height = 38.0f;
+    
+    if( info[@"display-height"] )
+    {
+       height = [info[@"display-height"]floatValue];
+    }
+    
+    return height;
+}
+ 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     NSDictionary *info = [self.data objectAtIndex:indexPath.row];
    
-    
     if( [info valueForKey:@"custom-action"] )
     {
         [self performSelector:NSSelectorFromString([info valueForKey:@"custom-action"])];
@@ -174,7 +189,9 @@
         case kUserActivelyLooking:
             value = [User sharedUser].activelySearching;
             break;
-            
+        case kSearchRadius :
+            value = [User sharedUser].searchRadius;
+            break;
         default:
             break;
     }

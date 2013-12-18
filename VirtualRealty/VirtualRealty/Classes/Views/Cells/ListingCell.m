@@ -90,8 +90,8 @@
 {
     __block ListingCell *blockself = self;
     
-    self.addressLabel.text = [self.listing.address uppercaseString];
-    NSString *detailsText = [NSString stringWithFormat:@"%i BED, %i BATH", [self.listing.bedrooms intValue],[self.listing.bathrooms intValue] ];
+    self.addressLabel.text = self.listing.street;
+    NSString *detailsText = [NSString stringWithFormat:@"%@, %@ in %@", self.listing.bedrooms, self.listing.bathrooms, self.listing.neighborhood];
     self.listingDetailsLabel.text = detailsText;
     
     [self.priceView setPrice:[self.listing.monthlyCost floatValue]];

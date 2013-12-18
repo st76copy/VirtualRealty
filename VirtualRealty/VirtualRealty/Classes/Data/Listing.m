@@ -34,7 +34,6 @@
         _errors = [NSMutableArray array];
         self.submitterID       = [User sharedUser].username;
         self.submitterObjectId = [User sharedUser].uid;
-        
         self.outdoorSpace = [NSNumber numberWithBool:NO];
         self.dogs         = [NSNumber numberWithBool:NO];
         self.cats         = [NSNumber numberWithBool:NO];
@@ -45,6 +44,8 @@
         self.pool         = [NSNumber numberWithBool:NO];
         self.brokerfee    = [NSNumber numberWithFloat:0.00f];
         self.listingState = [NSNumber numberWithInt:kPending];
+        self.state        = @"NY";
+        self.city         = @"New York";
     }
     return  self;
 }
@@ -57,8 +58,7 @@
         _errors = [NSMutableArray array];
         self.submitterObjectId = [info valueForKey:@"submitterObjectId"];
         self.submitterID  = [info valueForKey:@"submitterID"];
-        self.contact      = [info valueForKey:@"contact"];
-        self.address      = [info valueForKey:@"address"];
+        self.email        = [info valueForKey:@"email"];
         self.unit         = [info valueForKey:@"unit"];
         self.neighborhood = [info valueForKey:@"neighborhood"];
         self.monthlyCost  = [info valueForKey:@"monthlyCost"];
@@ -67,7 +67,7 @@
         self.bedrooms     = [info valueForKey:@"bedrooms"];
         self.brokerfee    = [info valueForKey:@"brokerfee"];
         self.objectId     = [info valueForKey:@"objectId"];
-        
+        self.phone        = [info valueForKey:@"phone"];
         PFGeoPoint *temp  = [info valueForKey:@"location"];
         
         self.geo          = [[CLLocation alloc]initWithLatitude:temp.latitude longitude:temp.longitude];
@@ -81,6 +81,14 @@
         self.doorman      = [info valueForKey:@"doorman"];
         self.pool         = [info valueForKey:@"pool"];
         self.listingState = [info valueForKey:@"listingState"];
+        
+        self.borough      = [info valueForKey:@"borough"];
+        self.street       = [info valueForKey:@"street"];
+        self.neighborhood = [info valueForKey:@"neighborhood"];
+        self.city         = [info valueForKey:@"city"];
+        self.state        = [info valueForKey:@"state"];
+        self.zip          = [info valueForKey:@"zip"];
+        
         
         if( [[info valueForKey:@"keywords"] isKindOfClass:[NSArray class]])
         {
@@ -106,9 +114,25 @@
 {
     [self.errors removeAllObjects];
     
-    if( self.address == nil || [self.address isEqualToString:@""])
+    if( self.street == nil || [self.street isEqualToString:@""])
     {
-        [self.errors addObject:[NSNumber numberWithInt:kAddress]];
+        [self.errors addObject:[NSNumber numberWithInt:kStreet]];
+    }
+  
+    if( self.neighborhood == nil || [self.neighborhood isEqualToString:@""])
+    {
+        [self.errors addObject:[NSNumber numberWithInt:kNeightborhood]];
+    }
+    
+  
+    if( self.borough == nil || [self.borough isEqualToString:@""])
+    {
+        [self.errors addObject:[NSNumber numberWithInt:kBorough]];
+    }
+    
+    if( self.zip == nil )
+    {
+        [self.errors addObject:[NSNumber numberWithInt:kZip]];
     }
   
     if( self.unit == nil || [self.unit isEqualToString:@""])
@@ -151,9 +175,9 @@
     //    [self.errors addObject:[NSNumber numberWithInt:kVideo]];
     }
     
-    if( self.contact == nil )
+    if( self.email == nil )
     {
-        [self.errors addObject:[NSNumber numberWithInt:kContact]];
+        [self.errors addObject:[NSNumber numberWithInt:kContactEmail]];
     }
     
     if( self.moveInDate == nil )
@@ -205,7 +229,7 @@
             _moveInDate,
             [_bedrooms intValue ],
             [_bathrooms intValue],
-            _contact,
+            _email,
             [_share boolValue],
             [_dogs boolValue],
             [_cats boolValue   ],

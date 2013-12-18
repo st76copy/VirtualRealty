@@ -20,7 +20,7 @@
             break;
             
         default:
-            self.textLabel.text = @"My Listings";
+            self.textLabel.text = [NSString stringWithFormat:@"Logged In As %@ ", [User sharedUser].username];
             break;
     }
 }

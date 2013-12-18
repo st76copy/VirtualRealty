@@ -16,6 +16,8 @@
 #import "QueryFactory.h"
 #import "ListingDetailViewController.h"
 #import "UserListingCell.h"
+#import "SectionTitleView.h"
+
 @interface UserContentViewController ()
 
 -(void)handleDataLoaded:(NSArray *)data;
@@ -52,10 +54,18 @@
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor grayColor];
     
-    _table = [[UITableView alloc]initWithFrame:self.view.frame style:UITableViewStyleGrouped];
+    CGRect rect = self.view.bounds;
+    rect.size.height -= self.navigationController.navigationBar.frame.size.height;
+    
+    _table = [[UITableView alloc]initWithFrame:rect style:UITableViewStyleGrouped];
     self.table.separatorInset = UIEdgeInsetsZero;
     self.table.dataSource = self;
     self.table.delegate = self;
+    
+    [_table setSeparatorColor:[UIColor clearColor]];
+    [_table setSectionFooterHeight:0.0f];
+    [_table setSectionHeaderHeight:44.0f];
+    
 
     [self.view addSubview:self.table];
     
@@ -170,7 +180,7 @@
 
 -(float)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return 120.0f;
+    return 215.0f;
 }
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
@@ -186,6 +196,33 @@
     ListingDetailViewController *details = [[ListingDetailViewController alloc]initWithListing:listing];
     [self.navigationController pushViewController:details animated:YES];
     
+}
+
+
+-(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
+{
+    NSString *title = @"";
+    switch (section)
+    {
+        case 0:
+            title = NSLocalizedString( @"My Listings", @"Title for user uploaded listings");
+            break;
+        case 1:
+            title = NSLocalizedString( @"My Favorites", @"Title for user selected listings");
+            break;
+    }
+    SectionTitleView *sectionTitle = [[SectionTitleView alloc]initWithTitle:title];
+    return sectionTitle;
+}
+
+-(float)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
+{
+    return 44;
+}
+
+-(float)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
+{
+    return 0;
 }
 
 -(void)toggleMenu

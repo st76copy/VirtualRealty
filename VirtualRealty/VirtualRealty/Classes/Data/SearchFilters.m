@@ -18,9 +18,10 @@
     {
         _filters = [NSMutableArray array];
         
+        [self.filters addObject:[@{ @"field" : [NSNumber numberWithInt:kBoroughFilter],       @"value" : @"", @"name" : @"borough" } mutableCopy]];
         [self.filters addObject:[@{ @"field" : [NSNumber numberWithInt:kNeightborhoodFilter], @"value" : @"", @"name" : @"neighborhood" } mutableCopy]];
-        [self.filters addObject:[@{ @"field" : [NSNumber numberWithInt:kBedroomsFilter],      @"value" : @0,  @"name" : @"bedrooms" }mutableCopy]];
-        [self.filters addObject:[@{ @"field" : [NSNumber numberWithInt:kBathroomsFilter],     @"value" : @0,  @"name" : @"bathrooms" }mutableCopy]];
+        [self.filters addObject:[@{ @"field" : [NSNumber numberWithInt:kBedroomsFilter],      @"value" : @"", @"name" : @"bedrooms" }mutableCopy]];
+        [self.filters addObject:[@{ @"field" : [NSNumber numberWithInt:kBathroomsFilter],     @"value" : @"", @"name" : @"bathrooms" }mutableCopy]];
         [self.filters addObject:[@{ @"field" : [NSNumber numberWithInt:kBrokerFeeFilter],     @"value" : [NSNumber numberWithBool:NO],  @"name" : @"brokerfee" }mutableCopy]];
         [self.filters addObject:[@{ @"field" : [NSNumber numberWithInt:kMinCostFilter],       @"value" : @0,  @"name" : @"minCost" }mutableCopy]];
         [self.filters addObject:[@{ @"field" : [NSNumber numberWithInt:kMaxCostFilter],       @"value" : @0,  @"name" : @"maxCost" }mutableCopy]];
@@ -107,4 +108,28 @@
     
     return ( active.count > 0 ) ? active : nil;
 }
+
+-(void)clear
+{
+    
+    [self.filters removeAllObjects];
+    [self.filters addObject:[@{ @"field" : [NSNumber numberWithInt:kBoroughFilter],       @"value" : @"", @"name" : @"borough" } mutableCopy]];
+    [self.filters addObject:[@{ @"field" : [NSNumber numberWithInt:kNeightborhoodFilter], @"value" : @"", @"name" : @"neighborhood" } mutableCopy]];
+    [self.filters addObject:[@{ @"field" : [NSNumber numberWithInt:kBedroomsFilter],      @"value" : @"", @"name" : @"bedrooms" }mutableCopy]];
+    [self.filters addObject:[@{ @"field" : [NSNumber numberWithInt:kBathroomsFilter],     @"value" : @"", @"name" : @"bathrooms" }mutableCopy]];
+    [self.filters addObject:[@{ @"field" : [NSNumber numberWithInt:kBrokerFeeFilter],     @"value" : [NSNumber numberWithBool:NO],  @"name" : @"brokerfee" }mutableCopy]];
+    [self.filters addObject:[@{ @"field" : [NSNumber numberWithInt:kMinCostFilter],       @"value" : @0,  @"name" : @"minCost" }mutableCopy]];
+    [self.filters addObject:[@{ @"field" : [NSNumber numberWithInt:kMaxCostFilter],       @"value" : @0,  @"name" : @"maxCost" }mutableCopy]];
+    [self.filters addObject:[@{ @"field" : [NSNumber numberWithInt:kShareFilter],         @"value" : [NSNumber numberWithBool:NO], @"name" : @"share" }mutableCopy]];
+    [self.filters addObject:[@{ @"field" : [NSNumber numberWithInt:kDogsFilter],          @"value" : [NSNumber numberWithBool:NO], @"name" : @"dogs" }mutableCopy]];
+    [self.filters addObject:[@{ @"field" : [NSNumber numberWithInt:kCatsFilter] ,         @"value" : [NSNumber numberWithBool:NO], @"name" : @"cats" }mutableCopy]];
+    [self.filters addObject:[@{ @"field" : [NSNumber numberWithInt:kOutdoorSpaceFilter],  @"value" : [NSNumber numberWithBool:NO], @"name" : @"outdoorSpace" }mutableCopy]];
+    [self.filters addObject:[@{ @"field" : [NSNumber numberWithInt:kWasherDryerFilter],   @"value" : [NSNumber numberWithBool:NO], @"name" : @"washerDryer" }mutableCopy]];
+    [self.filters addObject:[@{ @"field" : [NSNumber numberWithInt:kDoormanFilter],       @"value" : [NSNumber numberWithBool:NO], @"name" : @"doorman" }mutableCopy]];
+    [self.filters addObject:[@{ @"field" : [NSNumber numberWithInt:kPoolFilter],          @"value" : [NSNumber numberWithBool:NO], @"name" : @"pool" }mutableCopy]];
+    [self.filters addObject:[@{ @"field" : [NSNumber numberWithInt:kGymFilter],           @"value" : [NSNumber numberWithBool:NO], @"name" : @"gym" }mutableCopy]];
+    [self.filters addObject:[@{ @"field" : [NSNumber numberWithInt:kMoveInFilter],        @"value" : [NSDate dateWithTimeIntervalSince1970:0], @"name" : @"moveIndate" }mutableCopy]];
+
+}
+
 @end

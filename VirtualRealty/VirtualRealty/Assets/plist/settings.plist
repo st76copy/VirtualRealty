@@ -27,12 +27,20 @@
 		<string>Actively Looking</string>
 	</dict>
 	<dict>
+		<key>format</key>
+		<string>%0.2f miles</string>
+		<key>field</key>
+		<integer>51</integer>
+		<key>display-height</key>
+		<integer>100</integer>
+		<key>min</key>
+		<real>0.5</real>
+		<key>max</key>
+		<real>10</real>
 		<key>cell</key>
-		<string>AbstractCell</string>
-		<key>custom-action</key>
-		<string>testEmail</string>
+		<string>SliderCell</string>
 		<key>label</key>
-		<string>Test Email</string>
+		<string>Search Radius</string>
 	</dict>
 </array>
 </plist>

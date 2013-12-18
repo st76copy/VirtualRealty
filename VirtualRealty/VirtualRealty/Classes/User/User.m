@@ -52,8 +52,9 @@
     {
         _state = kNoUser;
         _facebookUser    = [NSNumber numberWithBool:NO];
-        self.minBedrooms = @0;
-        self.maxRent     = @0;
+        self.minBedrooms   = @0;
+        self.maxRent       = @0;
+        self.searchRadius  = @5;
         self.activelySearching = [NSNumber numberWithBool:YES];
         self.moveInAfter = [NSDate date];
         [self loadFromDefaults];

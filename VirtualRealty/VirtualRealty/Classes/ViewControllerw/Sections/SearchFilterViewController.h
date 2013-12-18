@@ -13,6 +13,7 @@
 @protocol SearchFilterDelegate <NSObject>
 
 -(void)filtersDoneWithOptions:(NSDictionary *)options;
+-(void)clearFilters;
 
 @end
 

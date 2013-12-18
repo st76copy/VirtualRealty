@@ -15,4 +15,5 @@
 -(id)getValueForField:(FormField)field;
 -(void)setFilter:(FormField)field withValue:(id)value;
 -(NSDictionary *)getActiveFilters;
+-(void)clear;
 @end
