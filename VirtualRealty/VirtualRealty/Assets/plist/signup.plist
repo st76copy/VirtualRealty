@@ -29,7 +29,7 @@
 			</dict>
 		</array>
 		<key>section-title</key>
-		<string>Register For Virtual Realty</string>
+		<string>Required</string>
 	</dict>
 	<dict>
 		<key>cells</key>
@@ -38,7 +38,7 @@
 				<key>custom-action</key>
 				<string>facebookLogin</string>
 				<key>label</key>
-				<string>Facebook</string>
+				<string>Facebook Login</string>
 				<key>class</key>
 				<string>FormCell</string>
 			</dict>
@@ -58,20 +58,69 @@
 				<string>SwitchCell</string>
 			</dict>
 			<dict>
+				<key>format</key>
+				<string>$%i</string>
+				<key>placeholder</key>
+				<string>$0</string>
 				<key>label</key>
 				<string>Max Rent</string>
 				<key>field</key>
 				<integer>41</integer>
 				<key>class</key>
-				<string>NumberInputCell</string>
+				<string>MoneyInputCell</string>
 			</dict>
 			<dict>
+				<key>placeholder</key>
+				<string>any</string>
 				<key>label</key>
 				<string>Minimum Bedrooms</string>
 				<key>field</key>
 				<integer>42</integer>
 				<key>class</key>
-				<string>NumberInputCell</string>
+				<string>TextCell</string>
+				<key>picker-index</key>
+				<integer>0</integer>
+				<key>picker-data</key>
+				<array>
+					<array>
+						<dict>
+							<key>label</key>
+							<string>1 Bedroom</string>
+							<key>value</key>
+							<string>1 Bedroom</string>
+						</dict>
+						<dict>
+							<key>label</key>
+							<string>2 Bedroom</string>
+							<key>value</key>
+							<string>2 Bedroom</string>
+						</dict>
+						<dict>
+							<key>label</key>
+							<string>3 Bedroom</string>
+							<key>value</key>
+							<string>3 Bedroom</string>
+						</dict>
+						<dict>
+							<key>label</key>
+							<string>4 Bedroom</string>
+							<key>value</key>
+							<string>4 Bedroom</string>
+						</dict>
+						<dict>
+							<key>label</key>
+							<string>5 Bedroom</string>
+							<key>value</key>
+							<string>5 Bedroom</string>
+						</dict>
+						<dict>
+							<key>label</key>
+							<string>More then 5</string>
+							<key>value</key>
+							<string>More then 5</string>
+						</dict>
+					</array>
+				</array>
 			</dict>
 			<dict>
 				<key>label</key>
@@ -83,7 +132,7 @@
 			</dict>
 		</array>
 		<key>section-title</key>
-		<string>Actively Searching</string>
+		<string>Optional</string>
 	</dict>
 	<dict>
 		<key>cells</key>

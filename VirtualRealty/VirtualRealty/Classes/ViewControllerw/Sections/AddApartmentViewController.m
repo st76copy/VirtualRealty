@@ -21,8 +21,11 @@
 #import "KeywordsViewController.h"
 #import "SectionTitleView.h"
 #import "LocationManager.h"
+#import "UIColor+Extended.h"
+#import <AVFoundation/AVFoundation.h>
+#import <MediaPlayer/MediaPlayer.h>
 
-@interface AddApartmentViewController ()<UIImagePickerControllerDelegate,UINavigationControllerDelegate, KeyWordDelegate, UIAlertViewDelegate, LocationManagerDelegate>
+@interface AddApartmentViewController ()<UIImagePickerControllerDelegate,UINavigationControllerDelegate, KeyWordDelegate, UIAlertViewDelegate, LocationManagerDelegate, UIActionSheetDelegate>
 -(void)handleListingComplete;
 -(void)animateToCell;
 -(id)getValueForFormField:(FormField)field;
@@ -57,6 +60,9 @@
         Section *section;
         Row     *row;
         
+        _listing = [[Listing alloc]initWithDefaults];
+        _listing.email = [User sharedUser].username;
+        
         for( NSDictionary *info in ref )
         {
             section = [[Section alloc]initWithTitle:[info valueForKey:@"section-title"]];
@@ -80,7 +86,9 @@
     CGRect rect = self.view.bounds;
     rect.size.height -= self.navigationController.navigationBar.frame.size.height;
     
-    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc]initWithTitle:@"Submit" style:UIBarButtonItemStyleDone target:self action:@selector(handleSubmitListing:)];
+   // self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc]initWithTitle:@"Submit" style:UIBarButtonItemStyleDone target:self action:@selector(handleSubmitListing:)];
+    
+    self.navigationItem.title = @"Add A Listing";
     
     _table = [[UITableView alloc]initWithFrame:rect style:UITableViewStyleGrouped];
     [_table setDataSource:self];
@@ -90,6 +98,26 @@
     [_table setSectionHeaderHeight:44.0f];
     [_table setSeparatorColor:[UIColor clearColor]];
     [self.view addSubview:_table];
+    
+    UIView *container = [[UIView alloc]initWithFrame:CGRectMake(0, 0, 320, 101)];
+    [container setBackgroundColor:[UIColor colorFromHex:@"cbd5d9"]];
+    
+    UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
+    [button setBackgroundImage:[UIImage imageNamed:@"footer-button-fill.png"] forState:UIControlStateNormal];
+    [button setTitle:@"Submit Listing" forState:UIControlStateNormal];
+    [button setTitleColor:[UIColor colorFromHex:@"cbd5d9"] forState:UIControlStateHighlighted];
+    [button addTarget:self action:@selector(handleSubmitListing:) forControlEvents:UIControlEventTouchUpInside];
+    [button sizeToFit];
+    
+    rect = button.frame;
+    rect.origin.x = 160 - button.frame.size.width * 0.5;
+    rect.origin.y = 40  - button.frame.size.height * 0.5;
+    button.frame = rect;
+    [container addSubview:button];
+    
+    self.table.backgroundColor = [UIColor colorFromHex:@"cbd5d9"];
+    self.table.tableFooterView = container;
+
 }
 
 -(void)viewDidAppear:(BOOL)animated
@@ -103,18 +131,10 @@
         return;
     }
     
-    
     [[KeyboardManager sharedManager]registerDelegate:self];
     [[PickerManager sharedManager]registerDelegate:self];
     
-    if( [User sharedUser].currentListing == nil )
-    {
-        _listing = [[Listing alloc]initWithDefaults];
-        _listing.email = [User sharedUser].username;
-        [User sharedUser].currentListing = self.listing;
-    }
-    
-    if(self.listing.street == nil )
+    if( self.listing.neighborhood == nil )
     {
         [self getLocation];
         AppDelegate *app = (AppDelegate *)[UIApplication sharedApplication].delegate;
@@ -144,20 +164,28 @@
     [app hideLoader];
     
     NSDictionary *address = [LocationManager shareManager].addressInfo;
-    NSDictionary *info = @{
-                           @"city" : address[@"City"],
-                           @"street" : address[@"FormattedAddressLines"][0],
-                           @"borough" : [(NSString *)address[@"FormattedAddressLines"][1] componentsSeparatedByString:@","][0],
-                           @"neighborhood" : address[@"SubLocality"],
-                           @"zip" : address[@"ZIP"],
-                           @"state" : address[@"State"]
-                           };
- 
-    NSString *addressString = [NSString stringWithFormat:@"%@\n%@, %@ %@", info[@"street"],info[@"borough"],info[@"state"],info[@"zip"]];
-    NSString *title         = @"Hello";
-    NSString *message       = [NSString stringWithFormat:@"Is this the appartment your trying to list\n%@", addressString];
-    UIAlertView *av         = [[UIAlertView alloc]initWithTitle:title message:message delegate:self cancelButtonTitle:@"No" otherButtonTitles:@"Yes",@"Almost", nil];
-    [av show];
+    
+    if( address == nil )
+    {
+        [[ErrorFactory getAlertForType:kListingGPSError andDelegateOrNil:nil andOtherButtons:nil]show];
+    }
+    else
+    {
+        NSDictionary *info = @{
+                               @"city" : address[@"City"],
+                               @"street" : address[@"FormattedAddressLines"][0],
+                               @"borough" : [(NSString *)address[@"FormattedAddressLines"][1] componentsSeparatedByString:@","][0],
+                               @"neighborhood" : address[@"SubLocality"],
+                               @"zip" : address[@"ZIP"],
+                               @"state" : address[@"State"]
+                               };
+        
+        NSString *addressString = [NSString stringWithFormat:@"%@\n%@, %@ %@", info[@"street"],info[@"borough"],info[@"state"],info[@"zip"]];
+        NSString *title         = @"Hello";
+        NSString *message       = [NSString stringWithFormat:@"Is this the appartment your trying to list\n%@", addressString];
+        UIAlertView *av         = [[UIAlertView alloc]initWithTitle:title message:message delegate:self cancelButtonTitle:@"No" otherButtonTitles:@"Yes",@"Almost", nil];
+        [av show];
+    }
 }
 
 -(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
@@ -181,13 +209,20 @@
             self.listing.neighborhood = info[@"neighborhood"];
             self.listing.zip = info[@"zip"];
             self.listing.geo = [[LocationManager shareManager].location copy];
+            self.listing.city = info[@"city"];
+            self.listing.state = info[@"state"];
+            
             [self.table reloadData];
+        
             break;
 
         case  2:
             self.listing.borough = info[@"borough"];
             self.listing.neighborhood = info[@"neighborhood"];
             self.listing.zip = info[@"zip"];
+            self.listing.city = info[@"city"];
+            self.listing.state = info[@"state"];
+            
             [self.table reloadData];
             break;
 }
@@ -255,12 +290,14 @@
     if( [KeyboardManager sharedManager].isShowing && [self isSameCell:indexPath] )
     {
         [[KeyboardManager sharedManager] close];
+        [self.table deselectRowAtIndexPath:indexPath animated:YES];
         return;
     }
     
     if( [PickerManager sharedManager].isShowing && [self isSameCell:indexPath] )
     {
         [[PickerManager sharedManager]hidePicker];
+        [self.table deselectRowAtIndexPath:indexPath animated:YES];
         return;
     }
 
@@ -303,6 +340,8 @@
             break;
             
         default:
+            [[PickerManager sharedManager]hidePicker];
+            [[KeyboardManager sharedManager]close];
         break;
     }
     [self.table deselectRowAtIndexPath:indexPath animated:YES];
@@ -449,7 +488,7 @@
             value = self.listing.washerDryer;
             break;
         case kVideo :
-            value = self.listing.videoName;
+            value = self.listing.videoFrame  ;
             break;
         case kThumbnail:
             value = self.listing.thumb;
@@ -514,7 +553,6 @@
             break;
         case kContactPhone:
             _listing.phone      = formcell.formValue;
-            NSLog(@"%@ ", _listing.phone);
             break;
         case kDogs:
             _listing.dogs         = [NSNumber numberWithFloat:[formcell.formValue floatValue]];
@@ -625,7 +663,6 @@
 #pragma mark - ui
 -(void)handleSubmitListing:(id)sender
 {
-    __block AppDelegate *delegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
     __block AddApartmentViewController *blockself = self;
     
     if( [ReachabilityManager sharedManager].currentStatus == NotReachable )
@@ -700,35 +737,82 @@
 
 -(void)handleCaptureMedia
 {
-    UIImagePickerController *imagePicker = [[UIImagePickerController alloc]init];
-    imagePicker.sourceType = UIImagePickerControllerSourceTypeCamera;
-    imagePicker.delegate   = self;
-
+    
+    NSString *title = @"Choose Media";
+    NSString *optionOne = nil;
+    NSString *optionTwo = nil;
+    
     switch (self.currentField)
     {
-        case kThumbnail:
-
-            imagePicker.mediaTypes        = @[(NSString *) kUTTypeImage];
-            imagePicker.cameraCaptureMode = UIImagePickerControllerCameraCaptureModePhoto;
-            break;
         case kVideo:
-            
-            imagePicker.mediaTypes        = @[(NSString *) kUTTypeMovie];
-            imagePicker.videoMaximumDuration = 60 * 1;
-            imagePicker.cameraCaptureMode = UIImagePickerControllerCameraCaptureModeVideo;
+            optionOne = @"Take a Video";
+            optionTwo = @"Choose from Library";
+            break;
+        case kThumbnail:
+            optionOne = @"Take a Photo";
+            optionTwo = @"Choose from Library";
             break;
         default:
             break;
     }
-    imagePicker.showsCameraControls = YES;
+    UIActionSheet *sheet = [[UIActionSheet alloc]initWithTitle:title delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:nil otherButtonTitles:optionOne, optionTwo, nil];
+    [sheet showInView:self.view];
+    
+}
+
+-(void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    if (buttonIndex == 2 )
+    {
+        return;
+    }
+    
+    UIImagePickerControllerSourceType type;
+    switch (self.currentField) {
+        case kThumbnail:
+            type = ( buttonIndex == 0 ) ? UIImagePickerControllerSourceTypeCamera : UIImagePickerControllerSourceTypePhotoLibrary;
+            break;
+        case kVideo:
+            type = ( buttonIndex == 0 ) ? UIImagePickerControllerSourceTypeCamera : UIImagePickerControllerSourceTypePhotoLibrary;
+            break;
+        default:
+            break;
+    }
+    
+    UIImagePickerController *imagePicker = [[UIImagePickerController alloc]init];
+    imagePicker.sourceType = type;
+    imagePicker.delegate   = self;
+    
+    switch (self.currentField)
+    {
+        case kThumbnail:
+            imagePicker.mediaTypes        = @[(NSString *) kUTTypeImage];
+            if( type == UIImagePickerControllerSourceTypeCamera )
+            {
+                imagePicker.cameraCaptureMode = UIImagePickerControllerCameraCaptureModePhoto;
+                imagePicker.showsCameraControls = YES;
+            }
+            break;
+        case kVideo:
+            imagePicker.mediaTypes        = @[(NSString *) kUTTypeMovie];
+            imagePicker.videoMaximumDuration = 60 * 1;
+            if( type == UIImagePickerControllerSourceTypeCamera )
+            {
+                imagePicker.cameraCaptureMode = UIImagePickerControllerCameraCaptureModeVideo;
+                imagePicker.showsCameraControls = YES;
+            }
+            break;
+        default:
+            break;
+    }
+
     [self presentViewController:imagePicker animated:YES completion:nil];
 }
 
 -(void)handleListingComplete
 {
     _listing = [[Listing alloc]initWithDefaults];
-    [User sharedUser].currentListing = _listing;
-    
+    _listing.email = [User sharedUser].username;
     [self.table reloadData];
     [self.table scrollToRowAtIndexPath:[NSIndexPath indexPathForItem:0 inSection:0] atScrollPosition:UITableViewScrollPositionTop animated:YES];
 }
@@ -740,20 +824,23 @@
     switch (self.currentField)
     {
         case kThumbnail:
-
             source = [info valueForKey:UIImagePickerControllerOriginalImage];
             self.listing.thumb = [Utils resizeImage:source toSize:CGSizeMake(source.size.width * 0.3, source.size.height * 0.3 )];
             break;
         case kVideo:
-            self.listing.videoName = self.listing.address;
-            self.listing.video = [NSData dataWithContentsOfURL:[info valueForKey:UIImagePickerControllerMediaURL]];
+        {
+            self.listing.videoName  = self.listing.address;
+            self.listing.video      = [NSData dataWithContentsOfURL:[info valueForKey:UIImagePickerControllerMediaURL]];
+            self.listing.videoFrame = [Utils getImagefromVideoURL:[info valueForKey:UIImagePickerControllerMediaURL]];
             break;
+        }
         default:
             break;
     }
     [self dismissViewControllerAnimated:YES completion:nil];
-    [self.table reloadData];
+    [self.table reloadRowsAtIndexPaths:@[self.currentIndexpath] withRowAnimation:UITableViewRowAnimationAutomatic];
 }
+
 
 -(void)imagePickerControllerDidCancel:(UIImagePickerController *)picker
 {
@@ -792,6 +879,11 @@
     [info setValue:[self getValueForFormField:[[info valueForKey:@"field"] intValue]] forKey:@"current-value"];
     [temp setCellinfo:info];
     [temp render];
+}
+
+-(void)dealloc
+{
+    NSLog(@"%@ deallocated ", [self class] );
 }
 
 @end

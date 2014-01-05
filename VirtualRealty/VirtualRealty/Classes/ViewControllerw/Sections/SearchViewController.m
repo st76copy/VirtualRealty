@@ -19,11 +19,16 @@
 #import "ListingCell.h"
 #import "LocationManager.h"
 #import "User.h"
+#import "SearchFilters.h"
+
 @interface SearchViewController ()<SearchFilterDelegate, UISearchBarDelegate, UITableViewDataSource, UITableViewDelegate, GMSMapViewDelegate,ToggleDelegate>
 {
     ListingCell *details;
     UIView *container;
 }
+
+@property(nonatomic, strong)SearchFilters *currentFilters;
+
 -(ListingCell *)getDetails:(Listing *)listing;
 -(void)handleMakeFilter:(id)sender;
 -(void)handleShowMap:(id)sender;
@@ -89,20 +94,23 @@
     [self.view addSubview:mapListToggle];
     UIBarButtonItem *filterButton = [[UIBarButtonItem alloc]initWithTitle:@"FILTER" style:UIBarButtonItemStyleBordered target:self action:@selector(handleMakeFilter:)];
     self.navigationItem.rightBarButtonItem = filterButton;
+    
+    AppDelegate *app = (AppDelegate *)[UIApplication sharedApplication].delegate;
+    
+    if( self.currentFilters == nil )
+    {
+        [app showLoaderInView:self.view];
+        __block SearchViewController *blockself = self;
+        [PFCloud  callFunctionInBackground:@"allListings" withParameters:[NSDictionary dictionary] block:^(id object, NSError *error)
+        {
+             [blockself handleDataLoaded:object];
+        }];
+    }
 }
 
 -(void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
-    
-    AppDelegate *app = (AppDelegate *)[UIApplication sharedApplication].delegate;
-    
-    [app showLoaderInView:self.view];
-    __block SearchViewController *blockself = self;
-    [PFCloud  callFunctionInBackground:@"allListings" withParameters:[NSDictionary dictionary] block:^(id object, NSError *error)
-    {
-         [blockself handleDataLoaded:object];
-    }];
 }
 
 -(void)toggleMenu
@@ -129,7 +137,7 @@
 
 -(void)handleMakeFilter:(id)sender
 {
-    SearchFilterViewController *filters =[[SearchFilterViewController alloc]initWithNibName:nil bundle:nil];
+    SearchFilterViewController *filters =[[SearchFilterViewController alloc]initWithFilterOrNil:self.currentFilters];
     filters.delegate = self;
     CustomNavViewController *nc = [[CustomNavViewController alloc ]initWithRootViewController:filters];
     filters.navigationItem.title = ([self.searchBar.text isEqualToString:@""]) ?  @"Filters" : [NSString stringWithFormat:@"Filters For %@", self.searchBar.text];
@@ -144,13 +152,17 @@
 
 
 #pragma mark - filter delegate
--(void)filtersDoneWithOptions:(NSDictionary *)options
+-(void)filtersDoneWithOptions:(SearchFilters *)filters
 {
-    if( options == nil )
+    
+    if( filters == nil )
     {
         [self dismissViewControllerAnimated:YES completion:nil];
         return;
     }
+    
+    self.currentFilters = filters;
+    NSDictionary *options = [self.currentFilters getActiveFilters];
     
     AppDelegate *app = (AppDelegate *)[UIApplication sharedApplication].delegate;
     [app showLoaderInView:self.view];
@@ -160,11 +172,22 @@
     
     if( self.searchBar.text && [self.searchBar.text isEqualToString:@""] == NO )
     {
-        params = @{@"filters" : options, @"keyword" : self.searchBar.text };
+        if( options )
+        {
+            params = @{@"filters" : options, @"keyword" : self.searchBar.text };
+        }
+        else
+        {
+            params = @{ @"keyword" : self.searchBar.text };
+        }
+        
     }
     else
     {
-        params = @{ @"filters" : options };
+        if( options )
+        {
+            params = @{ @"filters" : options };
+        }
     }
     
     __block SearchViewController *blockself = self;
@@ -173,7 +196,6 @@
     
     if( self.searchBar.text && [self.searchBar.text isEqualToString:@""] == NO )
     {
-        NSLog(@"%@ -- running search wiht term %@ ", self, self.searchBar.text);
         [[LocationManager shareManager]requestGeoFromString:[NSString stringWithFormat:@"%@, NYC",[self.searchBar.text lowercaseString]] block:^(CLLocationCoordinate2D loc, NSDictionary *results) {
             
             
@@ -191,7 +213,6 @@
     }
     else
     {
-        NSLog(@"%@ -- running search wiht filters only %@ ", self, params );
         [PFCloud callFunctionInBackground:@"search" withParameters:params block:^(id object, NSError *error)
         {
             if( error )
@@ -214,9 +235,9 @@
     [app showLoaderInView:self.view];
     __block SearchViewController *blockself = self;
     [PFCloud  callFunctionInBackground:@"allListings" withParameters:[NSDictionary dictionary] block:^(id object, NSError *error)
-     {
+    {
          [blockself handleDataLoaded:object];
-     }];
+    }];
 }
 
 
@@ -337,7 +358,7 @@
     CLLocationCoordinate2D southWest = CLLocationCoordinate2DMake(mostSouth, mostWest);
     GMSCoordinateBounds *bounds = [[GMSCoordinateBounds alloc]initWithCoordinate:northEast coordinate:southWest];
     
-    camera = [self.mapView cameraForBounds:bounds insets:UIEdgeInsetsMake(110, 10, 10, 10)];
+    camera = [self.mapView cameraForBounds:bounds insets:UIEdgeInsetsMake(110, 40, 10, 10)];
     [self.mapView setCamera:camera];
     [self.mapView startRendering];
 }
@@ -423,7 +444,6 @@
     CGRect rect = cell.frame;
     rect.origin.y = cell.frame.size.height * -1;
     cell.frame = rect;
-    [cell showCloseWithTarget:self andSEL:@selector(handleClosePanel:)];
 
     cell.layer.masksToBounds = NO;
     cell.layer.shadowOpacity = 0.5f;
@@ -431,6 +451,8 @@
     cell.layer.shadowOffset  = CGSizeMake(0, 5.0f);
     cell.layer.shadowColor   = [UIColor blackColor].CGColor;
     cell.layer.shadowPath    = [UIBezierPath bezierPathWithRect:cell.bounds].CGPath;
+    
+    
 
     return cell;
 }
@@ -486,6 +508,14 @@
     GMSCameraUpdate     *update = [GMSCameraUpdate fitBounds:bounds withEdgeInsets:UIEdgeInsetsMake(110, 10, 10, 10)];
     [self.mapView animateWithCameraUpdate:update];
     [self.mapView startRendering];
+}
+
+-(void)mapView:(GMSMapView *)mapView didTapAtCoordinate:(CLLocationCoordinate2D)coordinate
+{
+    if( details )
+    {
+        [self handleClosePanel:nil];
+    }
 }
 
 -(void)handleClosePanel:(id)sender

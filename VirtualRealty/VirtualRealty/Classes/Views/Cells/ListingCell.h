@@ -18,6 +18,7 @@
 @property(nonatomic, strong, readonly)UILabel     *stateLabel;
 @property(nonatomic, strong, readonly)UILabel     *addressLabel;
 @property(nonatomic, strong, readonly)UILabel     *listingDetailsLabel;
+@property(nonatomic, strong, readonly)UIActivityIndicatorView     *spinner;
 
 -(void)showCloseWithTarget:(id)target andSEL:( SEL )selector;
 

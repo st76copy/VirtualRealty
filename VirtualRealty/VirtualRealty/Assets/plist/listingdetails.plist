@@ -263,6 +263,8 @@
 				<string>TextCell</string>
 			</dict>
 			<dict>
+				<key>custom-action</key>
+				<string>handleCall</string>
 				<key>read-only</key>
 				<true/>
 				<key>default</key>

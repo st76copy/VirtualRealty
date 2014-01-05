@@ -25,6 +25,7 @@ typedef enum ErrorType
     kListingPendingError,
     kListingMediaError,
     kListingSavingError,
+    kListingGPSError,
     // form errors
     
     //media errors,

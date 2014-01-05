@@ -27,7 +27,7 @@ typedef void (^LoginInCompleteBlock) (BOOL success);
 @property(nonatomic, strong)NSNumber *activelySearching;
 @property(nonatomic, strong)NSNumber *maxRent;
 @property(nonatomic, strong)NSNumber *searchRadius;
-@property(nonatomic, strong)NSNumber *minBedrooms;
+@property(nonatomic, strong)NSString *minBedrooms;
 @property(nonatomic, strong)NSDate   *moveInAfter;
 
 

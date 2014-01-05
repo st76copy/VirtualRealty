@@ -12,13 +12,14 @@
 
 @protocol SearchFilterDelegate <NSObject>
 
--(void)filtersDoneWithOptions:(NSDictionary *)options;
+
+-(void)filtersDoneWithOptions:(SearchFilters *)filters;
 -(void)clearFilters;
 
 @end
 
 @interface SearchFilterViewController : UIViewController<UITableViewDataSource, UITableViewDelegate>
-
+-(id)initWithFilterOrNil:(SearchFilters *)filters;
 @property(nonatomic, weak)id<SearchFilterDelegate> delegate;
 @property(nonatomic, strong, readonly)NSMutableArray *tableData;
 @property(nonatomic, strong, readonly)UITableView    *table;

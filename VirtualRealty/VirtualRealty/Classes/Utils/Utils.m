@@ -7,6 +7,8 @@
 //
 
 #import "Utils.h"
+#import <MediaPlayer/MediaPlayer.h>
+#import <AVFoundation/AVFoundation.h>
 @interface Utils()
 {
     
@@ -168,6 +170,19 @@
         
     }
     return icon;
+}
+
++(UIImage *)getImagefromVideoURL:(NSURL *)url
+{
+    AVURLAsset *asset1 = [[AVURLAsset alloc] initWithURL:url options:nil];
+    AVAssetImageGenerator *generate1 = [[AVAssetImageGenerator alloc] initWithAsset:asset1];
+    generate1.appliesPreferredTrackTransform = YES;
+   
+    NSError *err      = NULL;
+    CMTime time       = CMTimeMake(1, 2);
+    CGImageRef oneRef = [generate1 copyCGImageAtTime:time actualTime:NULL error:&err];
+    UIImage *image    = [[UIImage alloc] initWithCGImage:oneRef];
+    return image;
 }
 
 @end

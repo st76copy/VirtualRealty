@@ -22,4 +22,6 @@
 
 @property(nonatomic, strong, readonly)NSString *username;
 @property(nonatomic, strong, readonly)NSString *password;
+
+- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil andState:(LoginFormState)state;
 @end

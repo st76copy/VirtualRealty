@@ -19,6 +19,7 @@
 #import <MessageUI/MessageUI.h>
 #import "SocialLifeViewController.h"
 #import "SectionTitleView.h"
+#import "UIColor+Extended.h"
 
 @interface ListingDetailViewController ()<UIAlertViewDelegate, MFMailComposeViewControllerDelegate>
 
@@ -32,6 +33,7 @@
 -(void)handleDeleteComplete;
 -(void)handlePlayVideo;
 -(void)handleVideoDataLoaded;
+-(void)handleCall;
 @end
 
 @implementation ListingDetailViewController
@@ -61,6 +63,8 @@
     rect.size.height -= self.navigationController.navigationBar.frame.size.height;
     
     _table = [[UITableView alloc]initWithFrame:rect style:UITableViewStyleGrouped];
+    self.table.backgroundColor = [UIColor colorFromHex:@"cbd5d9"];
+    
     [_table setDataSource:self];
     [_table setDelegate:self];
     [_table setSeparatorColor:[UIColor clearColor]];
@@ -169,6 +173,11 @@
     cell.indexPath = indexPath;
     cell.cellinfo = info;
     [cell render];
+    
+    if( cell.cellinfo[@"custom-action"])
+    {
+        cell.selectionStyle = UITableViewCellSelectionStyleGray;
+    }
     
     return cell;
 }
@@ -443,6 +452,11 @@
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
+-(void)handleCall
+{
+    NSString *phoneNumber = [@"telprompt://" stringByAppendingString:self.listing.phone];
+    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:phoneNumber]];
+}
 
 
 @end

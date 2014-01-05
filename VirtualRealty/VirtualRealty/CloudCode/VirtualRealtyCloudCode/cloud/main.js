@@ -365,79 +365,100 @@ Parse.Cloud.define("search", function(request, response)
 {
 	var Listing = Parse.Object.extend("Listing");
 	var query   = new Parse.Query(Listing);
+	query.equalTo( "listingState", 1 );
 	
 	if( request.params.distance != undefined )
 	{
 		var dist = request.params.distance;
 		var loc = new Parse.GeoPoint( request.params.latt, request.params.long );
 		query.withinMiles("location", loc, dist);
-		query.equalTo( "listingState", 1 );
 	}
 	
-	if( request.params.filters )
+	if( request.params["filters"] != undefined )
 	{
-		var minPrice = (request.params.filters["minCost"] != undefined) ? request.params.filters["minCost"]["value"] : null;
-		var maxPrice = (request.params.filters["maxCost"] != undefined) ? request.params.filters["maxCost"]["value"] : null;
+		var minPrice = (request.params.filters["minCost"] != undefined) ? request.params["filters"]["minCost"]["value"] : null;
+		var maxPrice = (request.params.filters["maxCost"] != undefined) ? request.params["filters"]["maxCost"]["value"] : null;
 	
-		console.log( "Searching min price : " + minPrice );
-		console.log( "Searching max price : " + maxPrice );
-	
-		if( request.params.filters.borough != undefined )
+		
+		if( minPrice != null )
 		{
-			query.equalTo( "borough",   request.params.filters.borough);
+			console.log( "Searching min price ------ " + minPrice );
+			query.greaterThanOrEqualTo("monthlyCost", minPrice );	
 		}
 		
-		if( request.params.filters.neighborhood != undefined )
+		if( maxPrice != null )
 		{
-			query.equalTo( "neighborhood",   request.params.filters.neighborhood);
+			console.log( "Searching max price -------- " + maxPrice );
+			query.lessThanOrEqualTo("monthlyCost", maxPrice );	
+		}
+	
+		if( request.params["filters"]["borough"] != undefined )
+		{
+			query.equalTo( "borough", request.params["filters"]["borough"]["value"].toString() );
+		}
+		
+		if( request.params["filters"]["neighborhood"] != undefined )
+		{
+			query.equalTo( "neighborhood", request.params["filters"]["neighborhood"]["value"].toString() );
+		}
+		
+		if( request.params["filters"]["share"] != undefined )
+		{
+			query.equalTo( "share",   request.params.filters.share.value);
+		}
+		
+		if( request.params["filters"]["dogs"] != undefined )
+		{
+			query.equalTo( "dogs",   request.params.filters.dogs.value);
+		}
+		
+		if( request.params["filters"]["cats"] != undefined )
+		{
+			query.equalTo( "cats",   request.params.filters.cats.value);
+		}
+		
+		if( request.params.filters.outdoorSpace != undefined )
+		{
+			query.equalTo( "outdoorSpace",   request.params.filters.outdoorSpace.value);
+		}
+		
+		if( request.params.filters.washerDryer != undefined )
+		{
+			query.equalTo( "washerDryer",   request.params.filters.washerDryer.value);
+		}
+		
+		if( request.params.filters.doorman != undefined )
+		{
+			query.equalTo( "doorman",   request.params.filters.doorman.value);
+		}
+		
+		if( request.params.filters.pool != undefined )
+		{
+			query.equalTo( "pool",   request.params.filters.pool.value);
+		}
+		
+		if( request.params.filters.gym != undefined )
+		{
+			query.equalTo( "gym",   request.params.filters.gym.value);
 		}
 	}
 	
 	
-	
-	var boolArray = ["share", "dogs", "cats", "outdoorSpace", "washerDryer", "doorman", "pool", "gym"];
-	
-	if( request.params.filters )
-	{
-		if( minPrice )
-		{
-			console.log( "Set monthlyCost price : " + minPrice );
-			query.greaterThan("monthlyCost", minPrice);
-		}
-		
-		if( maxPrice )
-		{ 
-			query.lessThan("monthlyCost", maxPrice);	
-		}
-		
-		
-		for( var key in request.params.filters )
-		{
-			if( key != "minCost" && key != "maxCost" )
-			{
-				query.equalTo(key, request.params.filters[key]["value"] );
-			}
-		}
-	}
-	
-	function contains(key)
-	{
-		var exists = false;
-		var flag;
-		
-		for(  var i = 0; i < boolArray.count; i ++ )
-		{
-			flag = boolArray[i];
-			if( flag == key )
-			{
-				exists = true;	
-			}
-		}
-		return exists;
-	}
-	
-	query.equalTo( "listingState", 1 );
 	query.descending("createdAt");
+	
+	
+	console.log( "Searching with :---------------------  "  ); 
+	
+	for( var string in query.toJSON() )
+	{
+		console.log( "key : " + string + " value : " +  query.toJSON()[string] );
+		for( var key in query.toJSON()[string] )
+		{
+			console.log( "    sub key : " + string + " value : " +  query.toJSON()[string][key] ); 
+		}
+	}
+	
+	console.log( "End Searching with :---------------------  "  ); 
 	
 	query.find({
 		success: function(results) 
@@ -449,11 +470,5 @@ Parse.Cloud.define("search", function(request, response)
    			alert("Error: " + error.code + " " + error.message);
   		}
 	});
-	
-	
-	function listingsLoaded( listings ) 
-	{
-
-	}
 	
 });

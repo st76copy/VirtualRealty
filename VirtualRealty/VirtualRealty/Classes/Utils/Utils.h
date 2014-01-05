@@ -35,4 +35,5 @@
 +(BOOL)isValidEmail:(NSString *)checkString;
 +(BOOL)isValidPassword:(NSString *)checkString;
 +(UIImage *)getIconForBusinessTypes:(NSArray *)value;
++(UIImage *)getImagefromVideoURL:(NSURL *)url;
 @end

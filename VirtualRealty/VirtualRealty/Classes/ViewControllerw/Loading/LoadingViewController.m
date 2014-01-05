@@ -26,7 +26,9 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-	// Do any additional setup after loading the view.
+    UIImage *img = [UIImage imageNamed:@"Default-586.png"];
+    UIImageView *imgView = [[UIImageView alloc]initWithImage:img];
+    [self.view addSubview:imgView];
 }
 
 - (void)didReceiveMemoryWarning

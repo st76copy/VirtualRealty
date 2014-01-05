@@ -12,7 +12,7 @@
 @property(nonatomic, strong, readonly)UIView         *container;
 @property(nonatomic, strong, readonly)UIDatePicker   *datePicker;
 @property(nonatomic, strong, readonly)UIPickerView   *standardPicker;
-@property(nonatomic, strong, readonly)NSMutableArray *delegates;
+@property(nonatomic, strong, readonly)NSHashTable    *delegates;
 @property(nonatomic, assign, readonly)BOOL            isShowing;
 
 @property(nonatomic, strong)NSArray      *pickerData;

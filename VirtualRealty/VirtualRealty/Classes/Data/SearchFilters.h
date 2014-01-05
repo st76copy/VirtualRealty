@@ -10,7 +10,7 @@
 
 @interface SearchFilters : NSObject
 @property(nonatomic, strong, readonly)NSMutableArray *filters;
-
+@property(nonatomic, assign, readonly)BOOL            isDefault;
 -(id)initWithDefaults;
 -(id)getValueForField:(FormField)field;
 -(void)setFilter:(FormField)field withValue:(id)value;

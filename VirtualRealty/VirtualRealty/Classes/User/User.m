@@ -52,7 +52,7 @@
     {
         _state = kNoUser;
         _facebookUser    = [NSNumber numberWithBool:NO];
-        self.minBedrooms   = @0;
+        self.minBedrooms   = nil;
         self.maxRent       = @0;
         self.searchRadius  = @5;
         self.activelySearching = [NSNumber numberWithBool:YES];
@@ -70,7 +70,7 @@
     _password     = [defaults valueForKey:@"password"];
     _facebookUser = [defaults valueForKey:@"facebookUser"];
     
-    self.minBedrooms = ([defaults valueForKey:@"minBedrooms"] ) ? [defaults valueForKey:@"minBedrooms"] : @0;
+    self.minBedrooms = ([defaults valueForKey:@"minBedrooms"] ) ? [defaults valueForKey:@"minBedrooms"] : nil;
     self.maxRent     = ([defaults valueForKey:@"maxRent"])?[defaults valueForKey:@"maxRent"] : @0;
     self.moveInAfter = ([defaults valueForKey:@"moveInAfter"]) ? [defaults valueForKey:@"moveInAfter"] : [NSDate date];
     self.activelySearching = ([defaults valueForKey:@"activelySearching"])?[defaults valueForKey:@"activelySearching"] : [NSNumber numberWithBool:NO];
@@ -246,16 +246,21 @@
     __block User *blockself = self;
 
     _facebookUser = [NSNumber numberWithBool:YES];
+    
     [user setValue:self.moveInAfter  forKey:@"moveInAfter"];
-    [user setValue:self.minBedrooms  forKey:@"minBedrooms"];
+    
+    if( self.minBedrooms )
+    {
+        [user setValue:self.minBedrooms  forKey:@"minBedrooms"];
+    }
+    
     [user setValue:self.maxRent      forKey:@"maxRent"];
     [user setValue:self.activelySearching  forKey:@"activelySearching"];
-    
     [user setValue:self.facebookUser forKey:@"facebookUser"];
  
     if( user.email == nil )
     {
-        user.email    = self.username;
+        user.email = self.username;
     }
     
     _facebookUser = [NSNumber numberWithBool:YES];

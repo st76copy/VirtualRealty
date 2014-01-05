@@ -6,6 +6,8 @@
 		<key>cells</key>
 		<array>
 			<dict>
+				<key>temp-image</key>
+				<string>add-video-temp.png</string>
 				<key>display-height</key>
 				<integer>127</integer>
 				<key>field</key>
@@ -27,6 +29,8 @@
 		<key>cells</key>
 		<array>
 			<dict>
+				<key>temp-image</key>
+				<string>cover-image-temp.png</string>
 				<key>display-height</key>
 				<integer>127</integer>
 				<key>field</key>
@@ -351,7 +355,7 @@
 				<key>current-value</key>
 				<string>New York</string>
 				<key>class</key>
-				<string>TextCell</string>
+				<string>TextInputCell</string>
 				<key>picker-index</key>
 				<integer>0</integer>
 				<key>picker-data</key>
@@ -592,7 +596,7 @@
 				<key>label</key>
 				<string>State</string>
 				<key>class</key>
-				<string>TextCell</string>
+				<string>TextInputCell</string>
 				<key>read-only</key>
 				<true/>
 			</dict>

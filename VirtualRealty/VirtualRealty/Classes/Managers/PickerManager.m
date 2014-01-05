@@ -11,7 +11,7 @@
 
 -(void)changeDateInLabel:(id)sender;
 -(void)doneTouched:(id)sender;
-
+-(void)cancelTouched:(id)sender;
 @end;
 
 
@@ -40,7 +40,7 @@
     self = [super init];
     if( self != nil )
     {
-        _delegates = [NSMutableArray array];
+        _delegates = [NSHashTable weakObjectsHashTable  ];
         _container = [[UIView alloc]initWithFrame:CGRectMake(0, 0, 320, 294)];
         [self.container setBackgroundColor:[UIColor whiteColor]];
         UINavigationBar *bar = [[UINavigationBar alloc]  initWithFrame:CGRectMake(0, 0, 320, 44)];
@@ -49,6 +49,10 @@
         [done sizeToFit];
         [done addTarget:self action:@selector(doneTouched:) forControlEvents:UIControlEventTouchUpInside];
         
+        UIButton    *cancel = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+        [cancel setTitle:@"Cancel" forState:UIControlStateNormal];
+        [cancel sizeToFit];
+        [cancel addTarget:self action:@selector(cancelTouched:) forControlEvents:UIControlEventTouchUpInside];
         [self.container addSubview:bar];
         
         CGRect rect = done.frame;
@@ -56,6 +60,12 @@
         rect.origin.y = bar.frame.size.height * 0.5 - done.frame.size.height * 0.5;
         done.frame = rect;
         [self.container addSubview:done];
+        
+        rect = cancel.frame;
+        rect.origin.x = 5;
+        rect.origin.y = bar.frame.size.height * 0.5 - done.frame.size.height * 0.5;
+        cancel.frame = rect;
+        [self.container addSubview:cancel];
         
         _datePicker = [[UIDatePicker alloc]initWithFrame:CGRectMake(0, 44, 320, 250)];
         _standardPicker = [[UIPickerView alloc]initWithFrame:CGRectMake(0, 44, 320, 250)];
@@ -156,20 +166,23 @@
 
 -(void)hidePicker
 {
-    CGRect rect = self.container.frame;
-    rect.origin.y = [self.container superview].frame.size.height;
-    
-    [UIView animateWithDuration:0.4 animations:^{
-        [self.container setFrame:rect ];
-    }completion:^(BOOL finished) {
-        [self.container removeFromSuperview];
-    }];
-    
-    for( id<PickerManagerDelegate> obj in self.delegates )
+    if( self.isShowing )
     {
-        [obj pickerWillHide];
+        CGRect rect = self.container.frame;
+        rect.origin.y = [self.container superview].frame.size.height;
+        
+        [UIView animateWithDuration:0.4 animations:^{
+            [self.container setFrame:rect ];
+        }completion:^(BOOL finished) {
+            [self.container removeFromSuperview];
+        }];
+        
+        for( id<PickerManagerDelegate> obj in self.delegates )
+        {
+            [obj pickerWillHide];
+        }
+        _isShowing = NO;
     }
-    _isShowing = NO;
 }
 
 -(void)registerDelegate:( id<PickerManagerDelegate> )object
@@ -227,6 +240,11 @@
     {
         [obj pickerDone];
     }
+}
+
+-(void)cancelTouched:(id)sender
+{
+    [self hidePicker];
 }
 
 @end

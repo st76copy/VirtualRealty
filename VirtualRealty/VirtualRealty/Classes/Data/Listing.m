@@ -44,8 +44,6 @@
         self.pool         = [NSNumber numberWithBool:NO];
         self.brokerfee    = [NSNumber numberWithFloat:0.00f];
         self.listingState = [NSNumber numberWithInt:kPending];
-        self.state        = @"NY";
-        self.city         = @"New York";
     }
     return  self;
 }
@@ -248,7 +246,7 @@
     unsigned int propertyCount = 0;
     objc_property_t * properties = class_copyPropertyList([self class], &propertyCount);
     
-    NSArray *ommissionList = @[@"errors", @"geo", @"thumb", @"saveCompleteBlock", @"video", @"videoURL", @"keywords"];
+    NSArray *ommissionList = @[@"errors", @"geo", @"thumb", @"saveCompleteBlock", @"video", @"videoURL", @"keywords", @"videoFrame"];
     NSString *key = nil;
     NSMutableDictionary *temp = [NSMutableDictionary dictionary];
     
@@ -286,7 +284,7 @@
 -(void)savePhoto
 {
     __block Listing *blocklisting = self;
-    NSData *imageData      = UIImageJPEGRepresentation(self.thumb, 0.05f);
+    NSData *imageData      = UIImageJPEGRepresentation(self.thumb, 1.0f);
     __block NSString *name = self.objectId;
     
     PFFile *imageFile = [PFFile fileWithName:[NSString stringWithFormat:@"%@%@", name, @".jpg"] data:imageData];

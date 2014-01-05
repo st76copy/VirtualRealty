@@ -17,7 +17,7 @@
     if( self != nil )
     {
         _filters = [NSMutableArray array];
-        
+        _isDefault = YES;
         [self.filters addObject:[@{ @"field" : [NSNumber numberWithInt:kBoroughFilter],       @"value" : @"", @"name" : @"borough" } mutableCopy]];
         [self.filters addObject:[@{ @"field" : [NSNumber numberWithInt:kNeightborhoodFilter], @"value" : @"", @"name" : @"neighborhood" } mutableCopy]];
         [self.filters addObject:[@{ @"field" : [NSNumber numberWithInt:kBedroomsFilter],      @"value" : @"", @"name" : @"bedrooms" }mutableCopy]];
@@ -47,6 +47,7 @@
             [info setValue:value forKey:@"value"];
         }
     }
+    _isDefault = NO;
 }
 
 -(id)getValueForField:(FormField)field

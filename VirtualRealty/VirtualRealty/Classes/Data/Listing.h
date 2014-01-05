@@ -68,6 +68,7 @@ typedef void (^LoadMediaBlock) (BOOL success);
 @property(nonatomic, strong)NSString *videoName;
 @property(nonatomic, strong)NSArray  *keywords;
 @property(nonatomic, strong, readonly)NSURL *videoURL;
+@property(nonatomic, strong)UIImage *videoFrame;
 
 
 // extended properties

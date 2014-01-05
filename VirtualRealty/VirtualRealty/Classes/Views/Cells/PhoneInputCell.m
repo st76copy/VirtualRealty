@@ -55,14 +55,15 @@
             self.inputField.text = [NSString stringWithFormat:@"%@-%@",self.inputField.text, string ];
             self.formValue = self.inputField.text;
             [self.formDelegate cell:self didChangeForField:[[self.cellinfo valueForKey:@"field"]intValue]];
-            
             return NO;
             break;
         case 12:
+            self.formValue = self.inputField.text;
+            [self.formDelegate cell:self didChangeForField:[[self.cellinfo valueForKey:@"field"]intValue]];
             return NO;
             break;
         default:
-            self.formValue = self.inputField.text;
+            self.formValue = [NSString stringWithFormat:@"%@%@",self.inputField.text, string ];
             [self.formDelegate cell:self didChangeForField:[[self.cellinfo valueForKey:@"field"]intValue]];
             return YES;
             break;

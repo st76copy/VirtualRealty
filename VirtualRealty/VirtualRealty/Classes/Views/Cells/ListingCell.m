@@ -18,6 +18,7 @@
 @synthesize addressLabel        = _addressLabel;
 @synthesize listingDetailsLabel = _listingDetailsLabel;
 @synthesize stroke              = _stroke;
+@synthesize spinner             = _spinner;
 
 -(id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {
@@ -27,6 +28,8 @@
         _thumb = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, 320, 125)];
         [self.thumb setContentMode:UIViewContentModeScaleAspectFill];
         [self.thumb setClipsToBounds:YES];
+        [self.thumb setBackgroundColor:[UIColor colorFromHex:@"e6e6e6"]];
+        
         [self.contentView addSubview:self.thumb];
         
         _stateLabel = [[UILabel alloc]initWithFrame:CGRectZero];
@@ -47,10 +50,16 @@
         
         _stroke = [[UIView alloc]initWithFrame:CGRectMake(0, 186, 181, 2)];
         [_stroke setBackgroundColor:[UIColor colorFromHex:@"c77732"]];
-         
-         [self.contentView addSubview:self.addressLabel];
-         [self.contentView addSubview:self.listingDetailsLabel];
-         [self.contentView addSubview:self.stroke];
+        
+        _spinner = [[UIActivityIndicatorView alloc]initWithFrame:CGRectMake(0, 0, 20, 20)];
+        _spinner.activityIndicatorViewStyle = UIActionSheetStyleBlackTranslucent;
+        _spinner.center = self.thumb.center;
+        [self.contentView addSubview:_spinner];
+        
+        
+        [self.contentView addSubview:self.addressLabel];
+        [self.contentView addSubview:self.listingDetailsLabel];
+        [self.contentView addSubview:self.stroke];
     }
     return self;
 }
@@ -60,7 +69,6 @@
 {
     [super prepareForReuse];
     self.thumb.image = nil;
-
 }
 
 -(void)layoutSubviews
@@ -88,6 +96,8 @@
 
 -(void)render
 {
+    [self.spinner setHidden:NO];
+    [self.spinner startAnimating];
     __block ListingCell *blockself = self;
     
     self.addressLabel.text = self.listing.street;
@@ -103,13 +113,26 @@
             CGSize size  = blockself.listing.thumb.size;
             UIImage *img = [Utils resizeImage:blockself.listing.thumb toSize:CGSizeMake(size.width * 0.3, size.height * 0.3)];
             blockself.thumb.image = img;
+            [blockself.spinner stopAnimating];
+            [blockself.spinner setHidden:YES];
+            blockself.thumb.alpha = 0.0f;
+            [UIView animateWithDuration:0.3 animations:^{
+                blockself.thumb.alpha = 1.0f;
+            }];
         }];
+        
     }
     else
     {
+        [blockself.spinner setHidden:YES];
         CGSize size  = blockself.listing.thumb.size;
         UIImage *img = [Utils resizeImage:blockself.listing.thumb toSize:CGSizeMake(size.width * 0.3, size.height * 0.3)];
         self.thumb.image = img;
+        blockself.thumb.alpha = 0.0f;
+        [UIView animateWithDuration:0.3 animations:^{
+            blockself.thumb.alpha = 1.0f;
+        }];
+
     }
     self.selectionStyle = UITableViewCellSelectionStyleNone;
 }

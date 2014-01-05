@@ -14,7 +14,9 @@
 #import "User.h"
 #import "KeyboardManager.h"
 #import "PickerManager.h"
+#import "SectionTitleView.h"
 #import "NSDate+Extended.h"
+#import "UIColor+Extended.h"
 
 @interface LoginViewController ()<FormCellDelegate,KeyboardManagerDelegate,PickerManagerDelegate>
 
@@ -57,29 +59,86 @@
     return self;
 }
 
+- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil andState:(LoginFormState)state
+{
+    self = [self initWithNibName:nil bundle:nil];
+    if (self)
+    {
+        _state = state;
+    }
+    return self;
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor whiteColor];
-    self.navigationItem.title = NSLocalizedString(@"Login", @"Generic title : Login / Signup Screen");
     
-    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc]initWithTitle:@"Log In" style:UIBarButtonItemStyleDone target:self action:@selector(handleLoginTouch:)];
-   
+    NSString *title = ( self.state == kLogin ) ?  @"Log In" : @"Sign Up";
+    self.navigationItem.title = title;
+    
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc]initWithTitle:@"Cancel" style:UIBarButtonItemStyleDone target:self action:@selector(handleCancelTouch:)];
-    
+    self.navigationController.navigationBar.translucent = NO;
     CGRect rect = self.view.bounds;
+    rect.size.height -= self.navigationController.navigationBar.frame.size.height;
+    
     _loginTabel = [[UITableView alloc]initWithFrame:rect style:UITableViewStyleGrouped];
     [_loginTabel setDataSource:self];
     [_loginTabel setDelegate:self];
-    [_loginTabel setContentInset:UIEdgeInsetsMake(44, 0, 0, 0)];
+    [_loginTabel setSectionFooterHeight:0.0f];
+    [_loginTabel setSectionHeaderHeight:44.0f];
+    [_loginTabel setSeparatorColor:[UIColor clearColor]];
+    //[_loginTabel setContentInset:UIEdgeInsetsMake(44, 0, 0, 0)];
     [self.view addSubview:_loginTabel];
 
     _signupTabel = [[UITableView alloc]initWithFrame:rect style:UITableViewStyleGrouped];
     [_signupTabel setDataSource:self];
     [_signupTabel setDelegate:self];
-    [_signupTabel setContentInset:UIEdgeInsetsMake(-20, 0, 0, 0)];
+    [_signupTabel setSectionFooterHeight:0.0f];
+    [_signupTabel setSectionHeaderHeight:44.0f];
+    [_signupTabel setSeparatorColor:[UIColor clearColor]];
+    
+    
+    UIView *container = [[UIView alloc]initWithFrame:CGRectMake(0, 0, 320, 101)];
+    [container setBackgroundColor:[UIColor colorFromHex:@"cbd5d9"]];
+    UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
+    [button setBackgroundImage:[UIImage imageNamed:@"footer-button-fill.png"] forState:UIControlStateNormal];
+    [button setTitle:@"Register" forState:UIControlStateNormal];
+    [button setTitleColor:[UIColor colorFromHex:@"cbd5d9"] forState:UIControlStateHighlighted];
+    [button addTarget:self action:@selector(handleLoginTouch:) forControlEvents:UIControlEventTouchUpInside];
+    [button sizeToFit];
+    rect = button.frame;
+    rect.origin.x = 160 - button.frame.size.width * 0.5;
+    rect.origin.y = 40  - button.frame.size.height * 0.5;
+    button.frame = rect;
+    [container addSubview:button];
+    
+    _signupTabel.backgroundColor = [UIColor colorFromHex:@"cbd5d9"];
+    _signupTabel.tableFooterView = container;
+    
+    container = [[UIView alloc]initWithFrame:CGRectMake(0, 0, 320, 101)];
+    [container setBackgroundColor:[UIColor colorFromHex:@"cbd5d9"]];
+    button = [UIButton buttonWithType:UIButtonTypeCustom];
+    [button setBackgroundImage:[UIImage imageNamed:@"footer-button-fill.png"] forState:UIControlStateNormal];
+    [button setTitle:@"Log In" forState:UIControlStateNormal];
+    [button setTitleColor:[UIColor colorFromHex:@"cbd5d9"] forState:UIControlStateHighlighted];
+    [button addTarget:self action:@selector(handleLoginTouch:) forControlEvents:UIControlEventTouchUpInside];
+    [button sizeToFit];
+    rect = button.frame;
+    rect.origin.x = 160 - button.frame.size.width * 0.5;
+    rect.origin.y = 40  - button.frame.size.height * 0.5;
+    button.frame = rect;
+    [container addSubview:button];
+    _loginTabel.backgroundColor = [UIColor colorFromHex:@"cbd5d9"];
+    _loginTabel.tableFooterView = container;
+
     [self.view addSubview:_signupTabel];
-    [self.view sendSubviewToBack:self.signupTabel];
+    
+    if( _state == kLogin )
+    {
+        [self.view sendSubviewToBack:self.signupTabel];
+    }
+    
     
     _loadingView = [[LoadingView alloc]initWithFrame:self.view.frame];
     
@@ -98,7 +157,7 @@
 }
 
 
-
+#pragma mark - table
 -(NSInteger )tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     NSDictionary *sectionInfo = ( _state == kLogin ) ? [_loginArray objectAtIndex:section] : [_signupArray objectAtIndex:section];
@@ -109,6 +168,11 @@
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
     return ( _state == kLogin ) ? _loginArray.count : _signupArray.count;
+}
+
+-(float)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return 38.0f;
 }
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -131,7 +195,7 @@
     cell.formDelegate = self;
     cell.cellinfo     = info;
     [cell render];
- 
+    cell.selectionStyle = UITableViewCellSelectionStyleGray;
     return cell;
 }
 
@@ -140,45 +204,47 @@
     
     FormCell *cell  = (FormCell*)[tableView cellForRowAtIndexPath:indexPath];
     FormField field = [[cell.cellinfo valueForKey:@"field"]intValue];
-   
+    
     if( [KeyboardManager sharedManager].isShowing && [self isSameCell:indexPath] )
     {
         [[KeyboardManager sharedManager] close];
+        [tableView deselectRowAtIndexPath:indexPath animated:YES];
         return;
     }
     
     if( [PickerManager sharedManager].isShowing && [self isSameCell:indexPath] )
     {
         [[PickerManager sharedManager]hidePicker];
+        [tableView deselectRowAtIndexPath:indexPath animated:YES];
         return;
     }
     
     if( [cell.cellinfo valueForKey:@"field"] && self.currentField != [[cell.cellinfo valueForKey:@"field"] intValue])
     {
         _currentField      = [[cell.cellinfo valueForKey:@"field"]intValue];
-    }
-    
-    if( [self isSameCell:indexPath] == NO || _currentIndexPath == nil)
-    {
-        _currentIndexPath = indexPath;
+        _currentIndexPath  = indexPath;
     }
     
     switch (field)
     {
         case kEmail:
         case kPassword:
+        case kUserMaxRent:
+            [[PickerManager sharedManager]hidePicker];
             [cell setFocus];
             break;
         case kUserActivelyLooking:
+            [[PickerManager sharedManager]hidePicker];
+            [[KeyboardManager sharedManager]close];
             break;
         case kUserMovinDate:
             [PickerManager sharedManager].type = kDate;
             [[PickerManager sharedManager]showPickerInView:self.view];
             break;
         case kUserMinBedrooms:
-        case kUserMaxRent:
-            [cell setFocus];
-            [self animateToCell];
+            [PickerManager sharedManager].type = kStandard;
+            [PickerManager sharedManager].pickerData = cell.cellinfo[@"picker-data"];
+            [[PickerManager sharedManager]showPickerInView:self.view];
             break;
             
         default:
@@ -191,8 +257,7 @@
         SEL sel = NSSelectorFromString([cell.cellinfo valueForKey:@"custom-action"]);
         [self performSelector:sel];
     }
-    
-    
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 
 -(NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
@@ -201,6 +266,27 @@
     return [sectionInfo valueForKey:@"section-title"];
 }
 
+
+
+-(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
+{
+    NSDictionary *sectionInfo = ( _state == kLogin ) ? [_loginArray objectAtIndex:section] : [_signupArray objectAtIndex:section];
+    NSString *title                = [sectionInfo valueForKey:@"section-title"];
+    SectionTitleView *sectionTitle = [[SectionTitleView alloc]initWithTitle:title];
+    return sectionTitle;
+}
+
+-(float)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
+{
+    return 44;
+}
+
+-(float)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
+{
+    return 0;
+}
+
+#pragma mark - form delegates
 -(void)cell:(FormCell *)cell didStartInteract:(FormField)field
 {
     if( [self isSameCell:cell.indexPath] == NO )
@@ -216,13 +302,10 @@
     UITableView *view = ( self.state == kLogin ) ? self.loginTabel : self.signupTabel;
     FormCell *c = (FormCell *)[view cellForRowAtIndexPath:self.currentIndexPath];
     
-    NSLog(@"%@  did change %@ for field %i ", self,c, field);
-    
     switch (field)
     {
         case kEmail:
             _username = c.formValue;
-            NSLog(@"%@ setting current email %@ ", self, _username);
             break;
         case kPassword:
             _password = c.formValue;
@@ -363,8 +446,7 @@
                 
             }];
             self.navigationItem.title = @"Sign up";
-            self.navigationItem.rightBarButtonItem.title = @"Sign Up";
-            
+    
             _state = kSignup;
             break;
             
@@ -373,7 +455,6 @@
                 
             }];
             self.navigationItem.title = @"Log In";
-            self.navigationItem.rightBarButtonItem.title = @"Log In";
 
             _state = kLogin;
             break;
@@ -443,8 +524,10 @@
 #pragma mark - utils;
 -(void)animateToCell
 {
-    CGRect rect = [self.signupTabel cellForRowAtIndexPath:self.currentIndexPath].frame;
-    [self.signupTabel scrollRectToVisible:rect animated:YES];
+    UITableView *view = ( self.state == kSignup ) ? self.signupTabel : self.loginTabel;
+    CGRect rect = [view cellForRowAtIndexPath:self.currentIndexPath].frame;
+    rect.size.height += 20;
+    [view scrollRectToVisible:rect animated:YES];
 }
 
 -(BOOL)isSameCell:(NSIndexPath *)path
@@ -466,10 +549,11 @@
         [[KeyboardManager sharedManager]close];
     }
     
-    [UIView animateWithDuration:0.4 animations:^
-     {
-         self.signupTabel.contentInset =  UIEdgeInsetsMake(0, 0,[PickerManager sharedManager].container.frame.size.height, 0);
-     }];
+    float height = [PickerManager sharedManager].container.frame.size.height;
+    
+    [UIView animateWithDuration:0.3  animations:^{
+        self.signupTabel.contentInset =  UIEdgeInsetsMake(0, 0, height, 0);
+    }];
     
     [self animateToCell];
 }
@@ -477,15 +561,30 @@
 -(void)pickerWillHide
 {
     [UIView animateWithDuration:0.3  animations:^{
-        self.signupTabel.contentInset =  UIEdgeInsetsMake(64, 0, 0, 0);
+        self.signupTabel.contentInset =  UIEdgeInsetsMake(0, 0, 0, 0);
     }];
 }
 
 -(void)pickerDone
 {
     FormCell *cell = (FormCell *)[self.signupTabel cellForRowAtIndexPath:self.currentIndexPath];
-    cell.formValue = [PickerManager sharedManager].datePicker.date;
-    cell.detailTextLabel.text = [[PickerManager sharedManager].datePicker.date toString];
+    int index = [cell.cellinfo[@"picker-index"] intValue];
+    
+    switch( [cell.cellinfo[@"field"] intValue] )
+    {
+        case kUserMinBedrooms:
+            cell.formValue = [[PickerManager sharedManager] valueForComponent:index];
+            cell.detailTextLabel.text = [[PickerManager sharedManager] valueForComponent:index];
+            break;
+            
+        case kUserMovinDate :
+            cell.formValue = [PickerManager sharedManager].datePicker.date;
+            cell.detailTextLabel.text = [[PickerManager sharedManager].datePicker.date toString];
+            break;
+        default:
+            break;
+    }
+    
     [cell.formDelegate cell:cell didChangeForField:self.currentField];
     [self.signupTabel reloadRowsAtIndexPaths:@[self.currentIndexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
     [[PickerManager sharedManager]hidePicker];
@@ -501,10 +600,11 @@
     
     [UIView setAnimationCurve:[KeyboardManager sharedManager].animationCurve ];
     
+    UITableView *table = (self.state == kSignup ) ? self.signupTabel : self.loginTabel;
     [UIView animateWithDuration:[KeyboardManager sharedManager ].animationTime animations:^
-     {
-         self.signupTabel.contentInset =  UIEdgeInsetsMake(0, 0, [KeyboardManager sharedManager].keyboardFrame.size.height, 0);
-     }];
+    {
+         table.contentInset =  UIEdgeInsetsMake(0, 0, [KeyboardManager sharedManager].keyboardFrame.size.height + 50, 0);
+    }];
     
     [self animateToCell];
     
@@ -513,12 +613,20 @@
 -(void)keyboardWillHide
 {
     [UIView animateWithDuration:0.3  animations:^{
-        self.signupTabel.contentInset =  UIEdgeInsetsMake(64, 0, 0, 0);
+        self.signupTabel.contentInset =  UIEdgeInsetsMake(0, 0, 0, 0);
     }];
 }
+
+#pragma mark - picker stuff
+
 
 -(BOOL)shouldAutorotate
 {
     return NO;
+}
+
+-(UIStatusBarStyle)preferredStatusBarStyle
+{
+    return UIStatusBarStyleDefault;
 }
 @end

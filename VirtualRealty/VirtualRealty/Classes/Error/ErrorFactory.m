@@ -70,6 +70,11 @@
             message     = NSLocalizedString(@"There was an error saving your listing. Please try again later or contact support", @"Error : Invalid listing error body");
             cancelTitle = NSLocalizedString(@"Cancel", @"Genereic : Cancel ");
             break;
+        case kListingGPSError:
+            title       = NSLocalizedString(@"Sorry", @"Error : Invalid username error title");
+            message     = NSLocalizedString(@"We are having problems finding your locations, please enter it manually", @"Error : GPS not working error");
+            cancelTitle = NSLocalizedString(@"OK", @"Genereic : Cancel ");
+            break;
 
         case kListingPendingError:
             title       = NSLocalizedString(@"Success", @"Error : Invalid username error title");

@@ -20,6 +20,8 @@
 #import "CustomNavViewController.h"
 #import "KeyboardManager.h"
 #import "SearchViewController.h"
+#import "TourViewController.h"
+#import "UIColor+Extended.h"
 
 @interface AppDelegate()
 -(void)handleReachabilityKnow;
@@ -115,6 +117,8 @@
             __block AppDelegate *blockself = self;
             _nav = [[NavViewController alloc]initWithNibName:nil bundle:nil];
             
+            [[UISwitch appearance]setOnTintColor:[UIColor colorFromHex:@"00aeef"]];
+            
             UIViewController *rootViewController = [[SearchViewController alloc]initWithNibName:nil bundle:nil];
             
             CGRect rect;
@@ -134,6 +138,12 @@
             }];
             
             self.window.rootViewController = self.nav;
+            
+            if( [[NSUserDefaults standardUserDefaults]valueForKey:kUSER_VIEWED_TOUR] == nil )
+            {
+                TourViewController *tourvc = [[TourViewController alloc]initWithNibName:nil bundle:nil];
+                [self.window.rootViewController presentViewController:tourvc animated:NO completion:nil];
+            }
 
         }
         break;

@@ -17,6 +17,8 @@
 #import "PickerManager.h"
 #import "NSDate+Extended.h"
 #import "SectionTitleView.h"
+#import "SearchFilters.h"
+
 
 @interface SearchFilterViewController ()<FormCellDelegate, PickerManagerDelegate, KeyboardManagerDelegate>
 
@@ -36,14 +38,22 @@
 @synthesize table     = _table;
 @synthesize filters   = _filters;
 
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
+
+-(id)initWithFilterOrNil:(SearchFilters *)filters
 {
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
+    self = [super initWithNibName:nil bundle:nil];
     if (self) {
         NSString *file = [[NSBundle mainBundle]pathForResource:@"search-filter" ofType:@"plist"];
         NSArray  *ref  = [[NSArray arrayWithContentsOfFile:file] mutableCopy];
         
-        _filters = [[SearchFilters alloc]initWithDefaults];
+        if( filters )
+        {
+            _filters = filters;
+        }
+        else
+        {
+            _filters = [[SearchFilters alloc]initWithDefaults];
+        }
         
         _tableData = [NSMutableArray array];
         Section *section;
@@ -62,6 +72,7 @@
         }
     }
     return self;
+
 }
 
 - (void)viewDidLoad
@@ -81,7 +92,7 @@
     [_table setDelegate:self];
     [_table setSectionFooterHeight:0.0f];
     [_table setSectionHeaderHeight:44.0f];
-    [_table setContentInset:UIEdgeInsetsZero];
+    [_table setSeparatorColor:[UIColor clearColor]];
     [_table setBackgroundColor:[UIColor colorFromHex:@"cbd5d9"]];
     [self.view addSubview:_table];
 
@@ -163,7 +174,7 @@
     cell.indexPath = indexPath;
     cell.cellinfo = info;
     [cell render];
-    
+    cell.selectionStyle = UITableViewCellSelectionStyleGray;
     return cell;
 }
 
@@ -209,6 +220,8 @@
             [cell setFocus];
             break;
         default:
+            [[PickerManager sharedManager]hidePicker];
+            [[KeyboardManager sharedManager]close];
             break;
     }
     [self.table deselectRowAtIndexPath:indexPath animated:YES];
@@ -272,7 +285,14 @@
 #pragma mark - ui resonders
 -(void)handleDone:(id)sender
 {
-    [self.delegate filtersDoneWithOptions:[self.filters getActiveFilters]];
+    if( self.filters.isDefault == NO )
+    {
+        [self.delegate filtersDoneWithOptions:self.filters];
+    }
+    else
+    {
+        [self dismissViewControllerAnimated:YES completion:nil];
+    }
 }
 
 -(void)handleCancel:(id)sender
@@ -367,6 +387,7 @@
     [self.filters clear];
     [self.table reloadData];
     [self.delegate clearFilters];
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 

@@ -57,5 +57,6 @@
 -(void)render
 {
     self.imageView.image = [UIImage imageNamed:self.cellinfo[@"icon"]];
+    self.textLabel.text  = self.cellinfo[@"label"];
 }
 @end

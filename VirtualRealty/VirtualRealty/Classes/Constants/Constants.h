@@ -17,6 +17,7 @@
 #define kLOGIN_NOTIFICATION_NAME  @"login-notification-name"
 #define kLOGOUT_NOTIFICATION_NAME @"logout-notification-name"
 #define kGOOGLE_PLACES_KEY @"AIzaSyBklCiCoqPMyS84Bd2Zn4PxUFl8wIpHXQQ"
+#define kUSER_VIEWED_TOUR  @"user-viewed-tour"
 
 #pragma mark - Build device
 typedef enum DeviceType
