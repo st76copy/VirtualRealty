@@ -25,7 +25,7 @@
 
 -(void)deleteObject;
 -(void)handleDeleteListing:(id)sender;
-
+-(void)handleEditListing:(id)sender;
 -(void)enableFavoriteButton:(NSArray *)results;
 -(void)saveFavorite:(id)sender;
 -(void)deleteFavorite:(id)sender;
@@ -59,6 +59,7 @@
     [super viewDidLoad];
     
     self.view.backgroundColor = [UIColor grayColor];
+    self.navigationItem.title = @"Listing";
     CGRect rect = self.view.bounds;
     rect.size.height -= self.navigationController.navigationBar.frame.size.height;
     
@@ -83,7 +84,7 @@
     {
         if( [self.listing.submitterObjectId isEqualToString: [User sharedUser].uid ] )
         {
-            UIBarButtonItem *delete = [[UIBarButtonItem alloc]initWithTitle:@"Delete Listing" style:UIBarButtonItemStyleBordered target:self action:@selector(handleDeleteListing:)];
+            UIBarButtonItem *delete = [[UIBarButtonItem alloc]initWithTitle:@"delete" style:UIBarButtonItemStyleBordered target:self action:@selector(handleDeleteListing:)];
             self.navigationItem.rightBarButtonItem = delete;
         }
         else
@@ -108,14 +109,15 @@
     
     if( results.count == 0 )
     {
-        UIBarButtonItem *saveButton = [[UIBarButtonItem alloc]initWithTitle:@"add favorite" style:UIBarButtonItemStylePlain target:self action:@selector(saveFavorite:)];
+        UIImage *favorite = [UIImage imageNamed:@"favorite.png"];
+        UIBarButtonItem *saveButton = [[UIBarButtonItem alloc]initWithImage:favorite style:UIBarButtonItemStylePlain target:self action:@selector(saveFavorite:)];
         self.navigationItem.rightBarButtonItem = saveButton;
         
     }
     else
     {
-        
-        UIBarButtonItem *deleteButton = [[UIBarButtonItem alloc]initWithTitle:@"remove favorite" style:UIBarButtonItemStylePlain target:self action:@selector(deleteFavorite:)];
+        UIImage *unfavorite = [UIImage imageNamed:@"checked.png"];
+        UIBarButtonItem *deleteButton = [[UIBarButtonItem alloc]initWithImage:unfavorite style:UIBarButtonItemStylePlain target:self action:@selector(deleteFavorite:)];
         self.navigationItem.rightBarButtonItem = deleteButton;
     }
 }
@@ -309,7 +311,9 @@
 
 -(void)handleFavoriteSaved
 {
-    UIBarButtonItem *deleteButton = [[UIBarButtonItem alloc]initWithTitle:@"remove favorite" style:UIBarButtonItemStylePlain target:self action:@selector(deleteFavorite:)];
+    
+    UIImage *unfavorite = [UIImage imageNamed:@"checked.png"];
+    UIBarButtonItem *deleteButton = [[UIBarButtonItem alloc]initWithImage:unfavorite style:UIBarButtonItemStylePlain target:self action:@selector(deleteFavorite:)];
     self.navigationItem.rightBarButtonItem = deleteButton;
     
     NSString *title   = NSLocalizedString( @"Saved", @"Genereic : Saved object");
@@ -351,7 +355,8 @@
 
 -(void)handleDeleteComplete
 {
-    UIBarButtonItem *saveButton = [[UIBarButtonItem alloc]initWithTitle:@"add favorite" style:UIBarButtonItemStylePlain target:self action:@selector(saveFavorite:)];
+    UIImage *favorite = [UIImage imageNamed:@"favorite.png"];
+    UIBarButtonItem *saveButton = [[UIBarButtonItem alloc]initWithImage:favorite style:UIBarButtonItemStylePlain target:self action:@selector(saveFavorite:)];
     self.navigationItem.rightBarButtonItem = saveButton;
     
     NSString *title   = NSLocalizedString( @"Removed", @"Genereic : Saved object");
@@ -359,6 +364,8 @@
     UIAlertView *alert = [[UIAlertView alloc]initWithTitle:title message:message delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
     [alert show];
 }
+
+
 
 
 #pragma mark - delete listing
@@ -432,7 +439,8 @@
 #pragma mark - mail
 -(void)showEmail
 {
-    if( [MFMailComposeViewController canSendMail])
+    
+    if( [MFMailComposeViewController canSendMail] && self.listing.email )
     {
         MFMailComposeViewController *vc = [[MFMailComposeViewController alloc]init];
         vc.mailComposeDelegate = self;

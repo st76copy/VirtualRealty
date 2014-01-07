@@ -42,7 +42,7 @@
     rect.origin.x   = self.textLabel.frame.origin.x + self.textLabel.frame.size.width + 10;
     rect.origin.y   = self.contentView.frame.size.height * 0.5 - rect.size.height * 0.5;
     self.stateLabel.frame = rect;
-    
+    [self.stateLabel setFont:[UIFont fontWithName:@"MuseoSans-500" size:16]];
     [self.contentView bringSubviewToFront:self.stateLabel];
 }
 

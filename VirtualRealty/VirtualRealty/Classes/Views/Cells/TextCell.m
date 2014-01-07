@@ -24,7 +24,7 @@
     self.textLabel.textColor = [UIColor colorFromHex:@"434343"];
     self.textLabel.frame = rect;
     
-
+    [self.detailTextLabel setFont:[UIFont fontWithName:@"MuseoSans-500" size:16]];
     [self.detailTextLabel setTextAlignment:NSTextAlignmentLeft];
     [self.detailTextLabel sizeToFit];
 
@@ -32,9 +32,10 @@
     rect.origin.x = self.contentView.frame.size.width - (self.detailTextLabel.frame.size.width + 10);
     rect.origin.y = self.contentView.frame.size.height * 0.5 - rect.size.height * 0.5;
     self.detailTextLabel.frame = rect;
-
+    
     
 }
+
 
 -(void)render
 {

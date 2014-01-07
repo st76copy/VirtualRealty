@@ -426,5 +426,30 @@
 }
 
 
+-(void)update:(UpdateListingBlock)block
+{
+    self.updateCompleteBlock = block;
+    __block Listing *listing = self;
+    
+    
+    PFQuery *query = [PFQuery queryWithClassName:@"Listing"];
+    [query getObjectInBackgroundWithId:self.objectId block:^(PFObject *object, NSError *error) {
+        object[@"listingState"] = listing.listingState;
+        object[@"brokerfee"] = self.brokerfee;
+        object[@"cats"] = self.cats;
+        object[@"dogs"] = self.dogs;
+        object[@"monthlyCost"] = self.monthlyCost;
+        object[@"moveInDate"] = self.moveInDate;
+        object[@"moveInCost"] = self.moveInCost;
+        
+        [object saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error)
+        {
+            listing.updateCompleteBlock(YES);
+        }];
+        
+    }];
+}
+
+
 
 @end

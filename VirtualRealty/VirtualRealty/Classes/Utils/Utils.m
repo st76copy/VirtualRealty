@@ -185,4 +185,35 @@
     return image;
 }
 
++(void)printFontFamilies
+{
+    for (NSString* family in [UIFont familyNames])
+    {
+        NSLog(@"<Utils> printFontFamilies - family : %@", family);
+        
+        for (NSString* name in [UIFont fontNamesForFamilyName: family])
+        {
+            NSLog(@"<Utils> printFontFamilies - name %@", name);
+        }
+    }
+}
+
++(UIImage *)copyImage:(UIImage *)img ToSize:(CGSize)size
+{
+    
+    UIImageView *view = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, size.width, size.height)];
+    view.contentMode = UIViewContentModeScaleAspectFill;
+    view.clipsToBounds = YES;
+    view.image = img;
+    
+    UIGraphicsBeginImageContextWithOptions(size, NO, 0.0);
+    [view.layer renderInContext:UIGraphicsGetCurrentContext()];
+    
+    UIImage *imgClone = UIGraphicsGetImageFromCurrentImageContext();
+    
+    UIGraphicsEndImageContext();
+    return imgClone;
+
+}
+
 @end

@@ -21,7 +21,8 @@
         
         self.selectedBackgroundView = [[UIView alloc]initWithFrame:CGRectZero];
         self.selectedBackgroundView.backgroundColor = [UIColor colorFromHex:@"c57834"];
-        
+    
+        self.textLabel.font = [UIFont fontWithName:@"MuseoSans-300" size:20];
         self.textLabel.textColor = [UIColor whiteColor];
     }
     return self;

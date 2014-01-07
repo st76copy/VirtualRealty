@@ -6,20 +6,20 @@
 		<key>cells</key>
 		<array>
 			<dict>
-				<key>temp-image</key>
-				<string>add-video-temp.png</string>
+				<key>animatable</key>
+				<false/>
+				<key>class</key>
+				<string>MediaCell</string>
 				<key>display-height</key>
 				<integer>127</integer>
 				<key>field</key>
 				<integer>17</integer>
-				<key>state</key>
-				<integer>1</integer>
-				<key>animatable</key>
-				<false/>
 				<key>label</key>
 				<string>Video</string>
-				<key>class</key>
-				<string>MediaCell</string>
+				<key>state</key>
+				<integer>1</integer>
+				<key>temp-image</key>
+				<string>add-video-temp.png</string>
 			</dict>
 		</array>
 		<key>section-title</key>
@@ -29,20 +29,20 @@
 		<key>cells</key>
 		<array>
 			<dict>
-				<key>temp-image</key>
-				<string>cover-image-temp.png</string>
+				<key>animatable</key>
+				<false/>
+				<key>class</key>
+				<string>MediaCell</string>
 				<key>display-height</key>
 				<integer>127</integer>
 				<key>field</key>
 				<integer>18</integer>
-				<key>state</key>
-				<integer>1</integer>
-				<key>animatable</key>
-				<false/>
 				<key>label</key>
 				<string>Thumbnail</string>
-				<key>class</key>
-				<string>MediaCell</string>
+				<key>state</key>
+				<integer>1</integer>
+				<key>temp-image</key>
+				<string>cover-image-temp.png</string>
 			</dict>
 		</array>
 		<key>section-title</key>
@@ -54,32 +54,26 @@
 			<dict>
 				<key>animatable</key>
 				<false/>
-				<key>state</key>
-				<integer>1</integer>
+				<key>class</key>
+				<string>TextInputCell</string>
 				<key>field</key>
 				<integer>45</integer>
 				<key>label</key>
 				<string>Street</string>
 				<key>placeholder</key>
 				<string>street address</string>
-				<key>class</key>
-				<string>TextInputCell</string>
-			</dict>
-			<dict>
-				<key>placeholder</key>
-				<string>borough</string>
-				<key>animatable</key>
-				<false/>
 				<key>state</key>
 				<integer>1</integer>
+			</dict>
+			<dict>
+				<key>animatable</key>
+				<false/>
+				<key>class</key>
+				<string>TextCell</string>
 				<key>field</key>
 				<integer>46</integer>
 				<key>label</key>
 				<string>Borough</string>
-				<key>class</key>
-				<string>TextCell</string>
-				<key>picker-index</key>
-				<integer>0</integer>
 				<key>picker-data</key>
 				<array>
 					<array>
@@ -115,22 +109,22 @@
 						</dict>
 					</array>
 				</array>
-			</dict>
-			<dict>
+				<key>picker-index</key>
+				<integer>0</integer>
 				<key>placeholder</key>
-				<string>neighborhood</string>
-				<key>animatable</key>
-				<false/>
+				<string>borough</string>
 				<key>state</key>
 				<integer>1</integer>
+			</dict>
+			<dict>
+				<key>animatable</key>
+				<false/>
+				<key>class</key>
+				<string>TextCell</string>
 				<key>field</key>
 				<integer>3</integer>
 				<key>label</key>
 				<string>Neighborhood</string>
-				<key>class</key>
-				<string>TextCell</string>
-				<key>picker-index</key>
-				<integer>0</integer>
 				<key>picker-data</key>
 				<array>
 					<array>
@@ -340,24 +334,24 @@
 						</dict>
 					</array>
 				</array>
-			</dict>
-			<dict>
+				<key>picker-index</key>
+				<integer>0</integer>
 				<key>placeholder</key>
-				<string>city</string>
-				<key>animatable</key>
-				<false/>
+				<string>neighborhood</string>
 				<key>state</key>
 				<integer>1</integer>
+			</dict>
+			<dict>
+				<key>animatable</key>
+				<false/>
+				<key>class</key>
+				<string>TextInputCell</string>
+				<key>current-value</key>
+				<string>New York</string>
 				<key>field</key>
 				<integer>48</integer>
 				<key>label</key>
 				<string>City</string>
-				<key>current-value</key>
-				<string>New York</string>
-				<key>class</key>
-				<string>TextInputCell</string>
-				<key>picker-index</key>
-				<integer>0</integer>
 				<key>picker-data</key>
 				<array>
 					<array>
@@ -567,52 +561,365 @@
 						</dict>
 					</array>
 				</array>
-			</dict>
-			<dict>
+				<key>picker-index</key>
+				<integer>0</integer>
 				<key>placeholder</key>
-				<string>zip</string>
-				<key>animatable</key>
-				<false/>
+				<string>city</string>
 				<key>state</key>
 				<integer>1</integer>
-				<key>field</key>
-				<integer>47</integer>
-				<key>label</key>
-				<string>Zip Code</string>
+			</dict>
+			<dict>
+				<key>animatable</key>
+				<false/>
 				<key>class</key>
 				<string>NumberInputCell</string>
+				<key>field</key>
+				<integer>47</integer>
 				<key>format</key>
 				<string>%i</string>
+				<key>label</key>
+				<string>Zip Code</string>
+				<key>placeholder</key>
+				<string>zip</string>
+				<key>state</key>
+				<integer>1</integer>
 			</dict>
 			<dict>
 				<key>animatable</key>
 				<false/>
-				<key>state</key>
-				<integer>1</integer>
-				<key>field</key>
-				<integer>49</integer>
+				<key>placeholder</key>
+				<string>state</string>
+				<key>class</key>
+				<string>TextCell</string>
 				<key>current-value</key>
 				<string>NY</string>
+				<key>field</key>
+				<integer>49</integer>
 				<key>label</key>
 				<string>State</string>
-				<key>class</key>
-				<string>TextInputCell</string>
-				<key>read-only</key>
-				<true/>
-			</dict>
-			<dict>
-				<key>placeholder</key>
-				<string>unit</string>
-				<key>animatable</key>
-				<false/>
+				<key>picker-data</key>
+				<array>
+					<array>
+						<dict>
+							<key>label</key>
+							<string>LA</string>
+							<key>value</key>
+							<string>LA</string>
+						</dict>
+						<dict>
+							<key>label</key>
+							<string>KY</string>
+							<key>value</key>
+							<string>KY</string>
+						</dict>
+						<dict>
+							<key>label</key>
+							<string>KS</string>
+							<key>value</key>
+							<string>KS</string>
+						</dict>
+						<dict>
+							<key>label</key>
+							<string>IA</string>
+							<key>value</key>
+							<string>IA</string>
+						</dict>
+						<dict>
+							<key>label</key>
+							<string>IN</string>
+							<key>value</key>
+							<string>IN</string>
+						</dict>
+						<dict>
+							<key>label</key>
+							<string>IL</string>
+							<key>value</key>
+							<string>IL</string>
+						</dict>
+						<dict>
+							<key>label</key>
+							<string>ID</string>
+							<key>value</key>
+							<string>ID</string>
+						</dict>
+						<dict>
+							<key>label</key>
+							<string>HI</string>
+							<key>value</key>
+							<string>HI</string>
+						</dict>
+						<dict>
+							<key>label</key>
+							<string>GA</string>
+							<key>value</key>
+							<string>GA</string>
+						</dict>
+						<dict>
+							<key>label</key>
+							<string>FL</string>
+							<key>value</key>
+							<string>FL</string>
+						</dict>
+						<dict>
+							<key>label</key>
+							<string>DC</string>
+							<key>value</key>
+							<string>DC</string>
+						</dict>
+						<dict>
+							<key>label</key>
+							<string>DE</string>
+							<key>value</key>
+							<string>DE</string>
+						</dict>
+						<dict>
+							<key>label</key>
+							<string>CT</string>
+							<key>value</key>
+							<string>CT</string>
+						</dict>
+						<dict>
+							<key>label</key>
+							<string>CO</string>
+							<key>value</key>
+							<string>CO</string>
+						</dict>
+						<dict>
+							<key>label</key>
+							<string>CA</string>
+							<key>value</key>
+							<string>CA</string>
+						</dict>
+						<dict>
+							<key>label</key>
+							<string>AZ</string>
+							<key>value</key>
+							<string>AZ</string>
+						</dict>
+						<dict>
+							<key>label</key>
+							<string>AS</string>
+							<key>value</key>
+							<string>AS</string>
+						</dict>
+						<dict>
+							<key>label</key>
+							<string>AK</string>
+							<key>value</key>
+							<string>AK</string>
+						</dict>
+						<dict>
+							<key>label</key>
+							<string>AL</string>
+							<key>value</key>
+							<string>AL</string>
+						</dict>
+						<dict>
+							<key>label</key>
+							<string>LA</string>
+							<key>value</key>
+							<string>LA</string>
+						</dict>
+						<dict>
+							<key>label</key>
+							<string>KY</string>
+							<key>value</key>
+							<string>KY</string>
+						</dict>
+						<dict>
+							<key>label</key>
+							<string>KS</string>
+							<key>value</key>
+							<string>KS</string>
+						</dict>
+						<dict>
+							<key>label</key>
+							<string>IA</string>
+							<key>value</key>
+							<string>IA</string>
+						</dict>
+						<dict>
+							<key>label</key>
+							<string>IN</string>
+							<key>value</key>
+							<string>IN</string>
+						</dict>
+						<dict>
+							<key>label</key>
+							<string>IL</string>
+							<key>value</key>
+							<string>IL</string>
+						</dict>
+						<dict>
+							<key>label</key>
+							<string>ID</string>
+							<key>value</key>
+							<string>ID</string>
+						</dict>
+						<dict>
+							<key>label</key>
+							<string>HI</string>
+							<key>value</key>
+							<string>HI</string>
+						</dict>
+						<dict>
+							<key>label</key>
+							<string>GA</string>
+							<key>value</key>
+							<string>GA</string>
+						</dict>
+						<dict>
+							<key>label</key>
+							<string>FL</string>
+							<key>value</key>
+							<string>FL</string>
+						</dict>
+						<dict>
+							<key>label</key>
+							<string>DC</string>
+							<key>value</key>
+							<string>DC</string>
+						</dict>
+						<dict>
+							<key>label</key>
+							<string>DE</string>
+							<key>value</key>
+							<string>DE</string>
+						</dict>
+						<dict>
+							<key>label</key>
+							<string>CT</string>
+							<key>value</key>
+							<string>CT</string>
+						</dict>
+						<dict>
+							<key>label</key>
+							<string>CO</string>
+							<key>value</key>
+							<string>CO</string>
+						</dict>
+						<dict>
+							<key>label</key>
+							<string>CA</string>
+							<key>value</key>
+							<string>CA</string>
+						</dict>
+						<dict>
+							<key>label</key>
+							<string>AZ</string>
+							<key>value</key>
+							<string>AZ</string>
+						</dict>
+						<dict>
+							<key>label</key>
+							<string>AS</string>
+							<key>value</key>
+							<string>AS</string>
+						</dict>
+						<dict>
+							<key>label</key>
+							<string>AK</string>
+							<key>value</key>
+							<string>AK</string>
+						</dict>
+						<dict>
+							<key>label</key>
+							<string>AL</string>
+							<key>value</key>
+							<string>AL</string>
+						</dict>
+						<dict>
+							<key>label</key>
+							<string>LA</string>
+							<key>value</key>
+							<string>LA</string>
+						</dict>
+						<dict>
+							<key>label</key>
+							<string>KY</string>
+							<key>value</key>
+							<string>KY</string>
+						</dict>
+						<dict>
+							<key>label</key>
+							<string>KS</string>
+							<key>value</key>
+							<string>KS</string>
+						</dict>
+						<dict>
+							<key>label</key>
+							<string>IA</string>
+							<key>value</key>
+							<string>IA</string>
+						</dict>
+						<dict>
+							<key>label</key>
+							<string>IN</string>
+							<key>value</key>
+							<string>IN</string>
+						</dict>
+						<dict>
+							<key>label</key>
+							<string>IL</string>
+							<key>value</key>
+							<string>IL</string>
+						</dict>
+						<dict>
+							<key>label</key>
+							<string>ID</string>
+							<key>value</key>
+							<string>ID</string>
+						</dict>
+						<dict>
+							<key>label</key>
+							<string>HI</string>
+							<key>value</key>
+							<string>HI</string>
+						</dict>
+						<dict>
+							<key>label</key>
+							<string>GA</string>
+							<key>value</key>
+							<string>GA</string>
+						</dict>
+						<dict>
+							<key>label</key>
+							<string>FL</string>
+							<key>value</key>
+							<string>FL</string>
+						</dict>
+						<dict>
+							<key>label</key>
+							<string>DC</string>
+							<key>value</key>
+							<string>DC</string>
+						</dict>
+						<dict>
+							<key>label</key>
+							<string>DE</string>
+							<key>value</key>
+							<string>DE</string>
+						</dict>
+					</array>
+				</array>
+				<key>picker-index</key>
+				<integer>0</integer>
 				<key>state</key>
 				<integer>1</integer>
+			</dict>
+			<dict>
+				<key>animatable</key>
+				<false/>
+				<key>class</key>
+				<string>TextInputCell</string>
 				<key>field</key>
 				<integer>21</integer>
 				<key>label</key>
 				<string>Unit</string>
-				<key>class</key>
-				<string>TextInputCell</string>
+				<key>placeholder</key>
+				<string>unit</string>
+				<key>state</key>
+				<integer>1</integer>
 			</dict>
 		</array>
 		<key>section-title</key>
@@ -622,58 +929,58 @@
 		<key>cells</key>
 		<array>
 			<dict>
-				<key>icon</key>
-				<string>dollar-icon.png</string>
-				<key>format</key>
-				<string>$%i</string>
-				<key>placeholder</key>
-				<string>$0</string>
 				<key>animatable</key>
 				<false/>
+				<key>class</key>
+				<string>MoneyInputCell</string>
 				<key>field</key>
 				<integer>4</integer>
-				<key>state</key>
-				<integer>1</integer>
+				<key>format</key>
+				<string>$%i</string>
+				<key>icon</key>
+				<string>dollar-icon.png</string>
 				<key>label</key>
 				<string>Montly Rent</string>
-				<key>class</key>
-				<string>MoneyInputCell</string>
-			</dict>
-			<dict>
-				<key>icon</key>
-				<string>dollar-icon.png</string>
-				<key>format</key>
-				<string>$%i</string>
 				<key>placeholder</key>
 				<string>$0</string>
+				<key>state</key>
+				<integer>1</integer>
+			</dict>
+			<dict>
+				<key>animatable</key>
+				<false/>
+				<key>class</key>
+				<string>MoneyInputCell</string>
 				<key>field</key>
 				<integer>5</integer>
-				<key>state</key>
-				<integer>1</integer>
-				<key>animatable</key>
-				<false/>
-				<key>label</key>
-				<string>Movin Cost</string>
-				<key>class</key>
-				<string>MoneyInputCell</string>
-			</dict>
-			<dict>
-				<key>icon</key>
-				<string>dollar-icon.png</string>
 				<key>format</key>
 				<string>$%i</string>
+				<key>icon</key>
+				<string>dollar-icon.png</string>
+				<key>label</key>
+				<string>Movin Cost</string>
 				<key>placeholder</key>
 				<string>$0</string>
-				<key>field</key>
-				<integer>6</integer>
 				<key>state</key>
 				<integer>1</integer>
+			</dict>
+			<dict>
 				<key>animatable</key>
 				<false/>
-				<key>label</key>
-				<string>Broker Fee</string>
 				<key>class</key>
 				<string>MoneyInputCell</string>
+				<key>field</key>
+				<integer>6</integer>
+				<key>format</key>
+				<string>$%i</string>
+				<key>icon</key>
+				<string>dollar-icon.png</string>
+				<key>label</key>
+				<string>Broker Fee</string>
+				<key>placeholder</key>
+				<string>$0</string>
+				<key>state</key>
+				<integer>1</integer>
 			</dict>
 		</array>
 		<key>section-title</key>
@@ -683,168 +990,174 @@
 		<key>cells</key>
 		<array>
 			<dict>
-				<key>icon</key>
-				<string>bedrooms-icon.png</string>
-				<key>format</key>
-				<string>%0.1f</string>
-				<key>placeholder</key>
-				<string>minimum bedrooms</string>
 				<key>animatable</key>
 				<false/>
+				<key>class</key>
+				<string>TextCell</string>
 				<key>field</key>
 				<integer>7</integer>
-				<key>state</key>
-				<integer>1</integer>
-				<key>label</key>
-				<string>Bedrooms</string>
-				<key>picker-index</key>
-				<integer>0</integer>
-				<key>class</key>
-				<string>TextCell</string>
-				<key>picker-data</key>
-				<array>
-					<array>
-						<dict>
-							<key>label</key>
-							<string>1 Bedroom</string>
-							<key>value</key>
-							<string>1 Bedroom</string>
-						</dict>
-						<dict>
-							<key>label</key>
-							<string>2 Bedroom</string>
-							<key>value</key>
-							<string>2 Bedroom</string>
-						</dict>
-						<dict>
-							<key>label</key>
-							<string>3 Bedroom</string>
-							<key>value</key>
-							<string>3 Bedroom</string>
-						</dict>
-						<dict>
-							<key>label</key>
-							<string>4 Bedroom</string>
-							<key>value</key>
-							<string>4 Bedroom</string>
-						</dict>
-						<dict>
-							<key>label</key>
-							<string>5 Bedroom</string>
-							<key>value</key>
-							<string>5 Bedroom</string>
-						</dict>
-						<dict>
-							<key>label</key>
-							<string>More then 5</string>
-							<key>value</key>
-							<string>More then 5</string>
-						</dict>
-					</array>
-				</array>
-			</dict>
-			<dict>
-				<key>picker-data</key>
-				<array>
-					<array>
-						<dict>
-							<key>label</key>
-							<string>1 Bath</string>
-							<key>value</key>
-							<string>1 Bath</string>
-						</dict>
-						<dict>
-							<key>label</key>
-							<string>1.5 Baths</string>
-							<key>value</key>
-							<string>1.5 Baths</string>
-						</dict>
-						<dict>
-							<key>label</key>
-							<string>2 Baths</string>
-							<key>value</key>
-							<string>2 Baths</string>
-						</dict>
-						<dict>
-							<key>label</key>
-							<string>2.5 Baths</string>
-							<key>value</key>
-							<string>2.5 Baths</string>
-						</dict>
-						<dict>
-							<key>label</key>
-							<string>More then 3 Bathrooms</string>
-							<key>value</key>
-							<string>More then 3 Bathrooms</string>
-						</dict>
-					</array>
-				</array>
-				<key>icon</key>
-				<string>bathrooms-icon.png</string>
-				<key>picker-index</key>
-				<integer>0</integer>
 				<key>format</key>
 				<string>%0.1f</string>
+				<key>icon</key>
+				<string>bedrooms-icon.png</string>
+				<key>label</key>
+				<string>Bedrooms</string>
+				<key>picker-data</key>
+				<array>
+					<array>
+						<dict>
+							<key>label</key>
+							<string>1 Bedroom</string>
+							<key>value</key>
+							<string>1 Bedroom</string>
+						</dict>
+						<dict>
+							<key>label</key>
+							<string>2 Bedroom</string>
+							<key>value</key>
+							<string>2 Bedroom</string>
+						</dict>
+						<dict>
+							<key>label</key>
+							<string>3 Bedroom</string>
+							<key>value</key>
+							<string>3 Bedroom</string>
+						</dict>
+						<dict>
+							<key>label</key>
+							<string>4 Bedroom</string>
+							<key>value</key>
+							<string>4 Bedroom</string>
+						</dict>
+						<dict>
+							<key>label</key>
+							<string>5 Bedroom</string>
+							<key>value</key>
+							<string>5 Bedroom</string>
+						</dict>
+						<dict>
+							<key>label</key>
+							<string>More then 5</string>
+							<key>value</key>
+							<string>More then 5</string>
+						</dict>
+					</array>
+				</array>
+				<key>picker-index</key>
+				<integer>0</integer>
 				<key>placeholder</key>
-				<string>minimum bathrooms</string>
-				<key>animatable</key>
-				<false/>
-				<key>field</key>
-				<integer>8</integer>
+				<string>minimum bedrooms</string>
 				<key>state</key>
 				<integer>1</integer>
-				<key>label</key>
-				<string>Bathrooms</string>
+			</dict>
+			<dict>
+				<key>animatable</key>
+				<false/>
 				<key>class</key>
 				<string>TextCell</string>
+				<key>field</key>
+				<integer>8</integer>
+				<key>format</key>
+				<string>%0.1f</string>
+				<key>icon</key>
+				<string>bathrooms-icon.png</string>
+				<key>label</key>
+				<string>Bathrooms</string>
+				<key>picker-data</key>
+				<array>
+					<array>
+						<dict>
+							<key>label</key>
+							<string>1 Bath</string>
+							<key>value</key>
+							<string>1 Bath</string>
+						</dict>
+						<dict>
+							<key>label</key>
+							<string>1.5 Baths</string>
+							<key>value</key>
+							<string>1.5 Baths</string>
+						</dict>
+						<dict>
+							<key>label</key>
+							<string>2 Baths</string>
+							<key>value</key>
+							<string>2 Baths</string>
+						</dict>
+						<dict>
+							<key>label</key>
+							<string>2.5 Baths</string>
+							<key>value</key>
+							<string>2.5 Baths</string>
+						</dict>
+						<dict>
+							<key>label</key>
+							<string>More then 3 Bathrooms</string>
+							<key>value</key>
+							<string>More then 3 Bathrooms</string>
+						</dict>
+					</array>
+				</array>
+				<key>picker-index</key>
+				<integer>0</integer>
+				<key>placeholder</key>
+				<string>minimum bathrooms</string>
+				<key>state</key>
+				<integer>1</integer>
 			</dict>
 			<dict>
+				<key>animatable</key>
+				<false/>
+				<key>class</key>
+				<string>SwitchCell</string>
 				<key>field</key>
 				<integer>9</integer>
-				<key>state</key>
-				<integer>1</integer>
-				<key>animatable</key>
-				<false/>
 				<key>label</key>
 				<string>Share</string>
-				<key>class</key>
-				<string>SwitchCell</string>
+				<key>state</key>
+				<integer>1</integer>
 			</dict>
 			<dict>
+				<key>animatable</key>
+				<false/>
+				<key>class</key>
+				<string>SwitchCell</string>
 				<key>field</key>
 				<integer>10</integer>
-				<key>state</key>
-				<integer>1</integer>
-				<key>animatable</key>
-				<false/>
+				<key>icon</key>
+				<string>dogs-icon.png</string>
 				<key>label</key>
 				<string>Dogs</string>
-				<key>class</key>
-				<string>SwitchCell</string>
+				<key>state</key>
+				<integer>1</integer>
 			</dict>
 			<dict>
+				<key>animatable</key>
+				<false/>
+				<key>class</key>
+				<string>SwitchCell</string>
 				<key>field</key>
 				<integer>11</integer>
-				<key>state</key>
-				<integer>1</integer>
-				<key>animatable</key>
-				<false/>
+				<key>icon</key>
+				<string>cats-icon.png</string>
 				<key>label</key>
 				<string>Cats</string>
-				<key>class</key>
-				<string>SwitchCell</string>
-			</dict>
-			<dict>
-				<key>field</key>
-				<integer>19</integer>
 				<key>state</key>
 				<integer>1</integer>
+			</dict>
+			<dict>
 				<key>animatable</key>
 				<false/>
-				<key>label</key>
-				<string>Move In Date</string>
 				<key>class</key>
 				<string>DateCell</string>
+				<key>field</key>
+				<integer>19</integer>
+				<key>icon</key>
+				<string>calendar-icon.png</string>
+				<key>label</key>
+				<string>Move In Date</string>
+				<key>state</key>
+				<integer>1</integer>
 			</dict>
 		</array>
 		<key>section-title</key>
@@ -854,64 +1167,74 @@
 		<key>cells</key>
 		<array>
 			<dict>
+				<key>animatable</key>
+				<false/>
+				<key>class</key>
+				<string>SwitchCell</string>
 				<key>field</key>
 				<integer>12</integer>
-				<key>state</key>
-				<integer>1</integer>
-				<key>animatable</key>
-				<false/>
+				<key>icon</key>
+				<string>outdoor-space-icon.png</string>
 				<key>label</key>
 				<string>Outdoor Space</string>
-				<key>class</key>
-				<string>SwitchCell</string>
+				<key>state</key>
+				<integer>1</integer>
 			</dict>
 			<dict>
+				<key>animatable</key>
+				<false/>
+				<key>class</key>
+				<string>SwitchCell</string>
 				<key>field</key>
 				<integer>13</integer>
-				<key>state</key>
-				<integer>1</integer>
-				<key>animatable</key>
-				<false/>
+				<key>icon</key>
+				<string>washer-dryer-icon.png</string>
 				<key>label</key>
 				<string>Washer Dryer</string>
-				<key>class</key>
-				<string>SwitchCell</string>
+				<key>state</key>
+				<integer>1</integer>
 			</dict>
 			<dict>
+				<key>animatable</key>
+				<false/>
+				<key>class</key>
+				<string>SwitchCell</string>
 				<key>field</key>
 				<integer>14</integer>
-				<key>state</key>
-				<integer>1</integer>
-				<key>animatable</key>
-				<false/>
+				<key>icon</key>
+				<string>doorman-icon.png</string>
 				<key>label</key>
 				<string>Doorman</string>
-				<key>class</key>
-				<string>SwitchCell</string>
+				<key>state</key>
+				<integer>1</integer>
 			</dict>
 			<dict>
+				<key>animatable</key>
+				<false/>
+				<key>class</key>
+				<string>SwitchCell</string>
 				<key>field</key>
 				<integer>15</integer>
-				<key>state</key>
-				<integer>1</integer>
-				<key>animatable</key>
-				<false/>
+				<key>icon</key>
+				<string>gym-icon.png</string>
 				<key>label</key>
 				<string>Gym</string>
-				<key>class</key>
-				<string>SwitchCell</string>
-			</dict>
-			<dict>
-				<key>field</key>
-				<integer>16</integer>
 				<key>state</key>
 				<integer>1</integer>
+			</dict>
+			<dict>
 				<key>animatable</key>
 				<false/>
-				<key>label</key>
-				<string>Pool</string>
 				<key>class</key>
 				<string>SwitchCell</string>
+				<key>field</key>
+				<integer>16</integer>
+				<key>icon</key>
+				<string>pool-icon.png</string>
+				<key>label</key>
+				<string>Pool</string>
+				<key>state</key>
+				<integer>1</integer>
 			</dict>
 		</array>
 		<key>section-title</key>
@@ -921,32 +1244,32 @@
 		<key>cells</key>
 		<array>
 			<dict>
-				<key>placeholder</key>
-				<string>email address</string>
-				<key>field</key>
-				<integer>20</integer>
-				<key>state</key>
-				<integer>1</integer>
 				<key>animatable</key>
 				<false/>
-				<key>label</key>
-				<string>Email</string>
 				<key>class</key>
 				<string>TextInputCell</string>
-			</dict>
-			<dict>
-				<key>placeholder</key>
-				<string>digits</string>
 				<key>field</key>
-				<integer>44</integer>
+				<integer>20</integer>
+				<key>label</key>
+				<string>Email</string>
+				<key>placeholder</key>
+				<string>email address</string>
 				<key>state</key>
 				<integer>1</integer>
+			</dict>
+			<dict>
 				<key>animatable</key>
 				<false/>
-				<key>label</key>
-				<string>Phone</string>
 				<key>class</key>
 				<string>PhoneInputCell</string>
+				<key>field</key>
+				<integer>44</integer>
+				<key>label</key>
+				<string>Phone</string>
+				<key>placeholder</key>
+				<string>digits</string>
+				<key>state</key>
+				<integer>1</integer>
 			</dict>
 		</array>
 		<key>section-title</key>
@@ -956,16 +1279,16 @@
 		<key>cells</key>
 		<array>
 			<dict>
-				<key>field</key>
-				<integer>37</integer>
-				<key>state</key>
-				<integer>1</integer>
 				<key>animatable</key>
 				<false/>
-				<key>label</key>
-				<string>Key Words</string>
 				<key>class</key>
 				<string>KeyWordsCell</string>
+				<key>field</key>
+				<integer>37</integer>
+				<key>label</key>
+				<string>Key Words</string>
+				<key>state</key>
+				<integer>1</integer>
 			</dict>
 		</array>
 		<key>section-title</key>

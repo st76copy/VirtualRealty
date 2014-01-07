@@ -20,6 +20,7 @@
 #import "LocationManager.h"
 #import "User.h"
 #import "SearchFilters.h"
+#import "ErrorFactory.h"
 
 @interface SearchViewController ()<SearchFilterDelegate, UISearchBarDelegate, UITableViewDataSource, UITableViewDelegate, GMSMapViewDelegate,ToggleDelegate>
 {
@@ -92,7 +93,7 @@
     [container addSubview:self.table];
     
     [self.view addSubview:mapListToggle];
-    UIBarButtonItem *filterButton = [[UIBarButtonItem alloc]initWithTitle:@"FILTER" style:UIBarButtonItemStyleBordered target:self action:@selector(handleMakeFilter:)];
+    UIBarButtonItem *filterButton = [[UIBarButtonItem alloc]initWithTitle:@"Filter" style:UIBarButtonItemStyleBordered target:self action:@selector(handleMakeFilter:)];
     self.navigationItem.rightBarButtonItem = filterButton;
     
     AppDelegate *app = (AppDelegate *)[UIApplication sharedApplication].delegate;
@@ -122,6 +123,12 @@
 -(void)handleDataLoaded:(NSArray *)data
 {
     Listing *listing;
+    
+    if( data.count == 0 )
+    {
+        [[ErrorFactory getAlertForType:kNoResultsError andDelegateOrNil:nil andOtherButtons:nil]show];
+        return;
+    }
     
     AppDelegate *app = (AppDelegate *)[UIApplication sharedApplication].delegate;
     [app hideLoader];

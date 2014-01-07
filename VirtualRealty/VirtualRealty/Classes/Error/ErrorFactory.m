@@ -41,6 +41,13 @@
             cancelTitle = NSLocalizedString(@"Ok", @"Genereic : Ok ");
 
             break;
+        case kNotReachable :
+            title       = NSLocalizedString(@"Sorry", @"Error : Invalid password error title");
+            message     = NSLocalizedString(@"There was a problem logging in please check your internet connection", @"Error : not reachable when login");
+            cancelTitle = NSLocalizedString(@"Ok", @"Genereic : Ok ");
+            
+            break;
+            
             
         // form errors
         case kInvalidPasswordError:
@@ -73,6 +80,11 @@
         case kListingGPSError:
             title       = NSLocalizedString(@"Sorry", @"Error : Invalid username error title");
             message     = NSLocalizedString(@"We are having problems finding your locations, please enter it manually", @"Error : GPS not working error");
+            cancelTitle = NSLocalizedString(@"OK", @"Genereic : Cancel ");
+            break;
+        case kNoResultsError:
+            title       = NSLocalizedString(@"Sorry", @"Error : Invalid username error title");
+            message     = NSLocalizedString(@"There are no results for your term or filters, try adjusting the filters", @"Error : GPS not working error");
             cancelTitle = NSLocalizedString(@"OK", @"Genereic : Cancel ");
             break;
 

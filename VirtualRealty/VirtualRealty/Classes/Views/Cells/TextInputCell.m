@@ -17,7 +17,7 @@
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self)
     {
-        _inputField = [[UITextField alloc]initWithFrame:CGRectMake(0, 0, 200, 30)];
+        _inputField = [[CustomField alloc]initWithFrame:CGRectMake(0, 0, 200, 30)];
         self.inputField.backgroundColor = [UIColor clearColor];
         self.inputField.autocapitalizationType = UITextAutocapitalizationTypeNone;
         self.inputField.textAlignment  = NSTextAlignmentRight;
@@ -25,7 +25,8 @@
         [self.inputField addTarget:self  action:@selector(inputFieldBegan:) forControlEvents:UIControlEventEditingDidBegin];
         [self.inputField addTarget:self  action:@selector(inputTextChanged:) forControlEvents:UIControlEventEditingChanged];
         [self.inputField addTarget:self  action:@selector(textFieldFinished:)  forControlEvents:UIControlEventEditingDidEndOnExit];
-        [self.inputField setFont:[UIFont systemFontOfSize:12 ]];
+        [self.inputField setFont: [UIFont fontWithName:@"MuseoSans-500" size:16]];
+        
         [self.contentView addSubview:self.inputField];
     }
     return self;

@@ -21,6 +21,7 @@
         _errorView = [[UIView alloc]initWithFrame:CGRectZero];
         [self.errorView setBackgroundColor:[UIColor colorWithRed:255.0f/255.0f green:0.0f/255.0f blue:0.0f/255.0f alpha:0.4]];
         self.selectionStyle = UITableViewCellSelectionStyleNone;
+        self.textLabel.font =  [UIFont fontWithName:@"MuseoSans-500" size:16];
     }
     return self;
 }

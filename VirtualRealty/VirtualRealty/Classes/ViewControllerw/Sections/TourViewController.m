@@ -55,6 +55,9 @@
     [button setTitle:@"Skip Tour" forState:UIControlStateNormal];
     [button addTarget:self action:@selector(handleSkip:) forControlEvents:UIControlEventTouchUpInside];
     [button sizeToFit];
+    [button.titleLabel setFont:[UIFont fontWithName:@"MuseoSans-300" size:15]];
+    
+    
     rect = button.frame;
     rect.origin.x = self.view.frame.size.width * 0.5 - rect.size.width * 0.5;
     rect.origin.y = self.view.frame.size.height - ( rect.size.height + 10 );
@@ -66,6 +69,7 @@
     [button setTitle:@"Sign In" forState:UIControlStateNormal];
     [button setTitleColor:[UIColor colorFromHex:@"cbd5d9"] forState:UIControlStateHighlighted];
     [button addTarget:self action:@selector(handleLogin:) forControlEvents:UIControlEventTouchUpInside];
+    [button.titleLabel setFont:[UIFont fontWithName:@"MuseoSans-500" size:15]];
     [button sizeToFit];
     
     rect = button.frame;
@@ -80,7 +84,9 @@
     [button setTitle:@"Create An Account" forState:UIControlStateNormal];
     [button setTitleColor:[UIColor colorFromHex:@"cbd5d9"] forState:UIControlStateHighlighted];
     [button addTarget:self action:@selector(handleSignUp:) forControlEvents:UIControlEventTouchUpInside];
+    [button.titleLabel setFont:[UIFont fontWithName:@"MuseoSans-500" size:15]];
     [button sizeToFit];
+    
     rect = button.frame;
     rect.origin.x = self.view.frame.size.width * 0.5 - rect.size.width * 0.5;
     rect.origin.y = self.view.frame.size.height - ( rect.size.height * 2 + 60 );
@@ -95,7 +101,11 @@
     rect.origin.y = button.frame.origin.y - (15 + 10);
     self.pageControl.frame = rect;
     [self.view addSubview:self.pageControl];
+}
 
+-(void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
 }
 
 -(void)scrollViewDidScroll:(UIScrollView *)scrollView

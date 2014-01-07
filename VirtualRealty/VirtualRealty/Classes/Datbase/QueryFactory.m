@@ -20,7 +20,7 @@
 {
     NSString *template = @"INSERT INTO UserListings"
         "( uid, user_id,unit, neighborhood, movin_cost,montly_cost,movein_date, bedrooms, bathrooms, broker_fee, outdoor_space, cats, dogs, gym, listing_state, washer_dryer,  phone, email, city, state, street, borough)"
-        "VALUES ('%@', '%@', '%@', '%@', %i, %i, '%@', '%@', '%@', %i, %d, %d, %d, %d, %i, %d,'%@', '%@', '%@', '%@', '%@','%@', '%@' );";
+        "VALUES ('%@', '%@', '%@', '%@', %i, %i, '%@', '%@', '%@', %i, %d, %d, %d, %d, %i, %d, '%@', '%@', '%@', '%@','%@', '%@' );";
     NSString *sql = [NSString stringWithFormat:template,
                      listing.objectId,
                      [User sharedUser].uid,
@@ -31,7 +31,7 @@
                      [listing.moveInDate toSQLString],
                      listing.bedrooms ,
                      listing.bathrooms ,
-                     [listing.brokerfee floatValue],
+                     [listing.brokerfee intValue],
                      [listing.outdoorSpace boolValue],
                      [listing.cats boolValue],
                      [listing.dogs boolValue],
@@ -63,7 +63,7 @@
 
 +(NSString *)getListing:(Listing *)listing andUser:( User *)user
 {
-    NSString *template = @"SELECT uid as objectId,address,unit, movin_cost as moveInCost,montly_cost as moveInCost,movein_date as moveInDate, bedrooms, bathrooms, broker_fee as brokerfee, outdoor_space as outdoorSpace, cats, dogs, gym, listing_state as listingState, washer_dryer as washerDryer, phone, email, email,city, state, neighborhood, street, borough FROM UserListings WHERE uid = '%@' AND user_id = '%@'";
+    NSString *template = @"SELECT uid as objectId, unit, movin_cost as moveInCost,montly_cost as moveInCost,movein_date as moveInDate, bedrooms, bathrooms, broker_fee as brokerfee, outdoor_space as outdoorSpace, cats, dogs, gym, listing_state as listingState, washer_dryer as washerDryer, phone, email, email,city, state, neighborhood, street, borough FROM UserListings WHERE uid = '%@' AND user_id = '%@'";
     return  [NSString stringWithFormat:template, listing.objectId, user.uid];
 }
 @end

@@ -7,12 +7,12 @@
 //
 
 #import "FormCell.h"
-
+#import "CustomField.h"
 @interface TextInputCell : FormCell<UITextFieldDelegate>
 
 -(void)inputTextChanged:(id)sender;
 -(void)textFieldFinished:(id)sender;
 -(void)inputFieldBegan:(id)sender;
-@property(nonatomic, strong, readonly)UITextField *inputField;
+@property(nonatomic, strong, readonly)CustomField *inputField;
 
 @end

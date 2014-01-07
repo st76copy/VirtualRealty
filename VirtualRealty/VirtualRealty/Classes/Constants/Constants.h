@@ -119,7 +119,9 @@ typedef enum FormField
     kUserMinBedrooms     = 42,
     
     kSocial     = 43,
-    kSearchRadius = 51
+    kSearchRadius = 51,
+    
+    kListingStatus = 52
  
 }FormField;
 

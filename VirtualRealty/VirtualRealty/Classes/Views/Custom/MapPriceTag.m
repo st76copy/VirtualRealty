@@ -39,6 +39,8 @@
     UILabel *priceLabel = [[UILabel alloc]initWithFrame:CGRectZero];
     priceLabel.textColor = [UIColor whiteColor];
     priceLabel.text = [NSString stringWithFormat:@"$%i", (int)value];
+    [priceLabel setFont:[UIFont fontWithName:@"MuseoSans-300" size:15]];
+    
     priceLabel.font = [UIFont systemFontOfSize:14];
     [priceLabel sizeToFit];
     [self addSubview:priceLabel];

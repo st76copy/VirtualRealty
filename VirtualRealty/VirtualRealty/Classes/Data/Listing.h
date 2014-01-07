@@ -12,6 +12,7 @@
 
 typedef void (^SaveMediaBlock) (BOOL success);
 typedef void (^LoadMediaBlock) (BOOL success);
+typedef void (^UpdateListingBlock) (BOOL success);
 
 @interface Listing : NSObject
 
@@ -27,13 +28,14 @@ typedef void (^LoadMediaBlock) (BOOL success);
 
 -(void)clearErrorForField:(FormField)field;
 -(void)saveMedia:( SaveMediaBlock )block;
-
+-(void)update:(UpdateListingBlock)block;
 @property(nonatomic, strong, readonly)NSMutableArray *errors;
 
 @property(nonatomic, strong)NSString *objectId;
 @property(nonatomic, strong)NSString *submitterObjectId;
 @property(nonatomic, copy)SaveMediaBlock saveCompleteBlock;
 @property(nonatomic, copy)LoadMediaBlock loadCompleteBlock;
+@property(nonatomic, copy)LoadMediaBlock updateCompleteBlock;
 
 @property(nonatomic,strong )CLLocation *geo;
 

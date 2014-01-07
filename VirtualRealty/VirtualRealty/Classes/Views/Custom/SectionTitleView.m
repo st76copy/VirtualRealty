@@ -29,6 +29,7 @@
         
         
         UILabel *label = [[UILabel alloc]initWithFrame:CGRectZero];
+        label.font = [UIFont fontWithName:@"MuseoSans-300" size:15];
         label.textColor = [UIColor whiteColor];
         label.text = string;
         label.font = [UIFont systemFontOfSize:14];

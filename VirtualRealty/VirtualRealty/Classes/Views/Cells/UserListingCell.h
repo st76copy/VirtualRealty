@@ -7,7 +7,9 @@
 //
 
 #import "ListingCell.h"
-
+#import "ListingStateView.h"
 @interface UserListingCell : ListingCell
+{
 
+}
 @end

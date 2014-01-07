@@ -9,13 +9,14 @@
 #import "AbstractCell.h"
 #import "Listing.h"
 #import "PriceView.h"
+#import "ListingStateView.h"
 @interface ListingCell : AbstractCell
 
 @property(nonatomic, strong)Listing *listing;
 @property(nonatomic, strong, readonly)UIImageView *thumb;
 @property(nonatomic, strong, readonly)PriceView   *priceView;
 @property(nonatomic, strong, readonly)UIView      *stroke;
-@property(nonatomic, strong, readonly)UILabel     *stateLabel;
+@property(nonatomic, strong, readonly)ListingStateView     *stateView;
 @property(nonatomic, strong, readonly)UILabel     *addressLabel;
 @property(nonatomic, strong, readonly)UILabel     *listingDetailsLabel;
 @property(nonatomic, strong, readonly)UIActivityIndicatorView     *spinner;

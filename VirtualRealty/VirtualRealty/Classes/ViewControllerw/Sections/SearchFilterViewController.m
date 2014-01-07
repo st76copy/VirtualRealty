@@ -104,6 +104,8 @@
     [button setTitle:@"Clear Filters" forState:UIControlStateNormal];
     [button setTitleColor:[UIColor colorFromHex:@"cbd5d9"] forState:UIControlStateHighlighted];
     [button addTarget:self action:@selector(handleClearFliters:) forControlEvents:UIControlEventTouchUpInside];
+    [button.titleLabel setFont:[UIFont fontWithName:@"MuseoSans-500" size:15]];
+    
     [button sizeToFit];
     
     rect = button.frame;

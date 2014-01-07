@@ -69,6 +69,8 @@
         [blockself handleReachabilityKnow];
     }];
     
+    [Utils printFontFamilies];
+    
     [self.window makeKeyAndVisible];
     return YES;
 }
@@ -114,9 +116,17 @@
         {
             self.window.rootViewController = nil;
             
+            [[UINavigationBar appearance]setTintColor:[UIColor whiteColor]];
             __block AppDelegate *blockself = self;
             _nav = [[NavViewController alloc]initWithNibName:nil bundle:nil];
             
+            UIFont *font = [UIFont fontWithName:@"MuseoSans-300" size:17];
+            
+            NSDictionary *textTreatment = @{NSForegroundColorAttributeName:[UIColor whiteColor],
+                                            NSFontAttributeName:font,};
+            [[UIBarButtonItem appearance]setTitleTextAttributes:textTreatment forState:UIControlStateNormal];
+           
+            [[UINavigationBar appearance]setTitleTextAttributes:textTreatment];
             [[UISwitch appearance]setOnTintColor:[UIColor colorFromHex:@"00aeef"]];
             
             UIViewController *rootViewController = [[SearchViewController alloc]initWithNibName:nil bundle:nil];

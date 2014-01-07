@@ -24,6 +24,7 @@
         self.frame = CGRectMake(0, 0, 320, 44);
     
         _listButton = [UIButton buttonWithType:UIButtonTypeCustom];
+        [_listButton.titleLabel setFont:[UIFont fontWithName:@"MuseoSans-300" size:15]];
         [_listButton setTitle:@"List" forState:UIControlStateNormal];
         [_listButton setTitleColor:[UIColor colorFromHex:@"ffffff"] forState:UIControlStateNormal];
         [_listButton setBackgroundColor:[UIColor colorFromHex:@"d56d14"]];
@@ -33,6 +34,8 @@
         [_listButton addTarget:self action:@selector(handleButtonTouched:) forControlEvents:UIControlEventTouchUpInside];
         
         _mapButton = [UIButton buttonWithType:UIButtonTypeCustom];
+        [_mapButton.titleLabel setFont:[UIFont fontWithName:@"MuseoSans-300" size:15]];
+        
         [_mapButton setTitle:@"Map" forState:UIControlStateNormal];
         [_mapButton setTitleColor:[UIColor colorFromHex:@"787878"] forState:UIControlStateNormal];
         [_mapButton setFrame:CGRectMake(160, 0, 160, 44)];

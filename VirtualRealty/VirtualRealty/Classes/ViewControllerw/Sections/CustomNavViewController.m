@@ -38,8 +38,7 @@
     self.view.layer.shadowColor   = [UIColor blackColor].CGColor;
     self.view.layer.shadowPath    = [UIBezierPath bezierPathWithRect:self.view.bounds].CGPath;
    
-    NSDictionary *textTreatment = @{NSForegroundColorAttributeName:[UIColor whiteColor], NSBackgroundColorAttributeName:[UIColor whiteColor]};
-    [[UINavigationBar appearance] setTitleTextAttributes:textTreatment];
+
 }
 
 

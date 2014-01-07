@@ -17,6 +17,7 @@
 #import "ListingDetailViewController.h"
 #import "UserListingCell.h"
 #import "SectionTitleView.h"
+#import "EditListingViewController.h"
 
 @interface UserContentViewController ()
 
@@ -68,7 +69,6 @@
     
 
     [self.view addSubview:self.table];
-    
 
 }
 
@@ -186,14 +186,24 @@
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     NSArray *group = [self.tableData objectAtIndex:indexPath.section];
+   
     _listing = [group objectAtIndex:indexPath.row];
     
     [self.table deselectRowAtIndexPath:indexPath animated:YES];
     NSArray *section = [self.tableData objectAtIndex:indexPath.section];
     Listing *listing = [section objectAtIndex:indexPath.row];
     
+    UIViewController *details;
     
-    ListingDetailViewController *details = [[ListingDetailViewController alloc]initWithListing:listing];
+    if( [self.listing.submitterID isEqualToString:[User sharedUser].username] )
+    {
+        details = [[EditListingViewController alloc]initWithListing:listing];
+    }
+    else
+    {
+        details = [[ListingDetailViewController alloc]   initWithListing:listing];
+    }
+
     [self.navigationController pushViewController:details animated:YES];
     
 }

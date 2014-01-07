@@ -19,37 +19,38 @@
 @synthesize listingDetailsLabel = _listingDetailsLabel;
 @synthesize stroke              = _stroke;
 @synthesize spinner             = _spinner;
+@synthesize stateView           = _stateView;
 
 -(id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {
     self = [super initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:reuseIdentifier];
     if( self != nil  )
     {
-        _thumb = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, 320, 125)];
+        _thumb = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, 320, 127)];
         [self.thumb setContentMode:UIViewContentModeScaleAspectFill];
         [self.thumb setClipsToBounds:YES];
         [self.thumb setBackgroundColor:[UIColor colorFromHex:@"e6e6e6"]];
         
         [self.contentView addSubview:self.thumb];
         
-        _stateLabel = [[UILabel alloc]initWithFrame:CGRectZero];
-        [self.stateLabel setFont:[UIFont boldSystemFontOfSize:10]];
-        [self.contentView addSubview:self.stateLabel];
         
         _priceView = [[PriceView alloc]initWithFrame:CGRectZero];
         [self.contentView addSubview:self.priceView];
         
         _addressLabel = [[UILabel alloc]initWithFrame:CGRectZero];
-        [self.addressLabel setTextColor:[UIColor colorFromHex:@"424242"]];
+        _addressLabel.font = [UIFont fontWithName:@"MuseoSans-300" size:20];
+        
+        [self.addressLabel setTextColor:[UIColor colorFromHex:@"303030"]];
         [self.addressLabel setFont:[UIFont systemFontOfSize:18]];
         
         
         _listingDetailsLabel = [[UILabel alloc]initWithFrame:CGRectZero];
-        [self.listingDetailsLabel setTextColor:[UIColor colorFromHex:@"424242"]];
+        _listingDetailsLabel.font = [UIFont fontWithName:@"MuseoSans-500" size:12.5];
+        [self.listingDetailsLabel setTextColor:[UIColor colorFromHex:@"303030"]];
         [self.listingDetailsLabel setFont:[UIFont systemFontOfSize:14]];
         
-        _stroke = [[UIView alloc]initWithFrame:CGRectMake(0, 186, 181, 2)];
-        [_stroke setBackgroundColor:[UIColor colorFromHex:@"c77732"]];
+        _stroke = [[UIView alloc]initWithFrame:CGRectMake(0, 190, 181, 2)];
+        [_stroke setBackgroundColor:[UIColor colorFromHex:@"00aeef"]];
         
         _spinner = [[UIActivityIndicatorView alloc]initWithFrame:CGRectMake(0, 0, 20, 20)];
         _spinner.activityIndicatorViewStyle = UIActionSheetStyleBlackTranslucent;
@@ -60,6 +61,10 @@
         [self.contentView addSubview:self.addressLabel];
         [self.contentView addSubview:self.listingDetailsLabel];
         [self.contentView addSubview:self.stroke];
+        
+        _stateView = [[ListingStateView alloc]initWithFrame:CGRectZero];
+        [self.contentView addSubview:_stateView];
+        
     }
     return self;
 }
@@ -79,7 +84,7 @@
     rect.origin.y = self.thumb.frame.size.height - rect.size.height;
     self.priceView.frame = rect;
     
-    self.addressLabel.frame = CGRectMake(5, self.thumb.frame.size.height + 5, 320, 0);
+    self.addressLabel.frame = CGRectMake(5, self.thumb.frame.size.height + 10, 320, 0);
     [self.addressLabel sizeToFit];
     
     if( self.addressLabel.frame.size.width > 320 )
@@ -91,7 +96,7 @@
     }
     
     float y = self.addressLabel.frame.size.height + self.addressLabel.frame.origin.y;
-    self.listingDetailsLabel.frame = CGRectMake(5, y, 320, 28 );
+    self.listingDetailsLabel.frame = CGRectMake(5, y - 2, 320, 28 );
 }
 
 -(void)render
@@ -100,9 +105,10 @@
     [self.spinner startAnimating];
     __block ListingCell *blockself = self;
     
-    self.addressLabel.text = self.listing.street;
+    NSString *borough = ( self.listing.borough == nil ) ? self.listing.city : self.listing.borough;
+    self.addressLabel.text = [NSString stringWithFormat:@"%@, %@ %@",self.listing.street, borough, [NSString stringWithFormat:@"%i",[self.listing.zip intValue]]];
     NSString *detailsText = [NSString stringWithFormat:@"%@, %@ in %@", self.listing.bedrooms, self.listing.bathrooms, self.listing.neighborhood];
-    self.listingDetailsLabel.text = detailsText;
+    self.listingDetailsLabel.text = [detailsText uppercaseString];
     
     [self.priceView setPrice:[self.listing.monthlyCost floatValue]];
     

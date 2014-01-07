@@ -104,6 +104,8 @@
     UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
     [button setBackgroundImage:[UIImage imageNamed:@"footer-button-fill.png"] forState:UIControlStateNormal];
     [button setTitle:@"Register" forState:UIControlStateNormal];
+    [button.titleLabel setFont:[UIFont fontWithName:@"MuseoSans-500" size:15]];
+    
     [button setTitleColor:[UIColor colorFromHex:@"cbd5d9"] forState:UIControlStateHighlighted];
     [button addTarget:self action:@selector(handleLoginTouch:) forControlEvents:UIControlEventTouchUpInside];
     [button sizeToFit];
@@ -122,6 +124,8 @@
     [button setBackgroundImage:[UIImage imageNamed:@"footer-button-fill.png"] forState:UIControlStateNormal];
     [button setTitle:@"Log In" forState:UIControlStateNormal];
     [button setTitleColor:[UIColor colorFromHex:@"cbd5d9"] forState:UIControlStateHighlighted];
+    [button.titleLabel setFont:[UIFont fontWithName:@"MuseoSans-500" size:15]];
+    
     [button addTarget:self action:@selector(handleLoginTouch:) forControlEvents:UIControlEventTouchUpInside];
     [button sizeToFit];
     rect = button.frame;

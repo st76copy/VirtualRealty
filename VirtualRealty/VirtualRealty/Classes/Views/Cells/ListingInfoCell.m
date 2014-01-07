@@ -36,14 +36,14 @@
         
         _addressLabel = [[UILabel alloc]initWithFrame:CGRectZero];
         [self.addressLabel setTextColor:[UIColor colorFromHex:@"424242"]];
-        [self.addressLabel setFont:[UIFont systemFontOfSize:19]];
+        _addressLabel.font = [UIFont fontWithName:@"MuseoSans-300" size:20];
         
         
         _listingDetailsLabel = [[UILabel alloc]initWithFrame:CGRectZero];
         [self.listingDetailsLabel setTextColor:[UIColor colorFromHex:@"424242"]];
         [self.listingDetailsLabel setFont:[UIFont systemFontOfSize:14]];
         
-        _stroke = [[UIView alloc]initWithFrame:CGRectMake(0, 219, 181, 2)];
+        _stroke = [[UIView alloc]initWithFrame:CGRectMake(0, 190, 181, 2)];
         [_stroke setBackgroundColor:[UIColor colorFromHex:@"00aeef"]];
         
         UIButton *playButton = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -79,7 +79,7 @@
     rect.origin.y = self.thumb.frame.size.height - rect.size.height;
     self.priceView.frame = rect;
     
-    self.addressLabel.frame = CGRectMake(5, self.thumb.frame.size.height + 28, 320, 0);
+    self.addressLabel.frame = CGRectMake(5, self.thumb.frame.size.height + 9, 320, 0);
     [self.addressLabel sizeToFit];
     
     if( self.addressLabel.frame.size.width > 320 )
@@ -91,7 +91,7 @@
     }
     
     float y = self.addressLabel.frame.size.height + self.addressLabel.frame.origin.y;
-    self.listingDetailsLabel.frame = CGRectMake(5, y, 320, 28 );
+    self.listingDetailsLabel.frame = CGRectMake(5, y - 2, 320, 28 );
 }
 
 -(void)render

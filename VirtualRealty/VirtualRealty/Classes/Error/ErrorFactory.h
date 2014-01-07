@@ -15,6 +15,7 @@ typedef enum ErrorType
     
     // reachable error
     kNotReachableOnLogIn,
+    kNotReachable,
     
     // user error
     kUserLoginFailError,
@@ -27,7 +28,7 @@ typedef enum ErrorType
     kListingSavingError,
     kListingGPSError,
     // form errors
-    
+    kNoResultsError,
     //media errors,
     kMediaNotAvailableError,
     

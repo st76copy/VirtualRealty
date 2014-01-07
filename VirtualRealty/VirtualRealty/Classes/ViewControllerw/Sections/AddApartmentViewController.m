@@ -107,6 +107,8 @@
     [button setTitle:@"Submit Listing" forState:UIControlStateNormal];
     [button setTitleColor:[UIColor colorFromHex:@"cbd5d9"] forState:UIControlStateHighlighted];
     [button addTarget:self action:@selector(handleSubmitListing:) forControlEvents:UIControlEventTouchUpInside];
+    [button.titleLabel setFont:[UIFont fontWithName:@"MuseoSans-500" size:15]];
+    
     [button sizeToFit];
     
     rect = button.frame;
@@ -334,6 +336,7 @@
         case kBathrooms:
         case kNeightborhood:
         case kBorough:
+        case kState:
             [PickerManager sharedManager].type = kStandard;
             [PickerManager sharedManager].pickerData = cell.cellinfo[@"picker-data"];
             [[PickerManager sharedManager]showPickerInView:self.view];
@@ -578,6 +581,9 @@
         case kVideo :
             break;
         case kThumbnail:
+            break;
+        case kState:
+            _listing.state = formcell.formValue;
             break;
         default:
             break;
@@ -825,7 +831,7 @@
     {
         case kThumbnail:
             source = [info valueForKey:UIImagePickerControllerOriginalImage];
-            self.listing.thumb = [Utils resizeImage:source toSize:CGSizeMake(source.size.width * 0.3, source.size.height * 0.3 )];
+            self.listing.thumb = [Utils copyImage:source ToSize:CGSizeMake(640, 254)];
             break;
         case kVideo:
         {
