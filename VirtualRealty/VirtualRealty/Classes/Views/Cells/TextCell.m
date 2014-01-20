@@ -33,13 +33,12 @@
     rect.origin.y = self.contentView.frame.size.height * 0.5 - rect.size.height * 0.5;
     self.detailTextLabel.frame = rect;
     
-    
 }
 
 
 -(void)render
 {
-    self.textLabel.text = [self.cellinfo valueForKey:@"label"];
+    self.textLabel.text  = [self.cellinfo valueForKey:@"label"];
     self.imageView.image = [UIImage imageNamed:self.cellinfo[@"icon"]];
     if( self.cellinfo[@"current-value"] && [self.cellinfo[@"current-value"] isEqualToString:@""] == NO )
     {

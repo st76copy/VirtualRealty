@@ -6,20 +6,14 @@
 		<key>cells</key>
 		<array>
 			<dict>
-				<key>placeholder</key>
-				<string>borough</string>
 				<key>animatable</key>
 				<false/>
-				<key>state</key>
-				<integer>1</integer>
+				<key>class</key>
+				<string>TextCell</string>
 				<key>field</key>
 				<integer>50</integer>
 				<key>label</key>
 				<string>Borough</string>
-				<key>class</key>
-				<string>TextCell</string>
-				<key>picker-index</key>
-				<integer>0</integer>
 				<key>picker-data</key>
 				<array>
 					<array>
@@ -51,35 +45,29 @@
 							<key>label</key>
 							<string>Staten Island</string>
 							<key>value</key>
-							<string>St George </string>
+							<string>Staten Island</string>
 						</dict>
 					</array>
 				</array>
-			</dict>
-			<dict>
+				<key>picker-index</key>
+				<integer>0</integer>
 				<key>placeholder</key>
-				<string>neighborhood</string>
-				<key>animatable</key>
-				<false/>
+				<string>borough</string>
 				<key>state</key>
 				<integer>1</integer>
+			</dict>
+			<dict>
+				<key>animatable</key>
+				<false/>
+				<key>class</key>
+				<string>TextCell</string>
 				<key>field</key>
 				<integer>22</integer>
 				<key>label</key>
 				<string>Neighborhood</string>
-				<key>class</key>
-				<string>TextCell</string>
-				<key>picker-index</key>
-				<integer>0</integer>
 				<key>picker-data</key>
 				<array>
 					<array>
-						<dict>
-							<key>label</key>
-							<string>Manhattan</string>
-							<key>value</key>
-							<string>Manhattan</string>
-						</dict>
 						<dict>
 							<key>label</key>
 							<string>Lower Manhattan</string>
@@ -244,6 +232,12 @@
 						</dict>
 						<dict>
 							<key>label</key>
+							<string>Ridgewood</string>
+							<key>value</key>
+							<string>Ridgewood</string>
+						</dict>
+						<dict>
+							<key>label</key>
 							<string>Sunnyside</string>
 							<key>value</key>
 							<string>Sunnyside</string>
@@ -253,12 +247,6 @@
 							<string>Woodside</string>
 							<key>value</key>
 							<string>Woodside</string>
-						</dict>
-						<dict>
-							<key>label</key>
-							<string>Ridgewood</string>
-							<key>value</key>
-							<string>Ridgewood</string>
 						</dict>
 						<dict>
 							<key>label</key>
@@ -280,6 +268,12 @@
 						</dict>
 					</array>
 				</array>
+				<key>picker-index</key>
+				<integer>0</integer>
+				<key>placeholder</key>
+				<string>neighborhood</string>
+				<key>state</key>
+				<integer>1</integer>
 			</dict>
 		</array>
 		<key>section-title</key>
@@ -289,52 +283,52 @@
 		<key>cells</key>
 		<array>
 			<dict>
-				<key>placeholder</key>
-				<string>$0</string>
-				<key>format</key>
-				<string>$%i</string>
 				<key>animatable</key>
 				<false/>
+				<key>class</key>
+				<string>MoneyInputCell</string>
 				<key>field</key>
 				<integer>23</integer>
-				<key>state</key>
-				<integer>1</integer>
-				<key>label</key>
-				<string>Minimum Rent</string>
-				<key>class</key>
-				<string>MoneyInputCell</string>
-			</dict>
-			<dict>
-				<key>placeholder</key>
-				<string>$0</string>
 				<key>format</key>
 				<string>$%i</string>
-				<key>field</key>
-				<integer>24</integer>
+				<key>label</key>
+				<string>Minimum Rent</string>
+				<key>placeholder</key>
+				<string>$0</string>
 				<key>state</key>
 				<integer>1</integer>
-				<key>animatable</key>
-				<false/>
-				<key>label</key>
-				<string>Max Rent</string>
-				<key>class</key>
-				<string>MoneyInputCell</string>
 			</dict>
 			<dict>
-				<key>placeholder</key>
-				<string>$0.00</string>
-				<key>format</key>
-				<string>$%0.2f</string>
-				<key>field</key>
-				<integer>25</integer>
-				<key>state</key>
-				<integer>1</integer>
 				<key>animatable</key>
 				<false/>
+				<key>class</key>
+				<string>MoneyInputCell</string>
+				<key>field</key>
+				<integer>24</integer>
+				<key>format</key>
+				<string>$%i</string>
 				<key>label</key>
-				<string>Broker Fee</string>
+				<string>Max Rent</string>
+				<key>placeholder</key>
+				<string>$0</string>
+				<key>state</key>
+				<integer>1</integer>
+			</dict>
+			<dict>
+				<key>animatable</key>
+				<false/>
 				<key>class</key>
 				<string>SwitchCell</string>
+				<key>field</key>
+				<integer>25</integer>
+				<key>format</key>
+				<string>$%0.2f</string>
+				<key>label</key>
+				<string>Broker Fee</string>
+				<key>placeholder</key>
+				<string>$0.00</string>
+				<key>state</key>
+				<integer>1</integer>
 			</dict>
 		</array>
 		<key>section-title</key>
@@ -344,20 +338,14 @@
 		<key>cells</key>
 		<array>
 			<dict>
-				<key>placeholder</key>
-				<string>bedrooms needed</string>
 				<key>animatable</key>
 				<false/>
+				<key>class</key>
+				<string>TextCell</string>
 				<key>field</key>
 				<integer>26</integer>
-				<key>state</key>
-				<integer>1</integer>
 				<key>label</key>
 				<string>Bedrooms</string>
-				<key>class</key>
-				<string>TextCell</string>
-				<key>picker-index</key>
-				<integer>0</integer>
 				<key>picker-data</key>
 				<array>
 					<array>
@@ -399,22 +387,22 @@
 						</dict>
 					</array>
 				</array>
+				<key>picker-index</key>
+				<integer>0</integer>
+				<key>placeholder</key>
+				<string>bedrooms needed</string>
+				<key>state</key>
+				<integer>1</integer>
 			</dict>
 			<dict>
-				<key>placeholder</key>
-				<string>bathrooms needed</string>
 				<key>animatable</key>
 				<false/>
+				<key>class</key>
+				<string>TextCell</string>
 				<key>field</key>
 				<integer>27</integer>
-				<key>state</key>
-				<integer>1</integer>
 				<key>label</key>
 				<string>Bathrooms</string>
-				<key>class</key>
-				<string>TextCell</string>
-				<key>picker-index</key>
-				<integer>0</integer>
 				<key>picker-data</key>
 				<array>
 					<array>
@@ -450,54 +438,60 @@
 						</dict>
 					</array>
 				</array>
+				<key>picker-index</key>
+				<integer>0</integer>
+				<key>placeholder</key>
+				<string>bathrooms needed</string>
+				<key>state</key>
+				<integer>1</integer>
 			</dict>
 			<dict>
+				<key>animatable</key>
+				<false/>
+				<key>class</key>
+				<string>SwitchCell</string>
 				<key>field</key>
 				<integer>28</integer>
-				<key>state</key>
-				<integer>1</integer>
-				<key>animatable</key>
-				<false/>
 				<key>label</key>
 				<string>Share</string>
-				<key>class</key>
-				<string>SwitchCell</string>
+				<key>state</key>
+				<integer>1</integer>
 			</dict>
 			<dict>
+				<key>animatable</key>
+				<false/>
+				<key>class</key>
+				<string>SwitchCell</string>
 				<key>field</key>
 				<integer>29</integer>
-				<key>state</key>
-				<integer>1</integer>
-				<key>animatable</key>
-				<false/>
 				<key>label</key>
 				<string>Dogs</string>
-				<key>class</key>
-				<string>SwitchCell</string>
+				<key>state</key>
+				<integer>1</integer>
 			</dict>
 			<dict>
+				<key>animatable</key>
+				<false/>
+				<key>class</key>
+				<string>SwitchCell</string>
 				<key>field</key>
 				<integer>30</integer>
-				<key>state</key>
-				<integer>1</integer>
-				<key>animatable</key>
-				<false/>
 				<key>label</key>
 				<string>Cats</string>
-				<key>class</key>
-				<string>SwitchCell</string>
-			</dict>
-			<dict>
-				<key>field</key>
-				<integer>31</integer>
 				<key>state</key>
 				<integer>1</integer>
+			</dict>
+			<dict>
 				<key>animatable</key>
 				<false/>
-				<key>label</key>
-				<string>Move In After</string>
 				<key>class</key>
 				<string>DateCell</string>
+				<key>field</key>
+				<integer>31</integer>
+				<key>label</key>
+				<string>Move In After</string>
+				<key>state</key>
+				<integer>1</integer>
 			</dict>
 		</array>
 		<key>section-title</key>
@@ -507,64 +501,64 @@
 		<key>cells</key>
 		<array>
 			<dict>
+				<key>animatable</key>
+				<false/>
+				<key>class</key>
+				<string>SwitchCell</string>
 				<key>field</key>
 				<integer>32</integer>
-				<key>state</key>
-				<integer>1</integer>
-				<key>animatable</key>
-				<false/>
 				<key>label</key>
 				<string>Outdoor Space</string>
-				<key>class</key>
-				<string>SwitchCell</string>
+				<key>state</key>
+				<integer>1</integer>
 			</dict>
 			<dict>
+				<key>animatable</key>
+				<false/>
+				<key>class</key>
+				<string>SwitchCell</string>
 				<key>field</key>
 				<integer>33</integer>
-				<key>state</key>
-				<integer>1</integer>
-				<key>animatable</key>
-				<false/>
 				<key>label</key>
 				<string>Washer Dryer</string>
-				<key>class</key>
-				<string>SwitchCell</string>
+				<key>state</key>
+				<integer>1</integer>
 			</dict>
 			<dict>
+				<key>animatable</key>
+				<false/>
+				<key>class</key>
+				<string>SwitchCell</string>
 				<key>field</key>
 				<integer>34</integer>
-				<key>state</key>
-				<integer>1</integer>
-				<key>animatable</key>
-				<false/>
 				<key>label</key>
 				<string>Doorman</string>
-				<key>class</key>
-				<string>SwitchCell</string>
+				<key>state</key>
+				<integer>1</integer>
 			</dict>
 			<dict>
+				<key>animatable</key>
+				<false/>
+				<key>class</key>
+				<string>SwitchCell</string>
 				<key>field</key>
 				<integer>35</integer>
-				<key>state</key>
-				<integer>1</integer>
-				<key>animatable</key>
-				<false/>
 				<key>label</key>
 				<string>Gym</string>
-				<key>class</key>
-				<string>SwitchCell</string>
-			</dict>
-			<dict>
-				<key>field</key>
-				<integer>36</integer>
 				<key>state</key>
 				<integer>1</integer>
+			</dict>
+			<dict>
 				<key>animatable</key>
 				<false/>
-				<key>label</key>
-				<string>Pool</string>
 				<key>class</key>
 				<string>SwitchCell</string>
+				<key>field</key>
+				<integer>36</integer>
+				<key>label</key>
+				<string>Pool</string>
+				<key>state</key>
+				<integer>1</integer>
 			</dict>
 		</array>
 		<key>section-title</key>

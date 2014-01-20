@@ -21,6 +21,9 @@ typedef void (^LoginInCompleteBlock) (BOOL success);
 @property(nonatomic, assign, readonly)UserState  state;
 @property(nonatomic, strong, readonly)NSArray    *listings;
 @property(nonatomic, strong, readonly)NSArray    *recentListings;
+@property(nonatomic, strong)NSNumber *isBroker;
+@property(nonatomic, strong)NSString *brokerFirm;
+
 
 @property(nonatomic, strong)Listing *currentListing;
 

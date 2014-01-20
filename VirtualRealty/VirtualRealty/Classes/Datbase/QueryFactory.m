@@ -12,7 +12,7 @@
 @implementation QueryFactory
 +(NSString *)getDeleteListingQuery:(Listing *)listing
 {
-    NSString *template = @"DELETE FROM UserListings WEHRE uid='%@';";
+    NSString *template = @"DELETE  FROM UserListings WHERE uid='%@';";
     return [NSString stringWithFormat:template, listing.objectId];
 }
 

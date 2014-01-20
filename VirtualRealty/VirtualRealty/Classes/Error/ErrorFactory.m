@@ -87,7 +87,12 @@
             message     = NSLocalizedString(@"There are no results for your term or filters, try adjusting the filters", @"Error : GPS not working error");
             cancelTitle = NSLocalizedString(@"OK", @"Genereic : Cancel ");
             break;
-
+        case kServerError:
+            title       = NSLocalizedString(@"Sorry", @"Error : Invalid username error title");
+            message     = NSLocalizedString(@"There was a server error, please try again soon", @"Error : GPS not working error");
+            cancelTitle = NSLocalizedString(@"OK", @"Genereic : Cancel ");
+            break;
+            
         case kListingPendingError:
             title       = NSLocalizedString(@"Success", @"Error : Invalid username error title");
             message     = NSLocalizedString(@"You listing has been sent to a content moderator for approval.", @"Error : Invalid listing error body");
@@ -100,7 +105,21 @@
             cancelTitle = NSLocalizedString(@"OK", @"Genereic : Cancel ");
             
             break;
+        case kUserAddressNotSupported :
+            title       = NSLocalizedString(@"Sorry", @"Error : Generic sorry");
+            message     = NSLocalizedString(@"We are only supporting listings in the New York City area at this time.", @"Error : No media body");
+            cancelTitle = NSLocalizedString(@"OK", @"Genereic : Cancel ");
+            
+            break;
 
+        case kNotValidBrokerListing :
+            title       = NSLocalizedString(@"Sorry", @"Error : Generic sorry");
+            message     = NSLocalizedString(@"We are only supporting listings in the New York City area at this time.", @"Error : No media body");
+            cancelTitle = NSLocalizedString(@"OK", @"Genereic : Cancel ");
+            
+            break;
+
+        
     }
     
     alertView = [[UIAlertView alloc]initWithTitle:title message:message delegate:delegate cancelButtonTitle:cancelTitle otherButtonTitles:nil];

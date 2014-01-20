@@ -11,6 +11,8 @@
 #import "LoginViewController.h"
 #import "AppDelegate.h"
 @interface TourViewController ()<UIScrollViewDelegate>
+
+@property(nonatomic, strong)UIButton      *skipButton;
 @property(nonatomic, strong)UIScrollView  *scrollview;
 @property(nonatomic, strong)UIPageControl *pageControl;
 @end
@@ -51,20 +53,20 @@
     [self.scrollview setContentSize:CGSizeMake(rect.size.width * images.count, rect.size.height)];
     [self.scrollview setDelegate:self];
    
-    UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
-    [button setTitle:@"Skip Tour" forState:UIControlStateNormal];
-    [button addTarget:self action:@selector(handleSkip:) forControlEvents:UIControlEventTouchUpInside];
-    [button sizeToFit];
-    [button.titleLabel setFont:[UIFont fontWithName:@"MuseoSans-300" size:15]];
+    self.skipButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [self.skipButton setTitle:@"Skip Tour" forState:UIControlStateNormal];
+    [self.skipButton addTarget:self action:@selector(handleSkip:) forControlEvents:UIControlEventTouchUpInside];
+    [self.skipButton sizeToFit];
+    [self.skipButton.titleLabel setFont:[UIFont fontWithName:@"MuseoSans-300" size:15]];
     
     
-    rect = button.frame;
+    rect = self.skipButton.frame;
     rect.origin.x = self.view.frame.size.width * 0.5 - rect.size.width * 0.5;
     rect.origin.y = self.view.frame.size.height - ( rect.size.height + 10 );
-    button.frame = rect;
-    [self.view addSubview:button];
+    self.skipButton.frame = rect;
+    [self.view addSubview:self.skipButton];
 
-    button = [UIButton buttonWithType:UIButtonTypeCustom];
+    UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
     [button setBackgroundImage:[UIImage imageNamed:@"footer-button-fill.png"] forState:UIControlStateNormal];
     [button setTitle:@"Sign In" forState:UIControlStateNormal];
     [button setTitleColor:[UIColor colorFromHex:@"cbd5d9"] forState:UIControlStateHighlighted];
@@ -113,6 +115,15 @@
     float percent =  scrollView.contentOffset.x / ( scrollView.contentSize.width - self.view.frame.size.width );
     int  index = percent * 4;
     self.pageControl.currentPage = index;
+    
+    if( index == 4 )
+    {
+        [self.skipButton setTitle:@"Done" forState:UIControlStateNormal];        
+    }
+    else
+    {
+        [self.skipButton setTitle:@"Skip Tour" forState:UIControlStateNormal];
+    }
 }
 
 

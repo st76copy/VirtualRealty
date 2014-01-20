@@ -3,44 +3,87 @@
 <plist version="1.0">
 <array>
 	<dict>
-		<key>field</key>
-		<integer>0</integer>
-		<key>requires-user</key>
-		<true/>
-		<key>cell</key>
-		<string>UserCell</string>
-		<key>class</key>
-		<string>UserContentViewController</string>
-		<key>label</key>
-		<string>logged in as %@</string>
+		<key>cells</key>
+		<array>
+			<dict>
+				<key>display-height</key>
+				<integer>50</integer>
+				<key>cell</key>
+				<string>UserCell</string>
+				<key>class</key>
+				<string>UserContentViewController</string>
+				<key>field</key>
+				<integer>0</integer>
+				<key>label</key>
+				<string>logged in as %@</string>
+				<key>requires-user</key>
+				<true/>
+			</dict>
+		</array>
+		<key>section-title</key>
+		<string>User</string>
 	</dict>
 	<dict>
-		<key>field</key>
-		<integer>39</integer>
-		<key>requires-user</key>
-		<true/>
-		<key>cell</key>
-		<string>SwitchCell</string>
-		<key>class</key>
-		<string>UserContentViewController</string>
-		<key>label</key>
-		<string>Actively Looking</string>
+		<key>cells</key>
+		<array>
+			<dict>
+				<key>New item</key>
+				<string></string>
+				<key>cell</key>
+				<string>SwitchCell</string>
+				<key>class</key>
+				<string>UserContentViewController</string>
+				<key>field</key>
+				<integer>39</integer>
+				<key>label</key>
+				<string>Actively Looking</string>
+				<key>requires-user</key>
+				<true/>
+			</dict>
+			<dict>
+				<key>cell</key>
+				<string>SliderCell</string>
+				<key>display-height</key>
+				<integer>100</integer>
+				<key>field</key>
+				<integer>51</integer>
+				<key>format</key>
+				<string>%0.2f miles</string>
+				<key>label</key>
+				<string>Search Radius</string>
+				<key>max</key>
+				<real>10</real>
+				<key>min</key>
+				<real>0.5</real>
+			</dict>
+		</array>
+		<key>section-title</key>
+		<string>Settings</string>
 	</dict>
 	<dict>
-		<key>format</key>
-		<string>%0.2f miles</string>
-		<key>field</key>
-		<integer>51</integer>
-		<key>display-height</key>
-		<integer>100</integer>
-		<key>min</key>
-		<real>0.5</real>
-		<key>max</key>
-		<real>10</real>
-		<key>cell</key>
-		<string>SliderCell</string>
-		<key>label</key>
-		<string>Search Radius</string>
+		<key>cells</key>
+		<array>
+			<dict>
+				<key>cell</key>
+				<string>TextCell</string>
+				<key>custom-action</key>
+				<string>showTour</string>
+				<key>label</key>
+				<string>Tour</string>
+			</dict>
+			<dict>
+				<key>cell</key>
+				<string>TextCell</string>
+				<key>current-value</key>
+				<string>support@vrnyc.com</string>
+				<key>custom-action</key>
+				<string>showSupport</string>
+				<key>label</key>
+				<string>Contact Support</string>
+			</dict>
+		</array>
+		<key>section-title</key>
+		<string>About</string>
 	</dict>
 </array>
 </plist>

@@ -18,10 +18,14 @@
 #import "UserListingCell.h"
 #import "SectionTitleView.h"
 #import "EditListingViewController.h"
+#import "UIColor+Extended.h"
 
 @interface UserContentViewController ()
 
 -(void)handleDataLoaded:(NSArray *)data;
+-(void)handleRefresh:(id)sender;
+
+@property(nonatomic,strong)UIRefreshControl *refreshControl;
 
 
 @end
@@ -53,15 +57,20 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    self.view.backgroundColor = [UIColor grayColor];
+ 
+    self.view.backgroundColor = [UIColor colorFromHex:@"cbd5d9"];
     
     CGRect rect = self.view.bounds;
     rect.size.height -= self.navigationController.navigationBar.frame.size.height;
+    
+    self.refreshControl = [[UIRefreshControl alloc]init];
+    [self.refreshControl addTarget:self action:@selector(handleRefresh:) forControlEvents:UIControlEventValueChanged];
     
     _table = [[UITableView alloc]initWithFrame:rect style:UITableViewStyleGrouped];
     self.table.separatorInset = UIEdgeInsetsZero;
     self.table.dataSource = self;
     self.table.delegate = self;
+    [self.table addSubview:self.refreshControl];
     
     [_table setSeparatorColor:[UIColor clearColor]];
     [_table setSectionFooterHeight:0.0f];
@@ -69,6 +78,38 @@
     
 
     [self.view addSubview:self.table];
+
+}
+
+-(void)handleRefresh:(id)sender
+{
+
+    __block UserContentViewController *blockself = self;
+    [PFCloud callFunctionInBackground:@"getListingsForUser" withParameters:@{@"userID":[User sharedUser].uid} block:^(id object, NSError *error)
+    {
+         [blockself handleDataLoaded:object];
+    }];
+    
+    NSString *query = [QueryFactory getFavoritesForUser:[User sharedUser]];
+    __block SQLRequest *req = [[SQLRequest alloc]initWithQuery:query andType:kSelect andName:@"get-favorites"];
+    
+    [req runSelectOnDatabaseManager:[SQLiteManager sharedDatabase] WithBlock:^(BOOL success) {
+        if( success )
+        {
+            NSMutableArray *favs = [blockself.tableData objectAtIndex:1];
+            [favs removeAllObjects];
+            
+            for( NSDictionary *info in req.results )
+            {
+                Listing *listing = [[Listing alloc]initWithSQLData:info];
+                [favs addObject:listing];
+            }
+        }
+        
+        NSRange range = NSMakeRange(1, 1);
+        NSIndexSet *section = [NSIndexSet indexSetWithIndexesInRange:range];
+        [self.table reloadSections:section withRowAnimation:UITableViewRowAnimationAutomatic];
+    }];
 
 }
 
@@ -84,18 +125,23 @@
     
     NSString *query = [QueryFactory getFavoritesForUser:[User sharedUser]];
     __block SQLRequest *req = [[SQLRequest alloc]initWithQuery:query andType:kSelect andName:@"get-favorites"];
+   
     [req runSelectOnDatabaseManager:[SQLiteManager sharedDatabase] WithBlock:^(BOOL success) {
         if( success )
         {
             NSMutableArray *favs = [blockself.tableData objectAtIndex:1];
             [favs removeAllObjects];
+            
             for( NSDictionary *info in req.results )
             {
                 Listing *listing = [[Listing alloc]initWithSQLData:info];
                 [favs addObject:listing];
             }
         }
-        [blockself.table reloadData];
+        
+        NSRange range = NSMakeRange(1, 1);
+        NSIndexSet *section = [NSIndexSet indexSetWithIndexesInRange:range];
+        [self.table reloadSections:section withRowAnimation:UITableViewRowAnimationAutomatic];
     }];
 }
 
@@ -107,6 +153,7 @@
 -(void)handleDataLoaded:(NSArray *)data
 {
     
+    [self.refreshControl endRefreshing];
     Listing *listing;
     NSMutableArray *userListings = [self.tableData objectAtIndex:0];
   
@@ -118,7 +165,10 @@
         listing = [[Listing alloc]initWithFullData:info];
         [userListings addObject:listing];
     }
-    [self.table reloadData];
+    
+    NSRange range = NSMakeRange(0, 1);
+    NSIndexSet *section = [NSIndexSet indexSetWithIndexesInRange:range];
+    [self.table reloadSections:section withRowAnimation:UITableViewRowAnimationAutomatic];
 }
 
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView

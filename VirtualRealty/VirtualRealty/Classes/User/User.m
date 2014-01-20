@@ -57,6 +57,8 @@
         self.searchRadius  = @5;
         self.activelySearching = [NSNumber numberWithBool:YES];
         self.moveInAfter = [NSDate date];
+        self.brokerFirm = @"";
+        self.isBroker   = [NSNumber numberWithBool:NO];
         [self loadFromDefaults];
     }
     return self;
@@ -69,6 +71,9 @@
     _uid          = [defaults valueForKey:@"uid"];
     _password     = [defaults valueForKey:@"password"];
     _facebookUser = [defaults valueForKey:@"facebookUser"];
+    
+    _isBroker     = [defaults valueForKey:@"isBroker"];
+    _brokerFirm   = [defaults valueForKey:@"brokerFirm"];
     
     self.minBedrooms = ([defaults valueForKey:@"minBedrooms"] ) ? [defaults valueForKey:@"minBedrooms"] : nil;
     self.maxRent     = ([defaults valueForKey:@"maxRent"])?[defaults valueForKey:@"maxRent"] : @0;
@@ -94,6 +99,9 @@
     [defaults setValue:_uid      forKey:@"uid"];
     [defaults setValue:_password forKey:@"password"];
     [defaults setValue:_facebookUser forKey:@"facebookUser" ];
+    [defaults setValue:_brokerFirm   forKey:@"brokerFirm"];
+    [defaults setValue:_isBroker     forKey:@"isBroker"];
+    
     
     
     if( [self.activelySearching boolValue] )
@@ -123,6 +131,7 @@
     {
         if( error )
         {
+            blockself.loginBlock(NO);
             [[ErrorFactory getAlertCustomMessage:[[error userInfo] valueForKey:@"error"] andDelegateOrNil:nil andOtherButtons:nil]show];
         }
         else
@@ -143,11 +152,31 @@
     
     _password = password;
     
-    [temp setValue:self.activelySearching forKey:@"activelySearching"];
-    [temp setValue:self.moveInAfter       forKey:@"moveInAfter"];
-    [temp setValue:self.minBedrooms       forKey:@"minBedrooms"];
-    [temp setValue:self.maxRent           forKey:@"maxRent"];
+    if( [self.activelySearching boolValue] )
+    {
+        [temp setValue:self.activelySearching forKey:@"activelySearching"];
+        
+        if( self.moveInAfter )
+        {
+            [temp setValue:self.moveInAfter       forKey:@"moveInAfter"];
+        }
+        
+        if( self.minBedrooms )
+        {
+            [temp setValue:self.minBedrooms       forKey:@"minBedrooms"];
+            
+        }
+    
+        if( self.maxRent )
+        {
+            [temp setValue:self.maxRent           forKey:@"maxRent"];
+            
+        }
+    }
    
+    [temp setValue:self.isBroker forKey:@"isBroker"];
+    [temp setValue:self.brokerFirm forKey:@"borkerFirm"];
+    
     [temp addObject:[NSNumber numberWithBool:NO] forKey:@"facebook_user"];
     
     if( password == nil )
@@ -363,6 +392,8 @@
     [defaults removeObjectForKey:@"minBedrooms"];
     [defaults removeObjectForKey:@"password"];
     [defaults removeObjectForKey:@"facebookUser"];
+    [defaults removeObjectForKey:@"isBroker"];
+    [defaults removeObjectForKey:@"brokerFirm"];
     
     [defaults synchronize];
     _state = kNoUser;

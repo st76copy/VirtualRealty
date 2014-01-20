@@ -73,6 +73,7 @@
         {
             CLPlacemark *pm = [placemark objectAtIndex:0];
             [blockmanager handleFormatAddress:pm.addressDictionary];
+            [blockmanager.locationManager stopUpdatingLocation];
         }];
         
         dispatch_async(dispatch_get_main_queue(), ^{
@@ -122,20 +123,45 @@
         
         NSArray *addressComps = resultsDict[0][@"address_components"];
         
+        switch ( addressComps.count ) {
+            case 8:
+            {
+                NSString *street   = [NSString stringWithFormat:@"%@ %@", addressComps[0][@"long_name"],addressComps[1][@"short_name"]];
+                NSString *city     = addressComps[3][@"short_name"];
+                NSString *state    = addressComps[6][@"short_name"];
+                NSString *borough  = addressComps[2][@"short_name"];
+                NSString *ZIP      = addressComps[7][@"short_name"];
+                _addressInfo = @{
+                                 @"FormattedAddressLines" :@[ street,borough] ,
+                                 @"City" :city,
+                                 @"State" : state,
+                                 @"ZIP":ZIP
+                                 };
+            }
+            break;
+            case 9:
+            {
+                NSString *street   = [NSString stringWithFormat:@"%@ %@", addressComps[0][@"long_name"],addressComps[1][@"short_name"]];
+                NSString *city     = addressComps[4][@"short_name"];
+                NSString *state    = addressComps[6][@"short_name"];
+                NSString *borough  = addressComps[3][@"short_name"];
+                NSString *ZIP      = addressComps[8][@"short_name"];
+                NSString *hood     = addressComps[2][@"short_name"];
+                _addressInfo = @{
+                                 @"FormattedAddressLines" :@[ street,borough] ,
+                                 @"City" :city,
+                                 @"State" : state,
+                                 @"SubLocality" :hood,
+                                 @"ZIP":ZIP
+                                 };
+            }
+            break;
+                
+            default:
+                break;
+        }
     
-        NSString *street   = [NSString stringWithFormat:@"%@ %@", addressComps[0][@"long_name"],addressComps[1][@"short_name"]];
-        NSString *city     = addressComps[4][@"short_name"];
-        NSString *state    = addressComps[6][@"short_name"];
-        NSString *borough  = addressComps[3][@"short_name"];
-        NSString *ZIP      = addressComps[8][@"short_name"];
-        NSString *hood     = addressComps[2][@"short_name"];
-        _addressInfo = @{
-            @"FormattedAddressLines" :@[ street,borough] ,
-            @"City" :city,
-            @"State" : state,
-            @"SubLocality" :hood,
-            @"ZIP":ZIP
-        };
+    
         
         __block CLLocationCoordinate2D location;
         location.latitude = [latString doubleValue];// latitude;

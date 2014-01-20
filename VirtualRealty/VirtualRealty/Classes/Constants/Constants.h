@@ -19,6 +19,16 @@
 #define kGOOGLE_PLACES_KEY @"AIzaSyBklCiCoqPMyS84Bd2Zn4PxUFl8wIpHXQQ"
 #define kUSER_VIEWED_TOUR  @"user-viewed-tour"
 
+#if RELEASE 
+#define PARSE_KEY @"ZJ1QQ7EOmQKNQFmwmQJZub1PMU35BylQWMYKVaYH"
+#define PARSE_CLIENT @"SpxG4bvgEPUyC9W97VcJX6MPO2hRYuTHr2YkWOO3"
+#endif
+
+#if DEBUG
+#define PARSE_KEY @"yIp5Z8ERGHY8ELMVvfo4kGJuACTMUPNh5zxGhGuB"
+#define PARSE_CLIENT @"A5Fo3tdmadYS6CWcq7LdpIuisHjCv63C5QSau7ii"
+#endif
+
 #pragma mark - Build device
 typedef enum DeviceType
 {
@@ -121,7 +131,9 @@ typedef enum FormField
     kSocial     = 43,
     kSearchRadius = 51,
     
-    kListingStatus = 52
+    kListingStatus = 52,
+    kUserIsBroker = 53,
+    kUserBrokerFirm = 54
  
 }FormField;
 

@@ -130,12 +130,6 @@
 					<array>
 						<dict>
 							<key>label</key>
-							<string>Manhattan</string>
-							<key>value</key>
-							<string>Manhattan</string>
-						</dict>
-						<dict>
-							<key>label</key>
 							<string>Lower Manhattan</string>
 							<key>value</key>
 							<string>Lower Manhattan</string>
@@ -587,8 +581,6 @@
 			<dict>
 				<key>animatable</key>
 				<false/>
-				<key>placeholder</key>
-				<string>state</string>
 				<key>class</key>
 				<string>TextCell</string>
 				<key>current-value</key>
@@ -602,308 +594,22 @@
 					<array>
 						<dict>
 							<key>label</key>
-							<string>LA</string>
+							<string>New Jersey</string>
 							<key>value</key>
-							<string>LA</string>
+							<string>NJ</string>
 						</dict>
 						<dict>
 							<key>label</key>
-							<string>KY</string>
+							<string>New York</string>
 							<key>value</key>
-							<string>KY</string>
-						</dict>
-						<dict>
-							<key>label</key>
-							<string>KS</string>
-							<key>value</key>
-							<string>KS</string>
-						</dict>
-						<dict>
-							<key>label</key>
-							<string>IA</string>
-							<key>value</key>
-							<string>IA</string>
-						</dict>
-						<dict>
-							<key>label</key>
-							<string>IN</string>
-							<key>value</key>
-							<string>IN</string>
-						</dict>
-						<dict>
-							<key>label</key>
-							<string>IL</string>
-							<key>value</key>
-							<string>IL</string>
-						</dict>
-						<dict>
-							<key>label</key>
-							<string>ID</string>
-							<key>value</key>
-							<string>ID</string>
-						</dict>
-						<dict>
-							<key>label</key>
-							<string>HI</string>
-							<key>value</key>
-							<string>HI</string>
-						</dict>
-						<dict>
-							<key>label</key>
-							<string>GA</string>
-							<key>value</key>
-							<string>GA</string>
-						</dict>
-						<dict>
-							<key>label</key>
-							<string>FL</string>
-							<key>value</key>
-							<string>FL</string>
-						</dict>
-						<dict>
-							<key>label</key>
-							<string>DC</string>
-							<key>value</key>
-							<string>DC</string>
-						</dict>
-						<dict>
-							<key>label</key>
-							<string>DE</string>
-							<key>value</key>
-							<string>DE</string>
-						</dict>
-						<dict>
-							<key>label</key>
-							<string>CT</string>
-							<key>value</key>
-							<string>CT</string>
-						</dict>
-						<dict>
-							<key>label</key>
-							<string>CO</string>
-							<key>value</key>
-							<string>CO</string>
-						</dict>
-						<dict>
-							<key>label</key>
-							<string>CA</string>
-							<key>value</key>
-							<string>CA</string>
-						</dict>
-						<dict>
-							<key>label</key>
-							<string>AZ</string>
-							<key>value</key>
-							<string>AZ</string>
-						</dict>
-						<dict>
-							<key>label</key>
-							<string>AS</string>
-							<key>value</key>
-							<string>AS</string>
-						</dict>
-						<dict>
-							<key>label</key>
-							<string>AK</string>
-							<key>value</key>
-							<string>AK</string>
-						</dict>
-						<dict>
-							<key>label</key>
-							<string>AL</string>
-							<key>value</key>
-							<string>AL</string>
-						</dict>
-						<dict>
-							<key>label</key>
-							<string>LA</string>
-							<key>value</key>
-							<string>LA</string>
-						</dict>
-						<dict>
-							<key>label</key>
-							<string>KY</string>
-							<key>value</key>
-							<string>KY</string>
-						</dict>
-						<dict>
-							<key>label</key>
-							<string>KS</string>
-							<key>value</key>
-							<string>KS</string>
-						</dict>
-						<dict>
-							<key>label</key>
-							<string>IA</string>
-							<key>value</key>
-							<string>IA</string>
-						</dict>
-						<dict>
-							<key>label</key>
-							<string>IN</string>
-							<key>value</key>
-							<string>IN</string>
-						</dict>
-						<dict>
-							<key>label</key>
-							<string>IL</string>
-							<key>value</key>
-							<string>IL</string>
-						</dict>
-						<dict>
-							<key>label</key>
-							<string>ID</string>
-							<key>value</key>
-							<string>ID</string>
-						</dict>
-						<dict>
-							<key>label</key>
-							<string>HI</string>
-							<key>value</key>
-							<string>HI</string>
-						</dict>
-						<dict>
-							<key>label</key>
-							<string>GA</string>
-							<key>value</key>
-							<string>GA</string>
-						</dict>
-						<dict>
-							<key>label</key>
-							<string>FL</string>
-							<key>value</key>
-							<string>FL</string>
-						</dict>
-						<dict>
-							<key>label</key>
-							<string>DC</string>
-							<key>value</key>
-							<string>DC</string>
-						</dict>
-						<dict>
-							<key>label</key>
-							<string>DE</string>
-							<key>value</key>
-							<string>DE</string>
-						</dict>
-						<dict>
-							<key>label</key>
-							<string>CT</string>
-							<key>value</key>
-							<string>CT</string>
-						</dict>
-						<dict>
-							<key>label</key>
-							<string>CO</string>
-							<key>value</key>
-							<string>CO</string>
-						</dict>
-						<dict>
-							<key>label</key>
-							<string>CA</string>
-							<key>value</key>
-							<string>CA</string>
-						</dict>
-						<dict>
-							<key>label</key>
-							<string>AZ</string>
-							<key>value</key>
-							<string>AZ</string>
-						</dict>
-						<dict>
-							<key>label</key>
-							<string>AS</string>
-							<key>value</key>
-							<string>AS</string>
-						</dict>
-						<dict>
-							<key>label</key>
-							<string>AK</string>
-							<key>value</key>
-							<string>AK</string>
-						</dict>
-						<dict>
-							<key>label</key>
-							<string>AL</string>
-							<key>value</key>
-							<string>AL</string>
-						</dict>
-						<dict>
-							<key>label</key>
-							<string>LA</string>
-							<key>value</key>
-							<string>LA</string>
-						</dict>
-						<dict>
-							<key>label</key>
-							<string>KY</string>
-							<key>value</key>
-							<string>KY</string>
-						</dict>
-						<dict>
-							<key>label</key>
-							<string>KS</string>
-							<key>value</key>
-							<string>KS</string>
-						</dict>
-						<dict>
-							<key>label</key>
-							<string>IA</string>
-							<key>value</key>
-							<string>IA</string>
-						</dict>
-						<dict>
-							<key>label</key>
-							<string>IN</string>
-							<key>value</key>
-							<string>IN</string>
-						</dict>
-						<dict>
-							<key>label</key>
-							<string>IL</string>
-							<key>value</key>
-							<string>IL</string>
-						</dict>
-						<dict>
-							<key>label</key>
-							<string>ID</string>
-							<key>value</key>
-							<string>ID</string>
-						</dict>
-						<dict>
-							<key>label</key>
-							<string>HI</string>
-							<key>value</key>
-							<string>HI</string>
-						</dict>
-						<dict>
-							<key>label</key>
-							<string>GA</string>
-							<key>value</key>
-							<string>GA</string>
-						</dict>
-						<dict>
-							<key>label</key>
-							<string>FL</string>
-							<key>value</key>
-							<string>FL</string>
-						</dict>
-						<dict>
-							<key>label</key>
-							<string>DC</string>
-							<key>value</key>
-							<string>DC</string>
-						</dict>
-						<dict>
-							<key>label</key>
-							<string>DE</string>
-							<key>value</key>
-							<string>DE</string>
+							<string>NY</string>
 						</dict>
 					</array>
 				</array>
 				<key>picker-index</key>
 				<integer>0</integer>
+				<key>placeholder</key>
+				<string>state</string>
 				<key>state</key>
 				<integer>1</integer>
 			</dict>
@@ -1046,7 +752,7 @@
 				<key>picker-index</key>
 				<integer>0</integer>
 				<key>placeholder</key>
-				<string>minimum bedrooms</string>
+				<string>nedrooms</string>
 				<key>state</key>
 				<integer>1</integer>
 			</dict>
@@ -1092,6 +798,12 @@
 						</dict>
 						<dict>
 							<key>label</key>
+							<string>3 Baths</string>
+							<key>value</key>
+							<string>3 Baths</string>
+						</dict>
+						<dict>
+							<key>label</key>
 							<string>More then 3 Bathrooms</string>
 							<key>value</key>
 							<string>More then 3 Bathrooms</string>
@@ -1101,7 +813,7 @@
 				<key>picker-index</key>
 				<integer>0</integer>
 				<key>placeholder</key>
-				<string>minimum bathrooms</string>
+				<string>bathrooms</string>
 				<key>state</key>
 				<integer>1</integer>
 			</dict>

@@ -6,6 +6,7 @@
 //  Copyright (c) 2013 virtualrealty. All rights reserved.
 //
 
+#import "UIColor+Extended.h"
 #import "SliderCell.h"
 
 @interface SliderCell()
@@ -24,6 +25,9 @@
         self.slider = [[UISlider alloc]initWithFrame:CGRectMake(0, 0, 300, 20)];
         [self.slider addTarget:self action:@selector(handleSliderChanged:) forControlEvents:UIControlEventValueChanged];
         [self.slider setBackgroundColor:[UIColor clearColor ]];
+        [self.slider setTintColor:[UIColor colorFromHex:@"00aeef"]];
+        [self.slider setThumbTintColor:[UIColor colorFromHex:@"00aeef"]];
+        
         [self.contentView addSubview:self.slider];
         
     }
@@ -48,6 +52,10 @@
     rect.origin.y = self.textLabel.frame.size.height + self.textLabel.frame.size.height;
     rect.origin.x = self.textLabel.frame.origin.x;
     self.detailTextLabel.frame = rect;
+    
+    [self.detailTextLabel setFont:[UIFont fontWithName:@"MuseoSans-500" size:12]];
+    [self.detailTextLabel setTextAlignment:NSTextAlignmentLeft];
+    self.detailTextLabel.textColor = [UIColor colorFromHex:@"00aeef"];
 }
 
 -(void)handleSliderChanged:(id)sender

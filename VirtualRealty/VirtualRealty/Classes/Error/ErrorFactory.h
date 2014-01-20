@@ -20,6 +20,7 @@ typedef enum ErrorType
     // user error
     kUserLoginFailError,
     kUserDataLoaderror,
+    kUserAddressNotSupported,
     
     // data errors
     kListingExistsError,
@@ -27,13 +28,15 @@ typedef enum ErrorType
     kListingMediaError,
     kListingSavingError,
     kListingGPSError,
+    kServerError,
     // form errors
     kNoResultsError,
     //media errors,
     kMediaNotAvailableError,
     
     kInvalidUsernameError,
-    kInvalidPasswordError
+    kInvalidPasswordError,
+    kNotValidBrokerListing
 }ErrorType;
 
 

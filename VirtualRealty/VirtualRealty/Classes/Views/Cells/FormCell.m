@@ -30,6 +30,16 @@
 {
     [super layoutSubviews];
     self.errorView.frame = self.contentView.frame;
+    self.imageView.contentMode = UIViewContentModeCenter;
+    
+    CGRect rect = self.imageView.frame;
+    rect.size.width = 30;
+    rect.origin.x   = 5;
+    self.imageView.frame = rect;
+    
+    rect = self.textLabel.frame;
+    rect.origin.x = (self.cellinfo[@"icon"] ) ? 40 : 10;
+    self.textLabel.frame = rect;
 }
 -(void)setFocus
 {
@@ -57,7 +67,11 @@
 
 -(void)render
 {
-    self.imageView.image = [UIImage imageNamed:self.cellinfo[@"icon"]];
+    if( self.cellinfo[@"icon"] )
+    {
+        self.imageView.image =  [UIImage imageNamed:self.cellinfo[@"icon"]];
+    }
+    
     self.textLabel.text  = self.cellinfo[@"label"];
 }
 @end

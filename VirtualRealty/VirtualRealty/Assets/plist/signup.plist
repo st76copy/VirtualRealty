@@ -35,16 +35,39 @@
 		<key>cells</key>
 		<array>
 			<dict>
-				<key>custom-action</key>
-				<string>facebookLogin</string>
 				<key>label</key>
-				<string>Facebook Login</string>
+				<string>Broker ? </string>
+				<key>field</key>
+				<integer>53</integer>
 				<key>class</key>
-				<string>FormCell</string>
+				<string>SwitchCell</string>
+			</dict>
+			<dict>
+				<key>placeholder</key>
+				<string>any</string>
+				<key>label</key>
+				<string>Broker Firm</string>
+				<key>field</key>
+				<integer>54</integer>
+				<key>class</key>
+				<string>TextCell</string>
+				<key>picker-index</key>
+				<integer>0</integer>
+				<key>picker-data</key>
+				<array>
+					<array>
+						<dict>
+							<key>label</key>
+							<string>Red Hook Waterfront</string>
+							<key>value</key>
+							<string>Red Hook Waterfront</string>
+						</dict>
+					</array>
+				</array>
 			</dict>
 		</array>
 		<key>section-title</key>
-		<string>Register With Facebook</string>
+		<string>Brokerage</string>
 	</dict>
 	<dict>
 		<key>cells</key>

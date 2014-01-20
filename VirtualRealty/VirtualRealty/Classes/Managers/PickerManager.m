@@ -44,15 +44,23 @@
         _container = [[UIView alloc]initWithFrame:CGRectMake(0, 0, 320, 294)];
         [self.container setBackgroundColor:[UIColor whiteColor]];
         UINavigationBar *bar = [[UINavigationBar alloc]  initWithFrame:CGRectMake(0, 0, 320, 44)];
+        [bar setTranslucent:NO];
+        
         UIButton    *done = [UIButton buttonWithType:UIButtonTypeRoundedRect];
         [done setTitle:@"Done" forState:UIControlStateNormal];
+        [done.titleLabel setFont:[UIFont fontWithName:@"MuseoSans-300" size:17]];
+        [done setTintColor:[UIColor whiteColor]];
         [done sizeToFit];
         [done addTarget:self action:@selector(doneTouched:) forControlEvents:UIControlEventTouchUpInside];
         
         UIButton    *cancel = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+        
         [cancel setTitle:@"Cancel" forState:UIControlStateNormal];
-        [cancel sizeToFit];
         [cancel addTarget:self action:@selector(cancelTouched:) forControlEvents:UIControlEventTouchUpInside];
+        [cancel.titleLabel setFont:[UIFont fontWithName:@"MuseoSans-300" size:17]];
+        [cancel setTintColor:[UIColor whiteColor]];
+        [cancel sizeToFit];
+        
         [self.container addSubview:bar];
         
         CGRect rect = done.frame;

@@ -193,8 +193,9 @@
 
 -(void)initThirdPartySDKs
 {
+    NSLog(@"%@ -- %@ , %@ ", self, PARSE_KEY, PARSE_CLIENT);
     [GMSServices provideAPIKey:@"AIzaSyB10cTpRT6lqVuDQBR5cO-6xZbsTPp7dEs"];
-    [Parse setApplicationId:@"yIp5Z8ERGHY8ELMVvfo4kGJuACTMUPNh5zxGhGuB" clientKey:@"A5Fo3tdmadYS6CWcq7LdpIuisHjCv63C5QSau7ii"];
+    [Parse setApplicationId:PARSE_KEY clientKey:PARSE_CLIENT];
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application{}

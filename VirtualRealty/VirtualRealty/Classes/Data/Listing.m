@@ -165,15 +165,20 @@
     
     if( self.thumb == nil )
     {
-    //    [self.errors addObject:[NSNumber numberWithInt:kThumbnail]];
+        [self.errors addObject:[NSNumber numberWithInt:kThumbnail]];
     }
     
-    if( self.video == nil )
+    if( self.videoFrame == nil )
     {
-    //    [self.errors addObject:[NSNumber numberWithInt:kVideo]];
+        [self.errors addObject:[NSNumber numberWithInt:kVideo]];
     }
     
     if( self.email == nil )
+    {
+        [self.errors addObject:[NSNumber numberWithInt:kContactEmail]];
+    }
+    
+    if( [Utils isValidEmail:self.email] == NO )
     {
         [self.errors addObject:[NSNumber numberWithInt:kContactEmail]];
     }

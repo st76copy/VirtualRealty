@@ -21,15 +21,19 @@
 #import "User.h"
 #import "SearchFilters.h"
 #import "ErrorFactory.h"
+#import "UIColor+Extended.h"
 
 @interface SearchViewController ()<SearchFilterDelegate, UISearchBarDelegate, UITableViewDataSource, UITableViewDelegate, GMSMapViewDelegate,ToggleDelegate>
 {
     ListingCell *details;
     UIView *container;
+    UIRefreshControl *refreshControl;
+
 }
 
 @property(nonatomic, strong)SearchFilters *currentFilters;
 
+-(void)handleRefresh:(id)sender;
 -(ListingCell *)getDetails:(Listing *)listing;
 -(void)handleMakeFilter:(id)sender;
 -(void)handleShowMap:(id)sender;
@@ -59,14 +63,21 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    self.view.backgroundColor = [UIColor grayColor];
-
-    _searchBar = [[UISearchBar alloc]initWithFrame:CGRectMake(0, 0, 250, 40)];
-    self.searchBar.placeholder = NSLocalizedString(@"Search Key Words", @"Copy for searchbar placeholder");
+    self.view.backgroundColor = [UIColor colorFromHex:@"cbd5d9"];
+    
+    _searchBar = [[UISearchBar alloc]init];
+    [_searchBar sizeToFit];
+    [_searchBar setAutoresizingMask:UIViewAutoresizingFlexibleWidth];
+    [_searchBar setBackgroundColor:[UIColor clearColor]];
+    [_searchBar setTintColor:[UIColor clearColor ]];
     self.navigationItem.titleView = _searchBar;
+    self.navigationItem.titleView.backgroundColor = [UIColor clearColor];
+    self.searchBar.placeholder = NSLocalizedString(@"Search Location", @"Copy for searchbar placeholder");
+    self.searchBar.autocorrectionType = UITextAutocorrectionTypeNo;
     self.searchBar.delegate = self;
     self.searchBar.keyboardType = UIReturnKeySearch;
     self.searchBar.text = nil;
+    
     
     CGRect rect;
     MapListToggleView *mapListToggle = [[MapListToggleView alloc]initWithFrame:CGRectZero];
@@ -74,8 +85,6 @@
     rect = mapListToggle.frame;
     rect.origin.y = self.navigationController.navigationBar.frame.size.height;
    
-    
-    
     rect = self.view.frame;
     rect.origin.y = mapListToggle.frame.size.height;
     rect.size.height -= mapListToggle.frame.size.height + self.navigationController.navigationBar.frame.size.height + 20;
@@ -86,10 +95,16 @@
     _mapView = [[GMSMapView alloc]initWithFrame:container.bounds];
     self.mapView.delegate = self;
     
+    refreshControl = [[UIRefreshControl alloc]init];
+    [refreshControl addTarget:self action:@selector(handleRefresh:) forControlEvents:UIControlEventValueChanged];
+    
     _table = [[UITableView alloc]initWithFrame:container.bounds];
     self.table.separatorInset = UIEdgeInsetsZero;
     self.table.dataSource = self;
     self.table.delegate = self;
+    self.table.backgroundColor = [UIColor clearColor];
+    [self.table addSubview:refreshControl];
+    
     [container addSubview:self.table];
     
     [self.view addSubview:mapListToggle];
@@ -104,8 +119,62 @@
         __block SearchViewController *blockself = self;
         [PFCloud  callFunctionInBackground:@"allListings" withParameters:[NSDictionary dictionary] block:^(id object, NSError *error)
         {
-             [blockself handleDataLoaded:object];
+            if( error )
+            {
+                [[ErrorFactory getAlertForType:kServerError andDelegateOrNil:nil andOtherButtons:nil]show];
+            }
+            else
+            {
+                [blockself handleDataLoaded:object];
+            }
         }];
+    }
+}
+
+-(void)searchBarTextDidBeginEditing:(UISearchBar *)searchBar
+{
+    UIBarButtonItem *filterButton = [[UIBarButtonItem alloc]initWithTitle:@"Filter" style:UIBarButtonItemStyleBordered target:self action:@selector(handleMakeFilter:)];
+    UIBarButtonItem *cancel = [[UIBarButtonItem alloc]initWithTitle:@"Cancel" style:UIBarButtonItemStyleBordered target:self action:@selector(handleCancelSearch:)];
+
+    [self.navigationItem setRightBarButtonItems:@[filterButton, cancel] animated:YES];
+}
+
+-(void)handleCancelSearch:(id)sender
+{
+    UIBarButtonItem *filterButton = [[UIBarButtonItem alloc]initWithTitle:@"Filter" style:UIBarButtonItemStyleBordered target:self action:@selector(handleMakeFilter:)];
+    [self.navigationItem setRightBarButtonItems:@[filterButton] animated:YES];
+    [self.searchBar resignFirstResponder];
+}
+
+
+-(void)handleRefresh:(id)sender
+{
+    AppDelegate *app = (AppDelegate *)[UIApplication sharedApplication].delegate;
+    
+    if( self.currentFilters )
+    {
+        [self filtersDoneWithOptions:self.currentFilters];
+    }
+    else
+    {
+        
+        [app showLoaderInView:self.view];
+        __block UIRefreshControl *blockRefresh = refreshControl;
+        __block SearchViewController *blockself = self;
+        [PFCloud  callFunctionInBackground:@"allListings" withParameters:[NSDictionary dictionary] block:^(id object, NSError *error)
+        {
+            if( error )
+            {
+                [blockRefresh endRefreshing];
+                [[ErrorFactory getAlertForType:kServerError andDelegateOrNil:nil andOtherButtons:nil]show];
+            }
+            else
+            {
+                [blockRefresh endRefreshing];
+                [blockself handleDataLoaded:object];
+            }
+        }];
+
     }
 }
 
@@ -124,14 +193,16 @@
 {
     Listing *listing;
     
+    [refreshControl endRefreshing];
+    
+    AppDelegate *app = (AppDelegate *)[UIApplication sharedApplication].delegate;
+    [app hideLoader];
+
     if( data.count == 0 )
     {
         [[ErrorFactory getAlertForType:kNoResultsError andDelegateOrNil:nil andOtherButtons:nil]show];
         return;
     }
-    
-    AppDelegate *app = (AppDelegate *)[UIApplication sharedApplication].delegate;
-    [app hideLoader];
     
     [self.tableData removeAllObjects];
     for( NSDictionary *info in data)

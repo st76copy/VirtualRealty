@@ -337,7 +337,7 @@
 {
     __block ListingDetailViewController *blockself = self;
     
-    NSString   *sql = [QueryFactory getSaveListingQuery:self.listing];
+    NSString   *sql = [QueryFactory getDeleteListingQuery:self.listing];
     SQLRequest *req = [[SQLRequest alloc]initWithQuery:sql andType:kSelect andName:@"delete-favorite"];
     
     [req runDeleteOnDatabaseManager:[SQLiteManager sharedDatabase] WithBlock:^(BOOL success)
@@ -348,7 +348,7 @@
         }
         else
         {
-            // show error
+            [[ErrorFactory getAlertCustomMessage:@"There was an error deleting this favorite." andDelegateOrNil:Nil andOtherButtons:nil]show];
         }
     }];
 }
@@ -363,6 +363,8 @@
     NSString *message = NSLocalizedString( @"This listing has been removed to your favorites", @"Genereic : removed listing messagea");
     UIAlertView *alert = [[UIAlertView alloc]initWithTitle:title message:message delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
     [alert show];
+    
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 

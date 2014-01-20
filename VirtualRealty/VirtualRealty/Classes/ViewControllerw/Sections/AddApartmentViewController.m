@@ -679,10 +679,19 @@
 
     if( self.listing.geo == nil )
     {
+        
+        __block LocationManager *locationManager = [LocationManager shareManager];
         NSString *addressString = [NSString stringWithFormat:@"%@ %@, %@, %i", self.listing.street, self.listing.borough, self.listing.state, [self.listing.zip intValue]];
         [[LocationManager shareManager]setCurrentLocationByString:addressString block:^(CLLocationCoordinate2D loc) {
-            blockself.listing.geo = [[CLLocation alloc]initWithLatitude:loc.latitude longitude:loc.longitude];
-            [blockself saveListing];
+            if( [locationManager.addressInfo[@"State"] isEqualToString:@"NJ"] || [locationManager.addressInfo[@"State"] isEqualToString:@"NY"] )
+            {
+                blockself.listing.geo = [[CLLocation alloc]initWithLatitude:loc.latitude longitude:loc.longitude];
+                [blockself saveListing];
+            }
+            else
+            {
+                [[ErrorFactory getAlertForType:kUserAddressNotSupported andDelegateOrNil:nil andOtherButtons:nil] show];
+            }
         }];
     }
     else
@@ -696,8 +705,14 @@
     __block AppDelegate *delegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
     __block AddApartmentViewController *blockself = self;
     
+
     if( [self.listing isValid].count == 0 )
     {
+        if( [self.listing.brokerfee  intValue] > 0 && [[User sharedUser].isBroker boolValue] )
+        {
+            //TO DO : logic for is a broker
+        }
+        
         [delegate showLoader];
         
         [PFCloud callFunctionInBackground:@"saveListing" withParameters:[self.listing toDictionary] block:^(id object, NSError *error)

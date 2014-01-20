@@ -35,21 +35,6 @@
 		<key>cells</key>
 		<array>
 			<dict>
-				<key>custom-action</key>
-				<string>facebookLogin</string>
-				<key>label</key>
-				<string>Facebook</string>
-				<key>class</key>
-				<string>FormCell</string>
-			</dict>
-		</array>
-		<key>section-title</key>
-		<string>Login With Facebook</string>
-	</dict>
-	<dict>
-		<key>cells</key>
-		<array>
-			<dict>
 				<key>label</key>
 				<string>Go To Sign Up</string>
 				<key>custom-action</key>

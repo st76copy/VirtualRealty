@@ -48,6 +48,7 @@
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self)
     {
+        _currentField = -1;
         NSString *login  = [[NSBundle mainBundle]pathForResource:@"login" ofType:@"plist"];
         _loginArray      = [NSArray arrayWithContentsOfFile:login];
         
@@ -246,11 +247,12 @@
             [[PickerManager sharedManager]showPickerInView:self.view];
             break;
         case kUserMinBedrooms:
+        case  kUserBrokerFirm:
             [PickerManager sharedManager].type = kStandard;
             [PickerManager sharedManager].pickerData = cell.cellinfo[@"picker-data"];
             [[PickerManager sharedManager]showPickerInView:self.view];
             break;
-            
+
         default:
             break;
     }
@@ -295,7 +297,6 @@
 {
     if( [self isSameCell:cell.indexPath] == NO )
     {
-        NSLog(@"%@ start interact ", self );
         [self tableView:self.signupTabel didSelectRowAtIndexPath:cell.indexPath];
     }
 }
@@ -309,6 +310,7 @@
     switch (field)
     {
         case kEmail:
+            NSLog(@"%@ , got change for email %@ ", self, c.formValue);
             _username = c.formValue;
             break;
         case kPassword:
@@ -325,6 +327,12 @@
             break;
         case kUserMovinDate :
             [User sharedUser].moveInAfter = c.formValue;
+            break;
+        case kUserIsBroker:
+            [User sharedUser].isBroker = c.formValue;
+            break;
+        case kUserBrokerFirm:
+            [User sharedUser].brokerFirm = c.formValue;
             break;
         default:
             break;
@@ -362,6 +370,13 @@
         case kUserMovinDate :
             value = [User sharedUser].moveInAfter;
             break;
+        case kUserIsBroker:
+            value = [User sharedUser].isBroker;
+            break;
+        case kUserBrokerFirm:
+            value = [User sharedUser].brokerFirm;
+            break;
+            
         default:
             break;
     }
@@ -389,6 +404,7 @@
                     else
                     {
                         [blockself.loadingView hide];
+
                     }
                 }];
             }
@@ -576,6 +592,8 @@
     
     switch( [cell.cellinfo[@"field"] intValue] )
     {
+        
+        case kUserBrokerFirm:
         case kUserMinBedrooms:
             cell.formValue = [[PickerManager sharedManager] valueForComponent:index];
             cell.detailTextLabel.text = [[PickerManager sharedManager] valueForComponent:index];

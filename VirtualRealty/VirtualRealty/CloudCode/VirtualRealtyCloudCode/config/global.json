@@ -4,6 +4,10 @@
             "applicationId": "yIp5Z8ERGHY8ELMVvfo4kGJuACTMUPNh5zxGhGuB", 
             "masterKey": "zCcuZhyqyIQ8zrQd8Dhy01BsCNbk6eShZTD73Qev"
         }, 
+        "VirtualRealtyProd": {
+            "applicationId": "ZJ1QQ7EOmQKNQFmwmQJZub1PMU35BylQWMYKVaYH", 
+            "masterKey": "FbQ6vB0Gf2whfDY4btrBxCLK9hBIUgGBNpIWV6zd"
+        }, 
         "_default": {
             "link": "VirtualRealty"
         }

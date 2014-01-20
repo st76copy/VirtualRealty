@@ -35,13 +35,21 @@
 {
     [super layoutSubviews];
     
+    CGRect rect;
+    [self.textLabel sizeToFit];
+    rect = self.textLabel.frame;
+    rect.origin.y = self.contentView.frame.size.height * 0.5 - self.textLabel.frame.size.height * 0.5;
+    self.textLabel.frame = rect;
+    
+    
     float width = 300 - ( self.textLabel.frame.origin.x + self.textLabel.frame.size.width);
     [self.stateLabel sizeToFit];
-    CGRect rect = self.stateLabel.frame;
+    rect = self.stateLabel.frame;
     rect.size.width = width;
     rect.origin.x   = self.textLabel.frame.origin.x + self.textLabel.frame.size.width + 10;
     rect.origin.y   = self.contentView.frame.size.height * 0.5 - rect.size.height * 0.5;
     self.stateLabel.frame = rect;
+    
     [self.stateLabel setFont:[UIFont fontWithName:@"MuseoSans-500" size:16]];
     [self.contentView bringSubviewToFront:self.stateLabel];
 }
@@ -71,6 +79,7 @@
         self.switchButton.hidden = YES;
         self.switchButton.userInteractionEnabled = NO;
         self.stateLabel.text = ( on ) ? @"Yes" : @"No";
+        [self.stateLabel sizeToFit];
     }
 }
 

@@ -43,6 +43,7 @@
     self.textLabel.text       = [self.cellinfo valueForKey:@"label"];
     self.detailTextLabel.text = [[self.cellinfo valueForKey:@"current-value"]toShortString];
     self.detailTextLabel.textColor = [UIColor colorFromHex:@"00aeef"];
+    [self.detailTextLabel setFont:[UIFont fontWithName:@"MuseoSans-500" size:16]];
     [self.detailTextLabel sizeToFit];
 }
 @end

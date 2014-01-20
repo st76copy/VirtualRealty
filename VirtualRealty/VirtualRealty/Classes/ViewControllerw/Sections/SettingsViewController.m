@@ -1,4 +1,4 @@
-//
+  //
 //  SettingsViewController.m
 //  VirtualRealty
 //
@@ -14,8 +14,12 @@
 #import "ReachabilityManager.h"
 #import "ErrorFactory.h"
 #import <Parse/Parse.h>
+#import "UIColor+Extended.h"
+#import "SectionTitleView.h"
+#import "TourViewController.h"
+#import <MessageUI/MessageUI.h>
 
-@interface SettingsViewController ()<FormCellDelegate>
+@interface SettingsViewController ()<FormCellDelegate, MFMailComposeViewControllerDelegate>
 -(void)toggleLogin;
 @end
 
@@ -46,9 +50,14 @@
     rect.size.height -= ( self.navigationController.navigationBar.frame.size.height + [UIApplication sharedApplication].statusBarFrame.size.height);
     rect.origin       = CGPointMake(0, 0);
     
-    _table = [[UITableView alloc]initWithFrame:rect style:UITableViewStylePlain];
+    _table = [[UITableView alloc]initWithFrame:rect style:UITableViewStyleGrouped];
     [_table setDataSource:self];
     [_table setDelegate:self];
+    [_table setSeparatorColor:[UIColor clearColor]];
+    [_table setSectionFooterHeight:0.0f];
+    [_table setSectionHeaderHeight:44.0f];
+    _table.backgroundColor = [UIColor colorFromHex:@"cbd5d9"];
+    
     [self.view addSubview:_table];
 }
 
@@ -105,24 +114,47 @@
 #pragma mark - Table Managment
 -(NSInteger )tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return [self.data count];
+    NSDictionary *info = [self.data objectAtIndex:section];
+    NSArray *cells = info[@"cells"];
+    return cells.count;
 }
 
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    return 1;
+    return self.data.count;
 }
 
+-(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
+{
+    NSDictionary *sectionInfo      = [self.data objectAtIndex:section];
+    SectionTitleView *sectionTitle = [[SectionTitleView alloc]initWithTitle:sectionInfo[@"section-title"]];
+    return sectionTitle;
+}
 
+-(float)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
+{
+    return 44;
+}
+
+-(float)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
+{
+    return 0;
+}
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    NSDictionary *info = [[self.data objectAtIndex:indexPath.row]mutableCopy];
+    
+    NSDictionary *section = [self.data objectAtIndex:indexPath.section];
+    NSArray *cells = section[@"cells"];
+    NSMutableDictionary *info = [cells[indexPath.row] mutableCopy];
     
     FormCell *cell = (FormCell *)[tableView dequeueReusableCellWithIdentifier:[info valueForKey:@"cell"]];
     
-
-    [info setValue:[self getValueForFormField:[[info valueForKey:@"field"] intValue]] forKey:@"current-value"];
+    if( info[@"field"])
+    {
+        [info setValue:[self getValueForFormField:[[info valueForKey:@"field"] intValue]] forKey:@"current-value"];
+    }
+    
     
     
     if( cell == nil )
@@ -137,12 +169,16 @@
         cell.formDelegate = self;        
     }
     [cell render];
+    cell.selectionStyle = UITableViewCellSelectionStyleGray;
     return cell;
 }
 
 -(float)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    NSDictionary *info = [self.data objectAtIndex:indexPath.row];
+    NSDictionary *section = [self.data objectAtIndex:indexPath.section];
+    NSArray *cells = section[@"cells"];
+    
+    NSDictionary *info = [cells objectAtIndex:indexPath.row];
     float height = 38.0f;
     
     if( info[@"display-height"] )
@@ -155,7 +191,10 @@
  
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    NSDictionary *info = [self.data objectAtIndex:indexPath.row];
+    NSDictionary *section = [self.data objectAtIndex:indexPath.section];
+    NSArray *cells = section[@"cells"];
+    
+    NSDictionary *info = [cells objectAtIndex:indexPath.row];
    
     if( [info valueForKey:@"custom-action"] )
     {
@@ -172,6 +211,7 @@
                 break;
         }
     }
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 
 -(void)testEmail
@@ -179,6 +219,34 @@
     [PFCloud callFunctionInBackground:@"notifyAdmin" withParameters:@{ @"objectId": @"6jxl87h" } block:^(id object, NSError *error){
         NSLog(@"%@ testing email system : called notify admin \n%@ \n%@", self,object, error);
     }];
+}
+
+-(void)showSupport
+{
+    if( [MFMailComposeViewController canSendMail]  )
+    {
+        MFMailComposeViewController *vc = [[MFMailComposeViewController alloc]init];
+        vc.mailComposeDelegate = self;
+        [vc setToRecipients:@[@"support@virtualrealtynyc.com"]];
+        [vc setSubject:@"Virtual Reality iOS Support"];
+        [self presentViewController:vc animated:YES completion:nil];
+    }
+    else
+    {
+        [[ErrorFactory getAlertCustomMessage:@"There are no email acounts on this device" andDelegateOrNil:nil andOtherButtons:nil]show];
+    }
+}
+
+-(void)mailComposeController:(MFMailComposeViewController *)controller didFinishWithResult:(MFMailComposeResult)result error:(NSError *)error
+{
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
+
+-(void)showTour
+{
+    AppDelegate *app = (AppDelegate *)[UIApplication sharedApplication].delegate;
+    TourViewController *tourvc = [[TourViewController alloc]initWithNibName:nil bundle:nil];
+    [app.window.rootViewController presentViewController:tourvc animated:YES completion:nil];
 }
 
 -(id)getValueForFormField:(FormField)field
