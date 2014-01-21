@@ -339,7 +339,7 @@
 				<key>animatable</key>
 				<false/>
 				<key>class</key>
-				<string>TextInputCell</string>
+				<string>TextCell</string>
 				<key>current-value</key>
 				<string>New York</string>
 				<key>field</key>
@@ -351,207 +351,21 @@
 					<array>
 						<dict>
 							<key>label</key>
-							<string>Manhattan</string>
+							<string>New York City</string>
 							<key>value</key>
-							<string>Manhattan</string>
+							<string>New York City</string>
 						</dict>
 						<dict>
 							<key>label</key>
-							<string>Lower Manhattan</string>
+							<string>Jersey City</string>
 							<key>value</key>
-							<string>Lower Manhattan</string>
+							<string>Jersey City</string>
 						</dict>
 						<dict>
 							<key>label</key>
-							<string>Midtown</string>
+							<string>Hoboken</string>
 							<key>value</key>
-							<string>Midtown</string>
-						</dict>
-						<dict>
-							<key>label</key>
-							<string>Upper East Side</string>
-							<key>value</key>
-							<string>Upper West Side</string>
-						</dict>
-						<dict>
-							<key>label</key>
-							<string>Upper Manhattan</string>
-							<key>value</key>
-							<string>Upper Manhattan</string>
-						</dict>
-						<dict>
-							<key>label</key>
-							<string>Bay Ridge</string>
-							<key>value</key>
-							<string>Bay Ridge</string>
-						</dict>
-						<dict>
-							<key>label</key>
-							<string>Bedford Stuyvesant</string>
-							<key>value</key>
-							<string>Bedford Stuyvesant</string>
-						</dict>
-						<dict>
-							<key>label</key>
-							<string>Boerum Hill</string>
-							<key>value</key>
-							<string>Boerum Hill</string>
-						</dict>
-						<dict>
-							<key>label</key>
-							<string>Brooklyn Heights</string>
-							<key>value</key>
-							<string>Brooklyn Heights</string>
-						</dict>
-						<dict>
-							<key>label</key>
-							<string>Bushwick</string>
-							<key>value</key>
-							<string>Bushwick</string>
-						</dict>
-						<dict>
-							<key>label</key>
-							<string>Carroll Gardens</string>
-							<key>value</key>
-							<string>Carroll Gardens</string>
-						</dict>
-						<dict>
-							<key>label</key>
-							<string>Clinton Hill</string>
-							<key>value</key>
-							<string>Clinton Hill</string>
-						</dict>
-						<dict>
-							<key>label</key>
-							<string>Crown Heights</string>
-							<key>value</key>
-							<string>Crown Heights</string>
-						</dict>
-						<dict>
-							<key>label</key>
-							<string>Downtown Brooklyn</string>
-							<key>value</key>
-							<string>Downtown Brooklyn</string>
-						</dict>
-						<dict>
-							<key>label</key>
-							<string>Dumbo</string>
-							<key>value</key>
-							<string>Dumbo</string>
-						</dict>
-						<dict>
-							<key>label</key>
-							<string>East Williamsburg</string>
-							<key>value</key>
-							<string>East Williamsburg</string>
-						</dict>
-						<dict>
-							<key>label</key>
-							<string>Fort Greene</string>
-							<key>value</key>
-							<string>Fort Greene</string>
-						</dict>
-						<dict>
-							<key>label</key>
-							<string>Gowanus</string>
-							<key>value</key>
-							<string>Gowanus</string>
-						</dict>
-						<dict>
-							<key>label</key>
-							<string>Greenpoint</string>
-							<key>value</key>
-							<string>Greenpoint</string>
-						</dict>
-						<dict>
-							<key>label</key>
-							<string>Park Slope</string>
-							<key>value</key>
-							<string>Park Slope</string>
-						</dict>
-						<dict>
-							<key>label</key>
-							<string>Prospect Heights</string>
-							<key>value</key>
-							<string>Prospect Heights</string>
-						</dict>
-						<dict>
-							<key>label</key>
-							<string>Prospect Lefferts Gardens</string>
-							<key>value</key>
-							<string>Prospect Lefferts Gardens</string>
-						</dict>
-						<dict>
-							<key>label</key>
-							<string>Red Hook</string>
-							<key>value</key>
-							<string>Red Hook</string>
-						</dict>
-						<dict>
-							<key>label</key>
-							<string>South Slope</string>
-							<key>value</key>
-							<string>South Slope</string>
-						</dict>
-						<dict>
-							<key>label</key>
-							<string>Sunset Park</string>
-							<key>value</key>
-							<string>Sunset Park</string>
-						</dict>
-						<dict>
-							<key>label</key>
-							<string>Williamsburg</string>
-							<key>value</key>
-							<string>Williamsburg</string>
-						</dict>
-						<dict>
-							<key>label</key>
-							<string>Astoria</string>
-							<key>value</key>
-							<string>Astoria</string>
-						</dict>
-						<dict>
-							<key>label</key>
-							<string>Hunters Point</string>
-							<key>value</key>
-							<string>Hunters Point</string>
-						</dict>
-						<dict>
-							<key>label</key>
-							<string>Sunnyside</string>
-							<key>value</key>
-							<string>Sunnyside</string>
-						</dict>
-						<dict>
-							<key>label</key>
-							<string>Woodside</string>
-							<key>value</key>
-							<string>Woodside</string>
-						</dict>
-						<dict>
-							<key>label</key>
-							<string>Ridgewood</string>
-							<key>value</key>
-							<string>Ridgewood</string>
-						</dict>
-						<dict>
-							<key>label</key>
-							<string>Riverdale</string>
-							<key>value</key>
-							<string>Riverdale</string>
-						</dict>
-						<dict>
-							<key>label</key>
-							<string>South Bronx</string>
-							<key>value</key>
-							<string>South Bronx</string>
-						</dict>
-						<dict>
-							<key>label</key>
-							<string>St George </string>
-							<key>value</key>
-							<string>St George </string>
+							<string>Hoboken</string>
 						</dict>
 					</array>
 				</array>
@@ -752,7 +566,7 @@
 				<key>picker-index</key>
 				<integer>0</integer>
 				<key>placeholder</key>
-				<string>nedrooms</string>
+				<string>bedrooms</string>
 				<key>state</key>
 				<integer>1</integer>
 			</dict>

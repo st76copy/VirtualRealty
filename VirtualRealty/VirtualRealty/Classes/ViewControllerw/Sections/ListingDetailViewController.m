@@ -20,6 +20,7 @@
 #import "SocialLifeViewController.h"
 #import "SectionTitleView.h"
 #import "UIColor+Extended.h"
+#import "UserContentViewController.h"
 
 @interface ListingDetailViewController ()<UIAlertViewDelegate, MFMailComposeViewControllerDelegate>
 
@@ -364,7 +365,10 @@
     UIAlertView *alert = [[UIAlertView alloc]initWithTitle:title message:message delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
     [alert show];
     
-    [self.navigationController popViewControllerAnimated:YES];
+    if( [[self.navigationController.viewControllers objectAtIndex:0] isKindOfClass:[UserContentViewController class]])
+    {
+        [self.navigationController popViewControllerAnimated:YES];     
+    }
 }
 
 

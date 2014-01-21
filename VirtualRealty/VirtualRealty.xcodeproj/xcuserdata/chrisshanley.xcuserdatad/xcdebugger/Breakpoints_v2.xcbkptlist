@@ -16,16 +16,16 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            shouldBeEnabled = "No"
+            shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "VirtualRealty/Classes/ViewControllerw/Sections/SearchViewController.m"
-            timestampString = "411534856.9222"
+            filePath = "VirtualRealty/Classes/Views/Cells/TextInputCell.m"
+            timestampString = "411967148.434983"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "73"
-            endingLineNumber = "73"
-            landmarkName = "-viewDidLoad"
+            startingLineNumber = "101"
+            endingLineNumber = "101"
+            landmarkName = "-textFieldFinished:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>

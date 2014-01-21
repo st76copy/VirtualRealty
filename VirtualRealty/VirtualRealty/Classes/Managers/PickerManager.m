@@ -40,7 +40,7 @@
     self = [super init];
     if( self != nil )
     {
-        _delegates = [NSHashTable weakObjectsHashTable  ];
+        _delegates = [NSHashTable weakObjectsHashTable];
         _container = [[UIView alloc]initWithFrame:CGRectMake(0, 0, 320, 294)];
         [self.container setBackgroundColor:[UIColor whiteColor]];
         UINavigationBar *bar = [[UINavigationBar alloc]  initWithFrame:CGRectMake(0, 0, 320, 44)];

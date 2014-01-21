@@ -323,6 +323,7 @@
         case kBrokerFee:
         case kZip :
         case kStreet :
+        
             [cell setFocus];
             break;
         case kVideo:
@@ -337,6 +338,7 @@
         case kNeightborhood:
         case kBorough:
         case kState:
+        case kCity:
             [PickerManager sharedManager].type = kStandard;
             [PickerManager sharedManager].pickerData = cell.cellinfo[@"picker-data"];
             [[PickerManager sharedManager]showPickerInView:self.view];
@@ -421,6 +423,7 @@
     
     switch( field )
     {
+            break;
         case kStreet :
             value = self.listing.street;
             break;
@@ -515,6 +518,9 @@
     [self.listing clearErrorForField:field];
     switch( field )
     {
+        case kCity :
+            self.listing.city = cell.formValue;
+            break;
         case kStreet:
             self.listing.street = cell.formValue;
             break;

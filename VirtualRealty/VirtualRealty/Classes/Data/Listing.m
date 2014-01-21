@@ -104,6 +104,11 @@
     {
         self.keywords   = [[info valueForKey:@"keywords"]componentsSeparatedByString:@","];
         self.moveInDate = [NSDate fromSQLString:[info valueForKey:@"moveInDate"]];
+        
+        float longCoward = [info[@"long"] floatValue];
+        float latCoward  = [info[@"lat"] floatValue];
+        
+        self.geo = [[CLLocation alloc]initWithLatitude:latCoward longitude:longCoward];
     }
     return self;
 }

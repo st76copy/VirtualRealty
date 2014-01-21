@@ -26,11 +26,12 @@
         [self.inputField addTarget:self  action:@selector(inputTextChanged:) forControlEvents:UIControlEventEditingChanged];
         [self.inputField addTarget:self  action:@selector(textFieldFinished:)  forControlEvents:UIControlEventEditingDidEndOnExit];
         [self.inputField setFont: [UIFont fontWithName:@"MuseoSans-500" size:16]];
-        
+        selectableText = YES;
         [self.contentView addSubview:self.inputField];
     }
     return self;
 }
+
 
 -(void)layoutSubviews
 {
@@ -47,6 +48,8 @@
 
     self.inputField.frame = rect;
     self.inputField.textColor = [UIColor colorFromHex:@"00aeef"];
+    self.inputField.delegate = self;
+
     
     rect = self.inputField.frame;
     rect.size.width = width;
@@ -59,6 +62,7 @@
 -(void)render
 {
     [super render];
+     self.inputField.userInteractionEnabled = NO;
     
     [self.backgroundView setBackgroundColor:[UIColor whiteColor]];
     self.textLabel.text         = [self.cellinfo valueForKey:@"label"];
@@ -83,7 +87,6 @@
     {
         self.inputField.secureTextEntry = YES;
     }
-
 }
 
 -(void)inputTextChanged:(id)sender
@@ -105,30 +108,27 @@
 
 -(void)inputFieldBegan:(id)sender
 {
-    if( self.selected )
+    if( self.selected || [KeyboardManager sharedManager].textfieldInFocus == self.inputField )
     {
         return;
     }
     
     if([self.formDelegate respondsToSelector:@selector(cell:didStartInteract:)] )
     {
-        [[KeyboardManager sharedManager]showWithFocusField:self.inputField];
+       // [[KeyboardManager sharedManager] setTextfieldInFocus:(UITextField *)self.inputField];
         [self.formDelegate cell:self didStartInteract:[[self.cellinfo valueForKey:@"field"]intValue]];
     }
 }
 
--(void)textFieldDidEndEditing:(UITextField *)textField
-{
-    [[KeyboardManager sharedManager]close];
-}
-
 -(void)killFocus
 {
+    self.inputField.userInteractionEnabled = NO;
     [[KeyboardManager sharedManager]close];
 }
 
 -(void)setFocus
 {
-    [[KeyboardManager sharedManager]showWithFocusField:self.inputField];
+    self.inputField.userInteractionEnabled = YES;
+    [[KeyboardManager sharedManager]showWithFocusField:(UITextField *)self.inputField];
 }
 @end

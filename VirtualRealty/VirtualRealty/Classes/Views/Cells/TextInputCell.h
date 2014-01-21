@@ -9,7 +9,9 @@
 #import "FormCell.h"
 #import "CustomField.h"
 @interface TextInputCell : FormCell<UITextFieldDelegate>
-
+{
+    BOOL selectableText;
+}
 -(void)inputTextChanged:(id)sender;
 -(void)textFieldFinished:(id)sender;
 -(void)inputFieldBegan:(id)sender;

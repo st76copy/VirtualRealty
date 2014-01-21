@@ -36,8 +36,7 @@
         
         _addressLabel = [[UILabel alloc]initWithFrame:CGRectZero];
         [self.addressLabel setTextColor:[UIColor colorFromHex:@"424242"]];
-        _addressLabel.font = [UIFont fontWithName:@"MuseoSans-300" size:20];
-        
+        _addressLabel.font = [UIFont fontWithName:@"MuseoSans-300" size:18];
         
         _listingDetailsLabel = [[UILabel alloc]initWithFrame:CGRectZero];
         [self.listingDetailsLabel setTextColor:[UIColor colorFromHex:@"424242"]];
@@ -96,12 +95,11 @@
 
 -(void)render
 {
-    
     _listing = self.cellinfo[@"current-value"];
     __block ListingInfoCell *blockself = self;
 
-    self.addressLabel.text = self.listing.street;
-    
+    NSString *borough = ( self.listing.borough == nil ) ? self.listing.city : self.listing.borough;
+    self.addressLabel.text = [NSString stringWithFormat:@"%@, %@ %@",self.listing.street, borough, [NSString stringWithFormat:@"%i",[self.listing.zip intValue]]];
     
     NSString *detailsText = [NSString stringWithFormat:@"%@, %@ in %@", self.listing.bedrooms, self.listing.bathrooms, self.listing.neighborhood];
     self.listingDetailsLabel.text = detailsText;

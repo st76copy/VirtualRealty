@@ -44,6 +44,7 @@
     {
         case kNoUser:
             self.textLabel.text = @"Please Log In";
+            self.detailTextLabel.text = nil;
             break;
             
         default:

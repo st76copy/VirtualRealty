@@ -18,9 +18,9 @@
 
 +(NSString *)getSaveListingQuery:(Listing *)listing
 {
-    NSString *template = @"INSERT INTO UserListings"
-        "( uid, user_id,unit, neighborhood, movin_cost,montly_cost,movein_date, bedrooms, bathrooms, broker_fee, outdoor_space, cats, dogs, gym, listing_state, washer_dryer,  phone, email, city, state, street, borough)"
-        "VALUES ('%@', '%@', '%@', '%@', %i, %i, '%@', '%@', '%@', %i, %d, %d, %d, %d, %i, %d, '%@', '%@', '%@', '%@','%@', '%@' );";
+    NSString *template = @"INSERT INTO UserListings "
+        "( uid, user_id,unit, neighborhood, movin_cost,montly_cost,movein_date, bedrooms, bathrooms, broker_fee, outdoor_space, cats, dogs, gym, listing_state, washer_dryer,  phone, email, city, state, street, borough, zip, long, lat) "
+            "VALUES ('%@', '%@', '%@', '%@', %i, %i, '%@', '%@', '%@', %i, %d, %d, %d, %d, %i, %d, '%@', '%@', '%@', '%@','%@', '%@', %i, %f, %f );";
     NSString *sql = [NSString stringWithFormat:template,
                      listing.objectId,
                      [User sharedUser].uid,
@@ -43,7 +43,10 @@
                      listing.city,
                      listing.state,
                      listing.street,
-                     listing.borough];
+                     listing.borough,
+                     [listing.zip intValue],
+                     listing.geo.coordinate.longitude,
+                     listing.geo.coordinate.latitude];
     
     
     return sql;
@@ -56,14 +59,17 @@
 
 +(NSString *)getFavoritesForUser:(User *)listing
 {
-    NSString *template = @"SELECT uid as objectId,unit, movin_cost as moveInCost,montly_cost as monthlyCost,movein_date as moveInDate, bedrooms, bathrooms, broker_fee as brokerfee, outdoor_space as outdoorSpace, cats, dogs, gym, listing_state as listingState, washer_dryer as washerDryer, phone, email,city, state, neighborhood, street, borough FROM UserListings WHERE user_id = '%@'";
+    NSString *template = @"SELECT uid as objectId,unit, movin_cost as moveInCost,montly_cost as monthlyCost,movein_date as moveInDate, bedrooms, bathrooms, "
+        "broker_fee as brokerfee, outdoor_space as outdoorSpace, "
+        "cats, dogs, gym, listing_state as listingState, washer_dryer as washerDryer, phone, email, city, state, neighborhood, street, borough,  zip, long, lat "
+        "FROM UserListings WHERE user_id = '%@'";
     
     return [NSString stringWithFormat:template, [User sharedUser].uid];
 }
 
 +(NSString *)getListing:(Listing *)listing andUser:( User *)user
 {
-    NSString *template = @"SELECT uid as objectId, unit, movin_cost as moveInCost,montly_cost as moveInCost,movein_date as moveInDate, bedrooms, bathrooms, broker_fee as brokerfee, outdoor_space as outdoorSpace, cats, dogs, gym, listing_state as listingState, washer_dryer as washerDryer, phone, email, email,city, state, neighborhood, street, borough FROM UserListings WHERE uid = '%@' AND user_id = '%@'";
+    NSString *template = @"SELECT uid as objectId, unit, movin_cost as moveInCost,montly_cost as moveInCost,movein_date as moveInDate, bedrooms, bathrooms, broker_fee as brokerfee, outdoor_space as outdoorSpace, cats, dogs, gym, listing_state as listingState, washer_dryer as washerDryer, phone, email, email,city, state, neighborhood, street, borough, zip, long, lat FROM UserListings WHERE uid = '%@' AND user_id = '%@'";
     return  [NSString stringWithFormat:template, listing.objectId, user.uid];
 }
 @end

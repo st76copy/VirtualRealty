@@ -90,7 +90,11 @@
     [User sharedUser];
     [[LocationManager shareManager]startGettingLocations];
     [self initThirdPartySDKs];
-    [self initViewControllers];
+   
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        [self initViewControllers];
+    });
     
     UISwipeGestureRecognizer *leftSwipe = [[UISwipeGestureRecognizer alloc]initWithTarget:self action:@selector(handleSwipeLeft:)];
     UISwipeGestureRecognizer *rightSwipe = [[UISwipeGestureRecognizer alloc]initWithTarget:self action:@selector(handleSwipeRight:)];
@@ -125,7 +129,12 @@
             NSDictionary *textTreatment = @{NSForegroundColorAttributeName:[UIColor whiteColor],
                                             NSFontAttributeName:font,};
             [[UIBarButtonItem appearance]setTitleTextAttributes:textTreatment forState:UIControlStateNormal];
-           
+            [[UIBarButtonItem appearanceWhenContainedIn:[UISearchBar class], nil]setTitleTextAttributes:textTreatment forState:UIControlStateNormal];
+            
+            
+            [[UITextField appearanceWhenContainedIn:[UISearchBar class], nil]setTextColor:[UIColor whiteColor]];
+            [[UITextField appearanceWhenContainedIn:[UISearchBar class], nil]setBackgroundColor:[UIColor whiteColor]];
+            
             [[UINavigationBar appearance]setTitleTextAttributes:textTreatment];
             [[UISwitch appearance]setOnTintColor:[UIColor colorFromHex:@"00aeef"]];
             

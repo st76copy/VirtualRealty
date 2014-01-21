@@ -33,6 +33,6 @@
 @property(nonatomic, assign, readonly)CGRect          keyboardFrame;
 @property(nonatomic, assign, readonly)BOOL            isShowing;
 @property(nonatomic, strong)UITextField              *textfieldInFocus;
-@property(nonatomic, strong, readonly)NSMutableArray *delegates;
+@property(nonatomic, strong, readonly)NSHashTable    *delegates;
 
 @end

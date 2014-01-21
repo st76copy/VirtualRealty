@@ -22,6 +22,7 @@
 #import "SearchFilters.h"
 #import "ErrorFactory.h"
 #import "UIColor+Extended.h"
+#import "ReachabilityManager.h"
 
 @interface SearchViewController ()<SearchFilterDelegate, UISearchBarDelegate, UITableViewDataSource, UITableViewDelegate, GMSMapViewDelegate,ToggleDelegate>
 {
@@ -31,8 +32,10 @@
 
 }
 
+@property(nonatomic, strong)UITapGestureRecognizer *tap;
 @property(nonatomic, strong)SearchFilters *currentFilters;
 
+-(void)handleNavBarTap:(UITapGestureRecognizer *)sender;
 -(void)handleRefresh:(id)sender;
 -(ListingCell *)getDetails:(Listing *)listing;
 -(void)handleMakeFilter:(id)sender;
@@ -67,17 +70,17 @@
     
     _searchBar = [[UISearchBar alloc]init];
     [_searchBar sizeToFit];
-    [_searchBar setAutoresizingMask:UIViewAutoresizingFlexibleWidth];
-    [_searchBar setBackgroundColor:[UIColor clearColor]];
-    [_searchBar setTintColor:[UIColor clearColor ]];
-    self.navigationItem.titleView = _searchBar;
-    self.navigationItem.titleView.backgroundColor = [UIColor clearColor];
+    
+    self.tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(handleNavBarTap:)];
+   
+    
     self.searchBar.placeholder = NSLocalizedString(@"Search Location", @"Copy for searchbar placeholder");
     self.searchBar.autocorrectionType = UITextAutocorrectionTypeNo;
-    self.searchBar.delegate = self;
-    self.searchBar.keyboardType = UIReturnKeySearch;
-    self.searchBar.text = nil;
-    
+    self.searchBar.delegate           = self;
+    self.searchBar.keyboardType       = UIReturnKeySearch;
+    self.searchBar.translucent        = YES;
+    self.searchBar.searchBarStyle     = UISearchBarStyleMinimal;
+    self.searchBar.barTintColor       = [UIColor colorFromHex:@"cbd5d9"];
     
     CGRect rect;
     MapListToggleView *mapListToggle = [[MapListToggleView alloc]initWithFrame:CGRectZero];
@@ -103,6 +106,7 @@
     self.table.dataSource = self;
     self.table.delegate = self;
     self.table.backgroundColor = [UIColor clearColor];
+    self.table.tableHeaderView = self.searchBar;
     [self.table addSubview:refreshControl];
     
     [container addSubview:self.table];
@@ -111,7 +115,14 @@
     UIBarButtonItem *filterButton = [[UIBarButtonItem alloc]initWithTitle:@"Filter" style:UIBarButtonItemStyleBordered target:self action:@selector(handleMakeFilter:)];
     self.navigationItem.rightBarButtonItem = filterButton;
     
-    AppDelegate *app = (AppDelegate *)[UIApplication sharedApplication].delegate;
+    __block AppDelegate *app = (AppDelegate *)[UIApplication sharedApplication].delegate;
+    
+    if ( [ReachabilityManager sharedManager].currentStatus == NotReachable )
+    {
+        [refreshControl endRefreshing];
+        [[ReachabilityManager sharedManager]showAlert];
+        return;
+    }
     
     if( self.currentFilters == nil )
     {
@@ -125,31 +136,44 @@
             }
             else
             {
+                [refreshControl endRefreshing];
                 [blockself handleDataLoaded:object];
             }
+            [app hideLoader];
         }];
     }
+}
+
+-(void)handleNavBarTap:(UITapGestureRecognizer *)sender
+{
+    [self.table scrollRectToVisible:CGRectMake(0, 0, self.table.frame.size.width, self.table.frame.size.height) animated:YES];
 }
 
 -(void)searchBarTextDidBeginEditing:(UISearchBar *)searchBar
 {
     UIBarButtonItem *filterButton = [[UIBarButtonItem alloc]initWithTitle:@"Filter" style:UIBarButtonItemStyleBordered target:self action:@selector(handleMakeFilter:)];
-    UIBarButtonItem *cancel = [[UIBarButtonItem alloc]initWithTitle:@"Cancel" style:UIBarButtonItemStyleBordered target:self action:@selector(handleCancelSearch:)];
-
-    [self.navigationItem setRightBarButtonItems:@[filterButton, cancel] animated:YES];
+    [self.searchBar setShowsCancelButton:YES animated:YES];
+    [self.navigationItem setRightBarButtonItems:@[filterButton] animated:YES];
 }
 
--(void)handleCancelSearch:(id)sender
+
+-(void)searchBarCancelButtonClicked:(UISearchBar *)searchBar
 {
-    UIBarButtonItem *filterButton = [[UIBarButtonItem alloc]initWithTitle:@"Filter" style:UIBarButtonItemStyleBordered target:self action:@selector(handleMakeFilter:)];
-    [self.navigationItem setRightBarButtonItems:@[filterButton] animated:YES];
+    [self.searchBar setText:nil];
+    [self.searchBar setShowsCancelButton:NO animated:YES];
     [self.searchBar resignFirstResponder];
 }
 
-
 -(void)handleRefresh:(id)sender
 {
-    AppDelegate *app = (AppDelegate *)[UIApplication sharedApplication].delegate;
+    __block AppDelegate *app = (AppDelegate *)[UIApplication sharedApplication].delegate;
+    
+    if ( [ReachabilityManager sharedManager].currentStatus == NotReachable )
+    {
+        [refreshControl endRefreshing];
+        [[ReachabilityManager sharedManager]showAlert];
+        return;
+    }
     
     if( self.currentFilters )
     {
@@ -173,14 +197,21 @@
                 [blockRefresh endRefreshing];
                 [blockself handleDataLoaded:object];
             }
+            [app hideLoader];
         }];
-
     }
 }
 
 -(void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
+//    [self.navigationController.navigationBar addGestureRecognizer:self.tap];
+}
+
+-(void)viewDidDisappear:(BOOL)animated
+{
+    [super viewDidDisappear:animated];
+//    [self.navigationController.navigationBar removeGestureRecognizer:self.tap];
 }
 
 -(void)toggleMenu
@@ -195,9 +226,6 @@
     
     [refreshControl endRefreshing];
     
-    AppDelegate *app = (AppDelegate *)[UIApplication sharedApplication].delegate;
-    [app hideLoader];
-
     if( data.count == 0 )
     {
         [[ErrorFactory getAlertForType:kNoResultsError andDelegateOrNil:nil andOtherButtons:nil]show];
@@ -233,6 +261,13 @@
 -(void)filtersDoneWithOptions:(SearchFilters *)filters
 {
     
+    if ( [ReachabilityManager sharedManager].currentStatus == NotReachable )
+    {
+        [refreshControl endRefreshing];
+        [[ReachabilityManager sharedManager]showAlert];
+        return;
+    }
+    
     if( filters == nil )
     {
         [self dismissViewControllerAnimated:YES completion:nil];
@@ -242,7 +277,7 @@
     self.currentFilters = filters;
     NSDictionary *options = [self.currentFilters getActiveFilters];
     
-    AppDelegate *app = (AppDelegate *)[UIApplication sharedApplication].delegate;
+    __block AppDelegate *app = (AppDelegate *)[UIApplication sharedApplication].delegate;
     [app showLoaderInView:self.view];
     
     
@@ -272,6 +307,8 @@
     
     [self dismissViewControllerAnimated:YES completion:nil];
     
+    __block UIRefreshControl *blockrefresh = refreshControl;
+    
     if( self.searchBar.text && [self.searchBar.text isEqualToString:@""] == NO )
     {
         [[LocationManager shareManager]requestGeoFromString:[NSString stringWithFormat:@"%@, NYC",[self.searchBar.text lowercaseString]] block:^(CLLocationCoordinate2D loc, NSDictionary *results) {
@@ -284,7 +321,16 @@
             
             [PFCloud callFunctionInBackground:@"search" withParameters:temp block:^(id object, NSError *error)
             {
-                 [blockself handleDataLoaded:object];
+                if( error == nil )
+                {
+                    [blockself handleDataLoaded:object];
+                }
+                else
+                {
+                    [[ErrorFactory getAlertForType:kServerError andDelegateOrNil:nil andOtherButtons:nil]show];
+                }
+                [blockrefresh endRefreshing];
+                [app hideLoader];
             }];
             [blockself.searchBar resignFirstResponder];
         }];
@@ -295,12 +341,14 @@
         {
             if( error )
             {
-                NSLog(@"%@  found error with results  %@ ", self, error);
+                [[ErrorFactory getAlertForType:kServerError andDelegateOrNil:nil andOtherButtons:nil]show];
             }
             else
             {
                 [blockself handleDataLoaded:object];
             }
+            [blockrefresh endRefreshing];
+            [app hideLoader];
         }];
     }
 }
@@ -308,13 +356,28 @@
 
 -(void)clearFilters
 {
-    AppDelegate *app = (AppDelegate *)[UIApplication sharedApplication].delegate;
+    if ( [ReachabilityManager sharedManager].currentStatus == NotReachable )
+    {
+        [refreshControl endRefreshing];
+        [[ReachabilityManager sharedManager]showAlert];
+        return;
+    }
+
+    __block AppDelegate *app = (AppDelegate *)[UIApplication sharedApplication].delegate;
     
     [app showLoaderInView:self.view];
     __block SearchViewController *blockself = self;
     [PFCloud  callFunctionInBackground:@"allListings" withParameters:[NSDictionary dictionary] block:^(id object, NSError *error)
     {
-         [blockself handleDataLoaded:object];
+        if( error == nil )
+        {
+            [blockself handleDataLoaded:object];
+        }
+        else
+        {
+            [[ErrorFactory getAlertForType:kServerError andDelegateOrNil:nil andOtherButtons:nil]show];
+        }
+        [app hideLoader];
     }];
 }
 

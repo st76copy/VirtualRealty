@@ -54,7 +54,7 @@
         _facebookUser    = [NSNumber numberWithBool:NO];
         self.minBedrooms   = nil;
         self.maxRent       = @0;
-        self.searchRadius  = @5;
+        self.searchRadius  = @0.5;
         self.activelySearching = [NSNumber numberWithBool:YES];
         self.moveInAfter = [NSDate date];
         self.brokerFirm = @"";
@@ -311,11 +311,25 @@
     if( userRef )
     {
         
-        [userRef setValue:self.moveInAfter        forKey:@"moveInAfter"];
-        [userRef setValue:self.minBedrooms        forKey:@"minBedrooms"];
-        [userRef setValue:self.maxRent            forKey:@"maxRent"];
-        [userRef setValue:self.activelySearching  forKey:@"activelySearching"];
-
+        if(self.moveInAfter )
+        {
+            [userRef setValue:self.moveInAfter        forKey:@"moveInAfter"];
+        }
+        if( self.minBedrooms )
+        {
+            [userRef setValue:self.minBedrooms        forKey:@"minBedrooms"];
+        }
+        
+        if( self.maxRent )
+        {
+            [userRef setValue:self.maxRent            forKey:@"maxRent"];
+        }
+        
+        if( self.activelySearching )
+        {
+            [userRef setValue:self.activelySearching  forKey:@"activelySearching"];
+        }
+        
         [userRef saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
             
             if( succeeded )

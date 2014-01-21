@@ -266,6 +266,15 @@
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 
+-(void)tableView:(UITableView *)tableView didDeselectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    FormCell *cell  = (FormCell*)[tableView cellForRowAtIndexPath:indexPath];
+    [cell killFocus];
+    
+    NSLog(@"%@ --- deselected cell %@ ", self, cell  );
+}
+
+
 -(NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
 {
     NSDictionary *sectionInfo = ( _state == kLogin ) ? [_loginArray objectAtIndex:section] : [_signupArray objectAtIndex:section];
@@ -468,6 +477,7 @@
             self.navigationItem.title = @"Sign up";
     
             _state = kSignup;
+            _currentIndexPath = nil;
             break;
             
         case kSignup:
@@ -477,8 +487,14 @@
             self.navigationItem.title = @"Log In";
 
             _state = kLogin;
+            _currentIndexPath = nil;
             break;
     }
+    
+    [[KeyboardManager sharedManager]close];
+    [[PickerManager sharedManager]
+     hidePicker];
+    
     [_loginTabel reloadData];
     [_signupTabel reloadData];
     

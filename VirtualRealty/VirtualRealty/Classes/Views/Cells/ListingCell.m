@@ -30,9 +30,7 @@
         [self.thumb setContentMode:UIViewContentModeScaleAspectFill];
         [self.thumb setClipsToBounds:YES];
         [self.thumb setBackgroundColor:[UIColor colorFromHex:@"e6e6e6"]];
-        
         [self.contentView addSubview:self.thumb];
-        
         
         _priceView = [[PriceView alloc]initWithFrame:CGRectZero];
         [self.contentView addSubview:self.priceView];
@@ -42,7 +40,6 @@
         
         [self.addressLabel setTextColor:[UIColor colorFromHex:@"303030"]];
         [self.addressLabel setFont:[UIFont systemFontOfSize:18]];
-        
         
         _listingDetailsLabel = [[UILabel alloc]initWithFrame:CGRectZero];
         _listingDetailsLabel.font = [UIFont fontWithName:@"MuseoSans-500" size:12.5];
@@ -56,8 +53,6 @@
         _spinner.activityIndicatorViewStyle = UIActionSheetStyleBlackTranslucent;
         _spinner.center = self.thumb.center;
         [self.contentView addSubview:_spinner];
-        
-        
         [self.contentView addSubview:self.addressLabel];
         [self.contentView addSubview:self.listingDetailsLabel];
         [self.contentView addSubview:self.stroke];
@@ -107,6 +102,7 @@
     
     NSString *borough = ( self.listing.borough == nil ) ? self.listing.city : self.listing.borough;
     self.addressLabel.text = [NSString stringWithFormat:@"%@, %@ %@",self.listing.street, borough, [NSString stringWithFormat:@"%i",[self.listing.zip intValue]]];
+  
     NSString *detailsText = [NSString stringWithFormat:@"%@, %@ in %@", self.listing.bedrooms, self.listing.bathrooms, self.listing.neighborhood];
     self.listingDetailsLabel.text = [detailsText uppercaseString];
     

@@ -35,7 +35,7 @@
     self = [super init];
     if( self !=  nil )
     {
-        _delegates = [NSMutableArray array];
+        _delegates = [NSHashTable weakObjectsHashTable];
         [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(handleKeyboardWillShow:) name:UIKeyboardWillShowNotification object:nil];
         [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(handleKeyboardWillHide:) name:UIKeyboardWillHideNotification object:nil];
     }
@@ -50,20 +50,37 @@
     }
     
     [self.textfieldInFocus resignFirstResponder];
-    self.textfieldInFocus = nil;
+    [self.textfieldInFocus setUserInteractionEnabled:NO];
+    _textfieldInFocus = nil;
     _isShowing = NO;
 }
 
 -(void)showWithFocusField:(UITextField *)field
 {
-    self.textfieldInFocus = field;
-    _isShowing = YES;
-    [self.textfieldInFocus becomeFirstResponder];
+    if( _isShowing == NO )
+    {
+        _textfieldInFocus = field;
+        _isShowing = YES;
+   
+        if( [field isFirstResponder] == NO )
+        {
+            [self.textfieldInFocus becomeFirstResponder];
+        }
+    }
+    else
+    {
+        if( [field isFirstResponder] == NO )
+        {
+            [field becomeFirstResponder];
+        }
+        _textfieldInFocus.userInteractionEnabled = NO;
+        _textfieldInFocus = field;
+    }
 }
 
 -(void)setTextfieldInFocus:(UITextField *)textfieldInFocus
 {
-    _isShowing = YES;
+    _isShowing = (textfieldInFocus) ? YES : NO;
     _textfieldInFocus = textfieldInFocus;
 }
 
