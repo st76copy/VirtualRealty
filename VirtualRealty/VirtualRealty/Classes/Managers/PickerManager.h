@@ -3,6 +3,7 @@
 -(void)pickerWillShow;
 -(void)pickerWillHide;
 -(void)pickerDone;
+-(void)pickerCancel;
 @end
 
 @interface PickerManager : NSObject<UIPickerViewDataSource, UIPickerViewDelegate>

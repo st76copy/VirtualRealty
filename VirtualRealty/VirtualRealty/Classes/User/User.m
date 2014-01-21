@@ -54,7 +54,7 @@
         _facebookUser    = [NSNumber numberWithBool:NO];
         self.minBedrooms   = nil;
         self.maxRent       = @0;
-        self.searchRadius  = @0.5;
+        self.searchRadius  = @1.0;
         self.activelySearching = [NSNumber numberWithBool:YES];
         self.moveInAfter = [NSDate date];
         self.brokerFirm = @"";

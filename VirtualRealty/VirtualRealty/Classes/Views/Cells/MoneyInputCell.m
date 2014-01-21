@@ -90,6 +90,9 @@
     {
         self.inputField.userInteractionEnabled = NO;
         self.inputField.textColor = [UIColor colorFromHex:@"00aeef"];
+        int value =  [[self.cellinfo valueForKey:@"current-value"] intValue];
+        NSString *text = [NSString stringWithFormat:format, value];
+        self.inputField.text = text;
     }
     
 }

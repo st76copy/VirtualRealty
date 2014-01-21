@@ -252,6 +252,13 @@
 
 -(void)cancelTouched:(id)sender
 {
+    for( id<PickerManagerDelegate> obj in self.delegates )
+    {
+        if( [obj respondsToSelector:@selector(pickerCancel)] )
+        {
+            [obj pickerCancel];
+        }
+    }
     [self hidePicker];
 }
 

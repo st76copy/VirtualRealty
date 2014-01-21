@@ -82,9 +82,15 @@
 						</dict>
 						<dict>
 							<key>label</key>
-							<string>Upper East Side</string>
+							<string>Upper West Side</string>
 							<key>value</key>
 							<string>Upper West Side</string>
+						</dict>
+						<dict>
+							<key>label</key>
+							<string>Upper East Side</string>
+							<key>value</key>
+							<string>Upper East Side</string>
 						</dict>
 						<dict>
 							<key>label</key>
@@ -324,7 +330,7 @@
 				<key>format</key>
 				<string>$%0.2f</string>
 				<key>label</key>
-				<string>Broker Fee</string>
+				<string>No Broker Fee</string>
 				<key>placeholder</key>
 				<string>$0.00</string>
 				<key>state</key>

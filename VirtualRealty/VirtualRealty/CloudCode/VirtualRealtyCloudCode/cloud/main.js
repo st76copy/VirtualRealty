@@ -378,7 +378,7 @@ Parse.Cloud.define("search", function(request, response)
 	{
 		var minPrice = (request.params.filters["minCost"] != undefined) ? request.params["filters"]["minCost"]["value"] : null;
 		var maxPrice = (request.params.filters["maxCost"] != undefined) ? request.params["filters"]["maxCost"]["value"] : null;
-	
+		
 		
 		if( minPrice != null )
 		{
@@ -411,6 +411,19 @@ Parse.Cloud.define("search", function(request, response)
 		{
 			query.equalTo( "dogs",   request.params.filters.dogs.value);
 		}
+		
+		console.log("testing broker fee");
+		if( request.params["filters"]["brokerfee"] != undefined )
+		{
+			console.log("testing broker fee value is " +  request.params.filters.brokerfee.value );
+			if( request.params.filters.brokerfee.value == true )
+			{
+				console.log("testing broker fee value is " +  request.params.filters.brokerfee.value );
+				
+				query.lessThanOrEqualTo("brokerfee", 0);		
+			}
+		}
+		
 		
 		if( request.params["filters"]["cats"] != undefined )
 		{

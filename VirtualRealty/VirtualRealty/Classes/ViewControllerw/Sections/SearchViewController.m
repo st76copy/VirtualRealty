@@ -144,11 +144,25 @@
     }
 }
 
+
+-(void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+    //    [self.navigationController.navigationBar addGestureRecognizer:self.tap];
+}
+
+-(void)viewDidDisappear:(BOOL)animated
+{
+    [super viewDidDisappear:animated];
+    //    [self.navigationController.navigationBar removeGestureRecognizer:self.tap];
+}
+
+
 -(void)handleNavBarTap:(UITapGestureRecognizer *)sender
 {
     [self.table scrollRectToVisible:CGRectMake(0, 0, self.table.frame.size.width, self.table.frame.size.height) animated:YES];
 }
-
+#pragma mark - search bar delegates
 -(void)searchBarTextDidBeginEditing:(UISearchBar *)searchBar
 {
     UIBarButtonItem *filterButton = [[UIBarButtonItem alloc]initWithTitle:@"Filter" style:UIBarButtonItemStyleBordered target:self action:@selector(handleMakeFilter:)];
@@ -164,6 +178,39 @@
     [self.searchBar resignFirstResponder];
 }
 
+- (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar
+{
+    
+    __block AppDelegate *app = (AppDelegate *)[UIApplication sharedApplication].delegate;
+    [app showLoaderInView:self.view];
+    
+    __block SearchViewController *blockself = self;
+    
+    [[LocationManager shareManager]requestGeoFromString:[NSString stringWithFormat:@"%@, NYC",[self.searchBar.text lowercaseString]] block:^(CLLocationCoordinate2D loc, NSDictionary *results) {
+        
+        NSDictionary *params = @{@"long":[NSNumber numberWithDouble:loc.longitude],
+                                 @"latt":[NSNumber numberWithDouble:loc.latitude],
+                                 @"distance":[User sharedUser].searchRadius
+                                 };
+        
+        [PFCloud callFunctionInBackground:@"search" withParameters:params block:^(id object, NSError *error)
+        {
+            if( error )
+            {
+                [[ErrorFactory getAlertForType:kServerError andDelegateOrNil:nil andOtherButtons:nil]show];
+            }
+            else
+            {
+                [blockself handleDataLoaded:object];
+            }
+            [app hideLoader];
+        }];
+        [blockself.searchBar resignFirstResponder];
+    }];
+}
+
+
+#pragma mark - ui refresh
 -(void)handleRefresh:(id)sender
 {
     __block AppDelegate *app = (AppDelegate *)[UIApplication sharedApplication].delegate;
@@ -202,23 +249,13 @@
     }
 }
 
--(void)viewDidAppear:(BOOL)animated
-{
-    [super viewDidAppear:animated];
-//    [self.navigationController.navigationBar addGestureRecognizer:self.tap];
-}
-
--(void)viewDidDisappear:(BOOL)animated
-{
-    [super viewDidDisappear:animated];
-//    [self.navigationController.navigationBar removeGestureRecognizer:self.tap];
-}
 
 -(void)toggleMenu
 {
     [self.searchBar resignFirstResponder];
     [super toggleMenu];
 }
+
 
 -(void)handleDataLoaded:(NSArray *)data
 {
@@ -250,6 +287,7 @@
     [self presentViewController:nc animated:YES completion:nil];
 }
 
+
 -(void)showDetails:(Listing *)listing
 {
     ListingDetailViewController *detailsVC = [[ListingDetailViewController alloc]initWithListing:listing];
@@ -270,12 +308,20 @@
     
     if( filters == nil )
     {
-        [self dismissViewControllerAnimated:YES completion:nil];
+
         return;
     }
     
     self.currentFilters = filters;
+    
     NSDictionary *options = [self.currentFilters getActiveFilters];
+    
+    if( options == nil )
+    {
+        [self dismissViewControllerAnimated:YES completion:nil];
+        [self clearFilters];
+        return;
+    }
     
     __block AppDelegate *app = (AppDelegate *)[UIApplication sharedApplication].delegate;
     [app showLoaderInView:self.view];
@@ -382,28 +428,6 @@
 }
 
 
-- (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar
-{
-    
-    AppDelegate *app = (AppDelegate *)[UIApplication sharedApplication].delegate;
-    [app showLoaderInView:self.view];
-    
-    __block SearchViewController *blockself = self;
-    
-    [[LocationManager shareManager]requestGeoFromString:[NSString stringWithFormat:@"%@, NYC",[self.searchBar.text lowercaseString]] block:^(CLLocationCoordinate2D loc, NSDictionary *results) {
-
-        NSDictionary *params = @{@"long":[NSNumber numberWithDouble:loc.longitude],
-                                 @"latt":[NSNumber numberWithDouble:loc.latitude],
-                                 @"distance":[User sharedUser].searchRadius
-                                 };
-        
-        [PFCloud callFunctionInBackground:@"search" withParameters:params block:^(id object, NSError *error)
-        {
-            [blockself handleDataLoaded:object];
-        }];
-        [blockself.searchBar resignFirstResponder];
-    }];
-}
 
 #pragma mark - table delegate
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView

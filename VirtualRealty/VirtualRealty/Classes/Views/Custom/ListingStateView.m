@@ -46,7 +46,7 @@
             wedge     = [UIImage imageNamed:@"pending-wedge.png"];
             break;
         case kVacant:
-            stateName = @"Vacent";
+            stateName = @"Vacant";
             color     = [UIColor colorFromHex:@"e6e6e6"];
             label.textColor = [UIColor colorFromHex:@"303030"];
             wedge     = [UIImage imageNamed:@"vacent-wedge.png"];

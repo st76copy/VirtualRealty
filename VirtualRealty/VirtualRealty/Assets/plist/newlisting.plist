@@ -801,24 +801,5 @@
 		<key>section-title</key>
 		<string>Contact</string>
 	</dict>
-	<dict>
-		<key>cells</key>
-		<array>
-			<dict>
-				<key>animatable</key>
-				<false/>
-				<key>class</key>
-				<string>KeyWordsCell</string>
-				<key>field</key>
-				<integer>37</integer>
-				<key>label</key>
-				<string>Key Words</string>
-				<key>state</key>
-				<integer>1</integer>
-			</dict>
-		</array>
-		<key>section-title</key>
-		<string>Key Words</string>
-	</dict>
 </array>
 </plist>

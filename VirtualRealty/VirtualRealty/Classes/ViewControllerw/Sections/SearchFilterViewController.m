@@ -351,6 +351,26 @@
     }];
 }
 
+-(void)pickerCancel
+{
+    FormCell *cell = (FormCell *)[self.table cellForRowAtIndexPath:self.currentPath];
+    
+    switch ([PickerManager sharedManager].type) {
+        case kStandard:
+            cell.formValue  = nil;
+            break;
+            
+        default:
+            cell.formValue = nil;
+            break;
+    }
+    
+    [cell.formDelegate cell:cell didChangeForField:self.currentField];
+    [self.table reloadRowsAtIndexPaths:@[self.currentPath] withRowAnimation:UITableViewRowAnimationAutomatic];
+    [[PickerManager sharedManager]hidePicker];
+
+}
+
 -(void)pickerDone
 {
     FormCell *cell = (FormCell *)[self.table cellForRowAtIndexPath:self.currentPath];
@@ -358,7 +378,7 @@
     
     switch ([PickerManager sharedManager].type) {
         case kStandard:
-            cell.formValue = [[PickerManager sharedManager] valueForComponent:index];
+            cell.formValue            = [[PickerManager sharedManager] valueForComponent:index];
             cell.detailTextLabel.text = [[PickerManager sharedManager] valueForComponent:index];
             break;
             
