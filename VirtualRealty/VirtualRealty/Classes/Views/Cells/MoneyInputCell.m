@@ -69,7 +69,10 @@
 
 -(void)render
 {
-    self.imageView.image = [UIImage imageNamed:self.cellinfo[@"icon"]];
+    if(self.cellinfo[@"icon"])
+    {
+        self.imageView.image = [UIImage imageNamed:self.cellinfo[@"icon"]];
+    }
     self.textLabel.text         = [self.cellinfo valueForKey:@"label"];
     self.inputField.placeholder = [self.cellinfo valueForKey:@"placeholder"];
     

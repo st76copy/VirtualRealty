@@ -77,7 +77,7 @@
 				<key>format</key>
 				<string>$%i</string>
 				<key>icon</key>
-				<string>dollar-icon.png</string>
+				<string>broker-icon.png</string>
 				<key>read-only</key>
 				<true/>
 				<key>field</key>
@@ -123,6 +123,8 @@
 				<string>TextCell</string>
 			</dict>
 			<dict>
+				<key>icon</key>
+				<string>share-icon.png</string>
 				<key>read-only</key>
 				<true/>
 				<key>field</key>

@@ -138,6 +138,7 @@
             [[UINavigationBar appearance]setTitleTextAttributes:textTreatment];
             [[UISwitch appearance]setOnTintColor:[UIColor colorFromHex:@"00aeef"]];
             
+
             UIViewController *rootViewController = [[SearchViewController alloc]initWithNibName:nil bundle:nil];
             
             CGRect rect;
@@ -162,6 +163,8 @@
             {
                 TourViewController *tourvc = [[TourViewController alloc]initWithNibName:nil bundle:nil];
                 [self.window.rootViewController presentViewController:tourvc animated:NO completion:nil];
+                [[NSUserDefaults standardUserDefaults]setValue:[NSNumber numberWithBool:YES] forKey:kUSER_VIEWED_TOUR];
+                [[NSUserDefaults standardUserDefaults]synchronize];
             }
 
         }

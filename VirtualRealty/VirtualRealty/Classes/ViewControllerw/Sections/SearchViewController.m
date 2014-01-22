@@ -180,7 +180,7 @@
 
 - (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar
 {
-    
+    [self.searchBar setShowsCancelButton:NO animated:YES];
     __block AppDelegate *app = (AppDelegate *)[UIApplication sharedApplication].delegate;
     [app showLoaderInView:self.view];
     
@@ -213,7 +213,10 @@
 #pragma mark - ui refresh
 -(void)handleRefresh:(id)sender
 {
+    NSLog(@"%@ --- handle refresh " , self);
+    
     __block AppDelegate *app = (AppDelegate *)[UIApplication sharedApplication].delegate;
+    [self.searchBar resignFirstResponder];
     
     if ( [ReachabilityManager sharedManager].currentStatus == NotReachable )
     {
@@ -228,24 +231,31 @@
     }
     else
     {
-        
-        [app showLoaderInView:self.view];
-        __block UIRefreshControl *blockRefresh = refreshControl;
-        __block SearchViewController *blockself = self;
-        [PFCloud  callFunctionInBackground:@"allListings" withParameters:[NSDictionary dictionary] block:^(id object, NSError *error)
+        if( self.searchBar.text == nil || [self.searchBar.text isEqualToString:@""] )
         {
-            if( error )
-            {
-                [blockRefresh endRefreshing];
-                [[ErrorFactory getAlertForType:kServerError andDelegateOrNil:nil andOtherButtons:nil]show];
-            }
-            else
-            {
-                [blockRefresh endRefreshing];
-                [blockself handleDataLoaded:object];
-            }
-            [app hideLoader];
-        }];
+            [app showLoaderInView:self.view];
+            __block UIRefreshControl *blockRefresh = refreshControl;
+            __block SearchViewController *blockself = self;
+            [PFCloud  callFunctionInBackground:@"allListings" withParameters:[NSDictionary dictionary] block:^(id object, NSError *error)
+             {
+                 if( error )
+                 {
+                     [blockRefresh endRefreshing];
+                     [[ErrorFactory getAlertForType:kServerError andDelegateOrNil:nil andOtherButtons:nil]show];
+                 }
+                 else
+                 {
+                     [blockRefresh endRefreshing];
+                     [blockself handleDataLoaded:object];
+                 }
+                 [app hideLoader];
+             }];
+    
+        }
+        else
+        {
+            [self searchBarSearchButtonClicked:self.searchBar];
+        }
     }
 }
 

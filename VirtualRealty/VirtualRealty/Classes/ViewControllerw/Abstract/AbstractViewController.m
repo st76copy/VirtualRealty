@@ -31,6 +31,7 @@
     
     UIImage *buger = [UIImage imageNamed:@"menu.png"];
     [[UIBarButtonItem appearance]setTintColor:[UIColor colorFromHex:@"ffffff"]];
+    
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc]initWithImage:buger style:UIBarButtonItemStylePlain target:self action:@selector(toggleMenu)];
 }
 

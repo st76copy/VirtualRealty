@@ -494,7 +494,7 @@
 				<key>format</key>
 				<string>$%i</string>
 				<key>icon</key>
-				<string>dollar-icon.png</string>
+				<string>broker-icon.png</string>
 				<key>label</key>
 				<string>Broker Fee</string>
 				<key>placeholder</key>
@@ -638,6 +638,8 @@
 				<string>SwitchCell</string>
 				<key>field</key>
 				<integer>9</integer>
+				<key>icon</key>
+				<string>share-icon.png</string>
 				<key>label</key>
 				<string>Share</string>
 				<key>state</key>

@@ -401,6 +401,16 @@ Parse.Cloud.define("search", function(request, response)
 		{
 			query.equalTo( "neighborhood", request.params["filters"]["neighborhood"]["value"].toString() );
 		}
+	
+		if( request.params["filters"]["bedrooms"] != undefined )
+		{
+			query.equalTo( "bedrooms", request.params["filters"]["bedrooms"]["value"].toString() );
+		}
+		if( request.params["filters"]["bathrooms"] != undefined )
+		{
+			query.equalTo( "bathrooms", request.params["filters"]["bathrooms"]["value"].toString() );
+		}
+	
 		
 		if( request.params["filters"]["share"] != undefined )
 		{
@@ -412,14 +422,10 @@ Parse.Cloud.define("search", function(request, response)
 			query.equalTo( "dogs",   request.params.filters.dogs.value);
 		}
 		
-		console.log("testing broker fee");
 		if( request.params["filters"]["brokerfee"] != undefined )
 		{
-			console.log("testing broker fee value is " +  request.params.filters.brokerfee.value );
 			if( request.params.filters.brokerfee.value == true )
 			{
-				console.log("testing broker fee value is " +  request.params.filters.brokerfee.value );
-				
 				query.lessThanOrEqualTo("brokerfee", 0);		
 			}
 		}

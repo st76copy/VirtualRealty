@@ -14,6 +14,14 @@
 		161AE1CF1846459200B61CCB /* MapPriceTag.m in Sources */ = {isa = PBXBuildFile; fileRef = 161AE1CE1846459200B61CCB /* MapPriceTag.m */; };
 		161AE1D21846460500B61CCB /* bottom-wedge.png in Resources */ = {isa = PBXBuildFile; fileRef = 161AE1D01846460500B61CCB /* bottom-wedge.png */; };
 		161AE1D31846460500B61CCB /* bottom-wedge@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 161AE1D11846460500B61CCB /* bottom-wedge@2x.png */; };
+		1625E8DF188F4EF50097512C /* share-icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 1625E8DD188F4EF50097512C /* share-icon.png */; };
+		1625E8E0188F4EF50097512C /* share-icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1625E8DE188F4EF50097512C /* share-icon@2x.png */; };
+		1625E8E3188F4FF70097512C /* app-icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 1625E8E1188F4FF70097512C /* app-icon.png */; };
+		1625E8E4188F4FF70097512C /* app-icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1625E8E2188F4FF70097512C /* app-icon@2x.png */; };
+		1625E8E7188F50490097512C /* app-icon-spotlight.png in Resources */ = {isa = PBXBuildFile; fileRef = 1625E8E5188F50490097512C /* app-icon-spotlight.png */; };
+		1625E8E8188F50490097512C /* app-icon-spotlight@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1625E8E6188F50490097512C /* app-icon-spotlight@2x.png */; };
+		1625E8EB188F52570097512C /* broker-icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 1625E8E9188F52570097512C /* broker-icon.png */; };
+		1625E8EC188F52570097512C /* broker-icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1625E8EA188F52570097512C /* broker-icon@2x.png */; };
 		16261BB31809A19400F44578 /* ListingDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 16261BB21809A19400F44578 /* ListingDetailViewController.m */; };
 		16261BB51809A32E00F44578 /* listingdetails.plist in Resources */ = {isa = PBXBuildFile; fileRef = 16261BB41809A32E00F44578 /* listingdetails.plist */; };
 		16261BB81809B30900F44578 /* DetailsCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 16261BB71809B30900F44578 /* DetailsCell.m */; };
@@ -243,6 +251,14 @@
 		161AE1CE1846459200B61CCB /* MapPriceTag.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MapPriceTag.m; path = Custom/MapPriceTag.m; sourceTree = "<group>"; };
 		161AE1D01846460500B61CCB /* bottom-wedge.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bottom-wedge.png"; sourceTree = "<group>"; };
 		161AE1D11846460500B61CCB /* bottom-wedge@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bottom-wedge@2x.png"; sourceTree = "<group>"; };
+		1625E8DD188F4EF50097512C /* share-icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "share-icon.png"; sourceTree = "<group>"; };
+		1625E8DE188F4EF50097512C /* share-icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "share-icon@2x.png"; sourceTree = "<group>"; };
+		1625E8E1188F4FF70097512C /* app-icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "app-icon.png"; path = "VirtualRealty/app-icon.png"; sourceTree = "<group>"; };
+		1625E8E2188F4FF70097512C /* app-icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "app-icon@2x.png"; path = "VirtualRealty/app-icon@2x.png"; sourceTree = "<group>"; };
+		1625E8E5188F50490097512C /* app-icon-spotlight.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "app-icon-spotlight.png"; path = "VirtualRealty/app-icon-spotlight.png"; sourceTree = "<group>"; };
+		1625E8E6188F50490097512C /* app-icon-spotlight@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "app-icon-spotlight@2x.png"; path = "VirtualRealty/app-icon-spotlight@2x.png"; sourceTree = "<group>"; };
+		1625E8E9188F52570097512C /* broker-icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "broker-icon.png"; sourceTree = "<group>"; };
+		1625E8EA188F52570097512C /* broker-icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "broker-icon@2x.png"; sourceTree = "<group>"; };
 		16261BB11809A19400F44578 /* ListingDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ListingDetailViewController.h; sourceTree = "<group>"; };
 		16261BB21809A19400F44578 /* ListingDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ListingDetailViewController.m; sourceTree = "<group>"; };
 		16261BB41809A32E00F44578 /* listingdetails.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = listingdetails.plist; path = Assets/plist/listingdetails.plist; sourceTree = "<group>"; };
@@ -600,6 +616,10 @@
 		161AE1C018463F5100B61CCB /* images */ = {
 			isa = PBXGroup;
 			children = (
+				1625E8E9188F52570097512C /* broker-icon.png */,
+				1625E8EA188F52570097512C /* broker-icon@2x.png */,
+				1625E8DD188F4EF50097512C /* share-icon.png */,
+				1625E8DE188F4EF50097512C /* share-icon@2x.png */,
 				16B9E475187B9F4E00BEE9A9 /* checked.png */,
 				16B9E476187B9F4E00BEE9A9 /* checked@2x.png */,
 				16B9E477187B9F4E00BEE9A9 /* favorite.png */,
@@ -720,6 +740,10 @@
 		8333DD2C17E4B2A700645B3E = {
 			isa = PBXGroup;
 			children = (
+				1625E8E5188F50490097512C /* app-icon-spotlight.png */,
+				1625E8E6188F50490097512C /* app-icon-spotlight@2x.png */,
+				1625E8E1188F4FF70097512C /* app-icon.png */,
+				1625E8E2188F4FF70097512C /* app-icon@2x.png */,
 				16B9E4511879E34F00BEE9A9 /* Default-586@2x.png */,
 				16B9E44E1879E26200BEE9A9 /* Default@2x.png */,
 				8333DD3E17E4B2A700645B3E /* VirtualRealty */,
@@ -1274,7 +1298,9 @@
 				1637068B185E82B100BEF474 /* subway-icon@2x.png in Resources */,
 				16370697185FEDFA00BEF474 /* washer-dryer-icon@2x.png in Resources */,
 				16B9E45B187A192F00BEE9A9 /* pending-wedge@2x.png in Resources */,
+				1625E8E0188F4EF50097512C /* share-icon@2x.png in Resources */,
 				16370684185E82B100BEF474 /* grocery-icon.png in Resources */,
+				1625E8E3188F4FF70097512C /* app-icon.png in Resources */,
 				163706581854E2F900BEF474 /* bathrooms-icon.png in Resources */,
 				16B9E473187B992200BEE9A9 /* stroke.png in Resources */,
 				163706601854E2F900BEF474 /* doorman-icon.png in Resources */,
@@ -1293,6 +1319,7 @@
 				1637069D18613B4200BEF474 /* footer-button-fill.png in Resources */,
 				16B9E45D187A192F00BEE9A9 /* vacent-wedge@2x.png in Resources */,
 				163706611854E2F900BEF474 /* doorman-icon@2x.png in Resources */,
+				1625E8E8188F50490097512C /* app-icon-spotlight@2x.png in Resources */,
 				16B9E474187B992200BEE9A9 /* stroke@2x.png in Resources */,
 				16370696185FEDFA00BEF474 /* washer-dryer-icon.png in Resources */,
 				16435342183922A400B3DBBA /* GoogleMaps.bundle in Resources */,
@@ -1322,6 +1349,7 @@
 				1637065A1854E2F900BEF474 /* bedrooms-icon.png in Resources */,
 				163706681854E2F900BEF474 /* pool-icon.png in Resources */,
 				83A5600B17E7BB360084C605 /* newlisting.plist in Resources */,
+				1625E8E4188F4FF70097512C /* app-icon@2x.png in Resources */,
 				16370689185E82B100BEF474 /* restaurant-icon@2x.png in Resources */,
 				1637065F1854E2F900BEF474 /* dollar-icon@2x.png in Resources */,
 				1637066A1854E2F900BEF474 /* sqare-footage-icon.png in Resources */,
@@ -1339,8 +1367,10 @@
 				16261BCC18102F9D00F44578 /* search-filter.plist in Resources */,
 				161AE1C318463F5100B61CCB /* menu.png in Resources */,
 				161AE1D21846460500B61CCB /* bottom-wedge.png in Resources */,
+				1625E8E7188F50490097512C /* app-icon-spotlight.png in Resources */,
 				16B9E4501879E26200BEE9A9 /* Default@2x.png in Resources */,
 				16B9E45C187A192F00BEE9A9 /* vacent-wedge.png in Resources */,
+				1625E8DF188F4EF50097512C /* share-icon.png in Resources */,
 				16370638184FF77D00BEF474 /* rigth-wedge@2x.png in Resources */,
 				1637065B1854E2F900BEF474 /* bedrooms-icon@2x.png in Resources */,
 				163706A41864B00300BEF474 /* add-video-temp@2x.png in Resources */,
@@ -1349,6 +1379,7 @@
 				163706631854E2F900BEF474 /* gym-icon@2x.png in Resources */,
 				163706651854E2F900BEF474 /* laundry-icon@2x.png in Resources */,
 				1637069E18613B4200BEF474 /* footer-button-fill@2x.png in Resources */,
+				1625E8EC188F52570097512C /* broker-icon@2x.png in Resources */,
 				163706671854E2F900BEF474 /* outdoor-space-icon@2x.png in Resources */,
 				16370685185E82B100BEF474 /* grocery-icon@2x.png in Resources */,
 				16B9E4521879E34F00BEE9A9 /* Default-586@2x.png in Resources */,
@@ -1360,6 +1391,7 @@
 				838491E817E4E16E00CBABFE /* signup.plist in Resources */,
 				8333DD4B17E4B2A700645B3E /* Images.xcassets in Resources */,
 				163706691854E2F900BEF474 /* pool-icon@2x.png in Resources */,
+				1625E8EB188F52570097512C /* broker-icon.png in Resources */,
 				16B9E47A187B9F4E00BEE9A9 /* checked@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

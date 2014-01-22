@@ -38,7 +38,10 @@
 
 -(void)render
 {
-      self.imageView.image = [UIImage imageNamed:self.cellinfo[@"icon"]];
+    if( self.cellinfo[@"icon"])
+    {
+        self.imageView.image = [UIImage imageNamed:self.cellinfo[@"icon"]];
+    }
     self.backgroundView       = nil;
     self.textLabel.text       = [self.cellinfo valueForKey:@"label"];
     self.detailTextLabel.text = [[self.cellinfo valueForKey:@"current-value"]toShortString];

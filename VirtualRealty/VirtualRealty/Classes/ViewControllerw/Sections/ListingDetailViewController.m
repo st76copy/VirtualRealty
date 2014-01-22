@@ -450,8 +450,13 @@
     {
         MFMailComposeViewController *vc = [[MFMailComposeViewController alloc]init];
         vc.mailComposeDelegate = self;
+     
+        vc.navigationBar.barTintColor = [UIColor colorFromHex:@"334046"];
+        vc.navigationBar.tintColor = [UIColor colorFromHex:@"334046"];
+        vc.navigationBar.translucent = NO;
+        
         [vc setToRecipients:@[self.listing.email]];
-        [vc setSubject:[NSString stringWithFormat:@"VirtualRealty Listing Inquiry - %@" , self.listing.address]];
+        [vc setSubject:[NSString stringWithFormat:@"VirtualRealty Listing Inquiry - %@" ,self.listing.objectId] ];
         [self presentViewController:vc animated:YES completion:nil];
     }
     else

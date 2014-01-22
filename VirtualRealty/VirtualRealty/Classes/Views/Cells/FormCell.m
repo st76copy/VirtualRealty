@@ -65,6 +65,11 @@
     }
 }
 
+-(void)prepareForReuse
+{
+    self.imageView.image = nil;
+}
+
 -(void)render
 {
     if( self.cellinfo[@"icon"] )

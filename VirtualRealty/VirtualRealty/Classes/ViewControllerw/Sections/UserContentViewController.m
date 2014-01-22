@@ -87,7 +87,14 @@
     __block UserContentViewController *blockself = self;
     [PFCloud callFunctionInBackground:@"getListingsForUser" withParameters:@{@"userID":[User sharedUser].uid} block:^(id object, NSError *error)
     {
-         [blockself handleDataLoaded:object];
+        if( error == nil )
+        {
+            [blockself handleDataLoaded:object];
+        }
+        else
+        {
+            
+        }
     }];
     
     NSString *query = [QueryFactory getFavoritesForUser:[User sharedUser]];

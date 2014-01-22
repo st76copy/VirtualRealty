@@ -39,7 +39,11 @@
 -(void)render
 {
     self.textLabel.text  = [self.cellinfo valueForKey:@"label"];
-    self.imageView.image = [UIImage imageNamed:self.cellinfo[@"icon"]];
+    if( self.cellinfo[@"icon"])
+    {
+        self.imageView.image = [UIImage imageNamed:self.cellinfo[@"icon"]];
+    }
+    
     if( self.cellinfo[@"current-value"] && [self.cellinfo[@"current-value"] isEqualToString:@""] == NO )
     {
         

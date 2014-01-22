@@ -22,6 +22,7 @@
     return self;
 }
 
+
 -(void)render
 {
     self.textLabel.text = [self.cellinfo valueForKey:@"label"];

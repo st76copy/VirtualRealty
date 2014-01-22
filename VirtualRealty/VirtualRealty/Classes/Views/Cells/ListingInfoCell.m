@@ -48,7 +48,7 @@
         UIButton *playButton = [UIButton buttonWithType:UIButtonTypeCustom];
         [playButton setImage:[UIImage imageNamed:@"play-button.png"] forState:UIControlStateNormal];
         [playButton sizeToFit];
-        
+        [playButton setUserInteractionEnabled:NO];
         CGRect rect = playButton.frame;
         rect.origin.x = self.thumb.frame.size.width * 0.5 - rect.size.width * 0.5;
         rect.origin.y = self.thumb.frame.size.height * 0.5 - rect.size.height * 0.5;

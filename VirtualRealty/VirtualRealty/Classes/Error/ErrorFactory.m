@@ -84,7 +84,7 @@
             break;
         case kNoResultsError:
             title       = NSLocalizedString(@"Sorry", @"Error : Invalid username error title");
-            message     = NSLocalizedString(@"There are no results for your term or filters, try adjusting the filters", @"Error : GPS not working error");
+            message     = NSLocalizedString(@"There are no results for your term, filters or radius, try adjusting the filters or radius in settings", @"Error : GPS not working error");
             cancelTitle = NSLocalizedString(@"OK", @"Genereic : Cancel ");
             break;
         case kServerError:

@@ -36,15 +36,13 @@
         [self.contentView addSubview:self.priceView];
         
         _addressLabel = [[UILabel alloc]initWithFrame:CGRectZero];
-        _addressLabel.font = [UIFont fontWithName:@"MuseoSans-300" size:20];
+        _addressLabel.font = [UIFont fontWithName:@"MuseoSans-300" size:19];
         
         [self.addressLabel setTextColor:[UIColor colorFromHex:@"303030"]];
-        [self.addressLabel setFont:[UIFont systemFontOfSize:18]];
         
         _listingDetailsLabel = [[UILabel alloc]initWithFrame:CGRectZero];
-        _listingDetailsLabel.font = [UIFont fontWithName:@"MuseoSans-500" size:12.5];
+        _listingDetailsLabel.font = [UIFont fontWithName:@"MuseoSans-500" size:12];
         [self.listingDetailsLabel setTextColor:[UIColor colorFromHex:@"303030"]];
-        [self.listingDetailsLabel setFont:[UIFont systemFontOfSize:14]];
         
         _stroke = [[UIView alloc]initWithFrame:CGRectMake(0, 190, 181, 2)];
         [_stroke setBackgroundColor:[UIColor colorFromHex:@"00aeef"]];
@@ -52,6 +50,7 @@
         _spinner = [[UIActivityIndicatorView alloc]initWithFrame:CGRectMake(0, 0, 20, 20)];
         _spinner.activityIndicatorViewStyle = UIActionSheetStyleBlackTranslucent;
         _spinner.center = self.thumb.center;
+      
         [self.contentView addSubview:_spinner];
         [self.contentView addSubview:self.addressLabel];
         [self.contentView addSubview:self.listingDetailsLabel];
@@ -105,7 +104,6 @@
   
     NSString *detailsText = [NSString stringWithFormat:@"%@, %@ in %@", self.listing.bedrooms, self.listing.bathrooms, self.listing.neighborhood];
     self.listingDetailsLabel.text = [detailsText uppercaseString];
-    
     [self.priceView setPrice:[self.listing.monthlyCost floatValue]];
     
     if( self.listing.thumb == nil )

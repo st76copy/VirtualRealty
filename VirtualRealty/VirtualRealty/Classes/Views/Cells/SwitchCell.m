@@ -67,7 +67,10 @@
 
 -(void)render
 {
-    self.imageView.image = [UIImage imageNamed:self.cellinfo[@"icon"]];
+    if( self.cellinfo[@"icon"])
+    {
+        self.imageView.image = [UIImage imageNamed:self.cellinfo[@"icon"]];
+    }
     BOOL on = [[self.cellinfo valueForKey:@"current-value"] boolValue];
     self.switchButton.on = on;
     [super render];

@@ -438,6 +438,12 @@
 						</dict>
 						<dict>
 							<key>label</key>
+							<string>3 Baths</string>
+							<key>value</key>
+							<string>3 Baths</string>
+						</dict>
+						<dict>
+							<key>label</key>
 							<string>More then 3 Bathrooms</string>
 							<key>value</key>
 							<string>More then 3 Bathrooms</string>
