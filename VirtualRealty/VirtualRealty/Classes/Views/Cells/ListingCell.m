@@ -68,6 +68,7 @@
 {
     [super prepareForReuse];
     self.thumb.image = nil;
+    [self.spinner setHidden:YES];
 }
 
 -(void)layoutSubviews
@@ -124,11 +125,14 @@
     }
     else
     {
-        [blockself.spinner setHidden:YES];
+        [self.spinner setHidden:YES];
+        [self.spinner stopAnimating];
+        
         CGSize size  = blockself.listing.thumb.size;
         UIImage *img = [Utils resizeImage:blockself.listing.thumb toSize:CGSizeMake(size.width * 0.3, size.height * 0.3)];
         self.thumb.image = img;
         blockself.thumb.alpha = 0.0f;
+        
         [UIView animateWithDuration:0.3 animations:^{
             blockself.thumb.alpha = 1.0f;
         }];
@@ -152,5 +156,6 @@
     
     [self.contentView addSubview:close];
 }
+
 
 @end

@@ -24,14 +24,14 @@
 #import "UIColor+Extended.h"
 #import "ReachabilityManager.h"
 
-@interface SearchViewController ()<SearchFilterDelegate, UISearchBarDelegate, UITableViewDataSource, UITableViewDelegate, GMSMapViewDelegate,ToggleDelegate>
+@interface SearchViewController ()<SearchFilterDelegate, UISearchBarDelegate, UITableViewDataSource, UITableViewDelegate, GMSMapViewDelegate,ToggleDelegate, UIGestureRecognizerDelegate>
 {
     ListingCell *details;
     UIView *container;
     UIRefreshControl *refreshControl;
 
 }
-
+@property(nonatomic, strong)ListingCell            *details;
 @property(nonatomic, strong)UITapGestureRecognizer *tap;
 @property(nonatomic, strong)SearchFilters *currentFilters;
 
@@ -71,8 +71,6 @@
     _searchBar = [[UISearchBar alloc]init];
     [_searchBar sizeToFit];
     
-    self.tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(handleNavBarTap:)];
-   
     
     self.searchBar.placeholder = NSLocalizedString(@"Search Location", @"Copy for searchbar placeholder");
     self.searchBar.autocorrectionType = UITextAutocorrectionTypeNo;
@@ -489,6 +487,8 @@
     GMSMarker *marker;
     MapPriceTag *priceTag;
     
+
+    
     [self.mapView clear];
     for( Listing *listing in self.tableData )
     {
@@ -538,8 +538,15 @@
     [self.mapView startRendering];
 }
 
+
+
 -(void)handleShowList:(id)sender
 {
+    if( self.details )
+    {
+        [self handleClosePanel:nil];
+    }
+    
     [UIView transitionFromView:self.mapView toView:self.table duration:0.5 options:UIViewAnimationOptionTransitionFlipFromLeft completion:^(BOOL finished) {
         
     }];
@@ -564,19 +571,27 @@
 {
     GMSCoordinateBounds *bounds = [[GMSCoordinateBounds alloc]initWithCoordinate:marker.position coordinate:marker.position];
     
-    if( details )
+    if( self.details )
     {
+
         [UIView animateWithDuration:0.2 animations:^{
-            details.alpha = 0;
+            self.details.alpha = 0;
         } completion:^(BOOL finished) {
             
-            [details removeFromSuperview];
-            details = nil;
+            [self.details removeFromSuperview];
+            [self.details removeGestureRecognizer:details.gestureRecognizers[0]];
+            self.details = nil;
+           
             ListingCell *cell = [self getDetails:(Listing *)marker.userData];
-            [self.mapView addSubview:cell];
+            [container addSubview:cell];
             CGRect rect = cell.frame;
             rect.origin.y = 0;
-            details = cell;
+            self.details = cell;
+
+            UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(detailsTouched:)];
+            [self.details addGestureRecognizer:tapGesture];
+            
+            tapGesture.delegate  = self;
             
             [UIView animateWithDuration:0.3 animations:^{
                 cell.frame = rect;
@@ -592,7 +607,12 @@
       
         CGRect rect = cell.frame;
         rect.origin.y = 0;
-        details = cell;
+        self.details = cell;
+        
+        UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(detailsTouched:)];
+        [self.details addGestureRecognizer:tapGesture];
+        
+        tapGesture.delegate = self;
         
         [UIView animateWithDuration:0.3 animations:^{
             cell.frame = rect;
@@ -600,12 +620,11 @@
         [self adjustMap:marker];
         
     }
-    return YES;
+    return NO;
 }
 
 -(ListingCell *)getDetails:(Listing *)listing
 {
-    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(detailsTouched:)];
     
     ListingCell *cell = [[ListingCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@""];
     
@@ -614,7 +633,6 @@
     [cell render];
     [cell layoutSubviews];
     [cell setBackgroundColor:[UIColor whiteColor]];
-    [cell addGestureRecognizer:tap];
     
     CGRect rect = cell.frame;
     rect.origin.y = cell.frame.size.height * -1;
@@ -627,8 +645,6 @@
     cell.layer.shadowColor   = [UIColor blackColor].CGColor;
     cell.layer.shadowPath    = [UIBezierPath bezierPathWithRect:cell.bounds].CGPath;
     
-    
-
     return cell;
 }
 
@@ -685,9 +701,10 @@
     [self.mapView startRendering];
 }
 
+
 -(void)mapView:(GMSMapView *)mapView didTapAtCoordinate:(CLLocationCoordinate2D)coordinate
 {
-    if( details )
+    if( self.details )
     {
         [self handleClosePanel:nil];
     }
@@ -696,18 +713,24 @@
 -(void)handleClosePanel:(id)sender
 {
     [UIView animateWithDuration:0.2 animations:^{
-        details.alpha = 0;
+        self.details.alpha = 0;
     } completion:^(BOOL finished) {
         
-        [details removeFromSuperview];
-        details = nil;
+        [self.details removeFromSuperview];
+        self.details = nil;
     }];
     [self resetMap];
+}
+
+-(void)fauxMethod:(UITapGestureRecognizer *)sender
+{
+    NSLog(@"touched---");
 }
 
 -(void)detailsTouched:(UITapGestureRecognizer *)sender
 {
     ListingCell *cell = (ListingCell *)sender.view;
+    self.tap.enabled = YES;
     [self showDetails:cell.listing];
 }
 
