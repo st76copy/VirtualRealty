@@ -407,9 +407,13 @@ Parse.Cloud.define("search", function(request, response)
 		if( request.params["filters"]["state"] != undefined )
 		{
 			query.equalTo( "state", request.params["filters"]["state"]["value"].toString() );
-			console.log( "searching state " + request.params["filters"]["state"]["value"].toString() );
 		}
-	
+		
+		if( request.params["filters"]["city"] != undefined )
+		{
+			query.equalTo( "state", request.params["filters"]["city"]["value"].toString() );
+
+		}
 		if( request.params["filters"]["bedrooms"] != undefined )
 		{
 			query.equalTo( "bedrooms", request.params["filters"]["bedrooms"]["value"].toString() );
@@ -418,8 +422,6 @@ Parse.Cloud.define("search", function(request, response)
 		{
 			query.equalTo( "bathrooms", request.params["filters"]["bathrooms"]["value"].toString() );
 		}
-	
-		
 		if( request.params["filters"]["share"] != undefined )
 		{
 			query.equalTo( "share",   request.params.filters.share.value);

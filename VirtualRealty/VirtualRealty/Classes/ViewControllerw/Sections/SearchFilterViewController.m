@@ -162,8 +162,10 @@
     FormField field           = [[info valueForKey:@"field"]intValue];
     
     
-    [info setValue:[self getValueForFormField:field] forKey:@"current-value"];
-    
+    if( [self getValueForFormField:field] )
+    {
+        [info setValue:[self getValueForFormField:field] forKey:@"current-value"];
+    }
     
     FormCell *cell = (FormCell *)[tableView dequeueReusableCellWithIdentifier:[info valueForKey:@"class"]];
     
@@ -222,10 +224,10 @@
         case kBedroomsFilter:
         case kBathroomsFilter:
         case kStateFilter:
+        case kCityFilter:
             [self.table beginUpdates];
             [self.table endUpdates];
             [cell setFocus];
-            [self cell:cell didChangeForField:self.currentField];
             break;
         case kMoveInFilter :
             [PickerManager sharedManager].type = kDate;
@@ -320,7 +322,15 @@
 #pragma mark - model management
 -(id)getValueForFormField:(FormField)field
 {
-    return [self.filters getValueForField:field];
+    
+    if( [[self.filters getValueForField:field] isKindOfClass:[NSString class]] )
+    {
+        return ( [[self.filters getValueForField:field] isEqualToString:@""] ) ? nil : [self.filters getValueForField:field];
+    }
+    else
+    {
+        return [self.filters getValueForField:field];
+    }
 }
 
 #pragma mark - ui resonders

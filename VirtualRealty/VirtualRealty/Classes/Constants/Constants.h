@@ -122,6 +122,7 @@ typedef enum FormField
     kPoolFilter          = 36,
     kBoroughFilter       = 50,
     kStateFilter         = 55,
+    kCityFilter          = 56,
     
     // login extended
     kUserActivelyLooking = 39,

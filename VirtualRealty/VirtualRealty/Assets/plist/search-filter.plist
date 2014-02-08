@@ -940,8 +940,6 @@
 				<false/>
 				<key>class</key>
 				<string>PickerInputCell</string>
-				<key>current-value</key>
-				<string>NY</string>
 				<key>expanded-height</key>
 				<integer>200</integer>
 				<key>field</key>
@@ -969,6 +967,47 @@
 				<integer>0</integer>
 				<key>placeholder</key>
 				<string>state</string>
+				<key>state</key>
+				<integer>1</integer>
+			</dict>
+			<dict>
+				<key>animatable</key>
+				<false/>
+				<key>class</key>
+				<string>PickerInputCell</string>
+				<key>expanded-height</key>
+				<integer>200</integer>
+				<key>field</key>
+				<integer>56</integer>
+				<key>label</key>
+				<string>City</string>
+				<key>picker-data</key>
+				<array>
+					<array>
+						<dict>
+							<key>label</key>
+							<string>New York City</string>
+							<key>value</key>
+							<string>New York City</string>
+						</dict>
+						<dict>
+							<key>label</key>
+							<string>Jersey City</string>
+							<key>value</key>
+							<string>Jersey City</string>
+						</dict>
+						<dict>
+							<key>label</key>
+							<string>Hoboken</string>
+							<key>value</key>
+							<string>Hoboken</string>
+						</dict>
+					</array>
+				</array>
+				<key>picker-index</key>
+				<integer>0</integer>
+				<key>placeholder</key>
+				<string>city</string>
 				<key>state</key>
 				<integer>1</integer>
 			</dict>

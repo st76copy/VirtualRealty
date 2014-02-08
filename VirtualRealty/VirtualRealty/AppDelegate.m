@@ -22,6 +22,7 @@
 #import "SearchViewController.h"
 #import "TourViewController.h"
 #import "UIColor+Extended.h"
+#import "DatePickerSource.h"
 
 @interface AppDelegate()
 -(void)handleReachabilityKnow;
@@ -72,6 +73,8 @@
     [Utils printFontFamilies];
     
     [self.window makeKeyAndVisible];
+
+    DatePickerSource *source = [[DatePickerSource alloc]init];
     return YES;
 }
 

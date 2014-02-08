@@ -21,6 +21,7 @@
         [self.filters addObject:[@{ @"field" : [NSNumber numberWithInt:kBoroughFilter],       @"value" : @"", @"name" : @"borough" } mutableCopy]];
         [self.filters addObject:[@{ @"field" : [NSNumber numberWithInt:kNeightborhoodFilter], @"value" : @"", @"name" : @"neighborhood" } mutableCopy]];
         [self.filters addObject:[@{ @"field" : [NSNumber numberWithInt:kStateFilter],         @"value" : @"", @"name" : @"state" } mutableCopy]];
+        [self.filters addObject:[@{ @"field" : [NSNumber numberWithInt:kStateFilter],         @"value" : @"", @"name" : @"city" } mutableCopy]];
         [self.filters addObject:[@{ @"field" : [NSNumber numberWithInt:kBedroomsFilter],      @"value" : @"", @"name" : @"bedrooms" }mutableCopy]];
         [self.filters addObject:[@{ @"field" : [NSNumber numberWithInt:kBathroomsFilter],     @"value" : @"", @"name" : @"bathrooms" }mutableCopy]];
         [self.filters addObject:[@{ @"field" : [NSNumber numberWithInt:kBrokerFeeFilter],     @"value" : [NSNumber numberWithBool:NO],  @"name" : @"brokerfee" }mutableCopy]];
@@ -67,8 +68,21 @@
     id value;
     switch (field) {
         case kBoroughFilter:
+        
+            if( [self.filters[0][@"value"] isEqualToString:@""] == NO &&  [self.filters[1][@"value"] isEqualToString:@""] == NO)
+            {
+                value = @{ @"borough" : self.filters[0][@"value"] , @"neighborhood" : self.filters[1][@"value"] };
+            }
             
-            value = @{ @"borough" : self.filters[0][@"value"] , @"neighborhood" : self.filters[1][@"value"] };
+            if([self.filters[0][@"value"] isEqualToString:@""] == NO )
+            {
+                value = @{ @"borough" : self.filters[0][@"value"]  };
+            }
+            
+            if([self.filters[1][@"value"] isEqualToString:@""] == NO )
+            {
+                value = @{  @"neighborhood" : self.filters[1][@"value"] };
+            }
             
             break;
             
@@ -141,6 +155,7 @@
     [self.filters addObject:[@{ @"field" : [NSNumber numberWithInt:kBoroughFilter],       @"value" : @"", @"name" : @"borough" } mutableCopy]];
     [self.filters addObject:[@{ @"field" : [NSNumber numberWithInt:kNeightborhoodFilter], @"value" : @"", @"name" : @"neighborhood" } mutableCopy]];
     [self.filters addObject:[@{ @"field" : [NSNumber numberWithInt:kStateFilter],         @"value" : @"", @"name" : @"state " } mutableCopy]];
+    [self.filters addObject:[@{ @"field" : [NSNumber numberWithInt:kStateFilter],         @"value" : @"", @"name" : @"city" } mutableCopy]];
     [self.filters addObject:[@{ @"field" : [NSNumber numberWithInt:kBedroomsFilter],      @"value" : @"", @"name" : @"bedrooms" }mutableCopy]];
     [self.filters addObject:[@{ @"field" : [NSNumber numberWithInt:kBathroomsFilter],     @"value" : @"", @"name" : @"bathrooms" }mutableCopy]];
     [self.filters addObject:[@{ @"field" : [NSNumber numberWithInt:kBrokerFeeFilter],     @"value" : [NSNumber numberWithBool:NO],  @"name" : @"brokerfee" }mutableCopy]];

@@ -143,7 +143,6 @@
 
 -(void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component
 {
-    
     [super clearError];
     self.formValue = self.pickerData[component][row][@"value"];
     self.detailTextLabel.text      = self.formValue;
@@ -151,7 +150,6 @@
     [self.detailTextLabel sizeToFit];
     [self layoutSubviews];
     [self.formDelegate cell:self didChangeForField:[[self.cellinfo valueForKey:@"field"]intValue] ];
-    
 }
 
 -(id)valueForComponent:(int)compIndex
@@ -164,7 +162,7 @@
 -(void)setFocus
 {
     [super clearError];
-    self.formValue = self.pickerData[0][0][@"value"];
+    self.formValue = self.pickerData[0][[self.picker selectedRowInComponent:0]][@"value"];
     self.detailTextLabel.text      = self.formValue;
     self.detailTextLabel.textColor = [UIColor colorFromHex:@"00aeef"];
     [self.detailTextLabel sizeToFit];

@@ -118,6 +118,7 @@
 		164353691845427100B3DBBA /* PriceView.m in Sources */ = {isa = PBXBuildFile; fileRef = 164353681845427100B3DBBA /* PriceView.m */; };
 		164E9167181619080010CC8B /* UserListingCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 164E9166181619080010CC8B /* UserListingCell.m */; };
 		165C5B831815F40C00C294C7 /* Utils.m in Sources */ = {isa = PBXBuildFile; fileRef = 836DF2E217E4B7B2002BD42E /* Utils.m */; };
+		16621CBC18A6E3ED00DDCD87 /* DatePickerSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 16621CBB18A6E3ED00DDCD87 /* DatePickerSource.m */; };
 		16B9E4501879E26200BEE9A9 /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 16B9E44E1879E26200BEE9A9 /* Default@2x.png */; };
 		16B9E4521879E34F00BEE9A9 /* Default-586@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 16B9E4511879E34F00BEE9A9 /* Default-586@2x.png */; };
 		16B9E455187A165000BEE9A9 /* ListingStateView.m in Sources */ = {isa = PBXBuildFile; fileRef = 16B9E454187A165000BEE9A9 /* ListingStateView.m */; };
@@ -384,6 +385,8 @@
 		164353681845427100B3DBBA /* PriceView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PriceView.m; path = Custom/PriceView.m; sourceTree = "<group>"; };
 		164E9165181619080010CC8B /* UserListingCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UserListingCell.h; path = Cells/UserListingCell.h; sourceTree = "<group>"; };
 		164E9166181619080010CC8B /* UserListingCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UserListingCell.m; path = Cells/UserListingCell.m; sourceTree = "<group>"; };
+		16621CBA18A6E3ED00DDCD87 /* DatePickerSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DatePickerSource.h; path = Data/DatePickerSource.h; sourceTree = "<group>"; };
+		16621CBB18A6E3ED00DDCD87 /* DatePickerSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DatePickerSource.m; path = Data/DatePickerSource.m; sourceTree = "<group>"; };
 		16B9E44E1879E26200BEE9A9 /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default@2x.png"; path = "VirtualRealty/Default@2x.png"; sourceTree = "<group>"; };
 		16B9E4511879E34F00BEE9A9 /* Default-586@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default-586@2x.png"; path = "VirtualRealty/Default-586@2x.png"; sourceTree = "<group>"; };
 		16B9E453187A165000BEE9A9 /* ListingStateView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ListingStateView.h; path = Custom/ListingStateView.h; sourceTree = "<group>"; };
@@ -1156,6 +1159,8 @@
 				16261BC0180A2D9100F44578 /* SearchFilters.m */,
 				16261BC2180A2DA200F44578 /* Filter.h */,
 				16261BC3180A2DA200F44578 /* Filter.m */,
+				16621CBA18A6E3ED00DDCD87 /* DatePickerSource.h */,
+				16621CBB18A6E3ED00DDCD87 /* DatePickerSource.m */,
 			);
 			name = Data;
 			sourceTree = "<group>";
@@ -1501,6 +1506,7 @@
 				83B85A3D17E7CC58008E6DEB /* Row.m in Sources */,
 				836DF2FB17E4B7B2002BD42E /* ReachabilityManager.m in Sources */,
 				16D50952180388000028E5D4 /* ListingCell.m in Sources */,
+				16621CBC18A6E3ED00DDCD87 /* DatePickerSource.m in Sources */,
 				83ABFE6B17E4B9DB007ECB53 /* AFEventSource.m in Sources */,
 				16261BCF18131FF300F44578 /* KeyWordsCell.m in Sources */,
 				838491C617E4D49B00CBABFE /* SearchViewController.m in Sources */,
