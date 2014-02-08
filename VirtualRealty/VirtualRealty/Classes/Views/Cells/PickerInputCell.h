@@ -6,8 +6,12 @@
 //  Copyright (c) 2013 virtualrealty. All rights reserved.
 //
 
-#import "FormCell.h"
+#import "TextCell.h"
 
-@interface PickerInputCell : FormCell
-
+@interface PickerInputCell : TextCell
+@property(nonatomic, strong)NSNumber     *pickerFontSize;
+@property(nonatomic, strong)UIPickerView *picker;
+@property(nonatomic, strong)NSArray      *pickerData;
+@property(strong, nonatomic)UIView       *stroke;
+@property(strong, nonatomic)UIView       *topStroke;
 @end

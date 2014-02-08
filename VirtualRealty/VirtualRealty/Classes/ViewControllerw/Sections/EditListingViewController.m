@@ -18,6 +18,8 @@
 #import <Parse/Parse.h>
 #import "ReachabilityManager.h"
 #import "ErrorFactory.h"
+#import <MediaPlayer/MediaPlayer.h>
+
 @interface EditListingViewController ()<UITableViewDataSource, UITableViewDelegate, FormCellDelegate, KeyboardManagerDelegate, PickerManagerDelegate>
 
 @property(nonatomic, strong)Listing     *listing;
@@ -142,6 +144,9 @@
     
     switch (self.currentField)
     {
+        case kVideo :
+            [self handlePlayVideo];
+            break;
         case kMoveInDate :
             [PickerManager sharedManager].type = kDate;
             [[PickerManager sharedManager]showPickerInView:self.view];
@@ -349,21 +354,66 @@
     [self.table scrollRectToVisible:rect animated:YES];
 }
 
--(void)handleSaveListing:(id)sender
+-(void)pickerCancel
 {
-    if( [ReachabilityManager sharedManager ].currentStatus == NotReachable )
+    
+}
+
+#pragma mark - video
+-(void)handlePlayVideo
+{
+    if( [ReachabilityManager sharedManager].currentStatus == NotReachable )
     {
-        NSString *msg = @"Sorry an internet connection is needed for this action, your settings will not be updated";
-        [[ErrorFactory getAlertCustomMessage:msg andDelegateOrNil:nil andOtherButtons:nil]show];
+        [[ReachabilityManager sharedManager]showAlert];
         return;
     }
-    __block AppDelegate *delegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
-    [delegate showLoaderInView:self.view];
+    __block EditListingViewController *blockself = self;
     
-    [self.listing update:^(BOOL success)
-    {
-        [delegate hideLoader];
+    [self.listing loadVideo:^(BOOL success) {
+        if( success )
+        {
+            [blockself handleVideoDataLoaded];
+        }
+        else
+        {
+            [[ErrorFactory getAlertForType:kMediaNotAvailableError andDelegateOrNil:nil andOtherButtons:nil]show];
+        }
     }];
+}
+
+-(void)handleVideoDataLoaded
+{
+    MPMoviePlayerViewController *vc = [[MPMoviePlayerViewController alloc]initWithContentURL:self.listing.videoURL];
+    [self presentViewController:vc animated:YES completion:nil];
+    [vc.moviePlayer play ];
+}
+
+-(void)handleSaveListing:(id)sender
+{
+    
+    if( [self.listing.listingState intValue] == kPending )
+    {
+        [[ErrorFactory getAlertForType:kUserCantEditListing andDelegateOrNil:nil andOtherButtons:nil]show];
+    }
+    else
+    {
+        if( [ReachabilityManager sharedManager ].currentStatus == NotReachable )
+        {
+            NSString *msg = @"Sorry an internet connection is needed for this action, your settings will not be updated";
+            [[ErrorFactory getAlertCustomMessage:msg andDelegateOrNil:nil andOtherButtons:nil]show];
+            return;
+        }
+
+        __block EditListingViewController *blockself = self;
+        __block AppDelegate *delegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
+        [delegate showLoaderInView:self.view];
+        
+        [self.listing update:^(BOOL success)
+        {
+            [blockself.table reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationAutomatic];
+            [delegate hideLoader];
+        }];
+    }
 }
 
 #pragma mark - delete listing

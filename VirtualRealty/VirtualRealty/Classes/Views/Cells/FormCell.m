@@ -6,6 +6,7 @@
 //  Copyright (c) 2013 virtualrealty. All rights reserved.
 //
 
+#import "UIColor+Extended.h"
 #import "FormCell.h"
 
 @implementation FormCell

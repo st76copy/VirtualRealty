@@ -12,6 +12,8 @@
 #import "Listing.h"
 #import "ListingDetailViewController.h"
 #import <Parse/Parse.h>
+#import "ReachabilityManager.h"
+#import "ErrorFactory.h"
 
 @interface NearMeViewController ()<LocationManagerDelegate>
 
@@ -72,6 +74,24 @@
 
 -(void)viewDidAppear:(BOOL)animated
 {
+    [[LocationManager shareManager]registerDelegate:self];
+    [[LocationManager shareManager]startGettingLocations];
+}
+
+-(void)viewDidDisappear:(BOOL)animated
+{
+    [[LocationManager shareManager]removeDelegate:self];
+}
+
+#pragma mark - location manager 
+-(void) locationFailed
+{
+    [[ErrorFactory getAlertForType:kGPSFailed andDelegateOrNil:nil andOtherButtons:nil]show];
+}
+
+-(void) locationUpdated
+{
+    [self.mapView clear];
     CLLocationDegrees lat  = [LocationManager shareManager].location.coordinate.latitude;
     CLLocationDegrees log  = [LocationManager shareManager].location.coordinate.longitude;
     GMSCameraPosition *camera = [GMSCameraPosition cameraWithLatitude:lat longitude:log zoom:12];
@@ -80,16 +100,23 @@
     GMSMarker *marker = [[GMSMarker alloc] init];
     marker.position = camera.target;
     marker.title = @"Me";
+    marker.icon = [UIImage imageNamed:@"current-location.png"];
+    marker.tappable = NO;
     marker.map = self.mapView;
-    
     
     __block NearMeViewController *blockself = self;
     
     CLLocation *loc = [LocationManager shareManager].location;
     NSDictionary *params = @{ @"long":[NSNumber numberWithDouble:loc.coordinate.longitude], @"latt":[NSNumber numberWithDouble:loc.coordinate.latitude], @"distance":[NSNumber numberWithFloat:self.distance] };
+    if( [ReachabilityManager sharedManager].currentStatus == NotReachable )
+    {
+        [[ReachabilityManager sharedManager] showAlert];
+        return;
+    }
+    
     [PFCloud callFunctionInBackground:@"nearMe" withParameters:params block:^(id object, NSError *error)
     {
-         [blockself handleDataLoaded:object];
+        [blockself handleDataLoaded:object];
     }];
 }
 
@@ -108,7 +135,8 @@
     
     if( data.count == 0 )
     {
-        NSLog(@"%@ no results ", self );
+        NSString *msg = @"There are no listings in your current area. Please Try increasing the radius";
+        [[ErrorFactory getAlertCustomMessage:msg andDelegateOrNil:nil andOtherButtons:nil] show];
         return;
     }
     
@@ -119,7 +147,7 @@
     
     MapPriceTag *priceTag;
     
-    [self.mapView clear];
+    //[self.mapView clear];
     for( Listing *listing in temp )
     {
         priceTag = [[MapPriceTag alloc]initWithFrame:CGRectZero];
@@ -183,6 +211,12 @@
 
 -(void)handleUpdate:(id)sender
 {
+    if( [ReachabilityManager sharedManager].currentStatus == NotReachable )
+    {
+        [[ReachabilityManager sharedManager] showAlert];
+        return;
+    }
+    
     __block NearMeViewController *blockself = self;
     CLLocation *loc = [LocationManager shareManager].location;
     

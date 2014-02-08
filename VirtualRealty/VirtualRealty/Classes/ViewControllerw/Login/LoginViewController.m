@@ -16,6 +16,7 @@
 #import "PickerManager.h"
 #import "SectionTitleView.h"
 #import "NSDate+Extended.h"
+#import "ReachabilityManager.h"
 #import "UIColor+Extended.h"
 
 @interface LoginViewController ()<FormCellDelegate,KeyboardManagerDelegate,PickerManagerDelegate>
@@ -248,6 +249,13 @@
             break;
         case kUserMinBedrooms:
         case  kUserBrokerFirm:
+           
+            if( [[User sharedUser].isBroker boolValue] == NO )
+            {
+                [User sharedUser].isBroker = [NSNumber numberWithBool:YES];
+                [self.signupTabel reloadData];
+            }
+            
             [PickerManager sharedManager].type = kStandard;
             [PickerManager sharedManager].pickerData = cell.cellinfo[@"picker-data"];
             [[PickerManager sharedManager]showPickerInView:self.view];
@@ -339,9 +347,16 @@
             break;
         case kUserIsBroker:
             [User sharedUser].isBroker = c.formValue;
+            if( [[User sharedUser].isBroker boolValue] == NO)
+            {
+                [User sharedUser].brokerFirm = nil;
+                [self.signupTabel reloadData];
+            }
+
             break;
         case kUserBrokerFirm:
             [User sharedUser].brokerFirm = c.formValue;
+          
             break;
         default:
             break;
@@ -350,7 +365,7 @@
 
 -(void)cell:(FormCell *)cell didPressDone:(FormField)field
 {
-    if( _password != nil && _username != nil )
+    if( _password != nil && _username != nil && self.state == kLogin )
     {
         [self handleLoginTouch:nil];
     }
@@ -394,6 +409,12 @@
 
 -(void)handleLoginTouch:(id)sender
 {
+    if( [ReachabilityManager sharedManager].currentStatus == NotReachable )
+    {
+        [[ReachabilityManager sharedManager]showAlert];
+        return;
+    }
+    
     if( [self validateForm] )
     {
         
@@ -445,6 +466,18 @@
 {
     BOOL valid = YES;
     
+    if( self.username == nil )
+    {
+        [[ErrorFactory getAlertCustomMessage:@"Please enter a username" andDelegateOrNil:nil andOtherButtons:nil]show];
+        return NO;
+    }
+    
+    if( self.password == nil )
+    {
+        [[ErrorFactory getAlertCustomMessage:@"Please enter a password" andDelegateOrNil:nil andOtherButtons:nil]show];
+        return NO;
+    }
+    
     if([Utils isValidEmail:self.username] == NO )
     {
         [[ErrorFactory getAlertForType:kInvalidUsernameError andDelegateOrNil:nil andOtherButtons:nil]show];
@@ -491,13 +524,14 @@
             break;
     }
     
+    _username = nil;
+    _password = nil;
+    
     [[KeyboardManager sharedManager]close];
-    [[PickerManager sharedManager]
-     hidePicker];
+    [[PickerManager sharedManager] hidePicker];
     
     [_loginTabel reloadData];
     [_signupTabel reloadData];
-    
 }
 
 -(void)facebookLogin
@@ -599,6 +633,11 @@
     [UIView animateWithDuration:0.3  animations:^{
         self.signupTabel.contentInset =  UIEdgeInsetsMake(0, 0, 0, 0);
     }];
+    if( [User sharedUser].brokerFirm == nil )
+    {
+        [User sharedUser].isBroker = [NSNumber numberWithBool:NO];
+        [self.signupTabel reloadData];
+    }
 }
 
 -(void)pickerDone
@@ -626,6 +665,27 @@
     [cell.formDelegate cell:cell didChangeForField:self.currentField];
     [self.signupTabel reloadRowsAtIndexPaths:@[self.currentIndexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
     [[PickerManager sharedManager]hidePicker];
+}
+
+-(void)pickerCancel
+{
+    FormCell *cell = (FormCell *)[self.signupTabel cellForRowAtIndexPath:self.currentIndexPath];
+   
+    switch( [cell.cellinfo[@"field"] intValue] )
+    {
+        case kUserBrokerFirm:
+            cell.formValue = nil;
+            [User sharedUser].isBroker = [NSNumber numberWithBool:NO];
+            [self.signupTabel reloadData];
+            break;
+        default:
+            break;
+    }
+    
+    [cell.formDelegate cell:cell didChangeForField:self.currentField];
+    [self.signupTabel reloadRowsAtIndexPaths:@[self.currentIndexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
+    [[PickerManager sharedManager]hidePicker];
+
 }
 
 #pragma mark - keyboard manager

@@ -15,6 +15,8 @@
 -(void)inputTextChanged:(id)sender;
 -(void)textFieldFinished:(id)sender;
 -(void)inputFieldBegan:(id)sender;
+
+@property(nonatomic, assign)int maxCharacters;
 @property(nonatomic, strong, readonly)CustomField *inputField;
 
 @end

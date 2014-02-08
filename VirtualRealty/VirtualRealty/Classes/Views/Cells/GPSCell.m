@@ -11,7 +11,10 @@
 
 @implementation GPSCell
 
-
+-(void) locationFailed
+{
+    
+}
 
 -(void)render
 {

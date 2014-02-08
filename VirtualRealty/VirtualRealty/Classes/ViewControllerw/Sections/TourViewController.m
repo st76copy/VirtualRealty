@@ -10,6 +10,8 @@
 #import "UIColor+Extended.h"
 #import "LoginViewController.h"
 #import "AppDelegate.h"
+#import "User.h"
+
 @interface TourViewController ()<UIScrollViewDelegate>
 
 @property(nonatomic, strong)UIButton      *skipButton;
@@ -65,35 +67,45 @@
     rect.origin.y = self.view.frame.size.height - ( rect.size.height + 10 );
     self.skipButton.frame = rect;
     [self.view addSubview:self.skipButton];
+    
+    UIButton *button;
 
-    UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
-    [button setBackgroundImage:[UIImage imageNamed:@"footer-button-fill.png"] forState:UIControlStateNormal];
-    [button setTitle:@"Sign In" forState:UIControlStateNormal];
-    [button setTitleColor:[UIColor colorFromHex:@"cbd5d9"] forState:UIControlStateHighlighted];
-    [button addTarget:self action:@selector(handleLogin:) forControlEvents:UIControlEventTouchUpInside];
-    [button.titleLabel setFont:[UIFont fontWithName:@"MuseoSans-500" size:15]];
-    [button sizeToFit];
+    if( [[User sharedUser] valid ] == NO )
+    {
+        UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
+        [button setBackgroundImage:[UIImage imageNamed:@"footer-button-fill.png"] forState:UIControlStateNormal];
+        [button setTitle:@"Sign In" forState:UIControlStateNormal];
+        [button setTitleColor:[UIColor colorFromHex:@"cbd5d9"] forState:UIControlStateHighlighted];
+        [button addTarget:self action:@selector(handleLogin:) forControlEvents:UIControlEventTouchUpInside];
+        [button.titleLabel setFont:[UIFont fontWithName:@"MuseoSans-500" size:15]];
+        [button sizeToFit];
+        
+        rect = button.frame;
+        rect.origin.x = self.view.frame.size.width * 0.5 - rect.size.width * 0.5;
+        rect.origin.y = self.view.frame.size.height - ( rect.size.height + 50 );
+        button.frame = rect;
+        [self.view addSubview:button];
+        
+        
+        button = [UIButton buttonWithType:UIButtonTypeCustom];
+        [button setBackgroundImage:[UIImage imageNamed:@"footer-button-fill.png"] forState:UIControlStateNormal];
+        [button setTitle:@"Create An Account" forState:UIControlStateNormal];
+        [button setTitleColor:[UIColor colorFromHex:@"cbd5d9"] forState:UIControlStateHighlighted];
+        [button addTarget:self action:@selector(handleSignUp:) forControlEvents:UIControlEventTouchUpInside];
+        [button.titleLabel setFont:[UIFont fontWithName:@"MuseoSans-500" size:15]];
+        [button sizeToFit];
+        
+        rect = button.frame;
+        rect.origin.x = self.view.frame.size.width * 0.5 - rect.size.width * 0.5;
+        rect.origin.y = self.view.frame.size.height - ( rect.size.height * 2 + 60 );
+        button.frame = rect;
+        [self.view addSubview:button];
+    }
+    else
+    {
+        button = self.skipButton;
+    }
     
-    rect = button.frame;
-    rect.origin.x = self.view.frame.size.width * 0.5 - rect.size.width * 0.5;
-    rect.origin.y = self.view.frame.size.height - ( rect.size.height + 50 );
-    button.frame = rect;
-    [self.view addSubview:button];
-
-    
-    button = [UIButton buttonWithType:UIButtonTypeCustom];
-    [button setBackgroundImage:[UIImage imageNamed:@"footer-button-fill.png"] forState:UIControlStateNormal];
-    [button setTitle:@"Create An Account" forState:UIControlStateNormal];
-    [button setTitleColor:[UIColor colorFromHex:@"cbd5d9"] forState:UIControlStateHighlighted];
-    [button addTarget:self action:@selector(handleSignUp:) forControlEvents:UIControlEventTouchUpInside];
-    [button.titleLabel setFont:[UIFont fontWithName:@"MuseoSans-500" size:15]];
-    [button sizeToFit];
-    
-    rect = button.frame;
-    rect.origin.x = self.view.frame.size.width * 0.5 - rect.size.width * 0.5;
-    rect.origin.y = self.view.frame.size.height - ( rect.size.height * 2 + 60 );
-    button.frame = rect;
-    [self.view addSubview:button];
 
     self.pageControl = [[UIPageControl alloc]initWithFrame:CGRectMake(0, 0, 80, 15)];
     self.pageControl.numberOfPages = 4;

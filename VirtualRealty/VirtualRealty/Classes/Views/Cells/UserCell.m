@@ -20,6 +20,9 @@
 -(void) layoutSubviews
 {
     [super layoutSubviews];
+ 
+    self.detailTextLabel.adjustsFontSizeToFitWidth = YES;
+    
     self.textLabel.textColor = [UIColor colorFromHex:@"434343"];
     CGRect rect = self.textLabel.frame;
     rect.origin.y = self.contentView.frame.size.height * 0.5 - rect.size.height * 0.5;

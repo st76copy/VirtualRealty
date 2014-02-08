@@ -18,6 +18,8 @@
 {
     [super clearError];
     
+    
+    
     if( [textField.text isEqualToString:@"$"] && [string isEqualToString:@""])
     {
         return NO;
@@ -40,10 +42,15 @@
     NSString *amount = [NSString stringWithFormat:@"%@%@", textField.text, string];
     NSString *number = [amount substringWithRange:noDollarSign];
     
-    NSLog(@"%@ -- bumbers only %i ", [self class], [number intValue] );
+    if(number.length > self.maxCharacters)
+    {
+        return NO;
+    }
     
     self.formValue = [NSNumber numberWithInt:[number intValue]];
     [self.formDelegate cell:self didChangeForField:[[self.cellinfo valueForKey:@"field"]intValue]];
+    
+    
     
     return (range.location == 0 ) ? NO : YES ;
 }
@@ -96,6 +103,11 @@
         int value =  [[self.cellinfo valueForKey:@"current-value"] intValue];
         NSString *text = [NSString stringWithFormat:format, value];
         self.inputField.text = text;
+    }
+    
+    if( self.cellinfo[@"max-characters"] )
+    {
+        self.maxCharacters = [self.cellinfo[@"max-characters"] intValue];
     }
     
 }

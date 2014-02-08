@@ -12,7 +12,7 @@
 @protocol LocationManagerDelegate <NSObject>
 
 -(void)locationUpdated;
-
+-(void)locationFailed;
 @end
 
 
@@ -23,7 +23,6 @@
 
 -(void)removeDelegate:(id<LocationManagerDelegate>)obj;
 -(void)registerDelegate:(id<LocationManagerDelegate>)obj;
--(void)getAddress:(NSString *)address block:(void (^) (CLLocationCoordinate2D loc) )block;
 -(void)stopGettingLocation;
 -(void)startGettingLocations;
 -(void)setCurrentLocationByString:(NSString *)address block:(void (^) (CLLocationCoordinate2D loc) )block;

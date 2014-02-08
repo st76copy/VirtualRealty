@@ -65,9 +65,9 @@
 
 -(void)reachabilityChanged:(NSNotification *)note
 {
-            _currentStatus = [_reachability currentReachabilityStatus];
+    _currentStatus = [_reachability currentReachabilityStatus];
     
-    if(  _isInitialized == NO )
+    if( _isInitialized == NO )
     {
         _isInitialized = YES;
         self.initBlock();

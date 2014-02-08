@@ -93,6 +93,7 @@
     _table = [[UITableView alloc]initWithFrame:rect style:UITableViewStyleGrouped];
     [_table setDataSource:self];
     [_table setDelegate:self];
+    [_table setSeparatorStyle:UITableViewCellSeparatorStyleNone];
     [_table setSeparatorInset:UIEdgeInsetsZero];
     [_table setSectionFooterHeight:0.0f];
     [_table setSectionHeaderHeight:44.0f];
@@ -184,10 +185,17 @@
         
         NSString *addressString = [NSString stringWithFormat:@"%@\n%@, %@ %@", info[@"street"],info[@"borough"],info[@"state"],info[@"zip"]];
         NSString *title         = @"Hello";
-        NSString *message       = [NSString stringWithFormat:@"Is this the appartment your trying to list\n%@", addressString];
+        NSString *message       = [NSString stringWithFormat:@"Is this the apartment you are trying to list\n%@", addressString];
         UIAlertView *av         = [[UIAlertView alloc]initWithTitle:title message:message delegate:self cancelButtonTitle:@"No" otherButtonTitles:@"Yes",@"Almost", nil];
         [av show];
     }
+}
+
+-(void)locationFailed
+{
+    [[ErrorFactory getAlertForType:kGPSFailed andDelegateOrNil:nil andOtherButtons:nil]show];
+    AppDelegate *app = (AppDelegate *)[UIApplication sharedApplication].delegate;
+    [app hideLoader];
 }
 
 -(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
@@ -293,12 +301,29 @@
     {
         [[KeyboardManager sharedManager] close];
         [self.table deselectRowAtIndexPath:indexPath animated:YES];
+        _currentIndexpath = nil;
+        [self.table beginUpdates];
+        [self.table endUpdates];
         return;
     }
     
     if( [PickerManager sharedManager].isShowing && [self isSameCell:indexPath] )
     {
         [[PickerManager sharedManager]hidePicker];
+        [self.table deselectRowAtIndexPath:indexPath animated:YES];
+        _currentIndexpath = nil;
+        [self.table beginUpdates];
+        [self.table endUpdates];
+        
+        return;
+    }
+    
+    if([self isSameCell:indexPath] )
+    {
+        _currentIndexpath = nil;
+        _currentField     = -1;
+        [self.table beginUpdates];
+        [self.table endUpdates];
         [self.table deselectRowAtIndexPath:indexPath animated:YES];
         return;
     }
@@ -311,10 +336,6 @@
     
     switch (self.currentField)
     {
-        case kMoveInDate :
-            [PickerManager sharedManager].type = kDate;
-            [[PickerManager sharedManager]showPickerInView:self.view];
-            break;
         case kMonthlyRent:
         case kMoveInCost:
         case kContactPhone:
@@ -323,7 +344,8 @@
         case kBrokerFee:
         case kZip :
         case kStreet :
-        
+            [self.table beginUpdates];
+            [self.table endUpdates];
             [cell setFocus];
             break;
         case kVideo:
@@ -339,9 +361,11 @@
         case kBorough:
         case kState:
         case kCity:
-            [PickerManager sharedManager].type = kStandard;
-            [PickerManager sharedManager].pickerData = cell.cellinfo[@"picker-data"];
-            [[PickerManager sharedManager]showPickerInView:self.view];
+        case kMoveInDate :
+            [[KeyboardManager sharedManager] close];
+            [self.table beginUpdates];
+            [self.table endUpdates];
+            [cell setFocus];
             break;
             
         default:
@@ -352,11 +376,36 @@
     [self.table deselectRowAtIndexPath:indexPath animated:YES];
 }
 
+-(void)tableView:(UITableView *)tableView didDeselectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    _currentIndexpath = nil;
+    [self.table beginUpdates];
+    [self.table endUpdates];
+}
+
 -(float)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     Section *sec = [self.tableData objectAtIndex:indexPath.section];
     Row     *row = [sec.rows objectAtIndex:indexPath.row];
-    return  ( [row.info valueForKey:@"display-height"] ) ? [[row.info valueForKey:@"display-height"] floatValue] : 38.0f;
+    
+    float height;
+    if( [self isSameCell:indexPath] )
+    {
+        if( row.info[@"expanded-height"] )
+        {
+            height = [row.info[@"expanded-height"] floatValue];
+        }
+        else
+        {
+            height = ( [row.info valueForKey:@"display-height"] ) ? [[row.info valueForKey:@"display-height"] floatValue] : 38.0f;
+        }
+    }
+    else
+    {
+        height = ( [row.info valueForKey:@"display-height"] ) ? [[row.info valueForKey:@"display-height"] floatValue] : 38.0f;
+    }
+    
+    return height;
 }
 
 -(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
@@ -428,10 +477,22 @@
             value = self.listing.street;
             break;
         case kBorough:
-            value = self.listing.borough;
-            break;
-        case kNeightborhood:
-            value = self.listing.neighborhood;
+            
+            if( self.listing.borough && self.listing.neighborhood )
+            {
+                value = @{@"neighborhood" : self.listing.neighborhood, @"borough" : self.listing.borough };
+            }
+            
+            if( self.listing.borough && self.listing.neighborhood  == nil)
+            {
+                value = @{@"borough" : self.listing.borough };
+            }
+            
+            if( self.listing.borough == nil && self.listing.neighborhood )
+            {
+                value = @{@"neighborhood" : self.listing.neighborhood };
+            }
+            
             break;
         case kState:
             value = self.listing.state;
@@ -525,16 +586,14 @@
             self.listing.street = cell.formValue;
             break;
         case kBorough:
-            self.listing.borough  =  formcell.detailTextLabel.text;
+            self.listing.borough      = formcell.formValue[@"borough"];
+            self.listing.neighborhood = formcell.formValue[@"neighborhood"];
             break;
         case kUnit:
             self.listing.unit     = cell.formValue;
             break;
         case kZip :
             self.listing.zip      = cell.formValue;
-            break;
-        case kNeightborhood:
-            _listing.neighborhood = formcell.detailTextLabel.text;
             break;
         case kMonthlyRent:
             _listing.monthlyCost  = [NSNumber numberWithFloat:[formcell.formValue floatValue]];
@@ -650,6 +709,11 @@
     }];
 }
 
+-(void)pickerCancel
+{
+    // not used i think
+}
+
 -(void)pickerDone
 {
     FormCell *cell = (FormCell *)[self.table cellForRowAtIndexPath:self.currentIndexpath];
@@ -683,27 +747,38 @@
         return;
     }
 
-    if( self.listing.geo == nil )
+    if( [self.listing isValid].count == 0 )
     {
-        
-        __block LocationManager *locationManager = [LocationManager shareManager];
-        NSString *addressString = [NSString stringWithFormat:@"%@ %@, %@, %i", self.listing.street, self.listing.borough, self.listing.state, [self.listing.zip intValue]];
-        [[LocationManager shareManager]setCurrentLocationByString:addressString block:^(CLLocationCoordinate2D loc) {
-            if( [locationManager.addressInfo[@"State"] isEqualToString:@"NJ"] || [locationManager.addressInfo[@"State"] isEqualToString:@"NY"] )
-            {
-                blockself.listing.geo = [[CLLocation alloc]initWithLatitude:loc.latitude longitude:loc.longitude];
-                [blockself saveListing];
-            }
-            else
-            {
-                [[ErrorFactory getAlertForType:kUserAddressNotSupported andDelegateOrNil:nil andOtherButtons:nil] show];
-            }
-        }];
+        if( self.listing.geo == nil )
+        {
+            
+            __block LocationManager *locationManager = [LocationManager shareManager];
+            NSString *addressString = [NSString stringWithFormat:@"%@ %@, %@, %i", self.listing.street, self.listing.borough, self.listing.state, [self.listing.zip intValue]];
+            [[LocationManager shareManager]setCurrentLocationByString:addressString block:^(CLLocationCoordinate2D loc) {
+                if( [locationManager.addressInfo[@"State"] isEqualToString:@"NJ"] || [locationManager.addressInfo[@"State"] isEqualToString:@"NY"] )
+                {
+                    blockself.listing.geo = [[CLLocation alloc]initWithLatitude:loc.latitude longitude:loc.longitude];
+                    [blockself saveListing];
+                }
+                else
+                {
+                    [[ErrorFactory getAlertForType:kUserAddressNotSupported andDelegateOrNil:nil andOtherButtons:nil] show];
+                }
+            }];
+        }
+        else
+        {
+            [self saveListing];
+        }
     }
     else
     {
-        [self saveListing];
-    }
+        NSString *title = NSLocalizedString(@"Sorry",@"Generic : sorry");
+        NSString *message = NSLocalizedString( @"Some of the required fields are missing and are show in red, please complete the form to proceed", @"Genereic : error for failed listing submission");
+        UIAlertView *failed = [[UIAlertView alloc]initWithTitle:title message:message delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+        [failed show];
+        [self.table reloadData];
+    }    
 }
 
 -(void)saveListing

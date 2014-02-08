@@ -6,7 +6,7 @@
 //  Copyright (c) 2013 virtualrealty. All rights reserved.
 //
 #import "LocationManager.h"
-
+#import "ErrorFactory.h"
 @interface LocationManager()
 
 -(void) handleFormatAddress:(NSDictionary *)addressInfo;
@@ -74,17 +74,45 @@
             CLPlacemark *pm = [placemark objectAtIndex:0];
             [blockmanager handleFormatAddress:pm.addressDictionary];
             [blockmanager.locationManager stopUpdatingLocation];
-        }];
-        
-        dispatch_async(dispatch_get_main_queue(), ^{
-            NSHashTable *copy = [self.delegates copy];
-            for( id<LocationManagerDelegate> del in copy )
+            
+            dispatch_async(dispatch_get_main_queue(), ^
             {
-                [del locationUpdated];
-            }
-    
-        });
+                NSHashTable *copy = [self.delegates copy];
+            
+                for( id<LocationManagerDelegate> del in copy )
+                {
+                    [del locationUpdated];
+                }
+                
+            });
+        }];
     });
+}
+
+-(void)locationManager:(CLLocationManager *)manager didFailWithError:(NSError *)error
+{
+    if( [CLLocationManager authorizationStatus] != kCLAuthorizationStatusDenied )
+    {
+        for( id<LocationManagerDelegate> obj in [self.delegates copy] )
+        {
+            if( [obj respondsToSelector:@selector(locationFailed ) ] )
+            {
+                [obj locationFailed];
+            }
+        }
+    }
+}
+
+-(void)locationManager:(CLLocationManager *)manager didChangeAuthorizationStatus:(CLAuthorizationStatus)status
+{
+    if( status == kCLAuthorizationStatusAuthorized )
+    {
+        [self startGettingLocations];
+    }
+    else
+    {
+        [self stopGettingLocation];
+    }
 }
 
 -(void) handleFormatAddress:(NSDictionary *)addressInfo
@@ -215,7 +243,14 @@
 
 -(void)startGettingLocations
 {
-    [_locationManager startUpdatingLocation];
+    if( [CLLocationManager authorizationStatus] == kCLAuthorizationStatusDenied )
+    {
+        [[ErrorFactory getAlertForType:kUserDeniedLocationServices andDelegateOrNil:nil andOtherButtons:nil]show];
+    }
+    else
+    {
+        [_locationManager startUpdatingLocation];
+    }
 }
 
 @end

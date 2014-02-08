@@ -34,7 +34,7 @@
 @property(nonatomic, strong)ListingCell            *details;
 @property(nonatomic, strong)UITapGestureRecognizer *tap;
 @property(nonatomic, strong)SearchFilters *currentFilters;
-
+-(void)populateMap;
 -(void)handleNavBarTap:(UITapGestureRecognizer *)sender;
 -(void)handleRefresh:(id)sender;
 -(ListingCell *)getDetails:(Listing *)listing;
@@ -51,6 +51,7 @@
 @synthesize table     = _table;
 @synthesize tableData = _tableData;
 @synthesize mapView   = _mapView;
+@synthesize details   = _details;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -178,6 +179,12 @@
 
 - (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar
 {
+    if( [ReachabilityManager sharedManager].currentStatus == NotReachable )
+    {
+        [[ReachabilityManager sharedManager]showAlert];
+        return;
+    }
+    
     [self.searchBar setShowsCancelButton:NO animated:YES];
     __block AppDelegate *app = (AppDelegate *)[UIApplication sharedApplication].delegate;
     [app showLoaderInView:self.view];
@@ -284,6 +291,7 @@
         [self.tableData addObject:listing];
     }
     [self.table reloadData];
+    [self populateMap];
 }
 
 -(void)handleMakeFilter:(id)sender
@@ -480,14 +488,16 @@
 #pragma mark - map
 -(void )handleShowMap:(id)sender
 {
-    [UIView transitionFromView:self.table toView:self.mapView duration:0.5 options:UIViewAnimationOptionTransitionFlipFromLeft completion:^(BOOL finished) {
-        
-    }];
+    [UIView transitionFromView:self.table toView:self.mapView duration:0.5 options:UIViewAnimationOptionTransitionFlipFromLeft completion:nil];
+    [self populateMap];
+}
+
+-(void)populateMap
+{
+    
     GMSCameraPosition *camera;
     GMSMarker *marker;
     MapPriceTag *priceTag;
-    
-
     
     [self.mapView clear];
     for( Listing *listing in self.tableData )
@@ -538,8 +548,6 @@
     [self.mapView startRendering];
 }
 
-
-
 -(void)handleShowList:(id)sender
 {
     if( self.details )
@@ -569,8 +577,6 @@
 #pragma mark - map view 
 -(BOOL)mapView:(GMSMapView *)mapView didTapMarker:(GMSMarker *)marker
 {
-    GMSCoordinateBounds *bounds = [[GMSCoordinateBounds alloc]initWithCoordinate:marker.position coordinate:marker.position];
-    
     if( self.details )
     {
 
@@ -661,7 +667,6 @@
 
 -(void)resetMap
 {
-    GMSCameraPosition *camera;
     
     GMSMarker *marker = [self.mapView.markers objectAtIndex:0];
     float mostNorth = marker.position.latitude;

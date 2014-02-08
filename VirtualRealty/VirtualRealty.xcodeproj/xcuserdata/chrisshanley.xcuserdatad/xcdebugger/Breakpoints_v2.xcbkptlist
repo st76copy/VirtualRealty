@@ -16,16 +16,16 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "VirtualRealty/Classes/ViewControllerw/Sections/SearchViewController.m"
-            timestampString = "412126197.498899"
+            filePath = "VirtualRealty/Classes/Data/SearchFilters.m"
+            timestampString = "413588784.093823"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "727"
-            endingLineNumber = "727"
-            landmarkName = "-fauxMethod:"
+            startingLineNumber = "134"
+            endingLineNumber = "134"
+            landmarkName = "-getActiveFilters"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>

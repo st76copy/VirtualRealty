@@ -201,4 +201,9 @@
     }
 }
 
+-(void)locationFailed
+{
+    
+}
+
 @end

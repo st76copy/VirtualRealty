@@ -122,17 +122,6 @@
         [self.errors addObject:[NSNumber numberWithInt:kStreet]];
     }
   
-    if( self.neighborhood == nil || [self.neighborhood isEqualToString:@""])
-    {
-        [self.errors addObject:[NSNumber numberWithInt:kNeightborhood]];
-    }
-    
-  
-    if( self.borough == nil || [self.borough isEqualToString:@""])
-    {
-        [self.errors addObject:[NSNumber numberWithInt:kBorough]];
-    }
-    
     if( self.zip == nil )
     {
         [self.errors addObject:[NSNumber numberWithInt:kZip]];
@@ -142,10 +131,15 @@
     {
         [self.errors addObject:[NSNumber numberWithInt:kUnit]];
     }
-    
-    if( self.neighborhood == nil )
+  
+    if( self.state == nil )
     {
-        [self.errors addObject:[NSNumber numberWithInt:kNeightborhood]];
+        [self.errors addObject:[NSNumber numberWithInt:kState]];
+    }
+    
+    if( self.city == nil )
+    {
+        [self.errors addObject:[NSNumber numberWithInt:kCity]];
     }
     
     if( self.monthlyCost == nil )

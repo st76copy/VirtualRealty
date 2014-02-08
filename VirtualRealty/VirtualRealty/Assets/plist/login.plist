@@ -6,6 +6,8 @@
 		<key>cells</key>
 		<array>
 			<dict>
+				<key>keyboard-type</key>
+				<integer>7</integer>
 				<key>field</key>
 				<integer>0</integer>
 				<key>placeholder</key>

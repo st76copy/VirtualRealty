@@ -21,12 +21,12 @@
 #import "SectionTitleView.h"
 #import "UIColor+Extended.h"
 #import "UserContentViewController.h"
+#import "ReachabilityManager.h"
 
 @interface ListingDetailViewController ()<UIAlertViewDelegate, MFMailComposeViewControllerDelegate>
 
 -(void)deleteObject;
 -(void)handleDeleteListing:(id)sender;
--(void)handleEditListing:(id)sender;
 -(void)enableFavoriteButton:(NSArray *)results;
 -(void)saveFavorite:(id)sender;
 -(void)deleteFavorite:(id)sender;
@@ -377,6 +377,12 @@
 #pragma mark - delete listing
 -(void)handleDeleteListing:(id)sender
 {
+    if( [ReachabilityManager sharedManager].currentStatus == NotReachable )
+    {
+        [[ReachabilityManager sharedManager]showAlert];
+        return;
+    }
+    
     NSString *title = NSLocalizedString(@"Delete Listing", @"Generic : alert view delete title");
     NSString *message = NSLocalizedString(@"Are you sure you want to delete this listing, this cannot be undone.", @"Generic : alert view delete message");
     UIAlertView *av = [[UIAlertView alloc]initWithTitle:title message:message delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"OK", nil];
@@ -415,6 +421,11 @@
 
 -(void)handlePlayVideo
 {
+    if( [ReachabilityManager sharedManager].currentStatus == NotReachable )
+    {
+        [[ReachabilityManager sharedManager]showAlert];
+        return;
+    }
     __block ListingDetailViewController *blockself = self;
     
     [self.listing loadVideo:^(BOOL success) {
@@ -473,8 +484,11 @@
 
 -(void)handleCall
 {
-    NSString *phoneNumber = [@"telprompt://" stringByAppendingString:self.listing.phone];
-    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:phoneNumber]];
+    if( self.listing.phone )
+    {
+        NSString *phoneNumber = [@"telprompt://" stringByAppendingString:self.listing.phone];
+        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:phoneNumber]];
+    }
 }
 
 

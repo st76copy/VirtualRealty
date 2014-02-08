@@ -119,7 +119,22 @@
             
             break;
 
-        
+        case kUserDeniedLocationServices :
+            title       = NSLocalizedString(@"Sorry", @"Error : Generic sorry");
+            message     = NSLocalizedString(@"You have disabled location services for this app, please go to the Settings App -> Privacey -> Locations Services and enable it for VirtualRealty", @"Error : User killed location services");
+            cancelTitle = NSLocalizedString(@"OK", @"Genereic : Cancel ");
+            break;
+        case kGPSFailed :
+            title       = NSLocalizedString(@"Sorry", @"Error : Generic sorry");
+            message     = NSLocalizedString(@"Your GPS seems to not be responding please try again later", @"Error : User killed location services");
+            cancelTitle = NSLocalizedString(@"OK", @"Genereic : Cancel ");
+            break;
+
+        case kUserCantEditListing :
+            title       = NSLocalizedString(@"Sorry", @"Error : Generic sorry");
+            message     = NSLocalizedString(@"You can edit content for this listing once it has been approve.", @"Error : User killed location services");
+            cancelTitle = NSLocalizedString(@"OK", @"Genereic : Cancel ");
+            break;
     }
     
     alertView = [[UIAlertView alloc]initWithTitle:title message:message delegate:delegate cancelButtonTitle:cancelTitle otherButtonTitles:nil];

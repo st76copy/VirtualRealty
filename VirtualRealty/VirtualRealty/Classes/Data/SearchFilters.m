@@ -20,6 +20,7 @@
         _isDefault = YES;
         [self.filters addObject:[@{ @"field" : [NSNumber numberWithInt:kBoroughFilter],       @"value" : @"", @"name" : @"borough" } mutableCopy]];
         [self.filters addObject:[@{ @"field" : [NSNumber numberWithInt:kNeightborhoodFilter], @"value" : @"", @"name" : @"neighborhood" } mutableCopy]];
+        [self.filters addObject:[@{ @"field" : [NSNumber numberWithInt:kStateFilter],         @"value" : @"", @"name" : @"state" } mutableCopy]];
         [self.filters addObject:[@{ @"field" : [NSNumber numberWithInt:kBedroomsFilter],      @"value" : @"", @"name" : @"bedrooms" }mutableCopy]];
         [self.filters addObject:[@{ @"field" : [NSNumber numberWithInt:kBathroomsFilter],     @"value" : @"", @"name" : @"bathrooms" }mutableCopy]];
         [self.filters addObject:[@{ @"field" : [NSNumber numberWithInt:kBrokerFeeFilter],     @"value" : [NSNumber numberWithBool:NO],  @"name" : @"brokerfee" }mutableCopy]];
@@ -40,12 +41,23 @@
 
 -(void)setFilter:(FormField)field withValue:(id)value
 {
-    for( NSMutableDictionary *info in self.filters)
+    switch (field)
     {
-        if( [[info valueForKey:@"field"] intValue] == field )
-        {
-            [info setValue:value forKey:@"value"];
-        }
+        case kBoroughFilter:
+            [self.filters[0] setValue:value[@"borough"] forKey:@"value"];
+            [self.filters[1] setValue:value[@"neighborhood"] forKey:@"value"];
+            break;
+            
+        default:
+            for( NSMutableDictionary *info in self.filters)
+            {
+                if( [[info valueForKey:@"field"] intValue] == field )
+                {
+                    [info setValue:value forKey:@"value"];
+                }
+            }
+
+            break;
     }
     _isDefault = NO;
 }
@@ -53,12 +65,24 @@
 -(id)getValueForField:(FormField)field
 {
     id value;
-    for( NSMutableDictionary *info in self.filters)
-    {
-        if( [[info valueForKey:@"field"] intValue] == field )
+    switch (field) {
+        case kBoroughFilter:
+            
+            value = @{ @"borough" : self.filters[0][@"value"] , @"neighborhood" : self.filters[1][@"value"] };
+            
+            break;
+            
+        default:
         {
-           value = [info valueForKey:@"value"];
+            for( NSMutableDictionary *info in self.filters)
+            {
+                if( [[info valueForKey:@"field"] intValue] == field )
+                {
+                    value = [info valueForKey:@"value"];
+                }
+            }
         }
+        break;
     }
     return value;
 }
@@ -116,6 +140,7 @@
     [self.filters removeAllObjects];
     [self.filters addObject:[@{ @"field" : [NSNumber numberWithInt:kBoroughFilter],       @"value" : @"", @"name" : @"borough" } mutableCopy]];
     [self.filters addObject:[@{ @"field" : [NSNumber numberWithInt:kNeightborhoodFilter], @"value" : @"", @"name" : @"neighborhood" } mutableCopy]];
+    [self.filters addObject:[@{ @"field" : [NSNumber numberWithInt:kStateFilter],         @"value" : @"", @"name" : @"state " } mutableCopy]];
     [self.filters addObject:[@{ @"field" : [NSNumber numberWithInt:kBedroomsFilter],      @"value" : @"", @"name" : @"bedrooms" }mutableCopy]];
     [self.filters addObject:[@{ @"field" : [NSNumber numberWithInt:kBathroomsFilter],     @"value" : @"", @"name" : @"bathrooms" }mutableCopy]];
     [self.filters addObject:[@{ @"field" : [NSNumber numberWithInt:kBrokerFeeFilter],     @"value" : [NSNumber numberWithBool:NO],  @"name" : @"brokerfee" }mutableCopy]];

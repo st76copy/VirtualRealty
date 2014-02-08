@@ -167,6 +167,8 @@
     
     FormCell *cell = (FormCell *)[tableView dequeueReusableCellWithIdentifier:[info valueForKey:@"class"]];
     
+    NSLog(@"%@ ", info);
+    
     if( cell == nil )
     {
         cell = [[NSClassFromString([info valueForKey:@"class"]) alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:[info valueForKey:@"class"]];
@@ -196,6 +198,17 @@
         return;
     }
     
+    if([self isSameCell:indexPath] )
+    {
+        _currentPath      = nil;
+        _currentField     = -1;
+        [self.table beginUpdates];
+        [self.table endUpdates];
+        [self.table deselectRowAtIndexPath:indexPath animated:YES];
+        return;
+    }
+
+    
     if( [cell.cellinfo valueForKey:@"field"] && self.currentField != [[cell.cellinfo valueForKey:@"field"] intValue] )
     {
         _currentField = [[cell.cellinfo valueForKey:@"field"]intValue];
@@ -205,13 +218,14 @@
     switch (self.currentField)
     {
             
-        case kNeightborhoodFilter:
         case kBoroughFilter:
         case kBedroomsFilter:
         case kBathroomsFilter:
-            [PickerManager sharedManager].type = kStandard;
-            [PickerManager sharedManager].pickerData = cell.cellinfo[@"picker-data"];
-            [[PickerManager sharedManager]showPickerInView:self.view];
+        case kStateFilter:
+            [self.table beginUpdates];
+            [self.table endUpdates];
+            [cell setFocus];
+            [self cell:cell didChangeForField:self.currentField];
             break;
         case kMoveInFilter :
             [PickerManager sharedManager].type = kDate;
@@ -231,9 +245,30 @@
 
 -(float)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    
     Section *sec = [self.tableData objectAtIndex:indexPath.section];
     Row     *row = [sec.rows objectAtIndex:indexPath.row];
-    return  ( [row.info valueForKey:@"display-height"] ) ? [[row.info valueForKey:@"display-height"] floatValue] : 50.0f;
+    
+    NSLog(@"%@ ", self.currentPath);
+    
+    float height;
+    if( [self isSameCell:indexPath] )
+    {
+        if( row.info[@"expanded-height"] )
+        {
+            height = [row.info[@"expanded-height"] floatValue];
+        }
+        else
+        {
+            height = ( [row.info valueForKey:@"display-height"] ) ? [[row.info valueForKey:@"display-height"] floatValue] : 38.0f;
+        }
+    }
+    else
+    {
+        height = ( [row.info valueForKey:@"display-height"] ) ? [[row.info valueForKey:@"display-height"] floatValue] : 38.0f;
+    }
+    
+    return height;
 }
 
 -(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
@@ -256,6 +291,10 @@
 #pragma mark - custom cell handlers
 -(BOOL)isSameCell:(NSIndexPath *)path
 {
+    if( self.currentPath == nil )
+    {
+        return NO;
+    }
     return ( self.currentPath.row == path.row && self.currentPath.section == path.section ) ? YES : NO;
 }
 
@@ -408,8 +447,9 @@
 {
     [self.filters clear];
     [self.table reloadData];
-    [self.delegate clearFilters];
-    [self dismissViewControllerAnimated:YES completion:nil];
+    
+    //[self.delegate clearFilters];
+    //[self dismissViewControllerAnimated:YES completion:nil];
 }
 
 

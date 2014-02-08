@@ -14,6 +14,10 @@
 		161AE1CF1846459200B61CCB /* MapPriceTag.m in Sources */ = {isa = PBXBuildFile; fileRef = 161AE1CE1846459200B61CCB /* MapPriceTag.m */; };
 		161AE1D21846460500B61CCB /* bottom-wedge.png in Resources */ = {isa = PBXBuildFile; fileRef = 161AE1D01846460500B61CCB /* bottom-wedge.png */; };
 		161AE1D31846460500B61CCB /* bottom-wedge@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 161AE1D11846460500B61CCB /* bottom-wedge@2x.png */; };
+		16229F3318A30BA7000B2DDF /* current-location.png in Resources */ = {isa = PBXBuildFile; fileRef = 16229F3118A30BA7000B2DDF /* current-location.png */; };
+		16229F3418A30BA7000B2DDF /* current-location@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 16229F3218A30BA7000B2DDF /* current-location@2x.png */; };
+		16229F3718A5C034000B2DDF /* NeighborhoodCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 16229F3618A5C034000B2DDF /* NeighborhoodCell.m */; };
+		16229F3A18A68A81000B2DDF /* DatePickerCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 16229F3918A68A81000B2DDF /* DatePickerCell.m */; };
 		1625E8DF188F4EF50097512C /* share-icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 1625E8DD188F4EF50097512C /* share-icon.png */; };
 		1625E8E0188F4EF50097512C /* share-icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1625E8DE188F4EF50097512C /* share-icon@2x.png */; };
 		1625E8E3188F4FF70097512C /* app-icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 1625E8E1188F4FF70097512C /* app-icon.png */; };
@@ -251,6 +255,12 @@
 		161AE1CE1846459200B61CCB /* MapPriceTag.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MapPriceTag.m; path = Custom/MapPriceTag.m; sourceTree = "<group>"; };
 		161AE1D01846460500B61CCB /* bottom-wedge.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bottom-wedge.png"; sourceTree = "<group>"; };
 		161AE1D11846460500B61CCB /* bottom-wedge@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bottom-wedge@2x.png"; sourceTree = "<group>"; };
+		16229F3118A30BA7000B2DDF /* current-location.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "current-location.png"; sourceTree = "<group>"; };
+		16229F3218A30BA7000B2DDF /* current-location@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "current-location@2x.png"; sourceTree = "<group>"; };
+		16229F3518A5C034000B2DDF /* NeighborhoodCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NeighborhoodCell.h; path = Cells/NeighborhoodCell.h; sourceTree = "<group>"; };
+		16229F3618A5C034000B2DDF /* NeighborhoodCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NeighborhoodCell.m; path = Cells/NeighborhoodCell.m; sourceTree = "<group>"; };
+		16229F3818A68A81000B2DDF /* DatePickerCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DatePickerCell.h; path = Cells/DatePickerCell.h; sourceTree = "<group>"; };
+		16229F3918A68A81000B2DDF /* DatePickerCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DatePickerCell.m; path = Cells/DatePickerCell.m; sourceTree = "<group>"; };
 		1625E8DD188F4EF50097512C /* share-icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "share-icon.png"; sourceTree = "<group>"; };
 		1625E8DE188F4EF50097512C /* share-icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "share-icon@2x.png"; sourceTree = "<group>"; };
 		1625E8E1188F4FF70097512C /* app-icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "app-icon.png"; path = "VirtualRealty/app-icon.png"; sourceTree = "<group>"; };
@@ -616,6 +626,8 @@
 		161AE1C018463F5100B61CCB /* images */ = {
 			isa = PBXGroup;
 			children = (
+				16229F3118A30BA7000B2DDF /* current-location.png */,
+				16229F3218A30BA7000B2DDF /* current-location@2x.png */,
 				1625E8E9188F52570097512C /* broker-icon.png */,
 				1625E8EA188F52570097512C /* broker-icon@2x.png */,
 				1625E8DD188F4EF50097512C /* share-icon.png */,
@@ -1121,6 +1133,10 @@
 				16370676185CCC8F00BEF474 /* PhoneInputCell.m */,
 				163706981861222E00BEF474 /* SliderCell.h */,
 				163706991861222E00BEF474 /* SliderCell.m */,
+				16229F3518A5C034000B2DDF /* NeighborhoodCell.h */,
+				16229F3618A5C034000B2DDF /* NeighborhoodCell.m */,
+				16229F3818A68A81000B2DDF /* DatePickerCell.h */,
+				16229F3918A68A81000B2DDF /* DatePickerCell.m */,
 			);
 			name = Cells;
 			sourceTree = "<group>";
@@ -1376,6 +1392,7 @@
 				163706A41864B00300BEF474 /* add-video-temp@2x.png in Resources */,
 				16B9E47B187B9F4E00BEE9A9 /* favorite.png in Resources */,
 				163706B21864E78100BEF474 /* tour-four.png in Resources */,
+				16229F3418A30BA7000B2DDF /* current-location@2x.png in Resources */,
 				163706631854E2F900BEF474 /* gym-icon@2x.png in Resources */,
 				163706651854E2F900BEF474 /* laundry-icon@2x.png in Resources */,
 				1637069E18613B4200BEF474 /* footer-button-fill@2x.png in Resources */,
@@ -1392,6 +1409,7 @@
 				8333DD4B17E4B2A700645B3E /* Images.xcassets in Resources */,
 				163706691854E2F900BEF474 /* pool-icon@2x.png in Resources */,
 				1625E8EB188F52570097512C /* broker-icon.png in Resources */,
+				16229F3318A30BA7000B2DDF /* current-location.png in Resources */,
 				16B9E47A187B9F4E00BEE9A9 /* checked@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1440,6 +1458,7 @@
 				163706A91864E34100BEF474 /* TourViewController.m in Sources */,
 				836DF2F317E4B7B2002BD42E /* UIColor+Extended.m in Sources */,
 				1643535618395F9C00B3DBBA /* SocialLifeViewController.m in Sources */,
+				16229F3A18A68A81000B2DDF /* DatePickerCell.m in Sources */,
 				836DF2F417E4B7B2002BD42E /* UIDevice+IdentifierAddition.m in Sources */,
 				164353651845310400B3DBBA /* MapListToggleView.m in Sources */,
 				8316BCAD17EB961F00150FDD /* SwitchCell.m in Sources */,
@@ -1489,6 +1508,7 @@
 				836DF2FD17E4B7B2002BD42E /* AbstractViewController.m in Sources */,
 				83AA1B5017E914FA00D5B678 /* LocationManager.m in Sources */,
 				838491C317E4D48C00CBABFE /* FeaturedViewController.m in Sources */,
+				16229F3718A5C034000B2DDF /* NeighborhoodCell.m in Sources */,
 				83ABFE7017E4B9DB007ECB53 /* AFJSONPatchSerializer.m in Sources */,
 				83B85A3717E7C42C008E6DEB /* TextCell.m in Sources */,
 				83ABFE7317E4B9DB007ECB53 /* AFSerialization.m in Sources */,

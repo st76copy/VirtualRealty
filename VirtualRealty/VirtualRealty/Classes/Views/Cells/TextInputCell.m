@@ -22,12 +22,14 @@
         self.inputField.autocapitalizationType = UITextAutocapitalizationTypeNone;
         self.inputField.textAlignment  = NSTextAlignmentRight;
         self.inputField.returnKeyType  = UIReturnKeyDone;
+        self.inputField.delegate       = self;
         [self.inputField addTarget:self  action:@selector(inputFieldBegan:) forControlEvents:UIControlEventEditingDidBegin];
         [self.inputField addTarget:self  action:@selector(inputTextChanged:) forControlEvents:UIControlEventEditingChanged];
         [self.inputField addTarget:self  action:@selector(textFieldFinished:)  forControlEvents:UIControlEventEditingDidEndOnExit];
         [self.inputField setFont: [UIFont fontWithName:@"MuseoSans-500" size:16]];
         selectableText = YES;
         [self.contentView addSubview:self.inputField];
+        self.maxCharacters = -1;
     }
     return self;
 }
@@ -86,6 +88,16 @@
     if( [[self.cellinfo valueForKey:@"is-secure"] boolValue])
     {
         self.inputField.secureTextEntry = YES;
+    }
+    
+    if( self.cellinfo[@"keyboard-type"] )
+    {
+        self.inputField.keyboardType = [self.cellinfo[@"keyboard-type"] intValue];
+    }
+    
+    if( self.cellinfo[@"max-characters"] )
+    {
+        self.maxCharacters = [self.cellinfo[@"max-characters"] intValue];
     }
 }
 

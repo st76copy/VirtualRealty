@@ -144,6 +144,7 @@
 
 -(void)signupWithUsername:(NSString *)username andPassword:(NSString *)password andBlock:(LoginInCompleteBlock)block
 {
+    NSLog(@"%@ -- sign up with %@ , %@ ", self, username, password);
     self.loginBlock = block;
     __block PFUser *temp  = [PFUser user];
     temp.username = username;
@@ -174,14 +175,14 @@
         }
     }
    
-    [temp setValue:self.isBroker forKey:@"isBroker"];
-    [temp setValue:self.brokerFirm forKey:@"borkerFirm"];
-    
-    [temp addObject:[NSNumber numberWithBool:NO] forKey:@"facebook_user"];
-    
-    if( password == nil )
+    if( self.isBroker )
     {
-        [temp addObject:[NSNumber numberWithBool:YES] forKey:@"facebook_user"];
+        [temp setValue:self.isBroker forKey:@"isBroker"];
+    }
+    
+    if( self.brokerFirm )
+    {
+        [temp setValue:self.brokerFirm forKey:@"borkerFirm"];
     }
     
     __block User *user = self;

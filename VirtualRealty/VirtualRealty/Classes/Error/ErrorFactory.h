@@ -21,6 +21,9 @@ typedef enum ErrorType
     kUserLoginFailError,
     kUserDataLoaderror,
     kUserAddressNotSupported,
+    kUserDeniedLocationServices,
+    kGPSFailed,
+    kUserCantEditListing,
     
     // data errors
     kListingExistsError,

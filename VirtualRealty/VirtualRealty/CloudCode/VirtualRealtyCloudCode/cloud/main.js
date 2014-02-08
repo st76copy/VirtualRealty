@@ -131,7 +131,9 @@ Parse.Cloud.define("saveListing", function(request, response)
 		};
 		
 		params.url     = "http://virtualrealtynyc.com/notification.php";
-		params.body    = { "listing" :  listing.get("objectId") };
+		params.body    = { "listing" :  listing.id };
+		
+		console.log( "Trying to send email for listing " + listing + " , objectId : " + listing.id );
 		
 		params.success = function(httpResponse)
 		{
@@ -400,6 +402,12 @@ Parse.Cloud.define("search", function(request, response)
 		if( request.params["filters"]["neighborhood"] != undefined )
 		{
 			query.equalTo( "neighborhood", request.params["filters"]["neighborhood"]["value"].toString() );
+		}
+	
+		if( request.params["filters"]["state"] != undefined )
+		{
+			query.equalTo( "state", request.params["filters"]["state"]["value"].toString() );
+			console.log( "searching state " + request.params["filters"]["state"]["value"].toString() );
 		}
 	
 		if( request.params["filters"]["bedrooms"] != undefined )

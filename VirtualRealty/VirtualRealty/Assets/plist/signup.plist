@@ -6,10 +6,12 @@
 		<key>cells</key>
 		<array>
 			<dict>
+				<key>keyboard-type</key>
+				<integer>7</integer>
 				<key>field</key>
 				<integer>0</integer>
 				<key>placeholder</key>
-				<string>email</string>
+				<string>valid email</string>
 				<key>label</key>
 				<string>username</string>
 				<key>class</key>
@@ -21,7 +23,7 @@
 				<key>field</key>
 				<integer>1</integer>
 				<key>placeholder</key>
-				<string>password</string>
+				<string>minimum 6 characters</string>
 				<key>label</key>
 				<string>password</string>
 				<key>class</key>
@@ -44,7 +46,7 @@
 			</dict>
 			<dict>
 				<key>placeholder</key>
-				<string>any</string>
+				<string>choose one</string>
 				<key>label</key>
 				<string>Broker Firm</string>
 				<key>field</key>
@@ -56,6 +58,12 @@
 				<key>picker-data</key>
 				<array>
 					<array>
+						<dict>
+							<key>label</key>
+							<string>Independent</string>
+							<key>value</key>
+							<string>Independent</string>
+						</dict>
 						<dict>
 							<key>label</key>
 							<string>Red Hook Waterfront</string>
@@ -81,6 +89,8 @@
 				<string>SwitchCell</string>
 			</dict>
 			<dict>
+				<key>max-characters</key>
+				<integer>7</integer>
 				<key>format</key>
 				<string>$%i</string>
 				<key>placeholder</key>
@@ -94,7 +104,7 @@
 			</dict>
 			<dict>
 				<key>placeholder</key>
-				<string>any</string>
+				<string>doesn&apos;t matter</string>
 				<key>label</key>
 				<string>Minimum Bedrooms</string>
 				<key>field</key>

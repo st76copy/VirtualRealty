@@ -61,7 +61,7 @@
 				<key>label</key>
 				<string>Street</string>
 				<key>placeholder</key>
-				<string>street address</string>
+				<string>required</string>
 				<key>state</key>
 				<integer>1</integer>
 			</dict>
@@ -69,17 +69,43 @@
 				<key>animatable</key>
 				<false/>
 				<key>class</key>
-				<string>TextCell</string>
+				<string>NeighborhoodCell</string>
+				<key>expanded-height</key>
+				<integer>238</integer>
+				<key>display-height</key>
+				<integer>76</integer>
 				<key>field</key>
 				<integer>46</integer>
 				<key>label</key>
 				<string>Borough</string>
+				<key>sub-label</key>
+				<string>Neighborhood</string>
+				<key>sub-placeholder</key>
+				<string>optional</string>
 				<key>picker-data</key>
 				<array>
 					<array>
 						<dict>
 							<key>label</key>
+							<string>Upper Manhattan</string>
+							<key>value</key>
 							<string>Manhattan</string>
+						</dict>
+						<dict>
+							<key>label</key>
+							<string>Midtown</string>
+							<key>value</key>
+							<string>Manhattan</string>
+						</dict>
+						<dict>
+							<key>label</key>
+							<string>Central Manhattan</string>
+							<key>value</key>
+							<string>Manhattan</string>
+						</dict>
+						<dict>
+							<key>label</key>
+							<string>Downtown Manhattan</string>
 							<key>value</key>
 							<string>Manhattan</string>
 						</dict>
@@ -105,222 +131,845 @@
 							<key>label</key>
 							<string>Staten Island</string>
 							<key>value</key>
-							<string>St George </string>
+							<string>Staten Island</string>
 						</dict>
 					</array>
-				</array>
-				<key>picker-index</key>
-				<integer>0</integer>
-				<key>placeholder</key>
-				<string>borough</string>
-				<key>state</key>
-				<integer>1</integer>
-			</dict>
-			<dict>
-				<key>animatable</key>
-				<false/>
-				<key>class</key>
-				<string>TextCell</string>
-				<key>field</key>
-				<integer>3</integer>
-				<key>label</key>
-				<string>Neighborhood</string>
-				<key>picker-data</key>
-				<array>
 					<array>
 						<dict>
+							<key>comp-index</key>
+							<integer>0</integer>
 							<key>label</key>
-							<string>Lower Manhattan</string>
+							<string>Marble Hill</string>
 							<key>value</key>
-							<string>Lower Manhattan</string>
+							<string>Marble Hill</string>
 						</dict>
 						<dict>
+							<key>comp-index</key>
+							<integer>0</integer>
 							<key>label</key>
-							<string>Midtown</string>
+							<string>Inwood</string>
 							<key>value</key>
-							<string>Midtown</string>
+							<string>Inwood</string>
 						</dict>
 						<dict>
+							<key>comp-index</key>
+							<integer>0</integer>
+							<key>label</key>
+							<string>Fort George</string>
+							<key>value</key>
+							<string>Fort George</string>
+						</dict>
+						<dict>
+							<key>comp-index</key>
+							<integer>0</integer>
+							<key>label</key>
+							<string>Washington Heights</string>
+							<key>value</key>
+							<string>Washington Heights</string>
+						</dict>
+						<dict>
+							<key>comp-index</key>
+							<integer>0</integer>
+							<key>label</key>
+							<string>Hudson Heights</string>
+							<key>value</key>
+							<string>Hudson Heights</string>
+						</dict>
+						<dict>
+							<key>comp-index</key>
+							<integer>0</integer>
+							<key>label</key>
+							<string>West Harlem</string>
+							<key>value</key>
+							<string>West Harlem</string>
+						</dict>
+						<dict>
+							<key>comp-index</key>
+							<integer>0</integer>
+							<key>label</key>
+							<string>Hamilton Heights</string>
+							<key>value</key>
+							<string>Hamilton Heights</string>
+						</dict>
+						<dict>
+							<key>comp-index</key>
+							<integer>0</integer>
+							<key>label</key>
+							<string>Manhattanville</string>
+							<key>value</key>
+							<string>Manhattanville</string>
+						</dict>
+						<dict>
+							<key>comp-index</key>
+							<integer>0</integer>
+							<key>label</key>
+							<string>ViVa</string>
+							<key>value</key>
+							<string>ViVa</string>
+						</dict>
+						<dict>
+							<key>comp-index</key>
+							<integer>0</integer>
+							<key>label</key>
+							<string>Morningside Heights</string>
+							<key>value</key>
+							<string>Morningside Heights</string>
+						</dict>
+						<dict>
+							<key>comp-index</key>
+							<integer>0</integer>
+							<key>label</key>
+							<string>Central Harlem</string>
+							<key>value</key>
+							<string>Central Harlem</string>
+						</dict>
+						<dict>
+							<key>comp-index</key>
+							<integer>0</integer>
+							<key>label</key>
+							<string>Harlem</string>
+							<key>value</key>
+							<string>Harlem</string>
+						</dict>
+						<dict>
+							<key>comp-index</key>
+							<integer>0</integer>
+							<key>label</key>
+							<string>Strivers&apos; Row</string>
+							<key>value</key>
+							<string>Strivers&apos; Row</string>
+						</dict>
+						<dict>
+							<key>comp-index</key>
+							<integer>0</integer>
+							<key>label</key>
+							<string>Sugar Hill</string>
+							<key>value</key>
+							<string>Sugar Hill</string>
+						</dict>
+						<dict>
+							<key>comp-index</key>
+							<integer>0</integer>
+							<key>label</key>
+							<string>Marcus Garvey Park</string>
+							<key>value</key>
+							<string>Marcus Garvey Park</string>
+						</dict>
+						<dict>
+							<key>comp-index</key>
+							<integer>0</integer>
+							<key>label</key>
+							<string>Le Petit Senegal</string>
+							<key>value</key>
+							<string>Le Petit Senegal</string>
+						</dict>
+						<dict>
+							<key>comp-index</key>
+							<integer>0</integer>
+							<key>label</key>
+							<string>East Harlem</string>
+							<key>value</key>
+							<string>East Harlem</string>
+						</dict>
+						<dict>
+							<key>comp-index</key>
+							<integer>0</integer>
 							<key>label</key>
 							<string>Upper East Side</string>
+							<key>value</key>
+							<string>Upper East Side</string>
+						</dict>
+						<dict>
+							<key>comp-index</key>
+							<integer>0</integer>
+							<key>label</key>
+							<string>Lenox Hill</string>
+							<key>value</key>
+							<string>Lenox Hill</string>
+						</dict>
+						<dict>
+							<key>comp-index</key>
+							<integer>0</integer>
+							<key>label</key>
+							<string>Carnegie Hill</string>
+							<key>value</key>
+							<string>Carnegie Hill</string>
+						</dict>
+						<dict>
+							<key>comp-index</key>
+							<integer>0</integer>
+							<key>label</key>
+							<string>Yorkville</string>
+							<key>value</key>
+							<string>Yorkville</string>
+						</dict>
+						<dict>
+							<key>comp-index</key>
+							<integer>0</integer>
+							<key>label</key>
+							<string>Upper West Side</string>
 							<key>value</key>
 							<string>Upper West Side</string>
 						</dict>
 						<dict>
+							<key>comp-index</key>
+							<integer>0</integer>
 							<key>label</key>
-							<string>Upper Manhattan</string>
+							<string>Manhattan Valley</string>
 							<key>value</key>
-							<string>Upper Manhattan</string>
+							<string>Manhattan Valley</string>
 						</dict>
 						<dict>
+							<key>comp-index</key>
+							<integer>1</integer>
 							<key>label</key>
-							<string>Bay Ridge</string>
+							<string>Lincoln Square</string>
 							<key>value</key>
-							<string>Bay Ridge</string>
+							<string>Lincoln Square</string>
 						</dict>
 						<dict>
+							<key>comp-index</key>
+							<integer>1</integer>
 							<key>label</key>
-							<string>Bedford Stuyvesant</string>
+							<string>Columbus Circle</string>
 							<key>value</key>
-							<string>Bedford Stuyvesant</string>
+							<string>Columbus Circle</string>
 						</dict>
 						<dict>
+							<key>comp-index</key>
+							<integer>1</integer>
+							<key>label</key>
+							<string>Sutton Place</string>
+							<key>value</key>
+							<string>Sutton Place</string>
+						</dict>
+						<dict>
+							<key>comp-index</key>
+							<integer>1</integer>
+							<key>label</key>
+							<string>Rockefeller Center</string>
+							<key>value</key>
+							<string>Rockefeller Center</string>
+						</dict>
+						<dict>
+							<key>comp-index</key>
+							<integer>1</integer>
+							<key>label</key>
+							<string>Diamond District</string>
+							<key>value</key>
+							<string>Diamond District</string>
+						</dict>
+						<dict>
+							<key>comp-index</key>
+							<integer>1</integer>
+							<key>label</key>
+							<string>Theater District</string>
+							<key>value</key>
+							<string>Theater District</string>
+						</dict>
+						<dict>
+							<key>comp-index</key>
+							<integer>1</integer>
+							<key>label</key>
+							<string>Turtle Bay</string>
+							<key>value</key>
+							<string>Turtle Bay</string>
+						</dict>
+						<dict>
+							<key>comp-index</key>
+							<integer>1</integer>
+							<key>label</key>
+							<string>Midtown East</string>
+							<key>value</key>
+							<string>Midtown East</string>
+						</dict>
+						<dict>
+							<key>comp-index</key>
+							<integer>1</integer>
+							<key>label</key>
+							<string>Tudor City</string>
+							<key>value</key>
+							<string>Tudor City</string>
+						</dict>
+						<dict>
+							<key>comp-index</key>
+							<integer>1</integer>
+							<key>label</key>
+							<string>Little Brazil</string>
+							<key>value</key>
+							<string>Little Brazil</string>
+						</dict>
+						<dict>
+							<key>comp-index</key>
+							<integer>1</integer>
+							<key>label</key>
+							<string>Times Square</string>
+							<key>value</key>
+							<string>Times Square</string>
+						</dict>
+						<dict>
+							<key>comp-index</key>
+							<integer>1</integer>
+							<key>label</key>
+							<string>Hudson Yards</string>
+							<key>value</key>
+							<string>Hudson Yards</string>
+						</dict>
+						<dict>
+							<key>comp-index</key>
+							<integer>1</integer>
+							<key>label</key>
+							<string>Midtown West</string>
+							<key>value</key>
+							<string>Midtown West</string>
+						</dict>
+						<dict>
+							<key>comp-index</key>
+							<integer>1</integer>
+							<key>label</key>
+							<string>Hell&apos;s Kitchen</string>
+							<key>value</key>
+							<string>Hell&apos;s Kitchen</string>
+						</dict>
+						<dict>
+							<key>comp-index</key>
+							<integer>1</integer>
+							<key>label</key>
+							<string>Garment District</string>
+							<key>value</key>
+							<string>Garment District</string>
+						</dict>
+						<dict>
+							<key>comp-index</key>
+							<integer>1</integer>
+							<key>label</key>
+							<string>Herald Square</string>
+							<key>value</key>
+							<string>Herald Square</string>
+						</dict>
+						<dict>
+							<key>comp-index</key>
+							<integer>1</integer>
+							<key>label</key>
+							<string>Koreatown</string>
+							<key>value</key>
+							<string>Koreatown</string>
+						</dict>
+						<dict>
+							<key>comp-index</key>
+							<integer>1</integer>
+							<key>label</key>
+							<string>Murray Hill</string>
+							<key>value</key>
+							<string>Murray Hill</string>
+						</dict>
+						<dict>
+							<key>comp-index</key>
+							<integer>1</integer>
+							<key>label</key>
+							<string>Tenderloin</string>
+							<key>value</key>
+							<string>Tenderloin</string>
+						</dict>
+						<dict>
+							<key>comp-index</key>
+							<integer>1</integer>
+							<key>label</key>
+							<string>Madison Square</string>
+							<key>value</key>
+							<string>Madison Square</string>
+						</dict>
+						<dict>
+							<key>comp-index</key>
+							<integer>2</integer>
+							<key>label</key>
+							<string>Flower District</string>
+							<key>value</key>
+							<string>Flower District</string>
+						</dict>
+						<dict>
+							<key>comp-index</key>
+							<integer>2</integer>
+							<key>label</key>
+							<string>Brookdale</string>
+							<key>value</key>
+							<string>Brookdale</string>
+						</dict>
+						<dict>
+							<key>comp-index</key>
+							<integer>2</integer>
+							<key>label</key>
+							<string>Kips Bay</string>
+							<key>value</key>
+							<string>Kips Bay</string>
+						</dict>
+						<dict>
+							<key>comp-index</key>
+							<integer>2</integer>
+							<key>label</key>
+							<string>Rose Hill</string>
+							<key>value</key>
+							<string>Rose Hill</string>
+						</dict>
+						<dict>
+							<key>comp-index</key>
+							<integer>2</integer>
+							<key>label</key>
+							<string>NoMad</string>
+							<key>value</key>
+							<string>NoMad</string>
+						</dict>
+						<dict>
+							<key>comp-index</key>
+							<integer>2</integer>
+							<key>label</key>
+							<string>Peter Cooper Village</string>
+							<key>value</key>
+							<string>Peter Cooper Village</string>
+						</dict>
+						<dict>
+							<key>comp-index</key>
+							<integer>2</integer>
+							<key>label</key>
+							<string>Chelsea</string>
+							<key>value</key>
+							<string>Chelsea</string>
+						</dict>
+						<dict>
+							<key>comp-index</key>
+							<integer>2</integer>
+							<key>label</key>
+							<string>Flatiron District</string>
+							<key>value</key>
+							<string>Flatiron District</string>
+						</dict>
+						<dict>
+							<key>comp-index</key>
+							<integer>2</integer>
+							<key>label</key>
+							<string>Gramercy Park</string>
+							<key>value</key>
+							<string>Gramercy Park</string>
+						</dict>
+						<dict>
+							<key>comp-index</key>
+							<integer>2</integer>
+							<key>label</key>
+							<string>Stuyvesant Square</string>
+							<key>value</key>
+							<string>Stuyvesant Square</string>
+						</dict>
+						<dict>
+							<key>comp-index</key>
+							<integer>2</integer>
+							<key>label</key>
+							<string>Union Square</string>
+							<key>value</key>
+							<string>Union Square</string>
+						</dict>
+						<dict>
+							<key>comp-index</key>
+							<integer>2</integer>
+							<key>label</key>
+							<string>Stuyvesant Town</string>
+							<key>value</key>
+							<string>Stuyvesant Town</string>
+						</dict>
+						<dict>
+							<key>comp-index</key>
+							<integer>2</integer>
+							<key>label</key>
+							<string>Meatpacking District</string>
+							<key>value</key>
+							<string>Meatpacking District</string>
+						</dict>
+						<dict>
+							<key>comp-index</key>
+							<integer>2</integer>
+							<key>label</key>
+							<string>Waterside Plaza</string>
+							<key>value</key>
+							<string>Waterside Plaza</string>
+						</dict>
+						<dict>
+							<key>comp-index</key>
+							<integer>3</integer>
+							<key>label</key>
+							<string>Little Germany </string>
+							<key>value</key>
+							<string>Little Germany </string>
+						</dict>
+						<dict>
+							<key>comp-index</key>
+							<integer>3</integer>
+							<key>label</key>
+							<string>Alphabet City</string>
+							<key>value</key>
+							<string>Alphabet City</string>
+						</dict>
+						<dict>
+							<key>comp-index</key>
+							<integer>3</integer>
+							<key>label</key>
+							<string>East Village</string>
+							<key>value</key>
+							<string>East Village</string>
+						</dict>
+						<dict>
+							<key>comp-index</key>
+							<integer>3</integer>
+							<key>label</key>
+							<string>Greenwich Village</string>
+							<key>value</key>
+							<string>Greenwich Village</string>
+						</dict>
+						<dict>
+							<key>comp-index</key>
+							<integer>3</integer>
+							<key>label</key>
+							<string>NoHo</string>
+							<key>value</key>
+							<string>NoHo</string>
+						</dict>
+						<dict>
+							<key>comp-index</key>
+							<integer>3</integer>
+							<key>label</key>
+							<string>Bowery</string>
+							<key>value</key>
+							<string>Bowery</string>
+						</dict>
+						<dict>
+							<key>comp-index</key>
+							<integer>3</integer>
+							<key>label</key>
+							<string>West Village</string>
+							<key>value</key>
+							<string>West Village</string>
+						</dict>
+						<dict>
+							<key>comp-index</key>
+							<integer>3</integer>
+							<key>label</key>
+							<string>Lower East Side</string>
+							<key>value</key>
+							<string>Lower East Side</string>
+						</dict>
+						<dict>
+							<key>comp-index</key>
+							<integer>3</integer>
+							<key>label</key>
+							<string>SoHo</string>
+							<key>value</key>
+							<string>SoHo</string>
+						</dict>
+						<dict>
+							<key>comp-index</key>
+							<integer>3</integer>
+							<key>label</key>
+							<string>Nolita</string>
+							<key>value</key>
+							<string>Nolita</string>
+						</dict>
+						<dict>
+							<key>comp-index</key>
+							<integer>3</integer>
+							<key>label</key>
+							<string>Little Italy</string>
+							<key>value</key>
+							<string>Little Italy</string>
+						</dict>
+						<dict>
+							<key>comp-index</key>
+							<integer>3</integer>
+							<key>label</key>
+							<string>Chinatown</string>
+							<key>value</key>
+							<string>Chinatown</string>
+						</dict>
+						<dict>
+							<key>comp-index</key>
+							<integer>3</integer>
+							<key>label</key>
+							<string>Lower Manhattan</string>
+							<key>value</key>
+							<string>Lower Manhattan</string>
+						</dict>
+						<dict>
+							<key>comp-index</key>
+							<integer>3</integer>
+							<key>label</key>
+							<string>Five Points</string>
+							<key>value</key>
+							<string>Five Points</string>
+						</dict>
+						<dict>
+							<key>comp-index</key>
+							<integer>3</integer>
+							<key>label</key>
+							<string>Cooperative Village</string>
+							<key>value</key>
+							<string>Cooperative Village</string>
+						</dict>
+						<dict>
+							<key>comp-index</key>
+							<integer>3</integer>
+							<key>label</key>
+							<string>Two Bridges</string>
+							<key>value</key>
+							<string>Two Bridges</string>
+						</dict>
+						<dict>
+							<key>comp-index</key>
+							<integer>3</integer>
+							<key>label</key>
+							<string>TriBeCa</string>
+							<key>value</key>
+							<string>TriBeCa</string>
+						</dict>
+						<dict>
+							<key>comp-index</key>
+							<integer>3</integer>
+							<key>label</key>
+							<string>Civic Center</string>
+							<key>value</key>
+							<string>Civic Center</string>
+						</dict>
+						<dict>
+							<key>comp-index</key>
+							<integer>3</integer>
+							<key>label</key>
+							<string>Radio Row</string>
+							<key>value</key>
+							<string>Radio Row</string>
+						</dict>
+						<dict>
+							<key>comp-index</key>
+							<integer>3</integer>
+							<key>label</key>
+							<string>South Street Seaport</string>
+							<key>value</key>
+							<string>South Street Seaport</string>
+						</dict>
+						<dict>
+							<key>comp-index</key>
+							<integer>3</integer>
+							<key>label</key>
+							<string>Battery Park City</string>
+							<key>value</key>
+							<string>Battery Park City</string>
+						</dict>
+						<dict>
+							<key>comp-index</key>
+							<integer>4</integer>
 							<key>label</key>
 							<string>Boerum Hill</string>
 							<key>value</key>
 							<string>Boerum Hill</string>
 						</dict>
 						<dict>
+							<key>comp-index</key>
+							<integer>4</integer>
 							<key>label</key>
 							<string>Brooklyn Heights</string>
 							<key>value</key>
 							<string>Brooklyn Heights</string>
 						</dict>
 						<dict>
+							<key>comp-index</key>
+							<integer>4</integer>
 							<key>label</key>
 							<string>Bushwick</string>
 							<key>value</key>
 							<string>Bushwick</string>
 						</dict>
 						<dict>
+							<key>comp-index</key>
+							<integer>4</integer>
 							<key>label</key>
 							<string>Carroll Gardens</string>
 							<key>value</key>
 							<string>Carroll Gardens</string>
 						</dict>
 						<dict>
+							<key>comp-index</key>
+							<integer>4</integer>
 							<key>label</key>
 							<string>Clinton Hill</string>
 							<key>value</key>
 							<string>Clinton Hill</string>
 						</dict>
 						<dict>
+							<key>comp-index</key>
+							<integer>4</integer>
 							<key>label</key>
 							<string>Crown Heights</string>
 							<key>value</key>
 							<string>Crown Heights</string>
 						</dict>
 						<dict>
+							<key>comp-index</key>
+							<integer>4</integer>
 							<key>label</key>
 							<string>Downtown Brooklyn</string>
 							<key>value</key>
 							<string>Downtown Brooklyn</string>
 						</dict>
 						<dict>
+							<key>comp-index</key>
+							<integer>4</integer>
 							<key>label</key>
 							<string>Dumbo</string>
 							<key>value</key>
 							<string>Dumbo</string>
 						</dict>
 						<dict>
+							<key>comp-index</key>
+							<integer>4</integer>
 							<key>label</key>
 							<string>East Williamsburg</string>
 							<key>value</key>
 							<string>East Williamsburg</string>
 						</dict>
 						<dict>
+							<key>comp-index</key>
+							<integer>4</integer>
 							<key>label</key>
 							<string>Fort Greene</string>
 							<key>value</key>
 							<string>Fort Greene</string>
 						</dict>
 						<dict>
+							<key>comp-index</key>
+							<integer>4</integer>
 							<key>label</key>
 							<string>Gowanus</string>
 							<key>value</key>
 							<string>Gowanus</string>
 						</dict>
 						<dict>
+							<key>comp-index</key>
+							<integer>4</integer>
 							<key>label</key>
 							<string>Greenpoint</string>
 							<key>value</key>
 							<string>Greenpoint</string>
 						</dict>
 						<dict>
+							<key>comp-index</key>
+							<integer>4</integer>
 							<key>label</key>
 							<string>Park Slope</string>
 							<key>value</key>
 							<string>Park Slope</string>
 						</dict>
 						<dict>
+							<key>comp-index</key>
+							<integer>4</integer>
 							<key>label</key>
 							<string>Prospect Heights</string>
 							<key>value</key>
 							<string>Prospect Heights</string>
 						</dict>
 						<dict>
+							<key>comp-index</key>
+							<integer>4</integer>
 							<key>label</key>
 							<string>Prospect Lefferts Gardens</string>
 							<key>value</key>
 							<string>Prospect Lefferts Gardens</string>
 						</dict>
 						<dict>
+							<key>comp-index</key>
+							<integer>4</integer>
 							<key>label</key>
 							<string>Red Hook</string>
 							<key>value</key>
 							<string>Red Hook</string>
 						</dict>
 						<dict>
+							<key>comp-index</key>
+							<integer>4</integer>
 							<key>label</key>
 							<string>South Slope</string>
 							<key>value</key>
 							<string>South Slope</string>
 						</dict>
 						<dict>
+							<key>comp-index</key>
+							<integer>4</integer>
 							<key>label</key>
 							<string>Sunset Park</string>
 							<key>value</key>
 							<string>Sunset Park</string>
 						</dict>
 						<dict>
+							<key>comp-index</key>
+							<integer>4</integer>
 							<key>label</key>
 							<string>Williamsburg</string>
 							<key>value</key>
 							<string>Williamsburg</string>
 						</dict>
 						<dict>
+							<key>comp-index</key>
+							<integer>5</integer>
 							<key>label</key>
 							<string>Astoria</string>
 							<key>value</key>
 							<string>Astoria</string>
 						</dict>
 						<dict>
+							<key>comp-index</key>
+							<integer>5</integer>
 							<key>label</key>
 							<string>Hunters Point</string>
 							<key>value</key>
 							<string>Hunters Point</string>
 						</dict>
 						<dict>
+							<key>comp-index</key>
+							<integer>5</integer>
 							<key>label</key>
 							<string>Sunnyside</string>
 							<key>value</key>
 							<string>Sunnyside</string>
 						</dict>
 						<dict>
+							<key>comp-index</key>
+							<integer>5</integer>
 							<key>label</key>
 							<string>Woodside</string>
 							<key>value</key>
 							<string>Woodside</string>
 						</dict>
 						<dict>
+							<key>comp-index</key>
+							<integer>5</integer>
 							<key>label</key>
 							<string>Ridgewood</string>
 							<key>value</key>
 							<string>Ridgewood</string>
 						</dict>
 						<dict>
+							<key>comp-index</key>
+							<integer>6</integer>
 							<key>label</key>
 							<string>Riverdale</string>
 							<key>value</key>
 							<string>Riverdale</string>
 						</dict>
 						<dict>
+							<key>comp-index</key>
+							<integer>6</integer>
 							<key>label</key>
 							<string>South Bronx</string>
 							<key>value</key>
 							<string>South Bronx</string>
 						</dict>
 						<dict>
+							<key>comp-index</key>
+							<integer>7</integer>
 							<key>label</key>
 							<string>St George </string>
 							<key>value</key>
@@ -329,17 +978,30 @@
 					</array>
 				</array>
 				<key>picker-index</key>
-				<integer>0</integer>
+				<integer>1</integer>
+				<key>picker-targets</key>
+				<array>
+					<integer>0</integer>
+					<integer>23</integer>
+					<integer>43</integer>
+					<integer>57</integer>
+					<integer>78</integer>
+					<integer>97</integer>
+					<integer>102</integer>
+					<integer>104</integer>
+				</array>
 				<key>placeholder</key>
-				<string>neighborhood</string>
+				<string>optional</string>
 				<key>state</key>
 				<integer>1</integer>
 			</dict>
 			<dict>
+				<key>expanded-height</key>
+				<integer>200</integer>
 				<key>animatable</key>
 				<false/>
 				<key>class</key>
-				<string>TextCell</string>
+				<string>PickerInputCell</string>
 				<key>current-value</key>
 				<string>New York</string>
 				<key>field</key>
@@ -372,7 +1034,7 @@
 				<key>picker-index</key>
 				<integer>0</integer>
 				<key>placeholder</key>
-				<string>city</string>
+				<string>required</string>
 				<key>state</key>
 				<integer>1</integer>
 			</dict>
@@ -388,15 +1050,17 @@
 				<key>label</key>
 				<string>Zip Code</string>
 				<key>placeholder</key>
-				<string>zip</string>
+				<string>required</string>
 				<key>state</key>
 				<integer>1</integer>
 			</dict>
 			<dict>
+				<key>expanded-height</key>
+				<integer>200</integer>
 				<key>animatable</key>
 				<false/>
 				<key>class</key>
-				<string>TextCell</string>
+				<string>PickerInputCell</string>
 				<key>current-value</key>
 				<string>NY</string>
 				<key>field</key>
@@ -423,7 +1087,7 @@
 				<key>picker-index</key>
 				<integer>0</integer>
 				<key>placeholder</key>
-				<string>state</string>
+				<string>required</string>
 				<key>state</key>
 				<integer>1</integer>
 			</dict>
@@ -437,7 +1101,7 @@
 				<key>label</key>
 				<string>Unit</string>
 				<key>placeholder</key>
-				<string>unit</string>
+				<string>required</string>
 				<key>state</key>
 				<integer>1</integer>
 			</dict>
@@ -462,7 +1126,7 @@
 				<key>label</key>
 				<string>Montly Rent</string>
 				<key>placeholder</key>
-				<string>$0</string>
+				<string>required</string>
 				<key>state</key>
 				<integer>1</integer>
 			</dict>
@@ -480,7 +1144,7 @@
 				<key>label</key>
 				<string>Movin Cost</string>
 				<key>placeholder</key>
-				<string>$0</string>
+				<string>required</string>
 				<key>state</key>
 				<integer>1</integer>
 			</dict>
@@ -498,7 +1162,7 @@
 				<key>label</key>
 				<string>Broker Fee</string>
 				<key>placeholder</key>
-				<string>$0</string>
+				<string>optional</string>
 				<key>state</key>
 				<integer>1</integer>
 			</dict>
@@ -510,10 +1174,12 @@
 		<key>cells</key>
 		<array>
 			<dict>
+				<key>expanded-height</key>
+				<integer>200</integer>
 				<key>animatable</key>
 				<false/>
 				<key>class</key>
-				<string>TextCell</string>
+				<string>PickerInputCell</string>
 				<key>field</key>
 				<integer>7</integer>
 				<key>format</key>
@@ -566,15 +1232,17 @@
 				<key>picker-index</key>
 				<integer>0</integer>
 				<key>placeholder</key>
-				<string>bedrooms</string>
+				<string>required</string>
 				<key>state</key>
 				<integer>1</integer>
 			</dict>
 			<dict>
+				<key>expanded-height</key>
+				<integer>238</integer>
 				<key>animatable</key>
 				<false/>
 				<key>class</key>
-				<string>TextCell</string>
+				<string>PickerInputCell</string>
 				<key>field</key>
 				<integer>8</integer>
 				<key>format</key>
@@ -627,7 +1295,7 @@
 				<key>picker-index</key>
 				<integer>0</integer>
 				<key>placeholder</key>
-				<string>bathrooms</string>
+				<string>required</string>
 				<key>state</key>
 				<integer>1</integer>
 			</dict>
@@ -674,10 +1342,14 @@
 				<integer>1</integer>
 			</dict>
 			<dict>
+				<key>expanded-height</key>
+				<string>200</string>
 				<key>animatable</key>
 				<false/>
+				<key>placeholder</key>
+				<string>required</string>
 				<key>class</key>
-				<string>DateCell</string>
+				<string>DatePickerCell</string>
 				<key>field</key>
 				<integer>19</integer>
 				<key>icon</key>
@@ -781,7 +1453,7 @@
 				<key>label</key>
 				<string>Email</string>
 				<key>placeholder</key>
-				<string>email address</string>
+				<string>required</string>
 				<key>state</key>
 				<integer>1</integer>
 			</dict>
@@ -795,7 +1467,7 @@
 				<key>label</key>
 				<string>Phone</string>
 				<key>placeholder</key>
-				<string>digits</string>
+				<string>optional</string>
 				<key>state</key>
 				<integer>1</integer>
 			</dict>

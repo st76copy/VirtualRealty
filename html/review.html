@@ -106,7 +106,7 @@
 		{
 			var obj  = data.results[i];
 			var link = obj.objectId;
-			var li   = "<li><a id=\""+link+"\" href=\"javascript:void()\" onClick=\"handleLinkClick('"+link+"')\">"+obj.address+"</a></li>";
+			var li   = "<li><a id=\""+link+"\" href=\"javascript:void()\" onClick=\"handleLinkClick('"+link+"')\">"+ obj.street + " " + obj.city + " " + obj.state + " " + obj.zip+"</a></li>";
 			list = list.concat(li);
 		}
 		$( "#list" ).append( list );
@@ -144,7 +144,7 @@
 		
 		self.currentListing = obj;
 		
-		$("#address").text( obj.address );
+		$("#address").text( obj.street + " " + obj.city + " " + obj.state + " " + obj.zip );
 		$("#submitter-id").text( "submitted by : " + obj.submitterID );
 		$("#email").text( "contact : " + obj.contact );
 		$("#state-box").val( obj.listingState );
