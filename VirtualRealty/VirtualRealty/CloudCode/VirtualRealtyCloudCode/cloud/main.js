@@ -411,7 +411,7 @@ Parse.Cloud.define("search", function(request, response)
 		
 		if( request.params["filters"]["city"] != undefined )
 		{
-			query.equalTo( "state", request.params["filters"]["city"]["value"].toString() );
+			query.equalTo( "city", request.params["filters"]["city"]["value"].toString() );
 
 		}
 		if( request.params["filters"]["bedrooms"] != undefined )

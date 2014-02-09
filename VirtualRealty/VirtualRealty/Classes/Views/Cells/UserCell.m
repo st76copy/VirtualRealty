@@ -22,6 +22,8 @@
     [super layoutSubviews];
  
     self.detailTextLabel.adjustsFontSizeToFitWidth = YES;
+    self.textLabel.font =  [UIFont fontWithName:@"MuseoSans-500" size:16];
+    [self.textLabel sizeToFit];
     
     self.textLabel.textColor = [UIColor colorFromHex:@"434343"];
     CGRect rect = self.textLabel.frame;

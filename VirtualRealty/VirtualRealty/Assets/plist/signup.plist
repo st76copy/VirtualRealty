@@ -6,28 +6,28 @@
 		<key>cells</key>
 		<array>
 			<dict>
-				<key>keyboard-type</key>
-				<integer>7</integer>
+				<key>class</key>
+				<string>TextInputCell</string>
 				<key>field</key>
 				<integer>0</integer>
-				<key>placeholder</key>
-				<string>valid email</string>
+				<key>keyboard-type</key>
+				<integer>7</integer>
 				<key>label</key>
 				<string>username</string>
-				<key>class</key>
-				<string>TextInputCell</string>
+				<key>placeholder</key>
+				<string>valid email</string>
 			</dict>
 			<dict>
-				<key>is-secure</key>
-				<true/>
-				<key>field</key>
-				<integer>1</integer>
-				<key>placeholder</key>
-				<string>minimum 6 characters</string>
-				<key>label</key>
-				<string>password</string>
 				<key>class</key>
 				<string>TextInputCell</string>
+				<key>field</key>
+				<integer>1</integer>
+				<key>is-secure</key>
+				<true/>
+				<key>label</key>
+				<string>password</string>
+				<key>placeholder</key>
+				<string>minimum 6 characters</string>
 			</dict>
 		</array>
 		<key>section-title</key>
@@ -37,27 +37,25 @@
 		<key>cells</key>
 		<array>
 			<dict>
-				<key>label</key>
-				<string>Broker ? </string>
-				<key>field</key>
-				<integer>53</integer>
 				<key>class</key>
-				<string>SwitchCell</string>
-			</dict>
-			<dict>
-				<key>placeholder</key>
-				<string>choose one</string>
-				<key>label</key>
-				<string>Broker Firm</string>
+				<string>PickerInputCell</string>
+				<key>default</key>
+				<string>--</string>
+				<key>expanded-height</key>
+				<integer>200</integer>
 				<key>field</key>
 				<integer>54</integer>
-				<key>class</key>
-				<string>TextCell</string>
-				<key>picker-index</key>
-				<integer>0</integer>
+				<key>label</key>
+				<string>Broker Firm</string>
 				<key>picker-data</key>
 				<array>
 					<array>
+						<dict>
+							<key>label</key>
+							<string>--</string>
+							<key>value</key>
+							<string>--</string>
+						</dict>
 						<dict>
 							<key>label</key>
 							<string>Independent</string>
@@ -72,6 +70,10 @@
 						</dict>
 					</array>
 				</array>
+				<key>picker-index</key>
+				<integer>0</integer>
+				<key>placeholder</key>
+				<string>choose one</string>
 			</dict>
 		</array>
 		<key>section-title</key>
@@ -81,41 +83,47 @@
 		<key>cells</key>
 		<array>
 			<dict>
-				<key>label</key>
-				<string>Actively Looking</string>
-				<key>field</key>
-				<integer>39</integer>
 				<key>class</key>
 				<string>SwitchCell</string>
+				<key>field</key>
+				<integer>39</integer>
+				<key>label</key>
+				<string>Actively Looking</string>
 			</dict>
 			<dict>
-				<key>max-characters</key>
-				<integer>7</integer>
-				<key>format</key>
-				<string>$%i</string>
-				<key>placeholder</key>
-				<string>$0</string>
-				<key>label</key>
-				<string>Max Rent</string>
-				<key>field</key>
-				<integer>41</integer>
 				<key>class</key>
 				<string>MoneyInputCell</string>
+				<key>field</key>
+				<integer>41</integer>
+				<key>format</key>
+				<string>$%i</string>
+				<key>label</key>
+				<string>Max Rent</string>
+				<key>max-characters</key>
+				<integer>7</integer>
+				<key>placeholder</key>
+				<string>$0</string>
 			</dict>
 			<dict>
-				<key>placeholder</key>
-				<string>doesn&apos;t matter</string>
-				<key>label</key>
-				<string>Minimum Bedrooms</string>
+				<key>class</key>
+				<string>PickerInputCell</string>
+				<key>default</key>
+				<string>--</string>
+				<key>expanded-height</key>
+				<integer>200</integer>
 				<key>field</key>
 				<integer>42</integer>
-				<key>class</key>
-				<string>TextCell</string>
-				<key>picker-index</key>
-				<integer>0</integer>
+				<key>label</key>
+				<string>Minimum Bedrooms</string>
 				<key>picker-data</key>
 				<array>
 					<array>
+						<dict>
+							<key>label</key>
+							<string>--</string>
+							<key>value</key>
+							<string>--</string>
+						</dict>
 						<dict>
 							<key>label</key>
 							<string>1 Bedroom</string>
@@ -154,14 +162,10 @@
 						</dict>
 					</array>
 				</array>
-			</dict>
-			<dict>
-				<key>label</key>
-				<string>Move In After</string>
-				<key>field</key>
-				<integer>40</integer>
-				<key>class</key>
-				<string>DateCell</string>
+				<key>picker-index</key>
+				<integer>0</integer>
+				<key>placeholder</key>
+				<string>doesn't matter</string>
 			</dict>
 		</array>
 		<key>section-title</key>
@@ -171,12 +175,12 @@
 		<key>cells</key>
 		<array>
 			<dict>
-				<key>label</key>
-				<string>Go To Login</string>
-				<key>custom-action</key>
-				<string>toggleForm</string>
 				<key>class</key>
 				<string>FormCell</string>
+				<key>custom-action</key>
+				<string>toggleForm</string>
+				<key>label</key>
+				<string>Go To Login</string>
 			</dict>
 		</array>
 		<key>section-title</key>

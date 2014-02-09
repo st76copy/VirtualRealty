@@ -38,7 +38,8 @@
         self.stroke.backgroundColor = [UIColor colorFromHex:@"f3f3f3"];
         [self.contentView addSubview:self.stroke];
         self.clipsToBounds = YES;
-        
+   
+
     }
     return  self;
 }
@@ -60,7 +61,6 @@
     rect.origin.y = 38.0 * 0.5 - rect.size.height * 0.5;
     self.detailTextLabel.frame = rect;
     
-    [self.detailTextLabel setTextAlignment:NSTextAlignmentRight];
     
     rect = self.picker.frame;
     rect.origin.y = 38.0f;
@@ -73,6 +73,8 @@
     rect = self.stroke.frame;
     rect.origin.y = self.picker.frame.origin.y + self.picker.frame.size.height -1;
     self.stroke.frame = rect;
+    
+    [self.detailTextLabel setTextAlignment:NSTextAlignmentRight];
 }
 
 -(void)layoutIfNeeded
@@ -93,6 +95,7 @@
         {
             self.detailTextLabel.text      = [self.cellinfo valueForKey:@"current-value"];
             self.detailTextLabel.textColor = [UIColor colorFromHex:@"00aeef"];
+            
         }
         else
         {
@@ -144,12 +147,25 @@
 -(void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component
 {
     [super clearError];
-    self.formValue = self.pickerData[component][row][@"value"];
-    self.detailTextLabel.text      = self.formValue;
-    self.detailTextLabel.textColor = [UIColor colorFromHex:@"00aeef"];
-    [self.detailTextLabel sizeToFit];
-    [self layoutSubviews];
-    [self.formDelegate cell:self didChangeForField:[[self.cellinfo valueForKey:@"field"]intValue] ];
+ 
+    if(  self.cellinfo[@"default"] && [self.pickerData[component][row][@"value"] isEqualToString:self.cellinfo[@"default"]] )
+    {
+        self.formValue = nil;
+        self.detailTextLabel.text = self.cellinfo[@"placeholder"];
+        self.detailTextLabel.textColor = [UIColor colorFromHex:@"aaaaaa"];
+        
+        [self.formDelegate cell:self didChangeForField:[[self.cellinfo valueForKey:@"field"]intValue] ];
+    }
+    else
+    {
+        self.formValue = self.pickerData[component][row][@"value"];
+        self.detailTextLabel.text      = self.formValue;
+        self.detailTextLabel.textColor = [UIColor colorFromHex:@"00aeef"];
+        [self.detailTextLabel sizeToFit];
+        [self layoutSubviews];
+        [self.formDelegate cell:self didChangeForField:[[self.cellinfo valueForKey:@"field"]intValue] ];
+     
+    }
 }
 
 -(id)valueForComponent:(int)compIndex
@@ -161,11 +177,21 @@
 
 -(void)setFocus
 {
-    [super clearError];
-    self.formValue = self.pickerData[0][[self.picker selectedRowInComponent:0]][@"value"];
-    self.detailTextLabel.text      = self.formValue;
-    self.detailTextLabel.textColor = [UIColor colorFromHex:@"00aeef"];
-    [self.detailTextLabel sizeToFit];
+    if( [self.pickerData[0][[self.picker selectedRowInComponent:0]][@"value"] isEqualToString:self.cellinfo[@"default"]] )
+    {
+        self.formValue = nil;
+        self.detailTextLabel.text = self.cellinfo[@"placeholder"];
+        self.detailTextLabel.textColor = [UIColor colorFromHex:@"aaaaaa"];
+        [self.formDelegate cell:self didChangeForField:[[self.cellinfo valueForKey:@"field"]intValue] ];
+    }
+    else
+    {
+        [super clearError];
+        self.formValue = self.pickerData[0][[self.picker selectedRowInComponent:0]][@"value"];
+        self.detailTextLabel.text      = self.formValue;
+        self.detailTextLabel.textColor = [UIColor colorFromHex:@"00aeef"];
+        [self.detailTextLabel sizeToFit];
+    }
 }
 
 

@@ -169,8 +169,6 @@
     
     FormCell *cell = (FormCell *)[tableView dequeueReusableCellWithIdentifier:[info valueForKey:@"class"]];
     
-    NSLog(@"%@ ", info);
-    
     if( cell == nil )
     {
         cell = [[NSClassFromString([info valueForKey:@"class"]) alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:[info valueForKey:@"class"]];
@@ -251,8 +249,6 @@
     Section *sec = [self.tableData objectAtIndex:indexPath.section];
     Row     *row = [sec.rows objectAtIndex:indexPath.row];
     
-    NSLog(@"%@ ", self.currentPath);
-    
     float height;
     if( [self isSameCell:indexPath] )
     {
@@ -329,6 +325,7 @@
     }
     else
     {
+        NSLog(@"%@ getting values %i , %@ ", [self class], field,[self.filters getValueForField:field] );
         return [self.filters getValueForField:field];
     }
 }

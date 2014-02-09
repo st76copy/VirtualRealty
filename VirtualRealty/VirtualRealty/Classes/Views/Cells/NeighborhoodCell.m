@@ -139,13 +139,39 @@
     neighborhood = self.pickerData[1][[self.picker selectedRowInComponent:1]][@"value"];
     borough      = self.pickerData[0][[self.picker selectedRowInComponent:0]][@"value"];
     
-    self.detailTextLabel.textColor = [UIColor colorFromHex:@"00aeef"];
-    self.subDetailsLabel.textColor = [UIColor colorFromHex:@"00aeef"];
-    self.detailTextLabel.text = borough;
-    self.subDetailsLabel.text = neighborhood;
-
-    self.formValue = @{@"neighborhood" : neighborhood, @"borough" : borough };
-    [self.formDelegate cell:self didChangeForField:[[self.cellinfo valueForKey:@"field"]intValue] ];
+    if( self.cellinfo[@"sub-default"] && [neighborhood isEqualToString:self.cellinfo[@"sub-default"]] )
+    {
+        self.detailTextLabel.textColor = [UIColor colorFromHex:@"aaaaaa"];
+        self.detailTextLabel.text = self.cellinfo[@"placeholder"];
+        self.formValue = nil;
+        [self.formDelegate cell:self didChangeForField:[[self.cellinfo valueForKey:@"field"]intValue] ];
+    }
+    else
+    {
+        self.detailTextLabel.textColor = [UIColor colorFromHex:@"00aeef"];
+        self.subDetailsLabel.textColor = [UIColor colorFromHex:@"00aeef"];
+        self.detailTextLabel.text = borough;
+        self.subDetailsLabel.text = neighborhood;
+        self.formValue = @{@"neighborhood" : neighborhood, @"borough" : borough };
+        [self.formDelegate cell:self didChangeForField:[[self.cellinfo valueForKey:@"field"]intValue] ];
+    }
+    
+    if( self.cellinfo[@"default"] && [borough isEqualToString:self.cellinfo[@"default"]] )
+    {
+        self.subDetailsLabel.text = self.cellinfo[@"sub-placeholder"];
+        self.subDetailsLabel.textColor = [UIColor colorFromHex:@"aaaaaa"];
+        self.formValue = nil;
+        [self.formDelegate cell:self didChangeForField:[[self.cellinfo valueForKey:@"field"]intValue] ];
+    }
+    else
+    {
+        self.detailTextLabel.textColor = [UIColor colorFromHex:@"00aeef"];
+        self.subDetailsLabel.textColor = [UIColor colorFromHex:@"00aeef"];
+        self.detailTextLabel.text = borough;
+        self.subDetailsLabel.text = neighborhood;
+        self.formValue = @{@"neighborhood" : neighborhood, @"borough" : borough };
+        [self.formDelegate cell:self didChangeForField:[[self.cellinfo valueForKey:@"field"]intValue] ];
+    }
     
     [super clearError];
 }
@@ -155,8 +181,8 @@
     NSString *neighborhood;
     NSString *borough;
     
-    neighborhood = self.pickerData[1][0][@"value"];
-    borough      = self.pickerData[0][0][@"value"];
+    neighborhood = self.pickerData[1][[self.picker selectedRowInComponent:1]][@"value"];
+    borough      = self.pickerData[0][[self.picker selectedRowInComponent:0]][@"value"];
     
     self.detailTextLabel.textColor = [UIColor colorFromHex:@"00aeef"];
     self.subDetailsLabel.textColor = [UIColor colorFromHex:@"00aeef"];

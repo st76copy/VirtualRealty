@@ -178,7 +178,29 @@
 
 -(float)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return 38.0f;
+    
+    float height;
+    
+    NSDictionary *sectionInfo = ( _state == kLogin ) ? [_loginArray objectAtIndex:indexPath.section] : [_signupArray objectAtIndex:indexPath.section];
+    NSArray      *cells   = [sectionInfo valueForKey:@"cells"];
+    NSDictionary *info    = cells[indexPath.row];
+                             
+    if( [self isSameCell:indexPath] )
+    {
+        if( info[@"expanded-height"] )
+        {
+            height = [info[@"expanded-height"] floatValue];
+        }
+        else
+        {
+            height = ( [info valueForKey:@"display-height"] ) ? [[info valueForKey:@"display-height"] floatValue] : 38.0f;
+        }
+    }
+    else
+    {
+        height = ( [info valueForKey:@"display-height"] ) ? [[info valueForKey:@"display-height"] floatValue] : 38.0f;
+    }
+    return height;
 }
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -225,6 +247,18 @@
         return;
     }
     
+    if([self isSameCell:indexPath] )
+    {
+        _currentIndexPath = nil;
+        _currentField     = -1;
+        
+        [tableView beginUpdates];
+        [tableView endUpdates];
+        [tableView deselectRowAtIndexPath:indexPath animated:YES];
+        return;
+    }
+
+    
     if( [cell.cellinfo valueForKey:@"field"] && self.currentField != [[cell.cellinfo valueForKey:@"field"] intValue])
     {
         _currentField      = [[cell.cellinfo valueForKey:@"field"]intValue];
@@ -249,16 +283,11 @@
             break;
         case kUserMinBedrooms:
         case  kUserBrokerFirm:
-           
-            if( [[User sharedUser].isBroker boolValue] == NO )
-            {
-                [User sharedUser].isBroker = [NSNumber numberWithBool:YES];
-                [self.signupTabel reloadData];
-            }
+            [tableView beginUpdates];
+            [tableView endUpdates];
+            [cell setFocus];
+            [[KeyboardManager sharedManager]close];
             
-            [PickerManager sharedManager].type = kStandard;
-            [PickerManager sharedManager].pickerData = cell.cellinfo[@"picker-data"];
-            [[PickerManager sharedManager]showPickerInView:self.view];
             break;
 
         default:
@@ -346,13 +375,7 @@
             [User sharedUser].moveInAfter = c.formValue;
             break;
         case kUserIsBroker:
-            [User sharedUser].isBroker = c.formValue;
-            if( [[User sharedUser].isBroker boolValue] == NO)
-            {
-                [User sharedUser].brokerFirm = nil;
-                [self.signupTabel reloadData];
-            }
-
+            [User sharedUser].isBroker = ([c.formValue isEqualToString:@"Not with a brokerage"]) ? nil : c.formValue;
             break;
         case kUserBrokerFirm:
             [User sharedUser].brokerFirm = c.formValue;
@@ -398,7 +421,7 @@
             value = [User sharedUser].isBroker;
             break;
         case kUserBrokerFirm:
-            value = [User sharedUser].brokerFirm;
+            value = ([[User sharedUser].brokerFirm isEqualToString:@"Not with a brokerage"]) ? nil  : [User sharedUser].brokerFirm;
             break;
             
         default:
