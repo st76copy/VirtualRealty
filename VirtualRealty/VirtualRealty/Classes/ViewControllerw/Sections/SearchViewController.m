@@ -189,6 +189,7 @@
     __block AppDelegate *app = (AppDelegate *)[UIApplication sharedApplication].delegate;
     [app showLoaderInView:self.view];
     
+    __block UIRefreshControl     *blockrefresh = refreshControl;
     __block SearchViewController *blockself = self;
     
     [[LocationManager shareManager]requestGeoFromString:[NSString stringWithFormat:@"%@, NYC",[self.searchBar.text lowercaseString]] block:^(CLLocationCoordinate2D loc, NSDictionary *results) {
@@ -203,6 +204,7 @@
         {
             if( error )
             {
+                NSLog(@"%@ --- got search error %@ ", self, error);
                 [[ErrorFactory getAlertForType:kServerError andDelegateOrNil:nil andOtherButtons:nil]show];
             }
             else
@@ -210,6 +212,7 @@
                 [blockself handleDataLoaded:object];
             }
             [app hideLoader];
+            [blockrefresh endRefreshing];
         }];
         [blockself.searchBar resignFirstResponder];
     }];
@@ -219,7 +222,6 @@
 #pragma mark - ui refresh
 -(void)handleRefresh:(id)sender
 {
-    NSLog(@"%@ --- handle refresh " , self);
     
     __block AppDelegate *app = (AppDelegate *)[UIApplication sharedApplication].delegate;
     [self.searchBar resignFirstResponder];

@@ -364,27 +364,39 @@ Parse.Cloud.define("nearMe", function(request, response)
 
 Parse.Cloud.define("search", function(request, response)
 {
+	var self    = this;
 	var Listing = Parse.Object.extend("Listing");
-
 	var query;
+	var keywordquery;
 	
-	var b = new Parse.Query(Listing).contains( "borough",	  request.params.keyword );
-	//var n = new Parse.Query(Listing).contains( "neighborhood",request.params.keyword );
-	//var s = new Parse.Query(Listing).contains( "state",		  request.params.keyword );
-	//var c = new Parse.Query(Listing).contains( "city",		  request.params.keyword );
 	
-	var locQuery     = new Parse.Query(Listing); 
+	var re = new RegExp( '('  + request.params.keyword + ')', 'gi' );
+	
+	var b = new Parse.Query(Listing).matches( "borough", re );
+	b.equalTo( "listingState", 1 );
+	
+	var n = new Parse.Query(Listing).matches( "neighborhood", re );
+	n.equalTo( "listingState", 1 );
+
+	var s = new Parse.Query(Listing).matches( "state",re );
+	s.equalTo( "listingState", 1 );
+
+	var c = new Parse.Query(Listing).matches( "city", re );
+	c.equalTo( "listingState", 1 );
+
+	keywordquery = Parse.Query.or( b, n, s, c );
+
+	var query = new Parse.Query(Listing); 
 
 	if( request.params.distance != undefined )
 	{
 		var dist = request.params.distance;
 		var loc = new Parse.GeoPoint( request.params.latt, request.params.long );
-	//	locQuery.withinMiles("location", loc, dist);
+		query.withinMiles("location", loc, dist);
+		query.equalTo( "listingState", 1 );
 	}
-	
-	query = Parse.Query.or( b );
-	
 
+	//query.descending("createdAt");
 	
 	if( request.params["filters"] != undefined )
 	{
@@ -394,109 +406,156 @@ Parse.Cloud.define("search", function(request, response)
 		if( minPrice != null )
 		{
 			query.greaterThanOrEqualTo("monthlyCost", minPrice );	
+			keywordquery.greaterThanOrEqualTo("monthlyCost", minPrice );	
 		}
 		
 		if( maxPrice != null )
 		{
-			query.lessThanOrEqualTo("monthlyCost", maxPrice );	
+			query.lessThanOrEqualTo("monthlyCost", maxPrice );
+			keywordquery.lessThanOrEqualTo("monthlyCost", maxPrice );	
 		}
 	
 		if( request.params["filters"]["borough"] != undefined || request.params["filters"]["borough"] != null )
 		{
 			query.equalTo( "borough", request.params["filters"]["borough"]["value"].toString() );
+			keywordquery.equalTo( "borough", request.params["filters"]["borough"]["value"].toString() );
 		}
 	
 		if( request.params["filters"]["neighborhood"] != undefined )
 		{
 			query.equalTo( "neighborhood", request.params["filters"]["neighborhood"]["value"].toString() );
+			keywordquery.equalTo( "neighborhood", request.params["filters"]["neighborhood"]["value"].toString() );
 		}
 	
 		if( request.params["filters"]["moveIndate"] != undefined )
 		{
 			query.lessThanOrEqualTo( "moveInDate", request.params["filters"]["moveIndate"]["value"] );
+			keywordquery.lessThanOrEqualTo( "moveInDate", request.params["filters"]["moveIndate"]["value"] );
 		}
 	
 		if( request.params["filters"]["state"] != undefined )
 		{
 			query.equalTo( "state", request.params["filters"]["state"]["value"].toString() );
+			keywordquery.equalTo( "state", request.params["filters"]["state"]["value"].toString() );
+	
 		}
 		
 		if( request.params["filters"]["city"] != undefined )
 		{
 			query.equalTo( "city", request.params["filters"]["city"]["value"].toString() );
+			keywordquery.equalTo( "city", request.params["filters"]["city"]["value"].toString() );
 		}
 		
 		if( request.params["filters"]["bedrooms"] != undefined )
 		{
 			query.equalTo( "bedrooms", request.params["filters"]["bedrooms"]["value"].toString() );
+			keywordquery.equalTo( "bedrooms", request.params["filters"]["bedrooms"]["value"].toString() );
+		
 		}
 		
 		if( request.params["filters"]["bathrooms"] != undefined )
 		{
 			query.equalTo( "bathrooms", request.params["filters"]["bathrooms"]["value"].toString() );
+			keywordquery.equalTo( "bathrooms", request.params["filters"]["bathrooms"]["value"].toString() );
 		}
 		
 		if( request.params["filters"]["share"] != undefined )
 		{
 			query.equalTo( "share",   request.params.filters.share.value);
+			keywordquery.equalTo( "share",   request.params.filters.share.value);
 		}
 		
 		if( request.params["filters"]["dogs"] != undefined )
 		{
 			query.equalTo( "dogs",   request.params.filters.dogs.value);
+			keywordquery.equalTo( "dogs",   request.params.filters.dogs.value);
 		}
 		
 		if( request.params["filters"]["brokerfee"] != undefined )
 		{
 			if( request.params.filters.brokerfee.value == true )
 			{
-				query.lessThanOrEqualTo("brokerfee", 0);		
+				query.lessThanOrEqualTo("brokerfee", 0);
+				keywordquery.lessThanOrEqualTo("brokerfee", 0);		
 			}
 		}
 		
 		if( request.params["filters"]["cats"] != undefined )
 		{
 			query.equalTo( "cats",   request.params.filters.cats.value);
+			keywordquery.equalTo( "cats",   request.params.filters.cats.value);
 		}
 			
 		if( request.params.filters.outdoorSpace != undefined )
 		{
 			query.equalTo( "outdoorSpace",   request.params.filters.outdoorSpace.value);
+			keywordquery.equalTo( "outdoorSpace",   request.params.filters.outdoorSpace.value);
 		}
 		
 		if( request.params.filters.washerDryer != undefined )
 		{
 			query.equalTo( "washerDryer",   request.params.filters.washerDryer.value);
+			keywordquery.equalTo( "washerDryer",   request.params.filters.washerDryer.value);
 		}
 		
 		if( request.params.filters.doorman != undefined )
 		{
 			query.equalTo( "doorman",   request.params.filters.doorman.value);
+			keywordquery.equalTo( "doorman",   request.params.filters.doorman.value);
 		}
 		
 		if( request.params.filters.pool != undefined )
 		{
 			query.equalTo( "pool",   request.params.filters.pool.value);
+			keywordquery.equalTo( "pool",   request.params.filters.pool.value);
 		}
 		
 		if( request.params.filters.gym != undefined )
 		{
 			query.equalTo( "gym",   request.params.filters.gym.value);
+			keywordquery.equalTo( "gym",   request.params.filters.gym.value);
 		}
 	}
+	
+	console.log("<SEARCH> -- about ot run ");
+	
+	function runKeywordSearch()
+	{
+		console.log("<SEARCH> -- running for keywords ");
+	
 		
-	query.equalTo( "listingState", 1 );
-	query.descending("createdAt");
+		keywordquery.find({
+			success: function(results) 
+			{
+				response.success( results );				
+	   		},
+			error: function(error) 
+			{
+				response.error( error );		
+  			}
+		});
+	}
 	
 	query.find({
 		success: function(results) 
 		{
-			response.success( results );		
+			if( results.length == 0 )
+			{
+				console.log("runKeywordSearch " + runKeywordSearch );
+				runKeywordSearch();
+			}
+			else
+			{
+				response.success( results );	
+			}		
 	    },
 		error: function(error) 
 		{
-   			alert("Error: " + error.code + " " + error.message);
+			response.error( error );		
   		}
 	});
+	
+	
+	
 	
 });
