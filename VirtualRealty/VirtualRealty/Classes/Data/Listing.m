@@ -12,7 +12,7 @@
 #import "User.h"
 #import "DiscManager.h"
 #import "NSDate+Extended.h"
-
+#import "Utils.h"
 
 @interface Listing()
 -(void)savePhoto;
@@ -250,7 +250,7 @@
     unsigned int propertyCount = 0;
     objc_property_t * properties = class_copyPropertyList([self class], &propertyCount);
     
-    NSArray *ommissionList = @[@"errors", @"geo", @"thumb", @"saveCompleteBlock", @"video", @"videoURL", @"keywords", @"videoFrame"];
+    NSArray *ommissionList = @[@"errors", @"geo", @"thumb", @"saveCompleteBlock", @"video", @"videoURL", @"keywords", @"videoFrame", @"localAssetPath", @"localVideoURL"];
     NSString *key = nil;
     NSMutableDictionary *temp = [NSMutableDictionary dictionary];
     
@@ -320,12 +320,37 @@
     }];
 }
 
+-(void)compressVideo:( void (^) (BOOL success) ) block
+{
+    __block Listing *blockself = self;
+    
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
+        
+        [Utils convertVideoToLowQualityWithInputURL:self.localAssetPath  outputURL:self.localVideoURL successHandler:^
+        {
+            blockself.video = [NSData dataWithContentsOfURL:self.localVideoURL];
+            
+            dispatch_async(dispatch_get_main_queue(), ^{
+                block(YES);
+            });
+        
+        }
+        failureHandler:^(NSError *errer )
+        {
+             dispatch_async(dispatch_get_main_queue(), ^{
+                 block(NO);
+             });
+         }];
+    });
+}
+
 -(void)saveVideo
 {
     __block Listing *blocklisting = self;
     __block NSString *name = self.objectId;
     
     PFFile *videoFile = [PFFile fileWithName:[NSString stringWithFormat:@"%@%@", name, @".mov"] data:self.video];
+    
     
     [videoFile saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
         

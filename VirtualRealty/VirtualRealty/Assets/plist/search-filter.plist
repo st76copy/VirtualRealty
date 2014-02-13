@@ -1291,6 +1291,8 @@
 				<false/>
 				<key>class</key>
 				<string>DatePickerCell</string>
+				<key>expanded-height</key>
+				<string>200</string>
 				<key>field</key>
 				<integer>31</integer>
 				<key>icon</key>

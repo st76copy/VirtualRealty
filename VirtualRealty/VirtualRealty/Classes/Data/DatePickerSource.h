@@ -9,6 +9,6 @@
 #import <Foundation/Foundation.h>
 
 @interface DatePickerSource : NSObject
-
-@property(nonatomic, strong, readonly)NSArray *source;
+-(NSArray *)getDaysFormMonth:(int)m inYear:(int)y;
+@property(nonatomic, strong, readonly)NSMutableArray *source;
 @end

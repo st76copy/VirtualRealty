@@ -16,7 +16,7 @@
     self = [super init];
     if( self )
     {
-        NSArray *staticMonths = @[@{@"index" : @0   ,@"name" : @"January" },
+        NSArray *staticMonths = @[@{@"index" :  @0   ,@"name" : @"January" },
                                    @{@"index" : @1  ,@"name" : @"February" },
                                    @{@"index" : @2  ,@"name" : @"March" },
                                    @{@"index" : @3  ,@"name" : @"April" },
@@ -28,10 +28,8 @@
                                    @{@"index" : @9  ,@"name" : @"October" },
                                    @{@"index" : @10 ,@"name" : @"November" },
                                    @{@"index" : @11 ,@"name" : @"December" }];
-        int timeRangeYears = 3;
         NSMutableArray *years  = [NSMutableArray array];
         NSMutableArray *months = [NSMutableArray array];
-        NSMutableArray *day    = [NSMutableArray array];
         
         unsigned unitFlags = NSMonthCalendarUnit | NSDayCalendarUnit |  NSYearCalendarUnit;
         
@@ -46,39 +44,42 @@
         {
             loopComp.year = startComp.year + i;
             [years addObject:@{@"value" : [NSString stringWithFormat:@"%i", loopComp.year], @"label" : [NSString stringWithFormat:@"%i", loopComp.year]}];
-
         }
      
         for( NSDictionary *info in staticMonths )
         {
             loopComp.month = [info[@"index"] intValue];
-            
             [months addObject:@{@"label": info[@"name"] , @"value" : info[@"index"]}];
-            NSDate *temp   = [cal dateFromComponents:loopComp];
-            
-            NSRange days   = [cal rangeOfUnit:NSDayCalendarUnit inUnit:NSMonthCalendarUnit forDate:temp];
         }
-        
         
         [ref addObject:years];
         [ref addObject:months];
-        [ref addObject:day];
-        _source = [NSArray arrayWithArray:ref];
-        
+        [ref addObject:[self getDaysFormMonth:0 inYear:startComp.year]];
+        _source = [[NSArray arrayWithArray:ref] mutableCopy];
     }
     return self;
 }
 
--(NSArray *)getDaysFormMonth:(int)inYear:(int)y
+-(NSArray *)getDaysFormMonth:(int)m inYear:(int)y
 {
+    NSCalendar *cal         = [NSCalendar currentCalendar];
+    NSDateComponents *comps = [[NSDateComponents alloc]init];
+    comps.year  = y;
+    comps.month = m + 1;
+    NSDate *date = [cal dateFromComponents:comps];
+    NSRange range = [cal rangeOfUnit:NSDayCalendarUnit inUnit:NSMonthCalendarUnit forDate:date];
+    NSMutableArray *array = [NSMutableArray array];
     
-    unsigned unitFlags = NSMonthCalendarUnit | NSDayCalendarUnit |  NSYearCalendarUnit;
-    
-    NSDate *date = [NSDate date];
-    NSCalendar *cal = [NSCalendar currentCalendar];
-    NSDateComponents *startComp = [cal components:unitFlags fromDate:date];
-    
-    return nil;
+    NSString *label;
+    NSString *value;
+   
+    for( int i = 1; i < range.length +1; i++ )
+    {
+        label = [NSString stringWithFormat:@"%i", i];
+        value = [NSString stringWithFormat:@"%i", i];
+        [array addObject:@{@"label": label , @"value" : value}];
+    }
+    return array;
 }
 
 @end

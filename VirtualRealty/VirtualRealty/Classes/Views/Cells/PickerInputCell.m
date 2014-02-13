@@ -19,7 +19,7 @@
 @implementation PickerInputCell
 -(id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {
-    self = [super initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:reuseIdentifier];
+    self = [super initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:reuseIdentifier];
     if( self != nil )
     {
         self.picker = [[UIPickerView alloc]initWithFrame:CGRectMake(0, 0, 320, 162)];
@@ -33,13 +33,12 @@
         self.topStroke.backgroundColor = [UIColor colorFromHex:@"f3f3f3"];
         [self.contentView addSubview:self.topStroke];
         
+        [self.detailTextLabel setTextAlignment:NSTextAlignmentRight];
         
         self.stroke = [[UIView alloc]initWithFrame:CGRectMake(0, 0, 320, 1)];
         self.stroke.backgroundColor = [UIColor colorFromHex:@"f3f3f3"];
         [self.contentView addSubview:self.stroke];
         self.clipsToBounds = YES;
-   
-
     }
     return  self;
 }
@@ -73,13 +72,7 @@
     rect = self.stroke.frame;
     rect.origin.y = self.picker.frame.origin.y + self.picker.frame.size.height -1;
     self.stroke.frame = rect;
-    
     [self.detailTextLabel setTextAlignment:NSTextAlignmentRight];
-}
-
--(void)layoutIfNeeded
-{
-    [super layoutIfNeeded];
 }
 
 -(void)render
@@ -109,9 +102,9 @@
         self.detailTextLabel.textColor = [UIColor colorFromHex:@"aaaaaa"];
     }
     
-    [self.detailTextLabel sizeToFit];
     self.pickerData = self.cellinfo[@"picker-data"];
     [self.picker reloadAllComponents];
+    [self.detailTextLabel setTextAlignment:NSTextAlignmentRight];
 }
 
 #pragma mark - delegate
@@ -190,7 +183,7 @@
         self.formValue = self.pickerData[0][[self.picker selectedRowInComponent:0]][@"value"];
         self.detailTextLabel.text      = self.formValue;
         self.detailTextLabel.textColor = [UIColor colorFromHex:@"00aeef"];
-        [self.detailTextLabel sizeToFit];
+        [self.formDelegate cell:self didChangeForField:[self.cellinfo[@"field"] intValue]];
     }
 }
 

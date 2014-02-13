@@ -223,13 +223,11 @@
         case kBathroomsFilter:
         case kStateFilter:
         case kCityFilter:
+        case kMoveInFilter :
             [self.table beginUpdates];
             [self.table endUpdates];
             [cell setFocus];
-            break;
-        case kMoveInFilter :
-            [PickerManager sharedManager].type = kDate;
-            [[PickerManager sharedManager]showPickerInView:self.view];
+            [self.table scrollToRowAtIndexPath:self.currentPath atScrollPosition:UITableViewScrollPositionMiddle animated:YES];
             break;
         case kMinCostFilter:
         case kMaxCostFilter:

@@ -369,6 +369,8 @@ Parse.Cloud.define("search", function(request, response)
 	var query   = new Parse.Query(Listing);
 	query.equalTo( "listingState", 1 );
 	
+	console.log("running search with :::::  " + request.params.keyword );
+	
 	if( request.params.distance != undefined )
 	{
 		var dist = request.params.distance;
@@ -398,22 +400,45 @@ Parse.Cloud.define("search", function(request, response)
 		{
 			query.equalTo( "borough", request.params["filters"]["borough"]["value"].toString() );
 		}
+		else
+		{
+			query.contains( "borough", request.params.keyword );
+			query.equalTo( "borough", request.params.keyword );
+		}
+	
 		
 		if( request.params["filters"]["neighborhood"] != undefined )
 		{
 			query.equalTo( "neighborhood", request.params["filters"]["neighborhood"]["value"].toString() );
+		}
+		else
+		{
+			query.contains( "neighborhood", request.params["keyword"].toString() );
+		}
+	
+		if( request.params["filters"]["moveIndate"] != undefined )
+		{
+			query.lessThanOrEqualTo( "moveInDate", request.params["filters"]["moveIndate"]["value"] );
 		}
 	
 		if( request.params["filters"]["state"] != undefined )
 		{
 			query.equalTo( "state", request.params["filters"]["state"]["value"].toString() );
 		}
+		else
+		{
+			query.contains( "state", request.params["keyword"].toString() );
+		}
 		
 		if( request.params["filters"]["city"] != undefined )
 		{
 			query.equalTo( "city", request.params["filters"]["city"]["value"].toString() );
-
 		}
+		else
+		{
+			query.contains( "city", request.params["keyword"].toString() );
+		}
+		
 		if( request.params["filters"]["bedrooms"] != undefined )
 		{
 			query.equalTo( "bedrooms", request.params["filters"]["bedrooms"]["value"].toString() );
@@ -445,7 +470,7 @@ Parse.Cloud.define("search", function(request, response)
 		{
 			query.equalTo( "cats",   request.params.filters.cats.value);
 		}
-		
+			
 		if( request.params.filters.outdoorSpace != undefined )
 		{
 			query.equalTo( "outdoorSpace",   request.params.filters.outdoorSpace.value);

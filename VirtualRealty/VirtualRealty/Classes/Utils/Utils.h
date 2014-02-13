@@ -25,7 +25,7 @@
 +(UIImage *)resizeImage:(UIImage *)img toSize:(CGSize)size;
 /* Short hand method for ducments directory */
 +(NSString *)getDocsDirectory;
-
++ (void)convertVideoToLowQualityWithInputURL:(NSURL*)inputURL outputURL:(NSURL*)outputURL successHandler:(void (^)())successHandler failureHandler:(void (^)(NSError *))failureHandler;
 +(id) blockSafeInstanceOf:(id) _object;
 
 +(DeviceType)getDevice;

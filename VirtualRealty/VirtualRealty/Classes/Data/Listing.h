@@ -29,6 +29,8 @@ typedef void (^UpdateListingBlock) (BOOL success);
 -(void)clearErrorForField:(FormField)field;
 -(void)saveMedia:( SaveMediaBlock )block;
 -(void)update:(UpdateListingBlock)block;
+
+-(void)compressVideo:( void (^) (BOOL success) ) block;
 @property(nonatomic, strong, readonly)NSMutableArray *errors;
 
 @property(nonatomic, strong)NSString *objectId;
@@ -70,6 +72,8 @@ typedef void (^UpdateListingBlock) (BOOL success);
 @property(nonatomic, strong)NSString *videoName;
 @property(nonatomic, strong)NSArray  *keywords;
 @property(nonatomic, strong, readonly)NSURL *videoURL;
+@property(nonatomic, strong)NSURL *localAssetPath;
+@property(nonatomic, strong)NSURL *localVideoURL;
 @property(nonatomic, strong)UIImage *videoFrame;
 
 

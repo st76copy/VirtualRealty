@@ -120,28 +120,30 @@
     
     self.table.backgroundColor = [UIColor colorFromHex:@"cbd5d9"];
     self.table.tableFooterView = container;
-
+    _currentIndexpath = nil;
 }
 
 -(void)viewDidAppear:(BOOL)animated
 {
-
-    [super viewDidAppear:animated];
-    
-    if(  [ReachabilityManager sharedManager].currentStatus == NotReachable )
+    if( _currentIndexpath == nil )
     {
-        [[ReachabilityManager sharedManager]showAlert];
-        return;
-    }
-    
-    [[KeyboardManager sharedManager]registerDelegate:self];
-    [[PickerManager sharedManager]registerDelegate:self];
-    
-    if( self.listing.neighborhood == nil )
-    {
-        [self getLocation];
-        AppDelegate *app = (AppDelegate *)[UIApplication sharedApplication].delegate;
-        [app showLoaderInView:self.view];
+        [super viewDidAppear:animated];
+        
+        if(  [ReachabilityManager sharedManager].currentStatus == NotReachable )
+        {
+            [[ReachabilityManager sharedManager]showAlert];
+            return;
+        }
+        
+        [[KeyboardManager sharedManager]registerDelegate:self];
+        [[PickerManager sharedManager]registerDelegate:self];
+        
+        if( self.listing.neighborhood == nil )
+        {
+            [self getLocation];
+            AppDelegate *app = (AppDelegate *)[UIApplication sharedApplication].delegate;
+            [app showLoaderInView:self.view];
+        }
     }
 }
 
@@ -185,7 +187,7 @@
         
         NSString *addressString = [NSString stringWithFormat:@"%@\n%@, %@ %@", info[@"street"],info[@"borough"],info[@"state"],info[@"zip"]];
         NSString *title         = @"Hello";
-        NSString *message       = [NSString stringWithFormat:@"Is this the apartment you are trying to list\n%@", addressString];
+        NSString *message       = [NSString stringWithFormat:@"Is this the apartment you're trying to list\n %@", addressString];
         UIAlertView *av         = [[UIAlertView alloc]initWithTitle:title message:message delegate:self cancelButtonTitle:@"No" otherButtonTitles:@"Yes",@"Almost", nil];
         [av show];
     }
@@ -350,6 +352,7 @@
             break;
         case kVideo:
         case kThumbnail:
+            _currentIndexpath = indexPath;
             [self handleCaptureMedia];
             break;
         case kKeywords:
@@ -366,6 +369,8 @@
             [self.table beginUpdates];
             [self.table endUpdates];
             [cell setFocus];
+            [self.table scrollToRowAtIndexPath:self.currentIndexpath atScrollPosition:UITableViewScrollPositionMiddle animated:YES];
+    
             break;
             
         default:
@@ -429,6 +434,10 @@
 #pragma mark - custom cell handlers
 -(BOOL)isSameCell:(NSIndexPath *)path
 {
+    if( _currentIndexpath == nil )
+    {
+        return NO;
+    }
     return ( self.currentIndexpath.row == path.row && self.currentIndexpath.section == path.section ) ? YES : NO;
 }
 
@@ -795,35 +804,14 @@
         }
         
         [delegate showLoader];
-        
-        [PFCloud callFunctionInBackground:@"saveListing" withParameters:[self.listing toDictionary] block:^(id object, NSError *error)
-        {
-            switch ([[object valueForKey:@"code"] intValue]) {
-                case kSaveFailed:
-                    [[ErrorFactory getAlertForType:kListingSavingError andDelegateOrNil:nil andOtherButtons:nil] show];
-                     break;
-                case kSaveSuccess:
-                     
-                    self.listing.objectId = [[object valueForKey:@"data"] valueForKey:@"objectId"];
-                    [self.listing saveMedia:^(BOOL success) {
-                        if( success )
-                        {
-                            [blockself handleListingComplete];
-                            [delegate hideLoader];
-                            [[ErrorFactory getAlertForType:kListingPendingError andDelegateOrNil:nil andOtherButtons:nil] show];
-                        }
-                        else
-                        {
-                            [[ErrorFactory getAlertForType:kListingMediaError andDelegateOrNil:nil andOtherButtons:nil] show];
-                            [delegate hideLoader];
-                        }
-                    }];
-                     
-                    break;
-                case kListingExist:
-                    [[ErrorFactory getAlertForType:kListingExistsError andDelegateOrNil:Nil andOtherButtons:nil]show];
-                    [delegate hideLoader];
-                    break;
+        [self.listing compressVideo:^(BOOL success) {
+            if( success )
+            {
+                [blockself handleVideoCompressed];
+            }
+            else
+            {
+                [[ErrorFactory getAlertCustomMessage:@"Sorry there was a problem compressing your video please check you available memory." andDelegateOrNil:nil andOtherButtons:nil]show];
             }
         }];
     }
@@ -835,6 +823,43 @@
         [failed show];
         [self.table reloadData];
     }
+}
+
+-(void)handleVideoCompressed
+{
+    __block AppDelegate *delegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
+    __block AddApartmentViewController *blockself = self;
+    
+    [PFCloud callFunctionInBackground:@"saveListing" withParameters:[self.listing toDictionary] block:^(id object, NSError *error)
+    {
+        switch ([[object valueForKey:@"code"] intValue]) {
+            case kSaveFailed:
+                [[ErrorFactory getAlertForType:kListingSavingError andDelegateOrNil:nil andOtherButtons:nil] show];
+                break;
+            case kSaveSuccess:
+                 
+                self.listing.objectId = [[object valueForKey:@"data"] valueForKey:@"objectId"];
+                [self.listing saveMedia:^(BOOL success) {
+                    if( success )
+                    {
+                        [blockself handleListingComplete];
+                        [delegate hideLoader];
+                        [[ErrorFactory getAlertForType:kListingPendingError andDelegateOrNil:nil andOtherButtons:nil] show];
+                    }
+                    else
+                    {
+                        [[ErrorFactory getAlertForType:kListingMediaError andDelegateOrNil:nil andOtherButtons:nil] show];
+                        [delegate hideLoader];
+                    }
+                }];
+                 
+                break;
+            case kListingExist:
+                [[ErrorFactory getAlertForType:kListingExistsError andDelegateOrNil:Nil andOtherButtons:nil]show];
+                [delegate hideLoader];
+                break;
+        }
+    }];
 }
 
 -(void)handleCaptureMedia
@@ -866,6 +891,7 @@
 {
     if (buttonIndex == 2 )
     {
+        _currentIndexpath = nil;
         return;
     }
     
@@ -913,6 +939,9 @@
 
 -(void)handleListingComplete
 {
+    NSError *error;
+    [[NSFileManager defaultManager]removeItemAtURL:self.listing.videoURL error:&error];
+    
     _listing = [[Listing alloc]initWithDefaults];
     _listing.email = [User sharedUser].username;
     [self.table reloadData];
@@ -923,29 +952,47 @@
 -(void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info
 {
     UIImage *source;
+    NSURL   *mediaURL;
+    NSURL   *saveURL;
+    NSString *fileName;
+    NSArray *comps;
+
+    
+   // __block AppDelegate *app = (AppDelegate *)[UIApplication sharedApplication].delegate;
+    
     switch (self.currentField)
     {
         case kThumbnail:
             source = [info valueForKey:UIImagePickerControllerOriginalImage];
             self.listing.thumb = [Utils copyImage:source ToSize:CGSizeMake(640, 254)];
+            [self dismissViewControllerAnimated:YES completion:nil];
             break;
         case kVideo:
         {
             self.listing.videoName  = self.listing.address;
-            self.listing.video      = [NSData dataWithContentsOfURL:[info valueForKey:UIImagePickerControllerMediaURL]];
+            mediaURL = [info valueForKey:UIImagePickerControllerMediaURL];
+            comps    = [mediaURL.absoluteString componentsSeparatedByString:@"/"];
+            fileName = [[comps objectAtIndex:comps.count -1] stringByReplacingOccurrencesOfString:@"trim." withString:@""];
+            mediaURL = [info valueForKey:UIImagePickerControllerMediaURL] ;
+            saveURL  = [NSURL fileURLWithPath:[NSString stringWithFormat:@"%@/%@", [Utils getDocsDirectory], fileName]];
+            self.listing.localVideoURL = saveURL;
+            self.listing.localAssetPath = mediaURL;
             self.listing.videoFrame = [Utils getImagefromVideoURL:[info valueForKey:UIImagePickerControllerMediaURL]];
+            
             break;
         }
         default:
             break;
     }
-    [self dismissViewControllerAnimated:YES completion:nil];
     [self.table reloadRowsAtIndexPaths:@[self.currentIndexpath] withRowAnimation:UITableViewRowAnimationAutomatic];
+    [self dismissViewControllerAnimated:YES completion:nil];
+    _currentIndexpath = nil;
 }
 
 
 -(void)imagePickerControllerDidCancel:(UIImagePickerController *)picker
 {
+    _currentIndexpath = nil;
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 

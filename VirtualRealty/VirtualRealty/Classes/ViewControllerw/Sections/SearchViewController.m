@@ -195,7 +195,8 @@
         
         NSDictionary *params = @{@"long":[NSNumber numberWithDouble:loc.longitude],
                                  @"latt":[NSNumber numberWithDouble:loc.latitude],
-                                 @"distance":[User sharedUser].searchRadius
+                                 @"distance":[User sharedUser].searchRadius,
+                                 @"keyword":self.searchBar.text
                                  };
         
         [PFCloud callFunctionInBackground:@"search" withParameters:params block:^(id object, NSError *error)
@@ -380,6 +381,10 @@
             temp[@"long"]     = [NSNumber numberWithDouble:loc.longitude];
             temp[@"latt"]     = [NSNumber numberWithDouble:loc.latitude];
             temp[@"distance"] = [User sharedUser].searchRadius;
+            if( self.searchBar.text )
+            {
+                temp[@"keyword"] = self.searchBar.text;
+            }
             
             [PFCloud callFunctionInBackground:@"search" withParameters:temp block:^(id object, NSError *error)
             {

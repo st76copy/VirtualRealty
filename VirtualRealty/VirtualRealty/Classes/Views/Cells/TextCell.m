@@ -34,6 +34,12 @@
     self.detailTextLabel.frame = rect;
 }
 
+-(void)setSelected:(BOOL)selected
+{
+    [super setSelected:selected];
+    
+}
+
 
 -(void)render
 {

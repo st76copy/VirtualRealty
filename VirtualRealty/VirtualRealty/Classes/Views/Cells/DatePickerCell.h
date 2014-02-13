@@ -7,10 +7,13 @@
 //
 
 #import "TextCell.h"
-
+#import "DatePickerSource.h"
 @interface DatePickerCell : TextCell
 
 @property(nonatomic, strong)UIDatePicker *datePicker;
 
-
+@property(nonatomic, strong)NSNumber     *pickerFontSize;
+@property(nonatomic, strong)UIPickerView *picker;
+@property(nonatomic, strong)NSArray      *pickerData;
+@property(nonatomic, strong)DatePickerSource *dataSource;
 @end
