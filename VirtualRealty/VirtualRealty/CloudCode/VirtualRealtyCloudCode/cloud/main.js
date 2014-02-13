@@ -348,7 +348,6 @@ Parse.Cloud.define("nearMe", function(request, response)
 	query.withinMiles("location", loc, dist);
 	query.equalTo( "listingState", 1 );
 	
-	console.log( request.params.long +" : "+ request.params.latt );
 	
 	query.find({
 		success: function(results) 
@@ -366,54 +365,50 @@ Parse.Cloud.define("nearMe", function(request, response)
 Parse.Cloud.define("search", function(request, response)
 {
 	var Listing = Parse.Object.extend("Listing");
-	var query   = new Parse.Query(Listing);
-	query.equalTo( "listingState", 1 );
+
+	var query;
 	
-	console.log("running search with :::::  " + request.params.keyword );
+	var b = new Parse.Query(Listing).contains( "borough",	  request.params.keyword );
+	//var n = new Parse.Query(Listing).contains( "neighborhood",request.params.keyword );
+	//var s = new Parse.Query(Listing).contains( "state",		  request.params.keyword );
+	//var c = new Parse.Query(Listing).contains( "city",		  request.params.keyword );
 	
+	var locQuery     = new Parse.Query(Listing); 
+
 	if( request.params.distance != undefined )
 	{
 		var dist = request.params.distance;
 		var loc = new Parse.GeoPoint( request.params.latt, request.params.long );
-		query.withinMiles("location", loc, dist);
+	//	locQuery.withinMiles("location", loc, dist);
 	}
+	
+	query = Parse.Query.or( b );
+	
+
 	
 	if( request.params["filters"] != undefined )
 	{
 		var minPrice = (request.params.filters["minCost"] != undefined) ? request.params["filters"]["minCost"]["value"] : null;
 		var maxPrice = (request.params.filters["maxCost"] != undefined) ? request.params["filters"]["maxCost"]["value"] : null;
 		
-		
 		if( minPrice != null )
 		{
-			console.log( "Searching min price ------ " + minPrice );
 			query.greaterThanOrEqualTo("monthlyCost", minPrice );	
 		}
 		
 		if( maxPrice != null )
 		{
-			console.log( "Searching max price -------- " + maxPrice );
 			query.lessThanOrEqualTo("monthlyCost", maxPrice );	
 		}
 	
-		if( request.params["filters"]["borough"] != undefined )
+		if( request.params["filters"]["borough"] != undefined || request.params["filters"]["borough"] != null )
 		{
 			query.equalTo( "borough", request.params["filters"]["borough"]["value"].toString() );
 		}
-		else
-		{
-			query.contains( "borough", request.params.keyword );
-			query.equalTo( "borough", request.params.keyword );
-		}
 	
-		
 		if( request.params["filters"]["neighborhood"] != undefined )
 		{
 			query.equalTo( "neighborhood", request.params["filters"]["neighborhood"]["value"].toString() );
-		}
-		else
-		{
-			query.contains( "neighborhood", request.params["keyword"].toString() );
 		}
 	
 		if( request.params["filters"]["moveIndate"] != undefined )
@@ -425,28 +420,22 @@ Parse.Cloud.define("search", function(request, response)
 		{
 			query.equalTo( "state", request.params["filters"]["state"]["value"].toString() );
 		}
-		else
-		{
-			query.contains( "state", request.params["keyword"].toString() );
-		}
 		
 		if( request.params["filters"]["city"] != undefined )
 		{
 			query.equalTo( "city", request.params["filters"]["city"]["value"].toString() );
-		}
-		else
-		{
-			query.contains( "city", request.params["keyword"].toString() );
 		}
 		
 		if( request.params["filters"]["bedrooms"] != undefined )
 		{
 			query.equalTo( "bedrooms", request.params["filters"]["bedrooms"]["value"].toString() );
 		}
+		
 		if( request.params["filters"]["bathrooms"] != undefined )
 		{
 			query.equalTo( "bathrooms", request.params["filters"]["bathrooms"]["value"].toString() );
 		}
+		
 		if( request.params["filters"]["share"] != undefined )
 		{
 			query.equalTo( "share",   request.params.filters.share.value);
@@ -464,7 +453,6 @@ Parse.Cloud.define("search", function(request, response)
 				query.lessThanOrEqualTo("brokerfee", 0);		
 			}
 		}
-		
 		
 		if( request.params["filters"]["cats"] != undefined )
 		{
@@ -496,23 +484,9 @@ Parse.Cloud.define("search", function(request, response)
 			query.equalTo( "gym",   request.params.filters.gym.value);
 		}
 	}
-	
-	
+		
+	query.equalTo( "listingState", 1 );
 	query.descending("createdAt");
-	
-	
-	console.log( "Searching with :---------------------  "  ); 
-	
-	for( var string in query.toJSON() )
-	{
-		console.log( "key : " + string + " value : " +  query.toJSON()[string] );
-		for( var key in query.toJSON()[string] )
-		{
-			console.log( "    sub key : " + string + " value : " +  query.toJSON()[string][key] ); 
-		}
-	}
-	
-	console.log( "End Searching with :---------------------  "  ); 
 	
 	query.find({
 		success: function(results) 
